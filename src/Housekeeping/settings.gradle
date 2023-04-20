@@ -15,3 +15,5 @@ dependencyResolutionManagement {
 rootProject.name = "Housekeeping"
 include ':app'
 include ':core:network'
+include ':core:data'
+include ':core:model'
