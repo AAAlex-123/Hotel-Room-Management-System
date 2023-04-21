@@ -5,7 +5,6 @@ import alexman.hrms.core.network.model.NetworkOrder
 
 fun NetworkOrder.asExternalModel() = Order(
     id = id,
-    cleaningLadyId = orderDetails.cleaningLadyId,
-    housekeeperId = orderDetails.housekeeperId,
+    completed = completed,
     orderData = orderDetails.orderData,
 )

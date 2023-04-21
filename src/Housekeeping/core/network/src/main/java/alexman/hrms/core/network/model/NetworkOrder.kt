@@ -8,5 +8,6 @@ data class OrderDetails(
 
 data class NetworkOrder (
     val id: Int,
+    val completed: Boolean,
     val orderDetails: OrderDetails,
 )
