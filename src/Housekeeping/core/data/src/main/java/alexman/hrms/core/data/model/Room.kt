@@ -5,7 +5,7 @@ import alexman.hrms.core.network.model.NetworkRoom
 
 fun NetworkRoom.asExternalModel() = Room(
     number = number,
-    comments = comments,
+    notes = notes,
     cleanState = cleanState,
     occupied = occupied,
     cleanType = cleanType,
@@ -13,7 +13,7 @@ fun NetworkRoom.asExternalModel() = Room(
 
 fun Room.asNetworkRoom() = NetworkRoom(
     number = number,
-    comments = comments,
+    notes = notes,
     cleanState = cleanState,
     occupied = occupied,
     cleanType = cleanType,

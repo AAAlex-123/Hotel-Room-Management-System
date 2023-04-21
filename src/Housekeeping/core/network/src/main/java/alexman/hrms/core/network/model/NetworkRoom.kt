@@ -5,12 +5,12 @@ enum class CleanState {
 }
 
 enum class CleanType {
-    EVERYDAY, AFTER_CHECKOUT
+    NORMAL, AFTER_CHECKOUT
 }
 
 data class NetworkRoom(
     val number: Int,
-    val comments: List<String>,
+    val notes: List<String>,
     val cleanState: CleanState,
     val occupied: Boolean,
     val cleanType: CleanType
