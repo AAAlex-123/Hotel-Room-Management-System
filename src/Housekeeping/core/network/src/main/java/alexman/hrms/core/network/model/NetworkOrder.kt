@@ -1,6 +1,6 @@
 package alexman.hrms.core.network.model
 
-data class OrderDetails(
+data class UpstreamNetworkOrderDetails(
     val cleaningLadyId: Int,
     val housekeeperId: Int,
     val orderData: String,
@@ -9,5 +9,7 @@ data class OrderDetails(
 data class NetworkOrder (
     val id: Int,
     val completed: Boolean,
-    val orderDetails: OrderDetails,
+    val cleaningLadyId: Int,
+    val housekeeperId: Int,
+    val orderData: String,
 )

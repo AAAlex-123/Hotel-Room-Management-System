@@ -1,10 +1,11 @@
 package alexman.hrms.core.data.repository
 
 import alexman.hrms.core.data.model.asExternalModel
+import alexman.hrms.core.data.model.asUpstreamNetworkOrderDetails
 import alexman.hrms.core.model.data.Order
+import alexman.hrms.core.model.data.UpstreamOrderDetails
 import alexman.hrms.core.network.HrmsNetworkDataSource
 import alexman.hrms.core.network.model.NetworkOrder
-import alexman.hrms.core.network.model.OrderDetails
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -24,8 +25,8 @@ class OrderRepositoryImplementation (
             )
         }.flowOn(ioDispatcher)
 
-    override suspend fun placeOrder(orderDetails: OrderDetails) =
+    override suspend fun placeOrder(upstreamOrderDetails: UpstreamOrderDetails) =
         withContext(ioDispatcher) {
-            datasource.placeOrder(orderDetails)
+            datasource.placeOrder(upstreamOrderDetails.asUpstreamNetworkOrderDetails())
         }
 }
