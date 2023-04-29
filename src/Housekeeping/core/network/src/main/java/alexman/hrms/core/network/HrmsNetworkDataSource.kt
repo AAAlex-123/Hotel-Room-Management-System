@@ -4,6 +4,8 @@ import alexman.hrms.core.network.model.*
 
 interface HrmsNetworkDataSource {
 
+    suspend fun authenticate(login: String, password: String): String?
+
     suspend fun getRooms(cleaningLadyId: Int? = null): List<NetworkRoom>
 
     suspend fun updateRoom(room: NetworkRoom)
