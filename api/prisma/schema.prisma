@@ -1,0 +1,175 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Room {
+  room_number      String             @id
+  occupied         Boolean
+  cleaning_status  Status
+  service          Boolean
+  out_of_order     Boolean
+  clean_type       Type
+  group_id         Int?
+  Reservation      Reservation[]
+  Group            Group?             @relation(fields: [group_id], references: [group_id])
+  Order            Order[]
+  chambermaid_note chambermaid_note[]
+  RoomEvent        RoomEvent[]
+}
+
+model Reservation {
+  reservation_id Int      @id @default(autoincrement())
+  room_number    String
+  client_id      Int
+  has_paid       Boolean
+  arrival        DateTime
+  departure      DateTime
+  room           Room     @relation(fields: [room_number], references: [room_number])
+  client         Client   @relation(fields: [client_id], references: [client_id])
+}
+
+model chambermaid_note {
+  note_id     Int      @id @default(autoincrement())
+  completed   Boolean
+  content     String
+  created     DateTime @default(now())
+  room_number String
+  employee_id Int
+  chambermaid Employee @relation(fields: [employee_id], references: [employee_id])
+  room        Room     @relation(fields: [room_number], references: [room_number])
+}
+
+enum Status {
+  DIRTY
+  PENDING_UPLOAD
+  PENDING_CHECK
+  CLEAN
+  INSPECTED
+}
+
+enum EventType {
+  CLEAN
+  DEEP_CLEAN
+  INSPECT
+  UPLOAD
+  CANCELLED
+  BLOCKED
+  REINSTITUTED
+}
+
+enum Type {
+  DAILY
+  DEEP
+}
+
+enum EmployeeType {
+  HOUSEKEEPER
+  CHAIMBERMAID
+  KITCHEN
+  RECEPTION
+}
+
+model Client {
+  client_id   Int           @id @default(autoincrement())
+  name        String
+  cellphone   String
+  email       String
+  Reservation Reservation[]
+}
+
+model Housekeeper {
+  housekeeper_id Int      @id @default(autoincrement())
+  employee_id    Int      @unique
+  employee_data  Employee @relation(fields: [employee_id], references: [employee_id])
+  Group          Group?   @relation(fields: [group_id], references: [group_id])
+  group_id       Int?     @unique
+}
+
+model ChaimberMaid {
+  chambermaid_id Int      @id @default(autoincrement())
+  employee_id    Int      @unique
+  employee_data  Employee @relation(fields: [employee_id], references: [employee_id])
+  Group          Group?   @relation(fields: [group_id], references: [group_id])
+  group_id       Int?
+  Order          Order[]
+}
+
+model Employee {
+  employee_id  Int                @id @default(autoincrement())
+  type         EmployeeType
+  login        String
+  Housekeeper  Housekeeper?
+  ChaimberMaid ChaimberMaid?
+  notes        chambermaid_note[]
+  RoomEvent    RoomEvent[]
+}
+
+model Group {
+  group_id       Int            @id
+  room_number    String
+  room           Room[]
+  chambermaid_id Int
+  chambermaids   ChaimberMaid[]
+  housekeeper_id Int
+  HouseKeepers   Housekeeper?
+  Order          Order[]
+}
+
+model Order {
+  order_id       Int              @id @default(autoincrement())
+  room_number    String
+  chambermaid_id Int
+  group_id       Int
+  complete       Boolean
+  creation       DateTime         @default(now())
+  group          Group            @relation(fields: [group_id], references: [group_id])
+  room           Room             @relation(fields: [room_number], references: [room_number])
+  chambermaid    ChaimberMaid     @relation(fields: [chambermaid_id], references: [chambermaid_id])
+  ProvisionOrder ProvisionOrder[]
+  MenuOrder      MenuOrder[]
+}
+
+model ProvisionOrder {
+  order_id Int    @id
+  amount   Int
+  name     String
+  order    Order  @relation(fields: [order_id], references: [order_id])
+}
+
+model MenuOrder {
+  order_id Int
+  menu_id  Int
+  amount   Int
+  order    Order    @relation(fields: [order_id], references: [order_id])
+  menu     MenuItem @relation(fields: [menu_id], references: [menu_id])
+
+  @@id([order_id, menu_id])
+}
+
+model MenuItem {
+  menu_id      Int         @id @default(autoincrement())
+  name         String
+  price        Float
+  availability Boolean
+  MenuOrder    MenuOrder[]
+}
+
+model RoomEvent {
+  event_id    Int       @id @default(autoincrement())
+  timestamp   DateTime
+  event_type  EventType
+  occupied    Boolean
+  room_number String
+  room        Room      @relation(fields: [room_number], references: [room_number])
+  employee_id Int
+  employee    Employee  @relation(fields: [employee_id], references: [employee_id])
+}
+
