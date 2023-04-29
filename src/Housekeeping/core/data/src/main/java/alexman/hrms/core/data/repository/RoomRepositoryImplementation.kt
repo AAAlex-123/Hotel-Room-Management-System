@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.flowOn
 class RoomRepositoryImplementation (
     private val ioDispatcher: CoroutineDispatcher,
     private val datasource: HrmsNetworkDataSource,
+    private val noteRepository: NoteRepository,
 ) : RoomRepository {
 
     override fun getRooms(query: RoomQuery): Flow<List<Room>> =
@@ -18,7 +19,9 @@ class RoomRepositoryImplementation (
             emit(
                 datasource.getRooms(query.housekeeperId)
                     .map {
-                         it.asExternalModel(listOf()) // TODO("add proper Notes")
+                         it.asExternalModel(
+                             noteRepository.getNotes(NoteQuery(it.id))
+                         )
                     },
             )
         }.flowOn(ioDispatcher)

@@ -14,7 +14,7 @@ enum class Occupied {
 
 data class Room(
     val id: Int,
-    val notes: List<Note>, // TODO("add proper Notes")
+    val notes: List<Note>,
     val cleanState: CleanState,
     val cleanType: CleanType,
     val occupied: Occupied,

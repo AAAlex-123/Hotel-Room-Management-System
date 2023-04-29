@@ -3,7 +3,6 @@ package alexman.hrms.core.data.model
 import alexman.hrms.core.model.data.*
 import alexman.hrms.core.network.model.NetworkRoom
 
-// TODO("add proper Notes")
 fun NetworkRoom.asExternalModel(notes: List<Note>) = Room(
     id = id,
     notes = notes,
