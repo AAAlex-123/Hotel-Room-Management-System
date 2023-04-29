@@ -29,16 +29,18 @@ fun InputField(
     placeholderText: String,
     modifier: Modifier = Modifier,
     align: Alignment = Alignment.Center,
+    isError: Boolean = false,
 ) {
     OutlinedTextField(
         value = value,
         onValueChange = onValueChange,
+        modifier = modifier.wrapContentSize(align),
         placeholder = {
             Text(
                 text = placeholderText,
                 style = HousekeepingTypography.labelMedium,
             )
         },
-        modifier = modifier.wrapContentSize(align),
+        isError = isError,
     )
 }

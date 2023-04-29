@@ -18,7 +18,7 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.sp
 
 private val baseTextStyle = TextStyle(
-    color = Color.Black,
+    color = Color.Unspecified,
     fontSize = TextUnit.Unspecified,
     fontWeight = FontWeight.Normal,
     fontStyle = FontStyle.Normal,

@@ -2,6 +2,7 @@ package alexman.hrms.core.designsystem.component
 
 import alexman.hrms.core.designsystem.theme.HousekeepingTheme
 import alexman.hrms.core.designsystem.theme.HousekeepingTypography
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
@@ -34,4 +35,15 @@ fun MediumDisplayText(
     text: String
 ) {
     Text(text = text, style = HousekeepingTypography.displayMedium)
+}
+
+@Composable
+fun ErrorLabel(
+    text: String
+) {
+    Text(
+        text = text,
+        color = MaterialTheme.colorScheme.error,
+        style = HousekeepingTypography.labelLarge,
+    )
 }

@@ -4,6 +4,7 @@ import alexman.hrms.core.designsystem.theme.Blue20
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -23,11 +24,11 @@ fun HousekeepingTopAppBar(
         navigationIcon = navigationIcon,
         actions = actions,
         colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-            containerColor = Blue20,
+            containerColor = MaterialTheme.colorScheme.primary,
             // scrolledContainerColor = Color,
-            navigationIconContentColor = Color.Black,
-            titleContentColor = Color.Black,
-            actionIconContentColor = Color.Black,
+            navigationIconContentColor = MaterialTheme.colorScheme.onPrimary,
+            titleContentColor = MaterialTheme.colorScheme.onPrimary,
+            actionIconContentColor = MaterialTheme.colorScheme.onPrimary,
         ),
         scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior { false },
     )
