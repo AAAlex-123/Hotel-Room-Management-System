@@ -1,12 +1,21 @@
 package alexman.hrms.core.model.data
 
-import alexman.hrms.core.network.model.CleanState
-import alexman.hrms.core.network.model.CleanType
+enum class CleanState {
+    DIRTY, PENDING_UPLOAD, PENDING_CHECK, CLEAN, INSPECTED,
+}
+
+enum class CleanType {
+    NORMAL, DEEP
+}
+
+enum class Occupied {
+    OCCUPIED, VACANT,
+}
 
 data class Room(
-    val number: Int,
-    val notes: List<String>,
+    val id: Int,
+    val notes: List<Note>, // TODO("add proper Notes")
     val cleanState: CleanState,
-    val occupied: Boolean,
     val cleanType: CleanType,
+    val occupied: Occupied,
 )
