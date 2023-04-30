@@ -11,11 +11,15 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconButtonDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -34,6 +38,15 @@ private fun TabButtonPreview() {
     HousekeepingTheme(darkTheme = false) {
         // TODO("add this and dummy icon")
         // TabButton(text = "Tab Name", id = , onClick = { } )
+    }
+}
+
+@Preview
+@Composable
+private fun ButtonWithIconPreview() {
+    HousekeepingTheme {
+        // TODO("add this and dummy icon")
+        // ButtonWithIcon(id = , alt = "alt", onClick = { } )
     }
 }
 
@@ -77,5 +90,30 @@ internal fun TabButton(
                 contentDescription = alt,
             )
         }
+    }
+}
+
+@Composable
+fun ButtonWithIcon(
+    @DrawableRes id: Int,
+    alt: String? = null,
+    onClick: () -> Unit,
+) {
+    IconButton(
+        onClick = onClick,
+        modifier = Modifier,
+        enabled = true,
+        colors = IconButtonDefaults.iconButtonColors(
+            containerColor = Color.Unspecified,
+            contentColor = MaterialTheme.colorScheme.onPrimary,
+            // the icon button is always enabled
+            // disabledContainerColor = Color,
+            // disabledContentColor = Color,
+        ),
+    ) {
+        Image(
+            painter = painterResource(id = id),
+            contentDescription = alt,
+        )
     }
 }
