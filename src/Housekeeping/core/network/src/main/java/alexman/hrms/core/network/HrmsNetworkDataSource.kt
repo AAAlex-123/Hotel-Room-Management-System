@@ -6,6 +6,8 @@ interface HrmsNetworkDataSource {
 
     suspend fun authenticate(login: String, password: String): String?
 
+    suspend fun getCleaningStaff(cleaningStaffId: Int): NetworkCleaningStaff
+
     suspend fun getRooms(cleaningLadyId: Int? = null): List<NetworkRoom>
 
     suspend fun updateRoom(room: NetworkRoom)
