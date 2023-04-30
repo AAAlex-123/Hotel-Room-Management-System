@@ -27,21 +27,19 @@ services:
     depends_on:
       - mysql
 
-  front:
-    build: ./front/
-    env_file:
-      - ./front/.env
-    expose:
-      - 8082
-    networks:
-      - main
-    depends_on:
-      - api
+  # front:
+  #   build: ./front/
+  #   expose:
+  #     - 8082
+  #   networks:
+  #     - main
+  #   depends_on:
+  #     - api
 
   nginx:
     image: nginx:latest
     volumes:
-      - ./nginx.conf:/etc/nginx/nginx.conf
+      - /nginx.conf:/etc/nginx/nginx.conf
     ports:
       - 8000:80
     networks:
@@ -50,6 +48,6 @@ services:
       - front
 
 volumes:
-  - mysql_vol:
+  mysql_vol:
 networks:
   main:
