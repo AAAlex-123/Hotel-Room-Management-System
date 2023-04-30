@@ -12,11 +12,11 @@ datasource db {
 
 model Room {
   room_number      String             @id
-  occupied         Boolean
-  cleaning_status  Status
-  service          Boolean
-  out_of_order     Boolean
-  clean_type       Type
+  occupied         Boolean            @default(false)
+  cleaning_status  Status             @default(CLEAN)
+  service          Boolean            @default(false)
+  out_of_order     Boolean            @default(false)
+  clean_type       Type               @default(DAILY)
   group_id         Int?
   Reservation      Reservation[]
   Group            Group?             @relation(fields: [group_id], references: [group_id])
@@ -172,4 +172,3 @@ model RoomEvent {
   employee_id Int
   employee    Employee  @relation(fields: [employee_id], references: [employee_id])
 }
-

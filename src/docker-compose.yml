@@ -1,0 +1,55 @@
+version: '3'
+services:
+  mysql:
+    image: mysql:latest
+    ports:
+      - 8003:3306
+    networks:
+      - main
+    environment:
+      MYSQL_DATABASE: 'db'
+      MYSQL_USER: 'root'
+      # You can use whatever password you like
+      MYSQL_PASSWORD: 'manasou'
+      # Password for root access
+      MYSQL_ROOT_PASSWORD: 'hmana'
+    volumes:
+      - mysql_vol:/var/lib/mysql
+
+  api:
+    build: ./api/
+    environment:
+      - DATABASE_URL="mysql:\\root:hmana@mysql:8083/hestia"
+    expose:
+      - 8081
+    networks:
+      - main
+    depends_on:
+      - mysql
+
+  front:
+    build: ./front/
+    env_file:
+      - ./front/.env
+    expose:
+      - 8082
+    networks:
+      - main
+    depends_on:
+      - api
+
+  nginx:
+    image: nginx:latest
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    ports:
+      - 8000:80
+    networks:
+      - main
+    depends_on:
+      - front
+
+volumes:
+  - mysql_vol:
+networks:
+  main:
