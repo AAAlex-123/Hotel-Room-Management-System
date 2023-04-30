@@ -1,25 +1,34 @@
 package alexman.hrms.core.designsystem.component
 
+import alexman.hrms.core.designsystem.PreviewLight
 import alexman.hrms.core.designsystem.theme.HousekeepingTheme
 import alexman.hrms.core.designsystem.theme.HousekeepingTypography
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.tooling.preview.Preview
 
-@Preview
+@PreviewLight
 @Composable
 private fun LargeDisplayTextPreview() {
-    HousekeepingTheme (darkTheme = false) {
+    HousekeepingTheme {
         LargeDisplayText("Display Large")
     }
 }
 
-@Preview
+@PreviewLight
 @Composable
 private fun MediumDisplayTextPreview() {
-    HousekeepingTheme (darkTheme = false) {
+    HousekeepingTheme {
         MediumDisplayText("Display Medium")
+    }
+}
+
+@PreviewLight
+@Composable
+private fun ErrorLabelPreview() {
+    HousekeepingTheme {
+        ErrorLabel("Error Label")
     }
 }
 
@@ -27,14 +36,20 @@ private fun MediumDisplayTextPreview() {
 fun LargeDisplayText(
     text: String
 ) {
-    Text(text = text, style = HousekeepingTypography.displayLarge)
+    Text(
+        text = text,
+        style = HousekeepingTypography.displayLarge,
+    )
 }
 
 @Composable
 fun MediumDisplayText(
     text: String
 ) {
-    Text(text = text, style = HousekeepingTypography.displayMedium)
+    Text(
+        text = text,
+        style = HousekeepingTypography.displayMedium,
+    )
 }
 
 @Composable

@@ -1,5 +1,7 @@
 package alexman.hrms.core.designsystem.component
 
+import alexman.hrms.core.designsystem.PreviewLight
+import alexman.hrms.core.designsystem.R
 import alexman.hrms.core.designsystem.theme.HousekeepingShapes
 import alexman.hrms.core.designsystem.theme.HousekeepingTheme
 import androidx.annotation.DrawableRes
@@ -21,32 +23,40 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
-@Preview
+@PreviewLight
 @Composable
 private fun ButtonWithTextPreview() {
-    HousekeepingTheme(darkTheme = false) {
-        ButtonWithText(text = "Submit", onClick = {  } )
+    HousekeepingTheme {
+        ButtonWithText(
+            text = "Button Text",
+            onClick = {  },
+        )
     }
 }
 
-@Preview
+@PreviewLight
 @Composable
-private fun TabButtonPreview() {
-    HousekeepingTheme(darkTheme = false) {
-        // TODO("add this and dummy icon")
-        // TabButton(text = "Tab Name", id = , onClick = { } )
+private fun ButtonWithTextAndIconPreview() {
+    HousekeepingTheme {
+        ButtonWithTextAndIcon(
+            text = "Button Text",
+            id = R.drawable.ic_placeholder,
+            onClick = { },
+        )
     }
 }
 
-@Preview
+@PreviewLight
 @Composable
 private fun ButtonWithIconPreview() {
     HousekeepingTheme {
-        // TODO("add this and dummy icon")
-        // ButtonWithIcon(id = , alt = "alt", onClick = { } )
+        ButtonWithIcon(
+            id = R.drawable.ic_placeholder,
+            alt = "image alt text",
+            onClick = { },
+        )
     }
 }
 
@@ -65,31 +75,8 @@ fun ButtonWithText(
         border = null,
         colors = ButtonDefaults.buttonColors(),
         contentPadding = PaddingValues(8.dp),
-        content = { Text(text = text) },
-    )
-}
-
-@Composable
-internal fun TabButton(
-    text: String,
-    @DrawableRes id: Int,
-    alt: String? = null,
-    onClick: () -> Unit,
-) {
-    Surface {
-        Column(
-            modifier = Modifier
-                .wrapContentSize()
-                .clickable(onClick = onClick),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally,
-        ) {
-            MediumDisplayText(text = text)
-            Image(
-                painter = painterResource(id = id),
-                contentDescription = alt,
-            )
-        }
+    ) {
+        Text(text = text)
     }
 }
 
@@ -115,5 +102,29 @@ fun ButtonWithIcon(
             painter = painterResource(id = id),
             contentDescription = alt,
         )
+    }
+}
+
+@Composable
+fun ButtonWithTextAndIcon(
+    text: String,
+    @DrawableRes id: Int,
+    alt: String? = null,
+    onClick: () -> Unit,
+) {
+    Surface {
+        Column(
+            modifier = Modifier
+                .wrapContentSize()
+                .clickable(onClick = onClick),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally,
+        ) {
+            MediumDisplayText(text = text)
+            Image(
+                painter = painterResource(id = id),
+                contentDescription = alt,
+            )
+        }
     }
 }
