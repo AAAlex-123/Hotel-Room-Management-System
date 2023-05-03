@@ -11,8 +11,8 @@ async function bootstrap() {
     .addTag('hotel')
     .build();
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('swagger', app, document);
+  SwaggerModule.setup('api/swagger', app, document);
 
-  await app.listen(3000);
+  await app.listen(8081);
 }
 bootstrap();

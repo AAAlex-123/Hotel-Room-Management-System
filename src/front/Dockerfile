@@ -3,6 +3,6 @@ WORKDIR /app
 COPY package*.json ./
 COPY . .
 RUN npm install --omit=dev
-RUN npx prisma generate
-EXPOSE 8081
-ENTRYPOINT [ "bash","./entrypoint.sh" ]
+EXPOSE 8082
+RUN npm run build
+CMD [ "npm", "start" ]
