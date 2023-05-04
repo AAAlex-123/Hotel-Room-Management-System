@@ -18,7 +18,22 @@ private fun InputFieldPreview() {
     val (value, setValue) = remember { mutableStateOf("") }
 
     HousekeepingTheme {
-        InputField(value = value, onValueChange = setValue, placeholderText = "placeholder text")
+        Column (
+            verticalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            InputField(
+                value = value,
+                onValueChange = setValue,
+                placeholderText = "placeholder text",
+                isError = false,
+            )
+            InputField(
+                value = value,
+                onValueChange = setValue,
+                placeholderText = "placeholder text",
+                isError = true,
+            )
+        }
     }
 }
 

@@ -38,11 +38,11 @@ private fun ButtonWithTextPreview() {
 
 @PreviewLight
 @Composable
-private fun ButtonWithTextAndIconPreview() {
+private fun ButtonWithIconPreview() {
     HousekeepingTheme {
-        ButtonWithTextAndIcon(
-            text = "Button Text",
+        ButtonWithIcon(
             id = R.drawable.ic_placeholder,
+            alt = "image alt text",
             onClick = { },
         )
     }
@@ -50,11 +50,12 @@ private fun ButtonWithTextAndIconPreview() {
 
 @PreviewLight
 @Composable
-private fun ButtonWithIconPreview() {
+private fun ButtonWithTextAndIconPreview() {
     HousekeepingTheme {
-        ButtonWithIcon(
+        ButtonWithTextAndIcon(
+            text = "Button Text",
             id = R.drawable.ic_placeholder,
-            alt = "image alt text",
+            alt = "Placeholder Button",
             onClick = { },
         )
     }

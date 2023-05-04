@@ -26,6 +26,22 @@ private fun MediumDisplayTextPreview() {
 
 @PreviewLight
 @Composable
+private fun SmallDisplayTextPreview() {
+    HousekeepingTheme {
+        SmallDisplayText("Display Small")
+    }
+}
+
+@PreviewLight
+@Composable
+private fun LargeBodyTextPreview() {
+    HousekeepingTheme {
+        LargeBodyText("Body Large")
+    }
+}
+
+@PreviewLight
+@Composable
 private fun ErrorLabelPreview() {
     HousekeepingTheme {
         ErrorLabel("Error Label")
