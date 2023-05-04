@@ -68,9 +68,9 @@ fun Icon(
             .clickable(onClick = onClick)
             .size(
                 when (sizeVariation) {
-                    SizeVariation.LARGE -> 24.dp
+                    SizeVariation.LARGE -> 40.dp
                     SizeVariation.MEDIUM -> 32.dp
-                    SizeVariation.SMALL -> 40.dp
+                    SizeVariation.SMALL -> 24.dp
                 }
             ),
     )
