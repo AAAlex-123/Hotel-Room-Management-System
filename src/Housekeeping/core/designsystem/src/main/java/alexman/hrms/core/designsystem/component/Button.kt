@@ -5,7 +5,6 @@ import alexman.hrms.core.designsystem.R
 import alexman.hrms.core.designsystem.theme.HousekeepingShapes
 import alexman.hrms.core.designsystem.theme.HousekeepingTheme
 import androidx.annotation.DrawableRes
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -17,12 +16,10 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 
 @PreviewLight
@@ -77,14 +74,14 @@ fun ButtonWithText(
         colors = ButtonDefaults.buttonColors(),
         contentPadding = PaddingValues(8.dp),
     ) {
-        Text(text = text)
+        LargeBodyText(text = text)
     }
 }
 
 @Composable
 fun ButtonWithIcon(
     @DrawableRes id: Int,
-    alt: String? = null,
+    alt: String,
     onClick: () -> Unit,
 ) {
     IconButton(
@@ -99,9 +96,9 @@ fun ButtonWithIcon(
             // disabledContentColor = Color,
         ),
     ) {
-        Image(
-            painter = painterResource(id = id),
-            contentDescription = alt,
+        Icon(
+            id = id,
+            alt = alt,
         )
     }
 }
@@ -110,7 +107,7 @@ fun ButtonWithIcon(
 fun ButtonWithTextAndIcon(
     text: String,
     @DrawableRes id: Int,
-    alt: String? = null,
+    alt: String,
     onClick: () -> Unit,
 ) {
     Surface {
@@ -122,9 +119,9 @@ fun ButtonWithTextAndIcon(
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             MediumDisplayText(text = text)
-            Image(
-                painter = painterResource(id = id),
-                contentDescription = alt,
+            Icon(
+                id = id,
+                alt = alt,
             )
         }
     }
