@@ -4,9 +4,9 @@ import alexman.hrms.core.designsystem.PreviewLight
 import alexman.hrms.core.designsystem.theme.HousekeepingTheme
 import alexman.hrms.core.designsystem.theme.HousekeepingTypography
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 
 @PreviewLight
 @Composable
@@ -48,29 +48,59 @@ private fun ErrorLabelPreview() {
     }
 }
 
+// TODO("figure out what is going on with typography")
+
 @Composable
 fun LargeDisplayText(
-    text: String
+    text: String,
+    modifier: Modifier = Modifier,
 ) {
     Text(
         text = text,
         style = HousekeepingTypography.displayLarge,
+        modifier = modifier,
     )
 }
 
 @Composable
 fun MediumDisplayText(
-    text: String
+    text: String,
+    modifier: Modifier = Modifier,
 ) {
     Text(
         text = text,
         style = HousekeepingTypography.displayMedium,
+        modifier = modifier,
+    )
+}
+
+@Composable
+fun SmallDisplayText(
+    text: String,
+    modifier: Modifier = Modifier,
+) {
+    Text(
+        text = text,
+        style = HousekeepingTypography.displaySmall,
+        modifier = modifier,
+    )
+}
+
+@Composable
+fun LargeBodyText(
+    text: String,
+    modifier: Modifier = Modifier,
+) {
+    Text(
+        text = text,
+        style = HousekeepingTypography.bodyLarge,
+        modifier = modifier,
     )
 }
 
 @Composable
 fun ErrorLabel(
-    text: String
+    text: String,
 ) {
     Text(
         text = text,

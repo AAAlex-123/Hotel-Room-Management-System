@@ -9,8 +9,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import alexman.hrms.core.designsystem.theme.HousekeepingTypography
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.unit.dp
 
 @PreviewLight
 @Composable
@@ -43,13 +46,15 @@ fun InputField(
     onValueChange: (String) -> Unit,
     placeholderText: String,
     modifier: Modifier = Modifier,
-    align: Alignment = Alignment.Center,
     isError: Boolean = false,
+    singleLine: Boolean = true,
+    alignText: Alignment = Alignment.Center,
 ) {
     OutlinedTextField(
         value = value,
         onValueChange = onValueChange,
-        modifier = modifier.wrapContentSize(align),
+        modifier = modifier
+            .wrapContentSize(alignText),
         placeholder = {
             Text(
                 text = placeholderText,
@@ -57,5 +62,6 @@ fun InputField(
             )
         },
         isError = isError,
+        singleLine = singleLine,
     )
 }
