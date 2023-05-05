@@ -29,4 +29,9 @@ class OrderRepositoryImplementation (
         withContext(ioDispatcher) {
             datasource.placeOrder(upstreamOrderDetails.asUpstreamNetworkOrderDetails())
         }
+
+    override suspend fun deleteOrder(orderId: Int) =
+        withContext(ioDispatcher) {
+            datasource.deleteOrder(orderId)
+        }
 }

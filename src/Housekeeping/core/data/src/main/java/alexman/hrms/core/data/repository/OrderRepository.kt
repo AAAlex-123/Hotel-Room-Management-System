@@ -14,4 +14,6 @@ interface OrderRepository {
     fun getOrders(query: OrderQuery): Flow<List<Order>>
 
     suspend fun placeOrder(upstreamOrderDetails: UpstreamOrderDetails)
+
+    suspend fun deleteOrder(orderId: Int)
 }
