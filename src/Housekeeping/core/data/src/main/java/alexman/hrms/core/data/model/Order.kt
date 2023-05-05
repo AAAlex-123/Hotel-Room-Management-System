@@ -9,12 +9,12 @@ import alexman.hrms.core.network.model.UpstreamNetworkOrderDetails
 fun NetworkOrder.asExternalModel() = Order(
     id = id,
     completed = if (completed) OrderStatus.COMPLETED else OrderStatus.PENDING,
+    cleaningLadyId = cleaningLadyId,
     orderData = orderData,
 )
 
 fun UpstreamOrderDetails.asUpstreamNetworkOrderDetails() =
     UpstreamNetworkOrderDetails(
         cleaningLadyId = cleaningLadyId,
-        housekeeperId = housekeeperId,
         orderData = orderData,
     )
