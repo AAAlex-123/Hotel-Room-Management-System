@@ -2,6 +2,8 @@ package alexman.hrms.core.network
 
 import alexman.hrms.core.network.model.*
 
+// TODO("add a Result<T>-ish return type to add error handling capability
+
 interface HrmsNetworkDataSource {
 
     suspend fun authenticate(login: String, password: String): String?

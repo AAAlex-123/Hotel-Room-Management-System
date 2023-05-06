@@ -11,15 +11,15 @@ import java.util.UUID
 
 class FakeNetworkDataSource : HrmsNetworkDataSource {
 
-    private val registeredStaffMap = mapOf(
+    private val registeredStaffMap: Map<Int, Pair<String, String>> = mapOf(
         1 to ("login1" to "password1"),
         2 to ("login2" to "password2"),
         3 to ("login3" to "password3"),
     )
 
-    private val sessionIdMap = mutableMapOf<String, String>()
+    private val sessionIdMap: MutableMap<String, String> = mutableMapOf()
 
-    private val cleaningStaffMap = mapOf(
+    private val cleaningStaffMap: Map<Int, NetworkCleaningStaff> = mapOf(
         1 to NetworkCleaningStaff(1, 10, "Alice", 1),
         2 to NetworkCleaningStaff(2, 11, "Bob", 1),
         3 to NetworkCleaningStaff(3, 12, "Charlie", 1),
@@ -43,7 +43,8 @@ class FakeNetworkDataSource : HrmsNetworkDataSource {
         else
             null
 
-        // TODO("store sessionId")
+        if (sessionId != null)
+            sessionIdMap[login] = sessionId
 
         return sessionId
     }
