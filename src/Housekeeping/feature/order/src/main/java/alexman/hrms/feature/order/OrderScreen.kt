@@ -1,6 +1,6 @@
 package alexman.hrms.feature.order
 
-import alexman.hrms.core.data.repository.fake.FakeOrderRepository
+import alexman.hrms.core.data.repository.OrderRepositoryImplementation
 import alexman.hrms.core.designsystem.PreviewLight
 import alexman.hrms.core.designsystem.SizeVariation
 import alexman.hrms.core.designsystem.component.ButtonWithText
@@ -13,6 +13,7 @@ import alexman.hrms.core.designsystem.component.MediumDisplayText
 import alexman.hrms.core.designsystem.component.Popup
 import alexman.hrms.core.designsystem.theme.HousekeepingTheme
 import alexman.hrms.core.model.data.Order
+import alexman.hrms.core.network.fake.FakeNetworkDataSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -40,7 +41,9 @@ private fun NewOrderPopupContentPreview() {
         OrderScreen(
             OrderViewModel(
                 1,
-                FakeOrderRepository(),
+                // do not replace with actual network data source
+                // otherwise preview won't work as intended
+                OrderRepositoryImplementation(FakeNetworkDataSource()),
             )
         )
     }

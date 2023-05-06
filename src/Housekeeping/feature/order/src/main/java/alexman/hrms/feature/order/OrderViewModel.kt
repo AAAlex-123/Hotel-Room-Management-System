@@ -14,9 +14,16 @@ class OrderViewModel(
     private val orderRepository: OrderRepository,
 ) : ViewModel() {
 
-    val orders: Flow<List<Order>> = orderRepository.getOrders(
-        OrderQuery(cleaningLadyId = cleaningStaffId)
-    )
+    lateinit var orders: Flow<List<Order>>
+        private set
+
+    init {
+        viewModelScope.launch {
+            orders = orderRepository.getOrders(
+                OrderQuery(cleaningLadyId = cleaningStaffId)
+            )
+        }
+    }
 
     internal fun placeOrder(orderData: String) {
         viewModelScope.launch {
@@ -29,9 +36,9 @@ class OrderViewModel(
         }
     }
 
-    internal fun deleteOrder(id: Int) {
+    internal fun deleteOrder(orderId: Int) {
         viewModelScope.launch {
-            orderRepository.deleteOrder(id)
+            orderRepository.deleteOrder(orderId)
         }
     }
 }

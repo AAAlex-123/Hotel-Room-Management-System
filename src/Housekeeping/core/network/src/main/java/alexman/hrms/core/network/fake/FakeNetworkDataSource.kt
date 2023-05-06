@@ -25,6 +25,14 @@ class FakeNetworkDataSource : HrmsNetworkDataSource {
         3 to NetworkCleaningStaff(3, 12, "Charlie", 1),
     )
 
+    private val orderMap: MutableMap<Int, NetworkOrder> = mutableMapOf(
+        1 to NetworkOrder(1, false, 1, "Alice's order 1"),
+        2 to NetworkOrder(2, false, 1, "Alice's order 2"),
+        3 to NetworkOrder(3, true, 2, "Bob's order 1"),
+        4 to NetworkOrder(4, false, 2, "Bob's order 2"),
+        5 to NetworkOrder(5, true, 1, "Alice's order 3"),
+    )
+
     override suspend fun authenticate(login: String, password: String): String? {
         val sessionId = if (sessionIdMap.contains(login))
             sessionIdMap[login]
@@ -44,12 +52,32 @@ class FakeNetworkDataSource : HrmsNetworkDataSource {
         return cleaningStaffMap[cleaningStaffId]!!
     }
 
-    override suspend fun placeOrder(upstreamNetworkOrderDetails: UpstreamNetworkOrderDetails) {
-        TODO("Not yet implemented")
+    override suspend fun getOrders(cleaningLadyId: Int?): List<NetworkOrder> {
+        return orderMap.values
+            .filter { cleaningLadyId == null || it.cleaningLadyId == cleaningLadyId }
+            .toList()
     }
 
+    // TODO("return the Network Order which resulted from this POST")
+    override suspend fun placeOrder(upstreamNetworkOrderDetails: UpstreamNetworkOrderDetails) {
+        with (upstreamNetworkOrderDetails) {
+            val newOrderId = orderMap.values.map { it.id }.reduce(Integer::max) + 1
+            val newOrder = NetworkOrder(
+                id = newOrderId,
+                completed = false,
+                cleaningLadyId = this.cleaningLadyId,
+                orderData = this.orderData.trim(),
+            )
+
+            orderMap[newOrderId] = newOrder
+
+            /* return newOrder */
+        }
+    }
+
+    // TODO("return true/false to indicate successful/failed DELETE")
     override suspend fun deleteOrder(orderId: Int) {
-        TODO("Not yet implemented")
+        /* return */ orderMap.remove(orderId) /* != null */
     }
 
     override suspend fun getRooms(cleaningLadyId: Int?): List<NetworkRoom> {
@@ -65,10 +93,6 @@ class FakeNetworkDataSource : HrmsNetworkDataSource {
     }
 
     override suspend fun addNote(upstreamNetworkNoteDetails: UpstreamNetworkNoteDetails) {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun getOrders(cleaningLadyId: Int?, housekeeperId: Int?): List<NetworkOrder> {
         TODO("Not yet implemented")
     }
 }

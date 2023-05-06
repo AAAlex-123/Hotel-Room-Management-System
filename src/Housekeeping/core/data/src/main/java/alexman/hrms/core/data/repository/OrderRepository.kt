@@ -14,7 +14,7 @@ data class OrderQuery(
 
 interface OrderRepository {
 
-    fun getOrders(query: OrderQuery): Flow<List<Order>>
+    suspend fun getOrders(query: OrderQuery): Flow<List<Order>>
 
     suspend fun placeOrder(upstreamOrderDetails: UpstreamOrderDetails)
 

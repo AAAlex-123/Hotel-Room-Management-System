@@ -8,6 +8,8 @@ interface HrmsNetworkDataSource {
 
     suspend fun getCleaningStaff(cleaningStaffId: Int): NetworkCleaningStaff
 
+    suspend fun getOrders(cleaningLadyId: Int? = null): List<NetworkOrder>
+
     suspend fun placeOrder(upstreamNetworkOrderDetails: UpstreamNetworkOrderDetails)
 
     suspend fun deleteOrder(orderId: Int)
@@ -20,6 +22,4 @@ interface HrmsNetworkDataSource {
 
     suspend fun addNote(upstreamNetworkNoteDetails: UpstreamNetworkNoteDetails)
 
-    suspend fun getOrders(cleaningLadyId: Int? = null, housekeeperId: Int? = null):
-            List<NetworkOrder>
 }
