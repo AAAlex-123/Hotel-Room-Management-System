@@ -7,7 +7,10 @@ import kotlinx.coroutines.flow.Flow
 data class OrderQuery(
     val cleaningLadyId: Int? = null,
     val housekeeperId: Int? = null,
-)
+) {
+    fun matches(order: Order): Boolean =
+        (cleaningLadyId == null || order.cleaningLadyId == cleaningLadyId)
+}
 
 interface OrderRepository {
 
