@@ -121,7 +121,12 @@ private fun NewOrderButton(
         offset = DpOffset(0.dp, 0.dp),
         // properties = PopupProperties, // defaults are fine
     ) {
-        NewOrderPopupContent(onSubmitNewOrder)
+        NewOrderPopupContent(
+            onSubmit = {
+                expanded = false
+                onSubmitNewOrder(it)
+            }
+        )
     }
 }
 

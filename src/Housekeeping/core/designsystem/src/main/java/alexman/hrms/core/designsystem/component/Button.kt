@@ -85,7 +85,7 @@ fun ButtonWithIcon(
     onClick: () -> Unit,
 ) {
     IconButton(
-        onClick = onClick,
+        onClick = { }, // Icon consumes the onClick event
         modifier = Modifier,
         enabled = true,
         colors = IconButtonDefaults.iconButtonColors(
@@ -99,6 +99,7 @@ fun ButtonWithIcon(
         Icon(
             id = id,
             alt = alt,
+            onClick = onClick,
         )
     }
 }
