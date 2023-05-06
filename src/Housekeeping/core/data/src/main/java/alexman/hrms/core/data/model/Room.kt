@@ -12,13 +12,13 @@ fun NetworkRoom.asExternalModel(notes: List<Note>) = Room(
         2 -> CleanState.PENDING_CHECK
         3 -> CleanState.CLEAN
         4 -> CleanState.INSPECTED
-        else -> error("invalid clean state $cleanState")
+        else -> error("Invalid clean state $cleanState")
     },
     occupied = if (occupied) Occupied.OCCUPIED else Occupied.VACANT,
     cleanType = when(cleanType) {
         0 -> CleanType.NORMAL
         1 -> CleanType.DEEP
-        else -> error("invalid clean type $cleanType")
+        else -> error("Invalid clean type $cleanType")
     },
 )
 

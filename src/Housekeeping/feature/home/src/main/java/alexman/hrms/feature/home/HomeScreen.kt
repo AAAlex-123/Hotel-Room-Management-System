@@ -31,15 +31,14 @@ fun HomeScreen(
     homeViewModel: HomeViewModel,
     onNavigateToLogIn: () -> Unit
 ) {
-    val (staffName, staffId) = homeViewModel.uiState
+    val uiState = homeViewModel.uiState
 
-    HomeScreenContent(staffName, staffId, onNavigateToLogIn)
+    HomeScreenContent(uiState, onNavigateToLogIn)
 }
 
 @Composable
 private fun HomeScreenContent(
-    staffName: String,
-    staffId: Int,
+    uiState: HomeUiState,
     onNavigateToLogIn: () -> Unit,
 ) {
     Surface {
@@ -48,7 +47,7 @@ private fun HomeScreenContent(
                 .fillMaxSize()
         ) {
             HousekeepingTopAppBar(
-                text = staffId.toString(),
+                text = uiState.staffId.toString(),
                 actions = { LogoutButton (onClick = onNavigateToLogIn) }
             )
             Column(
@@ -57,8 +56,8 @@ private fun HomeScreenContent(
                 modifier = Modifier
                     .fillMaxSize()
             ) {
-                LargeDisplayText("Staff ID: $staffId")
-                LargeDisplayText("Name: $staffName")
+                LargeDisplayText("Staff ID: ${uiState.staffId}")
+                LargeDisplayText("Name: ${uiState.staffName}")
             }
         }
     }

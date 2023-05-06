@@ -11,9 +11,9 @@ interface RoomRepository {
 
     fun getRooms(query: RoomQuery): Flow<List<Room>>
 
-    /*
-    TODO("figure out how to do that")
+    // TODO("figure out how to do that")
 
+    /*
     suspend fun updateRoom(room: Room)
     */
 }

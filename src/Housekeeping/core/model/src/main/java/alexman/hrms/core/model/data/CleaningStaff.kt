@@ -5,8 +5,8 @@ enum class CleaningStaffType {
 }
 
 class CleaningStaff(
-    val id: Int,
     val employeeId: Int,
+    val id: Int,
     val name: String,
     val cleaningStaffType: CleaningStaffType,
 )
