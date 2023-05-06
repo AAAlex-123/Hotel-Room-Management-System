@@ -32,8 +32,6 @@ android {
 
 dependencies {
 
-    implementation project(path: ':core:network')
-
     implementation "androidx.core:core-ktx:$kotlin_version"
 
     testImplementation 'junit:junit:4.13.2'

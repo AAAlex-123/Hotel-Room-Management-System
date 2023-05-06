@@ -1,11 +1,12 @@
 package alexman.hrms.feature.home
 
-import alexman.hrms.core.data.repository.fake.FakeCleaningStaffRepository
+import alexman.hrms.core.data.repository.CleaningStaffRepositoryImplementation
 import alexman.hrms.core.designsystem.PreviewLight
 import alexman.hrms.core.designsystem.component.ButtonWithIcon
 import alexman.hrms.core.designsystem.component.HousekeepingTopAppBar
 import alexman.hrms.core.designsystem.component.LargeDisplayText
 import alexman.hrms.core.designsystem.theme.HousekeepingTheme
+import alexman.hrms.core.network.fake.FakeNetworkDataSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -20,7 +21,12 @@ import androidx.compose.ui.unit.dp
 fun HomeScreenPreview() {
     HousekeepingTheme {
         HomeScreen(
-            HomeViewModel(2, FakeCleaningStaffRepository()),
+            HomeViewModel(
+                2,
+                // do not replace with actual network data source
+                // otherwise preview won't work as intended
+                CleaningStaffRepositoryImplementation(FakeNetworkDataSource()),
+            ),
             onNavigateToLogIn = { },
         )
     }

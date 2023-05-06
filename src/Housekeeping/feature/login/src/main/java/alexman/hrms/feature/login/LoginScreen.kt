@@ -1,6 +1,6 @@
 package alexman.hrms.feature.login
 
-import alexman.hrms.core.data.repository.fake.FakeCleaningStaffRepository
+import alexman.hrms.core.data.repository.CleaningStaffRepositoryImplementation
 import alexman.hrms.core.designsystem.PreviewBoth
 import alexman.hrms.core.designsystem.component.MediumDisplayText
 import alexman.hrms.core.designsystem.component.HousekeepingTopAppBar
@@ -8,6 +8,7 @@ import alexman.hrms.core.designsystem.component.InputField
 import alexman.hrms.core.designsystem.component.ButtonWithText
 import alexman.hrms.core.designsystem.component.ErrorLabel
 import alexman.hrms.core.designsystem.theme.HousekeepingTheme
+import alexman.hrms.core.network.fake.FakeNetworkDataSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -33,7 +34,11 @@ import kotlinx.coroutines.withContext
 fun LoginScreenPreview() {
     HousekeepingTheme {
         LoginScreen(
-            LoginViewModel(FakeCleaningStaffRepository()),
+            LoginViewModel(
+                // do not replace with actual network data source
+                // otherwise preview won't work as intended
+                CleaningStaffRepositoryImplementation(FakeNetworkDataSource()),
+            ),
             onNavigateToHome = { _: String, _: String -> }
         )
     }
