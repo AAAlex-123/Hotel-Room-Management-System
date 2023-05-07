@@ -17,12 +17,12 @@ model Room {
   service          Boolean            @default(false)
   out_of_order     Boolean            @default(false)
   clean_type       Type               @default(DAILY)
-  group_id         Int?
   Reservation      Reservation[]
-  Group            Group?             @relation(fields: [group_id], references: [group_id])
+  groupRoom        GroopRooms?
   Order            Order[]
   chambermaid_note chambermaid_note[]
   RoomEvent        RoomEvent[]
+  RoomDescription  RoomDescription?
 }
 
 model Reservation {
@@ -34,6 +34,17 @@ model Reservation {
   departure      DateTime
   room           Room     @relation(fields: [room_number], references: [room_number])
   client         Client   @relation(fields: [client_id], references: [client_id])
+  Charge         Charge[]
+}
+
+model Charge {
+  reservation_id Int
+  timestamp      DateTime
+  description    String
+  amount         Float
+  reservation    Reservation @relation(fields: [reservation_id], references: [reservation_id])
+
+  @@id([reservation_id, timestamp])
 }
 
 model chambermaid_note {
@@ -86,14 +97,15 @@ model Client {
 }
 
 model Housekeeper {
-  housekeeper_id Int      @id @default(autoincrement())
-  employee_id    Int      @unique
-  employee_data  Employee @relation(fields: [employee_id], references: [employee_id])
-  Group          Group?   @relation(fields: [group_id], references: [group_id])
-  group_id       Int?     @unique
+  housekeeper_id Int  @id @default(autoincrement())
+  employee_id    Int  @unique
+  group_id       Int? @unique
+
+  employee_data Employee @relation(fields: [employee_id], references: [employee_id])
+  Group         Group?   @relation(fields: [group_id], references: [group_id])
 }
 
-model ChaimberMaid {
+model ChamberMaid {
   chambermaid_id Int      @id @default(autoincrement())
   employee_id    Int      @unique
   employee_data  Employee @relation(fields: [employee_id], references: [employee_id])
@@ -103,24 +115,27 @@ model ChaimberMaid {
 }
 
 model Employee {
-  employee_id  Int                @id @default(autoincrement())
-  type         EmployeeType
-  login        String
+  employee_id Int          @id @default(autoincrement())
+  type        EmployeeType
+  login       String
+  login_name  String
+
   Housekeeper  Housekeeper?
-  ChaimberMaid ChaimberMaid?
+  ChaimberMaid ChamberMaid?
   notes        chambermaid_note[]
   RoomEvent    RoomEvent[]
 }
 
 model Group {
-  group_id       Int            @id
+  group_id       Int    @id
   room_number    String
-  room           Room[]
   chambermaid_id Int
-  chambermaids   ChaimberMaid[]
   housekeeper_id Int
-  HouseKeepers   Housekeeper?
-  Order          Order[]
+
+  groupRooms   GroopRooms[]
+  chambermaids ChamberMaid[]
+  HouseKeepers Housekeeper?
+  Order        Order[]
 }
 
 model Order {
@@ -132,7 +147,7 @@ model Order {
   creation       DateTime         @default(now())
   group          Group            @relation(fields: [group_id], references: [group_id])
   room           Room             @relation(fields: [room_number], references: [room_number])
-  chambermaid    ChaimberMaid     @relation(fields: [chambermaid_id], references: [chambermaid_id])
+  chambermaid    ChamberMaid      @relation(fields: [chambermaid_id], references: [chambermaid_id])
   ProvisionOrder ProvisionOrder[]
   MenuOrder      MenuOrder[]
 }
@@ -171,4 +186,21 @@ model RoomEvent {
   room        Room      @relation(fields: [room_number], references: [room_number])
   employee_id Int
   employee    Employee  @relation(fields: [employee_id], references: [employee_id])
+}
+
+model RoomDescription {
+  room_number String @id
+  roomType    String
+  roomClass   String
+  floor       String
+  room        Room   @relation(fields: [room_number], references: [room_number])
+}
+
+model GroopRooms {
+  group_id    Int
+  room_number String @unique
+  group       Group  @relation(fields: [group_id], references: [group_id])
+  room        Room   @relation(fields: [room_number], references: [room_number])
+
+  @@id([group_id, room_number])
 }

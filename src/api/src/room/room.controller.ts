@@ -1,8 +1,9 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
 import { Room } from '@prisma/client';
 import { PrismaService } from 'src/prisma/prisma.service';
+import RoomEntity from './room.entity/room.entity';
 
-@Controller('room')
+@Controller('api/room')
 export class RoomController {
   constructor(private prisma: PrismaService) {}
 
@@ -22,8 +23,16 @@ export class RoomController {
   }
 
   @Post()
-  async create_room(@Body() room: Room): Promise<boolean> {
-    await this.prisma.room.create({ data: room });
-    return true;
+  async create_room(@Body() room: RoomEntity) {
+    await this.prisma.room.create({ data: {} });
+  }
+
+  @Delete(':number')
+  async delete_room(@Param('number') id: string) {
+    await this.prisma.room.delete({
+      where: {
+        room_number: id,
+      },
+    });
   }
 }

@@ -1,12 +1,13 @@
 -- CreateTable
 CREATE TABLE `Room` (
     `room_number` VARCHAR(191) NOT NULL,
-    `occupied` BOOLEAN NOT NULL,
-    `cleaning_status` ENUM('DIRTY', 'PENDING_UPLOAD', 'PENDING_CHECK', 'CLEAN', 'INSPECTED') NOT NULL,
-    `service` BOOLEAN NOT NULL,
-    `out_of_order` BOOLEAN NOT NULL,
-    `clean_type` ENUM('DAILY', 'DEEP') NOT NULL,
+    `occupied` BOOLEAN NOT NULL DEFAULT false,
+    `cleaning_status` ENUM('DIRTY', 'PENDING_UPLOAD', 'PENDING_CHECK', 'CLEAN', 'INSPECTED') NOT NULL DEFAULT 'CLEAN',
+    `service` BOOLEAN NOT NULL DEFAULT false,
+    `out_of_order` BOOLEAN NOT NULL DEFAULT false,
+    `clean_type` ENUM('DAILY', 'DEEP') NOT NULL DEFAULT 'DAILY',
     `group_id` INTEGER NULL,
+    `roomDescriptionRoom_number` VARCHAR(191) NOT NULL,
 
     PRIMARY KEY (`room_number`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -57,12 +58,12 @@ CREATE TABLE `Housekeeper` (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
-CREATE TABLE `ChaimberMaid` (
+CREATE TABLE `ChamberMaid` (
     `chambermaid_id` INTEGER NOT NULL AUTO_INCREMENT,
     `employee_id` INTEGER NOT NULL,
     `group_id` INTEGER NULL,
 
-    UNIQUE INDEX `ChaimberMaid_employee_id_key`(`employee_id`),
+    UNIQUE INDEX `ChamberMaid_employee_id_key`(`employee_id`),
     PRIMARY KEY (`chambermaid_id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -71,6 +72,7 @@ CREATE TABLE `Employee` (
     `employee_id` INTEGER NOT NULL AUTO_INCREMENT,
     `type` ENUM('HOUSEKEEPER', 'CHAIMBERMAID', 'KITCHEN', 'RECEPTION') NOT NULL,
     `login` VARCHAR(191) NOT NULL,
+    `login_name` VARCHAR(191) NOT NULL,
 
     PRIMARY KEY (`employee_id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -137,6 +139,16 @@ CREATE TABLE `RoomEvent` (
     PRIMARY KEY (`event_id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
+-- CreateTable
+CREATE TABLE `RoomDescription` (
+    `room_number` VARCHAR(191) NOT NULL,
+    `roomType` VARCHAR(191) NOT NULL,
+    `roomClass` VARCHAR(191) NOT NULL,
+    `floor` VARCHAR(191) NOT NULL,
+
+    PRIMARY KEY (`room_number`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
 -- AddForeignKey
 ALTER TABLE `Room` ADD CONSTRAINT `Room_group_id_fkey` FOREIGN KEY (`group_id`) REFERENCES `Group`(`group_id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
@@ -159,10 +171,10 @@ ALTER TABLE `Housekeeper` ADD CONSTRAINT `Housekeeper_employee_id_fkey` FOREIGN 
 ALTER TABLE `Housekeeper` ADD CONSTRAINT `Housekeeper_group_id_fkey` FOREIGN KEY (`group_id`) REFERENCES `Group`(`group_id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `ChaimberMaid` ADD CONSTRAINT `ChaimberMaid_employee_id_fkey` FOREIGN KEY (`employee_id`) REFERENCES `Employee`(`employee_id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `ChamberMaid` ADD CONSTRAINT `ChamberMaid_employee_id_fkey` FOREIGN KEY (`employee_id`) REFERENCES `Employee`(`employee_id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `ChaimberMaid` ADD CONSTRAINT `ChaimberMaid_group_id_fkey` FOREIGN KEY (`group_id`) REFERENCES `Group`(`group_id`) ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE `ChamberMaid` ADD CONSTRAINT `ChamberMaid_group_id_fkey` FOREIGN KEY (`group_id`) REFERENCES `Group`(`group_id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `Order` ADD CONSTRAINT `Order_group_id_fkey` FOREIGN KEY (`group_id`) REFERENCES `Group`(`group_id`) ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -171,7 +183,7 @@ ALTER TABLE `Order` ADD CONSTRAINT `Order_group_id_fkey` FOREIGN KEY (`group_id`
 ALTER TABLE `Order` ADD CONSTRAINT `Order_room_number_fkey` FOREIGN KEY (`room_number`) REFERENCES `Room`(`room_number`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `Order` ADD CONSTRAINT `Order_chambermaid_id_fkey` FOREIGN KEY (`chambermaid_id`) REFERENCES `ChaimberMaid`(`chambermaid_id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `Order` ADD CONSTRAINT `Order_chambermaid_id_fkey` FOREIGN KEY (`chambermaid_id`) REFERENCES `ChamberMaid`(`chambermaid_id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `ProvisionOrder` ADD CONSTRAINT `ProvisionOrder_order_id_fkey` FOREIGN KEY (`order_id`) REFERENCES `Order`(`order_id`) ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -187,3 +199,6 @@ ALTER TABLE `RoomEvent` ADD CONSTRAINT `RoomEvent_room_number_fkey` FOREIGN KEY 
 
 -- AddForeignKey
 ALTER TABLE `RoomEvent` ADD CONSTRAINT `RoomEvent_employee_id_fkey` FOREIGN KEY (`employee_id`) REFERENCES `Employee`(`employee_id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `RoomDescription` ADD CONSTRAINT `RoomDescription_room_number_fkey` FOREIGN KEY (`room_number`) REFERENCES `Room`(`room_number`) ON DELETE RESTRICT ON UPDATE CASCADE;
