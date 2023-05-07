@@ -24,7 +24,7 @@ export class RoomController {
 
   @Post()
   async create_room(@Body() room: RoomEntity) {
-    await this.prisma.room.create({ data: {} });
+    await this.prisma.room.create({ data: room });
   }
 
   @Delete(':number')
