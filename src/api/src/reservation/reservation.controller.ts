@@ -5,6 +5,7 @@ import {
   Get,
   Param,
   Post,
+  Put,
   Query,
 } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
@@ -53,8 +54,27 @@ export class ReservationController {
     await this.prisma.reservation.create({ data: reservation });
   }
 
-  @Delete('id')
+  @Delete(':id')
   async deletes(@Param('id') id: number) {
     await this.prisma.reservation.delete({ where: { reservation_id: id } });
+  }
+
+  @Put(':id')
+  async update(
+    @Param('id') id: number,
+    @Body() reservation: ReservationClientEntity,
+  ) {
+    await this.prisma.reservation.upsert({
+      create: { ...reservation },
+      update: {
+        room_number: reservation.room_number,
+        client_id: reservation.client_id,
+        arrival: reservation.arrival,
+        departure: reservation.departure,
+      },
+      where: {
+        reservation_id: id,
+      },
+    });
   }
 }

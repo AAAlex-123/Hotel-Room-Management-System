@@ -1,4 +1,12 @@
-import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Put,
+} from '@nestjs/common';
 import { Employee } from '@prisma/client';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { EmployeeEntity } from './employee.entity/employee.entity';
@@ -28,6 +36,18 @@ export class EmployeeController {
   @Delete(':id')
   async remove(@Param('id') id: number) {
     await this.prisma.employee.delete({
+      where: {
+        employee_id: id,
+      },
+    });
+  }
+
+  @Put('id')
+  async update(@Param('id') id: number, @Body() employee: EmployeeEntity) {
+    const { employee_id, ...creation_field } = employee;
+    await this.prisma.employee.upsert({
+      create: { ...creation_field },
+      update: { ...employee },
       where: {
         employee_id: id,
       },

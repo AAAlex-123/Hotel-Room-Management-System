@@ -29,7 +29,6 @@ model Reservation {
   reservation_id Int      @id @default(autoincrement())
   room_number    String
   client_id      Int
-  has_paid       Boolean
   arrival        DateTime
   departure      DateTime
   room           Room     @relation(fields: [room_number], references: [room_number])

@@ -1,13 +1,21 @@
-import { Client, Reservation } from '@prisma/client';
+import { ApiProperty } from '@nestjs/swagger';
+import moment from 'moment';
 
-export class ReservationClientEntity implements Reservation {
-  name?: string;
-  cellphone?: string;
-  email?: string;
-  reservation_id: number;
+export class ReservationClientEntity {
+  @ApiProperty()
+  reservation_id?: number;
+  @ApiProperty({ default: '001' })
   room_number: string;
+  @ApiProperty({ default: 1000 })
   client_id: number;
-  has_paid: boolean;
+  @ApiProperty({ default: Date.now() })
   arrival: Date;
+  @ApiProperty({ default: Date.now() })
   departure: Date;
+  @ApiProperty({ required: false, default: 'user' })
+  name?: string;
+  @ApiProperty({ required: false, default: '6923531223' })
+  cellphone?: string;
+  @ApiProperty({ required: false, default: 'temp@mail.com' })
+  email?: string;
 }

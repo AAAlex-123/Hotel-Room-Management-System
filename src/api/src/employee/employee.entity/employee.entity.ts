@@ -2,12 +2,12 @@ import { ApiProperty } from '@nestjs/swagger';
 import { EmployeeType } from '@prisma/client';
 
 export class EmployeeEntity {
-  @ApiProperty()
+  @ApiProperty({ required: false })
   employee_id?: number;
-  @ApiProperty()
+  @ApiProperty({ default: EmployeeType.HOUSEKEEPER })
   type: EmployeeType;
-  @ApiProperty()
+  @ApiProperty({ default: 'password' })
   login: string;
-  @ApiProperty()
+  @ApiProperty({ default: 'username' })
   login_name: string;
 }
