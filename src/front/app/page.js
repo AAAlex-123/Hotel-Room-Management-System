@@ -1,7 +1,7 @@
 import Image from 'next/image'
 
 async function getHello(){
-  const result =await fetch("http://{api}/api/hello")
+  const result =await fetch("http://172.17.0.1:8000/api/hello")
   return await result.text()
 }
 
