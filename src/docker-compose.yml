@@ -58,7 +58,7 @@ services:
     networks:
       - main
     depends_on:
-      - api
+      - front
 volumes:
   mysql_vol:
 networks:
