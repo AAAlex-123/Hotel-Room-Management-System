@@ -12,6 +12,7 @@ import {
   EmployeeEntity,
   EmployeeEntityNoPass,
 } from './employee.entity/employee.entity';
+import { hash } from 'bcrypt';
 
 @Controller('api/employee')
 export class EmployeeController {
@@ -65,10 +66,12 @@ export class EmployeeController {
 
   @Put('id')
   async update(@Param('id') id: number, @Body() employee: EmployeeEntity) {
-    const { employee_id, ...creation_field } = employee;
+    const { employee_id, pass, ...creation_field } = employee;
+    const pepperRounds = process.env.salt || 10;
+    const password = await hash(pass, pepperRounds);
     await this.prisma.employee.upsert({
-      create: { ...creation_field },
-      update: { ...creation_field },
+      create: { pass: password, ...creation_field },
+      update: { pass: password, ...creation_field },
       where: {
         employee_id: id,
       },

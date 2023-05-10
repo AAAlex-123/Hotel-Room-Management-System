@@ -4,14 +4,17 @@ import { PrismaService } from './prisma/prisma.service';
 import { RoomController } from './room/room.controller';
 import { EmployeeController } from './employee/employee.controller';
 import { ReservationController } from './reservation/reservation.controller';
+import { AuthModule } from './auth/auth.module';
+import { ProvisionController } from './provision/provision.controller';
 
 @Module({
-  imports: [],
+  imports: [AuthModule],
   controllers: [
     AppController,
     RoomController,
     EmployeeController,
     ReservationController,
+    ProvisionController,
   ],
   providers: [PrismaService],
 })
