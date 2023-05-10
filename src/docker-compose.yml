@@ -1,7 +1,9 @@
-version: '3'
+version: '3.8'
 services:
   mysql_image:
     image: mysql:latest
+    profiles:
+      - first_batch
     command:
       [
         'mysqld',
@@ -23,6 +25,8 @@ services:
     image: ubuntu:latest
     command: [ "bash", "sleep 20" ]
     entrypoint: [ "bash", "echo", "'done'" ]
+    profiles:
+      - first_batch
     depends_on:
       - mysql_image
 
@@ -33,6 +37,8 @@ services:
       - ./api/.env
     ports:
       - 8081:8081
+    profiles:
+      - first_batch
     networks:
       - main
     depends_on:
@@ -42,6 +48,8 @@ services:
     build: ./front/
     expose:
       - 8082
+    profiles:
+      - second_batch
     networks:
       - main
     depends_on:
@@ -55,6 +63,8 @@ services:
         target: /etc/nginx/nginx.conf
     ports:
       - 8000:80
+    profiles:
+      - second_batch
     networks:
       - main
     depends_on:
