@@ -7,30 +7,51 @@ import {
   Post,
   Put,
 } from '@nestjs/common';
-import { Employee } from '@prisma/client';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { EmployeeEntity } from './employee.entity/employee.entity';
+import {
+  EmployeeEntity,
+  EmployeeEntityNoPass,
+} from './employee.entity/employee.entity';
 
 @Controller('api/employee')
 export class EmployeeController {
   constructor(private prisma: PrismaService) {}
   @Get()
-  async getEmployees(): Promise<Employee[]> {
-    return await this.prisma.employee.findMany();
-  }
-
-  @Get(':id')
-  async getById(@Param('id') id: number): Promise<Employee> {
-    return await this.prisma.employee.findFirst({
-      where: {
-        employee_id: id,
+  async getEmployees(): Promise<EmployeeEntityNoPass[]> {
+    return await this.prisma.employee.findMany({
+      select: {
+        employee_id: true,
+        name: true,
+        username: true,
+        type: true,
+        pass: false,
       },
     });
   }
 
+  @Get(':id')
+  async getById(@Param('id') id: number): Promise<EmployeeEntityNoPass> {
+    return await this.prisma.employee.findFirst({
+      where: {
+        employee_id: id,
+      },
+      select: {
+        employee_id: true,
+        name: true,
+        type: true,
+        pass: false,
+        username: false,
+      },
+    });
+  }
+
+  //TODO-[10/05/2023]: Hash pass words
   @Post()
   async create(@Body() employee: EmployeeEntity) {
-    await this.prisma.employee.create({ data: employee });
+    const employees = await this.prisma.employee.create({
+      data: { ...employee },
+    });
+    return employees.employee_id;
   }
 
   @Delete(':id')
@@ -47,7 +68,7 @@ export class EmployeeController {
     const { employee_id, ...creation_field } = employee;
     await this.prisma.employee.upsert({
       create: { ...creation_field },
-      update: { ...employee },
+      update: { ...creation_field },
       where: {
         employee_id: id,
       },

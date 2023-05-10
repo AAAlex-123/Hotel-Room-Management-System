@@ -6,8 +6,18 @@ export class EmployeeEntity {
   employee_id?: number;
   @ApiProperty({ default: EmployeeType.HOUSEKEEPER })
   type: EmployeeType;
+  @ApiProperty()
+  name: string;
   @ApiProperty({ default: 'password' })
-  login: string;
+  pass: string;
   @ApiProperty({ default: 'username' })
-  login_name: string;
+  username: string;
+}
+export class EmployeeEntityNoPass {
+  @ApiProperty({ required: false })
+  employee_id?: number;
+  @ApiProperty({ default: EmployeeType.HOUSEKEEPER })
+  type: EmployeeType;
+  @ApiProperty()
+  name: string;
 }

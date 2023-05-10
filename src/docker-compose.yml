@@ -31,8 +31,8 @@ services:
     # entrypoint: ./api/entrypoint.sh
     env_file:
       - ./api/.env
-    expose:
-      - 8081
+    ports:
+      - 8081:8081
     networks:
       - main
     depends_on:

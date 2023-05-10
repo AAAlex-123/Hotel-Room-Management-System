@@ -20,9 +20,9 @@ model Room {
 
   Reservation      Reservation[]
   groupRoom        GroopRooms?
-  Order            Order[]
   chambermaid_note Note[]
   RoomDescription  RoomDescription?
+  MenuOrder        MenuOrder[]
 }
 
 model Reservation {
@@ -69,12 +69,12 @@ model Client {
 model Employee {
   employee_id Int          @id @default(autoincrement())
   type        EmployeeType
-  login       String
-  login_name  String
+  name        String
+  username    String
+  pass        String
 
   notes        Note[]
   Group        Group?
-  Order        Order[]
   GroupChamber GroupChamber[]
 }
 
@@ -105,33 +105,22 @@ model GroopRooms {
   @@id([group_id, room_number])
 }
 
-model Order {
-  order_id       Int              @id @default(autoincrement())
-  room_number    String
-  employee_id    Int
-  complete       Boolean
-  creation       DateTime         @default(now())
-  room           Room             @relation(fields: [room_number], references: [room_number])
-  chambermaid    Employee         @relation(fields: [employee_id], references: [employee_id])
-  ProvisionOrder ProvisionOrder[]
-  MenuOrder      MenuOrder[]
-}
-
 model ProvisionOrder {
-  order_id Int    @id
-  amount   Int
-  name     String
-  order    Order  @relation(fields: [order_id], references: [order_id])
+  provision_id Int      @id @default(autoincrement())
+  description  String
+  employee_id  Int
+  complete     Boolean
+  creation     DateTime @default(now())
 }
 
 model MenuOrder {
-  order_id Int
-  menu_id  Int
-  amount   Int
-  order    Order    @relation(fields: [order_id], references: [order_id])
-  menu     MenuItem @relation(fields: [menu_id], references: [menu_id])
-
-  @@id([order_id, menu_id])
+  menu_id     Int      @id
+  room_number String
+  amount      Int
+  complete    Boolean
+  creation    DateTime @default(now())
+  room        Room     @relation(fields: [room_number], references: [room_number])
+  menu        MenuItem @relation(fields: [menu_id], references: [menu_id])
 }
 
 model MenuItem {
@@ -183,4 +172,9 @@ enum EmployeeType {
   CHAIMBERMAID
   KITCHEN
   RECEPTION
+}
+
+enum OrderType {
+  PROVISION
+  MENU
 }
