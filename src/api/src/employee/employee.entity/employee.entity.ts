@@ -9,7 +9,7 @@ export class EmployeeEntity {
   @ApiProperty()
   name: string;
   @ApiProperty({ default: 'password' })
-  pass: string;
+  password: string;
   @ApiProperty({ default: 'username' })
   username: string;
 }

@@ -6,9 +6,14 @@ import { EmployeeController } from './employee/employee.controller';
 import { ReservationController } from './reservation/reservation.controller';
 import { AuthModule } from './auth/auth.module';
 import { ProvisionController } from './provision/provision.controller';
+import { ConfigModule } from '@nestjs/config';
+import { SetMetadata } from '@nestjs/common';
+
+export const IS_PUBLIC_KEY = 'isPublic';
+export const Public = () => SetMetadata(IS_PUBLIC_KEY, true);
 
 @Module({
-  imports: [AuthModule],
+  imports: [AuthModule, ConfigModule.forRoot()],
   controllers: [
     AppController,
     RoomController,
@@ -18,4 +23,4 @@ import { ProvisionController } from './provision/provision.controller';
   ],
   providers: [PrismaService],
 })
-export class AppModule {}
+export class AppModule { }

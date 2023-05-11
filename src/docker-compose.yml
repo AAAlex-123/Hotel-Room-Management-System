@@ -2,8 +2,6 @@ version: '3.8'
 services:
   mysql_image:
     image: mysql:latest
-    profiles:
-      - first_batch
     command:
       [
         'mysqld',
@@ -21,20 +19,19 @@ services:
     volumes:
       - mysql_vol:/var/lib/mysql
 
-  waitt:
-    image: ubuntu:latest
-    command: [ "bash", "sleep 20" ]
-    entrypoint: [ "bash", "echo", "'done'" ]
-    profiles:
-      - first_batch
-    depends_on:
-      - mysql_image
+  # waitt:
+  #   image: ubuntu:latest
+  #   command: [ "bash", "sleep 20" ]
+  #   entrypoint: [ "bash", "echo", "'done'" ]
+  #   profiles:
+  #     - first_batch
+  #   depends_on:
+  #     - mysql_image
 
   api:
     build: ./api/
-    # entrypoint: ./api/entrypoint.sh
     env_file:
-      - ./api/.env
+      - ./api/.env.sample
     ports:
       - 8081:8081
     profiles:
@@ -42,7 +39,7 @@ services:
     networks:
       - main
     depends_on:
-      - waitt
+      - mysql_image
 
   front:
     build: ./front/

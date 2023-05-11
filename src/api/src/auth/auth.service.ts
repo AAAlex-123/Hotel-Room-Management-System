@@ -13,11 +13,9 @@ export class AuthService {
         username,
       },
     });
-    if (user === undefined) {
-      throw new UnauthorizedException();
-    }
+    if (user === undefined) throw new UnauthorizedException();
 
-    const pepperPass = await bcrypt.compare(password, user.pass);
+    const pepperPass = await bcrypt.compare(password, user.password);
     if (!pepperPass) {
       throw new UnauthorizedException();
     }

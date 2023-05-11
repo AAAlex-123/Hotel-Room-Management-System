@@ -7,9 +7,10 @@
   "license": "UNLICENSED",
   "scripts": {
     "build": "nest build",
+    "prisma:deploy": "dotenv -e .env.sample -- prisma migrate deploy",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
-    "start": "nest start",
-    "start:dev": "nest start --watch",
+    "start": "dotenv -e .env.sample -- nest start",
+    "start:dev": "dotenv -e .env.development -- nest start --watch",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
@@ -29,11 +30,13 @@
     "@prisma/client": "^4.14.0",
     "bcrypt": "^5.1.0",
     "dotenv": "^16.0.3",
+    "dotenv-cli": "^7.2.1",
     "moment": "^2.29.4",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.2.0"
   },
   "devDependencies": {
+    "@nestjs/config": "^2.3.1",
     "@nestjs/schematics": "^9.0.0",
     "@nestjs/testing": "^9.0.0",
     "@types/bcrypt": "^5.0.0",

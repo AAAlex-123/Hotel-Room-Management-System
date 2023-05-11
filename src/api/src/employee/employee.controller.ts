@@ -13,10 +13,11 @@ import {
   EmployeeEntityNoPass,
 } from './employee.entity/employee.entity';
 import { hash } from 'bcrypt';
+import { ConfigService } from '@nestjs/config';
 
 @Controller('api/employee')
 export class EmployeeController {
-  constructor(private prisma: PrismaService) {}
+  constructor(private prisma: PrismaService, private config: ConfigService) {}
   @Get()
   async getEmployees(): Promise<EmployeeEntityNoPass[]> {
     return await this.prisma.employee.findMany({
@@ -25,7 +26,7 @@ export class EmployeeController {
         name: true,
         username: true,
         type: true,
-        pass: false,
+        password: false,
       },
     });
   }
@@ -40,7 +41,7 @@ export class EmployeeController {
         employee_id: true,
         name: true,
         type: true,
-        pass: false,
+        password: false,
         username: false,
       },
     });
@@ -49,6 +50,9 @@ export class EmployeeController {
   //TODO-[10/05/2023]: Hash pass words
   @Post()
   async create(@Body() employee: EmployeeEntity) {
+    const pepperRounds = this.config.get<string>('sale') || 10;
+    const pre_hashed_code = employee.password;
+    employee.password = await hash(pre_hashed_code, pepperRounds);
     const employees = await this.prisma.employee.create({
       data: { ...employee },
     });
@@ -66,12 +70,12 @@ export class EmployeeController {
 
   @Put('id')
   async update(@Param('id') id: number, @Body() employee: EmployeeEntity) {
-    const { employee_id, pass, ...creation_field } = employee;
-    const pepperRounds = process.env.salt || 10;
-    const password = await hash(pass, pepperRounds);
+    const { employee_id, password, ...creation_field } = employee;
+    const pepperRounds = this.config.get<string>('sale') || 10;
+    const password_h = await hash(password, pepperRounds);
     await this.prisma.employee.upsert({
-      create: { pass: password, ...creation_field },
-      update: { pass: password, ...creation_field },
+      create: { password: password_h, ...creation_field },
+      update: { password: password_h, ...creation_field },
       where: {
         employee_id: id,
       },

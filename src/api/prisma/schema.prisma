@@ -71,7 +71,7 @@ model Employee {
   type        EmployeeType
   name        String
   username    String
-  pass        String
+  password    String
 
   notes        Note[]
   Group        Group?

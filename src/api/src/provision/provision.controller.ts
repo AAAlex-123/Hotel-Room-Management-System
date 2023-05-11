@@ -19,7 +19,7 @@ type tempType = {
 
 @Controller('api/provision')
 export class ProvisionController {
-  constructor(private prisma: PrismaService) {}
+  constructor(private prisma: PrismaService) { }
   @Get()
   async getAll(@Query('employee_id') id?: number) {
     const temp: tempType = {};
