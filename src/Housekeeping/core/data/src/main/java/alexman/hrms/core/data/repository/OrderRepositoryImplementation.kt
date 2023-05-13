@@ -3,7 +3,6 @@ package alexman.hrms.core.data.repository
 import alexman.hrms.core.data.model.asExternalModel
 import alexman.hrms.core.data.model.asUpstreamNetworkOrderDetails
 import alexman.hrms.core.model.data.Order
-import alexman.hrms.core.model.data.OrderStatus
 import alexman.hrms.core.model.data.UpstreamOrderDetails
 import alexman.hrms.core.network.HrmsNetworkDataSource
 import alexman.hrms.core.network.model.NetworkOrder
@@ -34,40 +33,32 @@ class OrderRepositoryImplementation (
 
     override suspend fun placeOrder(upstreamOrderDetails: UpstreamOrderDetails) {
 
-        /* val newOrder = withContext(ioDispatcher) { */
-                datasource.placeOrder(
-                    upstreamOrderDetails.asUpstreamNetworkOrderDetails()
-                )
+        val response = /* withContext(ioDispatcher) { */
+            datasource.placeOrder(
+                upstreamOrderDetails.asUpstreamNetworkOrderDetails()
+            )
         /* } */
 
-        // TODO("remove")
-        // datasource does not return newOrder on POST yet
-        val newOrder = Order(
-            orderCache.nextOrderId,
-            OrderStatus.PENDING,
-            upstreamOrderDetails.cleaningLadyId,
-            upstreamOrderDetails.orderData,
-        )
-
-        /* if (newOrder != null) { */
-                orderCache.placeOrder(newOrder)
-                updateFlowsAffectedByOrder(newOrder)
-        /* } else {
-                TODO("figure out what to do on POST error")
-            } */
+        if (response.ok) {
+            val newOrder = response.body!!.asExternalModel()
+            orderCache.placeOrder(newOrder)
+            updateFlowsAffectedByOrder(newOrder)
+        } else {
+            TODO("figure out what to do on POST error")
+        }
     }
 
     override suspend fun deleteOrder(orderId: Int) {
-        /* val success = withContext(ioDispatcher) { */
+        val response = /* withContext(ioDispatcher) { */
                 datasource.deleteOrder(orderId)
         /* } */
 
-        /* if (success) { */
-                val deletedOrder = orderCache.deleteOrder(orderId)
-                updateFlowsAffectedByOrder(deletedOrder)
-        /* } else {
-                TODO("figure out what to do on DELETE error")
-           } */
+        if (response.ok) {
+            val deletedOrder = orderCache.deleteOrder(orderId)
+            updateFlowsAffectedByOrder(deletedOrder)
+        } else {
+            TODO("figure out what to do on DELETE error")
+        }
     }
 
     private suspend fun getFilteredOrdersFromCacheForNewQuery(query: OrderQuery): List<Order> {
@@ -95,10 +86,6 @@ class OrderRepositoryImplementation (
     private class OrderCache(
         private val datasource: HrmsNetworkDataSource,
     ) {
-
-        // TODO("remove")
-        val nextOrderId: Int
-            get() = orderMap.values.map { it.id }.reduce(Integer::max) + 1
 
         private val querySet: MutableSet<OrderQuery> = mutableSetOf()
 
@@ -141,9 +128,15 @@ class OrderRepositoryImplementation (
         }
 
         private suspend fun updateMapWithOrdersFromQuery(query: OrderQuery) {
-            datasource.getOrders(query.cleaningLadyId)
-                .map(NetworkOrder::asExternalModel)
-                .forEach { orderMap[it.id] = it }
+            val response = datasource.getOrders(query.cleaningLadyId)
+
+            if (response.ok) {
+                response.body!!
+                    .map(NetworkOrder::asExternalModel)
+                    .forEach { orderMap[it.id] = it }
+            } else {
+                // TODO("figure out what to do on GET error. Maybe just return false?")
+            }
         }
     }
 }

@@ -31,7 +31,7 @@ class HomeViewModel(
             ) {
                 uiState = uiState.copy(
                     staffName = this.name,
-                    staffId = this.id,
+                    staffId = this.employeeId,
                 )
             }
         }

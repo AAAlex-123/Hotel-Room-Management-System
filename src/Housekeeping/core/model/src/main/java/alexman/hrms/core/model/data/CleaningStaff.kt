@@ -6,7 +6,6 @@ enum class CleaningStaffType {
 
 class CleaningStaff(
     val employeeId: Int,
-    val id: Int,
     val name: String,
     val cleaningStaffType: CleaningStaffType,
 )

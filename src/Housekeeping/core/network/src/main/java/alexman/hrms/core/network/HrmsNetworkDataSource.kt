@@ -2,19 +2,22 @@ package alexman.hrms.core.network
 
 import alexman.hrms.core.network.model.*
 
-// TODO("add a Result<T>-ish return type to add error handling capability
-
 interface HrmsNetworkDataSource {
 
-    suspend fun authenticate(login: String, password: String): String?
+    suspend fun authenticate(upstreamNetworkCleaningStaffAuth: UpstreamNetworkCleaningStaffAuth):
+            HrmsNetworkResponse<String>
 
-    suspend fun getCleaningStaff(cleaningStaffId: Int): NetworkCleaningStaff
+    suspend fun getCleaningStaff(cleaningStaffId: Int):
+            HrmsNetworkResponse<NetworkCleaningStaff>
 
-    suspend fun getOrders(cleaningLadyId: Int? = null): List<NetworkOrder>
+    suspend fun getOrders(cleaningLadyId: Int):
+            HrmsNetworkResponse<List<NetworkOrder>>
 
-    suspend fun placeOrder(upstreamNetworkOrderDetails: UpstreamNetworkOrderDetails)
+    suspend fun placeOrder(upstreamNetworkOrderDetails: UpstreamNetworkOrderDetails):
+            HrmsNetworkResponse<NetworkOrder>
 
-    suspend fun deleteOrder(orderId: Int)
+    suspend fun deleteOrder(orderId: Int):
+            HrmsNetworkResponse<Any> // only status code needed
 
     suspend fun getRooms(cleaningLadyId: Int? = null): List<NetworkRoom>
 
