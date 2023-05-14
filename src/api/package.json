@@ -1,5 +1,4 @@
-{
-  "name": "api",
+{ "name": "api",
   "version": "0.0.1",
   "description": "",
   "author": "",
@@ -8,6 +7,8 @@
   "scripts": {
     "build": "nest build",
     "prisma:deploy": "dotenv -e .env.sample -- prisma migrate deploy",
+    "prisma:migrate": "dotenv -e .env.development -- prisma migrate dev",
+    "prisma:validate": "dotenv -e .env.development -- prisma validate",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "dotenv -e .env.sample -- nest start",
     "start:dev": "dotenv -e .env.development -- nest start --watch",

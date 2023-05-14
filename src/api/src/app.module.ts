@@ -8,6 +8,7 @@ import { AuthModule } from './auth/auth.module';
 import { ProvisionController } from './provision/provision.controller';
 import { ConfigModule } from '@nestjs/config';
 import { SetMetadata } from '@nestjs/common';
+import { MenuorderController } from './menuorder/menuorder.controller';
 
 export const IS_PUBLIC_KEY = 'isPublic';
 export const Public = () => SetMetadata(IS_PUBLIC_KEY, true);
@@ -19,7 +20,9 @@ export const Public = () => SetMetadata(IS_PUBLIC_KEY, true);
     RoomController,
     EmployeeController,
     ReservationController,
+    MenuOrderController,
     ProvisionController,
+    MenuorderController,
   ],
   providers: [PrismaService],
 })

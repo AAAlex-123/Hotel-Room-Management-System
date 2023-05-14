@@ -114,7 +114,8 @@ model ProvisionOrder {
 }
 
 model MenuOrder {
-  menu_id     Int      @id
+  order_id    Int      @id @default(autoincrement())
+  menu_id     Int
   room_number String
   amount      Int
   complete    Boolean
