@@ -10,20 +10,11 @@ fun NetworkNote.asExternalModel() = Note(
     id = id,
     roomId = roomId,
     cleaningStaffId = cleaningStaffId,
-    cleaningStaffType = when(cleaningStaffType) {
-        0 -> CleaningStaffType.HOUSEKEEPER
-        1 -> CleaningStaffType.CLEANING_LADY
-        else -> error("Invalid cleaning staff type: $cleaningStaffType")
-    },
     noteData = noteData,
 )
 
 fun UpstreamNoteDetails.asUpstreamNetworkNoteDetails() = UpstreamNetworkNoteDetails(
     roomId = roomId,
     cleaningStaffId = cleaningStaffId,
-    cleaningStaffType = when(cleaningStaffType) {
-        CleaningStaffType.HOUSEKEEPER -> 0
-        CleaningStaffType.CLEANING_LADY -> 1
-    },
     noteData = noteData,
 )

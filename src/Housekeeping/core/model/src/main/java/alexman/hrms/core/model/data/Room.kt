@@ -12,9 +12,13 @@ enum class Occupied {
     OCCUPIED, VACANT,
 }
 
+data class UpstreamRoomUpdateDetails(
+    val id: Int,
+    val cleanState: CleanState,
+)
+
 data class Room(
     val id: Int,
-    val notes: List<Note>,
     val cleanState: CleanState,
     val cleanType: CleanType,
     val occupied: Occupied,

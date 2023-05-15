@@ -2,10 +2,10 @@ package alexman.hrms.core.data.model
 
 import alexman.hrms.core.model.data.*
 import alexman.hrms.core.network.model.NetworkRoom
+import alexman.hrms.core.network.model.UpstreamNetworkRoomUpdateDetails
 
-fun NetworkRoom.asExternalModel(notes: List<Note>) = Room(
+fun NetworkRoom.asExternalModel() = Room(
     id = id,
-    notes = notes,
     cleanState = when(cleanState) {
         0 -> CleanState.DIRTY
         1 -> CleanState.PENDING_UPLOAD
@@ -21,6 +21,18 @@ fun NetworkRoom.asExternalModel(notes: List<Note>) = Room(
         else -> error("Invalid clean type $cleanType")
     },
 )
+
+fun UpstreamRoomUpdateDetails.asUpstreamNetworkRoomUpdateDetails() =
+    UpstreamNetworkRoomUpdateDetails(
+        id = id,
+        cleanState = when(cleanState) {
+            CleanState.DIRTY -> 0
+            CleanState.PENDING_UPLOAD -> 1
+            CleanState.PENDING_CHECK -> 2
+            CleanState.CLEAN -> 3
+            CleanState.INSPECTED -> 4
+        }
+    )
 
 /*
 TODO("figure out if necessary, then fix")

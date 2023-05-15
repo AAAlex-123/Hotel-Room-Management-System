@@ -9,6 +9,7 @@ import alexman.hrms.core.network.model.NetworkRoom
 import alexman.hrms.core.network.model.UpstreamNetworkCleaningStaffAuth
 import alexman.hrms.core.network.model.UpstreamNetworkNoteDetails
 import alexman.hrms.core.network.model.UpstreamNetworkOrderDetails
+import alexman.hrms.core.network.model.UpstreamNetworkRoomUpdateDetails
 import java.util.UUID
 
 class FakeNetworkDataSource : HrmsNetworkDataSource {
@@ -33,6 +34,20 @@ class FakeNetworkDataSource : HrmsNetworkDataSource {
         3 to NetworkOrder(3, true, 2, "Bob's order 1"),
         4 to NetworkOrder(4, false, 2, "Bob's order 2"),
         5 to NetworkOrder(5, true, 1, "Alice's order 3"),
+    )
+
+    private val roomMap: MutableMap<Int, NetworkRoom> = mutableMapOf(
+        101 to NetworkRoom(101, 0, true, 0),
+        102 to NetworkRoom(102, 1, true, 1),
+        103 to NetworkRoom(103, 2, false, 0),
+        104 to NetworkRoom(104, 3, false, 1),
+        105 to NetworkRoom(105, 4, false, 1),
+    )
+
+    private val noteMap: MutableMap<Int, NetworkNote> = mutableMapOf(
+        1 to NetworkNote(1, 101, 1, "room 123, note 1, cl 1"),
+        2 to NetworkNote(2, 101, 2, "room 123, note 2, cl 2"),
+        3 to NetworkNote(3, 101, 1, "room 123, note 3, cl 1"),
     )
 
     override suspend fun authenticate(upstreamNetworkCleaningStaffAuth: UpstreamNetworkCleaningStaffAuth):
@@ -111,19 +126,69 @@ class FakeNetworkDataSource : HrmsNetworkDataSource {
         )
     }
 
-    override suspend fun getRooms(cleaningLadyId: Int?): List<NetworkRoom> {
-        TODO("Not yet implemented")
+    override suspend fun getSingleRoom(roomId: Int): HrmsNetworkResponse<NetworkRoom> {
+        return HrmsNetworkResponse(
+            200,
+            roomMap[roomId]!!,
+            null,
+        )
     }
 
-    override suspend fun updateRoom(room: NetworkRoom) {
+    override suspend fun getRooms(cleaningLadyId: Int): HrmsNetworkResponse<List<NetworkRoom>> {
         TODO("Not yet implemented")
+        // lmao there's no data for this yet
     }
 
-    override suspend fun getNotes(roomId: Int): List<NetworkNote> {
-        TODO("Not yet implemented")
+    override suspend fun updateRoomState(upstreamNetworkRoomUpdateDetails: UpstreamNetworkRoomUpdateDetails):
+            HrmsNetworkResponse<Any> {
+        upstreamNetworkRoomUpdateDetails.let {
+            roomMap[it.id] = roomMap[it.id]!!.copy(cleanState = it.cleanState)
+        }
+
+        return HrmsNetworkResponse(
+            200,
+            null,
+            null,
+        )
     }
 
-    override suspend fun addNote(upstreamNetworkNoteDetails: UpstreamNetworkNoteDetails) {
-        TODO("Not yet implemented")
+    override suspend fun getNotes(roomId: Int): HrmsNetworkResponse<List<NetworkNote>> {
+        val notes = noteMap.values
+            .filter { it.roomId == roomId }
+
+        return HrmsNetworkResponse(
+            200,
+            notes,
+            null,
+        )
+    }
+
+    override suspend fun addNote(upstreamNetworkNoteDetails: UpstreamNetworkNoteDetails): HrmsNetworkResponse<NetworkNote> {
+        val newNote = with(upstreamNetworkNoteDetails) {
+            val newNoteId = noteMap.values.map { it.id }.reduce(Integer::max) + 1
+            NetworkNote(
+                id = newNoteId,
+                roomId = roomId,
+                cleaningStaffId = cleaningStaffId,
+                noteData = noteData,
+            ).also {
+                noteMap[newNoteId] = it
+            }
+        }
+
+        return HrmsNetworkResponse(
+            200,
+            newNote,
+            null,
+        )
+    }
+
+    override suspend fun deleteNote(noteId: Int): HrmsNetworkResponse<Any> {
+        /* return */ noteMap.remove(noteId) /* != null */
+        return HrmsNetworkResponse(
+            200,
+            null,
+            null,
+        )
     }
 }
