@@ -1,0 +1,22 @@
+.Login{
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.form-field {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.login-button {
+    background-color: rgb(45, 120, 231);
+    color: rgb(16, 16, 17);
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-align: center;
+}
