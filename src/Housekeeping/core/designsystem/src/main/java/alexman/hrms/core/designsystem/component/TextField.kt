@@ -48,13 +48,11 @@ fun InputField(
     modifier: Modifier = Modifier,
     isError: Boolean = false,
     singleLine: Boolean = true,
-    alignText: Alignment = Alignment.Center,
 ) {
     OutlinedTextField(
         value = value,
         onValueChange = onValueChange,
-        modifier = modifier
-            .wrapContentSize(alignText),
+        modifier = modifier,
         placeholder = {
             Text(
                 text = placeholderText,

@@ -150,7 +150,8 @@ private fun NewOrderPopupContent(
                 value = value,
                 onValueChange = setValue,
                 placeholderText = "Please type your Order",
-                modifier = Modifier.wrapContentSize(),
+                modifier = Modifier
+                    .wrapContentSize(Alignment.Center),
             )
             ButtonWithText(
                 text = "Submit",
