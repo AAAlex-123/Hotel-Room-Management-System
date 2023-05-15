@@ -1,5 +1,15 @@
-import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Put,
+  Query,
+} from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { MenuOrderEntity } from './menu.order.entity/menu.order.entity';
 type select = {
   where?: {
     room_number: string;
@@ -47,16 +57,13 @@ export class MenuorderController {
   }
 
   @Put(':order_id')
-  async update(
-    @Param('order_id') order_id: number,
-    @Body() order: MenuOrderEntity,
-  ) {
-    const { order_id, rest } = order;
+  async update(@Param('order_id') id: number, @Body() order: MenuOrderEntity) {
+    const { order_id, ...rest } = order;
     await this.prisma.menuOrder.upsert({
       create: rest,
       update: order,
       where: {
-        order_id,
+        order_id: id,
       },
     });
   }

@@ -79,7 +79,7 @@ model Employee {
 }
 
 model Group {
-  group_id       Int @id
+  group_id       Int @id @default(autoincrement())
   housekeeper_id Int @unique
 
   groupRooms   GroopRooms[]
