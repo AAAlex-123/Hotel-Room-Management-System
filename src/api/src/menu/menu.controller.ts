@@ -1,10 +1,21 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  ParseIntPipe,
+  Post,
+  Put,
+} from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { MenuEntity } from 'src/menu.entity/menu.entity';
 import { PrismaService } from 'src/prisma/prisma.service';
 
 @Controller('api/menu')
+@ApiTags('menu')
 export class MenuController {
-  constructor(private prisma: PrismaService) { }
+  constructor(private prisma: PrismaService) {}
 
   @Get()
   async getAll() {
@@ -12,38 +23,42 @@ export class MenuController {
   }
 
   @Get(':id')
-  async getItem(@Param('id') id: number) {
+  async getItem(@Param('id', ParseIntPipe) id: number) {
     return await this.prisma.menuItem.findUnique({
       where: {
-        menu_id: id
-      }
-    })
+        menu_id: id,
+      },
+    });
   }
 
   @Post()
   async createItem(@Body() menuItem: MenuEntity) {
     return await this.prisma.menuItem.create({
-      data: menuItem
-    })
+      data: menuItem,
+    });
   }
 
   @Put(':id')
-  async update(@Param('id') id: number, @Body() menuItem: MenuEntity) {
+  async update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() menuItem: MenuEntity,
+  ) {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { menu_id, ...rest } = menuItem;
     await this.prisma.menuItem.upsert({
       create: rest,
       update: rest,
       where: {
-        menu_id: id
-      }
-    })
+        menu_id: id,
+      },
+    });
   }
   @Delete(':id')
-  async delete(@Param('id')id:number){
+  async delete(@Param('id', ParseIntPipe) id: number) {
     await this.prisma.menuItem.delete({
-      where:{
-        menu_id:id
-      }
-    })
+      where: {
+        menu_id: id,
+      },
+    });
   }
 }

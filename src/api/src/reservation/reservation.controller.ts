@@ -11,8 +11,10 @@ import {
 import { PrismaService } from 'src/prisma/prisma.service';
 import { ReservationClientEntity } from './reservation.client.entity/reservation.client.entity';
 import { Client, Reservation } from '@prisma/client';
+import { ApiTags } from '@nestjs/swagger';
 
 @Controller('api/reservation')
+@ApiTags('reservation')
 export class ReservationController {
   constructor(private prisma: PrismaService) {}
 

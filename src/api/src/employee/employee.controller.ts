@@ -79,6 +79,7 @@ export class EmployeeController {
     @Param('id', ParseIntPipe) id: number,
     @Body() employee: EmployeeEntity,
   ) {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { employee_id, password, ...creation_field } = employee;
     const pepperRounds = this.config.get<string>('sale') || 10;
     const password_h = await hash(password, pepperRounds);
