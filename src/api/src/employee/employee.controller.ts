@@ -3,7 +3,9 @@ import {
   Controller,
   Delete,
   Get,
+  Logger,
   Param,
+  ParseIntPipe,
   Post,
   Put,
 } from '@nestjs/common';
@@ -14,8 +16,10 @@ import {
 } from './employee.entity/employee.entity';
 import { hash } from 'bcrypt';
 import { ConfigService } from '@nestjs/config';
+import { ApiTags } from '@nestjs/swagger';
 
 @Controller('api/employee')
+@ApiTags('employee')
 export class EmployeeController {
   constructor(private prisma: PrismaService, private config: ConfigService) {}
   @Get()
@@ -32,7 +36,7 @@ export class EmployeeController {
   }
 
   @Get(':id')
-  async getById(@Param('id') id: number): Promise<EmployeeEntityNoPass> {
+  async getById(@Param('id', ParseIntPipe) id: number) {
     return await this.prisma.employee.findFirst({
       where: {
         employee_id: id,
@@ -47,12 +51,13 @@ export class EmployeeController {
     });
   }
 
-  //TODO-[10/05/2023]: Hash pass words
   @Post()
   async create(@Body() employee: EmployeeEntity) {
-    const pepperRounds = this.config.get<string>('sale') || 10;
+    Logger.log(employee);
+    const pepperRounds = this.config.get<number>('sale') || 10;
     const pre_hashed_code = employee.password;
     employee.password = await hash(pre_hashed_code, pepperRounds);
+    Logger.log(employee);
     const employees = await this.prisma.employee.create({
       data: { ...employee },
     });
@@ -60,24 +65,36 @@ export class EmployeeController {
   }
 
   @Delete(':id')
-  async remove(@Param('id') id: number) {
+  async remove(@Param('id', ParseIntPipe) id: number) {
+    Logger.log(id);
     await this.prisma.employee.delete({
       where: {
-        employee_id: id,
+        employee_id: Number(id),
       },
     });
   }
 
-  @Put('id')
-  async update(@Param('id') id: number, @Body() employee: EmployeeEntity) {
+  @Put(':id')
+  async update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() employee: EmployeeEntity,
+  ) {
     const { employee_id, password, ...creation_field } = employee;
     const pepperRounds = this.config.get<string>('sale') || 10;
     const password_h = await hash(password, pepperRounds);
-    await this.prisma.employee.upsert({
-      create: { password: password_h, ...creation_field },
+    return await this.prisma.employee.upsert({
+      create: {
+        employee_id: Number(id),
+        password: password_h,
+        ...creation_field,
+      },
       update: { password: password_h, ...creation_field },
       where: {
-        employee_id: id,
+        employee_id: Number(id),
+      },
+      select: {
+        username: false,
+        password: false,
       },
     });
   }

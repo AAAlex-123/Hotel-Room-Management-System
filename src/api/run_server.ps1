@@ -1,8 +1,6 @@
 
 npm install
 
-npx prisma migrate deploy
-
-npx prisma generate 
+npm run prisma:migrate
 
 npm run start:dev 

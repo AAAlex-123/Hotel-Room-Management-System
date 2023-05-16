@@ -74,13 +74,13 @@ model Employee {
   password    String
 
   notes        Note[]
-  Group        Group?
+  Group        Group[]
   GroupChamber GroupChamber[]
 }
 
 model Group {
   group_id       Int @id @default(autoincrement())
-  housekeeper_id Int @unique
+  housekeeper_id Int
 
   groupRooms   GroopRooms[]
   GroupChamber GroupChamber[]

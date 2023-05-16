@@ -1,6 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
 export class ProvisionEntity {
-  @ApiProperty()
   provision_id?: number;
   @ApiProperty()
   description: string;

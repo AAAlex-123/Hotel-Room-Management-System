@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { ConsoleLogger, Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { PrismaService } from './prisma/prisma.service';
 import { RoomController } from './room/room.controller';
@@ -33,6 +33,6 @@ export const Public = () => SetMetadata(IS_PUBLIC_KEY, true);
     GroupController,
     RoomDescriptionController,
   ],
-  providers: [PrismaService],
+  providers: [PrismaService, ConsoleLogger],
 })
 export class AppModule {}

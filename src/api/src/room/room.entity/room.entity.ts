@@ -1,8 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Room, Status, Type } from '@prisma/client';
+import { Status, Type } from '@prisma/client';
 
 export default class RoomEntity {
-  @ApiProperty()
+  @ApiProperty({ default: '001' })
   room_number: string;
   @ApiProperty({ required: false, default: true })
   occupied?: boolean;

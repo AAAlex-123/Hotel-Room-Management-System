@@ -4,12 +4,14 @@ import {
   Delete,
   Get,
   Param,
+  ParseIntPipe,
   Post,
   Put,
   Query,
 } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { ProvisionEntity } from './provision.entity/provision.entity';
+import { ApiQuery, ApiTags } from '@nestjs/swagger';
 
 type tempType = {
   where?: {
@@ -18,10 +20,12 @@ type tempType = {
 };
 
 @Controller('api/provision')
+@ApiTags('provision')
 export class ProvisionController {
-  constructor(private prisma: PrismaService) { }
+  constructor(private prisma: PrismaService) {}
   @Get()
-  async getAll(@Query('employee_id') id?: number) {
+  @ApiQuery({ name: 'employee_id', required: false })
+  async getAll(@Query('employee_id', ParseIntPipe) id?: number) {
     const temp: tempType = {};
     if (id !== undefined) {
       temp.where = { employee_id: id };
@@ -33,7 +37,7 @@ export class ProvisionController {
     });
   }
   @Get(':id')
-  async getid(@Param('id') id: number) {
+  async getId(@Param('id', ParseIntPipe) id: number) {
     return this.prisma.provisionOrder.findUnique({
       where: {
         provision_id: id,
@@ -46,16 +50,19 @@ export class ProvisionController {
     return this.prisma.provisionOrder.create({ data: { ...provision } });
   }
   @Delete(':id')
-  async delete(@Param('id') id: number) {
+  async delete(@Param('id', ParseIntPipe) id: number) {
     return this.prisma.provisionOrder.delete({ where: { provision_id: id } });
   }
   @Put(':id')
-  async update(@Param('id') id: number, @Body() provision: ProvisionEntity) {
+  async update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() provision: ProvisionEntity,
+  ) {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { provision_id, ...rest } = provision;
     return this.prisma.provisionOrder.upsert({
       create: { ...rest },
-      update: { ...provision },
+      update: { provision_id: id, ...rest },
       where: { provision_id: id },
     });
   }
