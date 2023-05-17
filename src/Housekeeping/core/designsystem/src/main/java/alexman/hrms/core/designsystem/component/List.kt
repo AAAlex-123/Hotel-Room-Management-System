@@ -61,10 +61,10 @@ fun DeletableListItem(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(16.dp),
             modifier = Modifier
-                .padding(16.dp)
                 .wrapContentHeight()
                 .fillMaxWidth()
-                .clip(HousekeepingShapes.medium),
+                .clip(HousekeepingShapes.medium)
+                .padding(16.dp),
         ) {
             ListItemNumber(
                 number = id,

@@ -71,6 +71,7 @@ private fun OrderScreenContent(
     orderState: State<List<Order>>,
     onDelete: (Int) -> Unit,
     onSubmitNewOrder: (String) -> Unit,
+    // TODO("navigation?")
 ) {
     Column(
         modifier = Modifier
@@ -78,7 +79,7 @@ private fun OrderScreenContent(
     ) {
         HousekeepingTopAppBar(
             text = "Orders",
-            navigationIcon = { DefaultNavigationIcon(onClick = { }) },
+            navigationIcon = { DefaultNavigationIcon(onClick = { /* TODO("navigation?") */ }) },
             actions = { NewOrderButton(onSubmitNewOrder) },
         )
         LazyColumn(

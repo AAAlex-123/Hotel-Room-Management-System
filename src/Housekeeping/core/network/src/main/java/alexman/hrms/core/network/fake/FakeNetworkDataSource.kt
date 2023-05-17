@@ -23,9 +23,9 @@ class FakeNetworkDataSource : HrmsNetworkDataSource {
     private val sessionIdMap: MutableMap<String, String> = mutableMapOf()
 
     private val cleaningStaffMap: Map<Int, NetworkCleaningStaff> = mapOf(
-        1 to NetworkCleaningStaff(1, "Alice", "HOUSEKEEPER"),
-        2 to NetworkCleaningStaff(2, "Bob", "HOUSEKEEPER"),
-        3 to NetworkCleaningStaff(3, "Charlie", "HOUSEKEEPER"),
+        1 to NetworkCleaningStaff(1, "Alice", "CHAMBERMAID"),
+        2 to NetworkCleaningStaff(2, "Bob", "CHAMBERMAID"),
+        3 to NetworkCleaningStaff(3, "Charlie", "CHAMBERMAID"),
     )
 
     private val orderMap: MutableMap<Int, NetworkOrder> = mutableMapOf(

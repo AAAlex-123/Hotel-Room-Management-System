@@ -40,6 +40,7 @@ dependencies {
     implementation project(path: ':core:designsystem')
     implementation project(path: ':core:model')
     implementation project(path: ':core:data')
+    implementation project(path: ':core:network')
 
     implementation "androidx.core:core-ktx:$kotlin_version"
 
@@ -48,7 +49,6 @@ dependencies {
     implementation 'androidx.compose.material3:material3:1.1.0-rc01'
 
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1"
-    implementation project(path: ':core:network')
 
     testImplementation 'junit:junit:4.13.2'
 

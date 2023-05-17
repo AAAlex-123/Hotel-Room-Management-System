@@ -124,7 +124,6 @@ class OrderRepositoryImplementation (
 
             return orderMap.values
                 .filter { query.matches(it) }
-                .toList()
         }
 
         private suspend fun updateMapWithOrdersFromQuery(query: OrderQuery) {

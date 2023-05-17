@@ -11,7 +11,9 @@ class CleaningStaffRepositoryImplementation (
 
     override suspend fun authenticate(query: AuthenticationQuery): String? {
         val response = /* withContext(ioDispatcher) { */
-            datasource.authenticate(query.asUpstreamCleaningStaffAuth())
+            datasource.authenticate(
+                query.asUpstreamCleaningStaffAuth()
+            )
         /* } */
 
         return if (response.ok) {
@@ -30,8 +32,7 @@ class CleaningStaffRepositoryImplementation (
         if (response.ok) {
             return response.body!!.asExternalCleaningStaffModel()
         } else {
-            return response.body!!.asExternalCleaningStaffModel() // lmao
-            // TODO("figure out what to do on GET error. Maybe return null???")
+            TODO("figure out what to do on GET error")
         }
     }
 }
