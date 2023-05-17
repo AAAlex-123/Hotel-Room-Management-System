@@ -40,7 +40,7 @@ class FakeNetworkDataSource : HrmsNetworkDataSource {
         101 to NetworkRoom(101, 0, true, 0),
         102 to NetworkRoom(102, 1, true, 1),
         103 to NetworkRoom(103, 2, false, 0),
-        104 to NetworkRoom(104, 3, false, 1),
+        104 to NetworkRoom(104, 3, false, 0),
         105 to NetworkRoom(105, 4, false, 1),
     )
 
@@ -48,6 +48,10 @@ class FakeNetworkDataSource : HrmsNetworkDataSource {
         1 to NetworkNote(1, 101, 1, "room 123, note 1, cl 1"),
         2 to NetworkNote(2, 101, 2, "room 123, note 2, cl 2"),
         3 to NetworkNote(3, 101, 1, "room 123, note 3, cl 1"),
+    )
+
+    private val cleaningStaffRoomMap: Map<Int, List<Int>> = mapOf(
+        1 to listOf(101, 102, 103, 104, 105),
     )
 
     override suspend fun authenticate(upstreamNetworkCleaningStaffAuth: UpstreamNetworkCleaningStaffAuth):
@@ -135,8 +139,13 @@ class FakeNetworkDataSource : HrmsNetworkDataSource {
     }
 
     override suspend fun getRooms(cleaningLadyId: Int): HrmsNetworkResponse<List<NetworkRoom>> {
-        TODO("Not yet implemented")
-        // lmao there's no data for this yet
+        val rooms = cleaningStaffRoomMap[cleaningLadyId]!!.map { roomMap[it]!! }
+
+        return HrmsNetworkResponse(
+            200,
+            rooms,
+            null,
+        )
     }
 
     override suspend fun updateRoomState(upstreamNetworkRoomUpdateDetails: UpstreamNetworkRoomUpdateDetails):
