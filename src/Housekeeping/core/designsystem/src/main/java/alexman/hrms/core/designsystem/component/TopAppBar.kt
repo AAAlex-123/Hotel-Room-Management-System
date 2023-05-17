@@ -9,6 +9,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -16,6 +17,8 @@ fun HousekeepingTopAppBar(
     text: String,
     navigationIcon: @Composable () -> Unit = {},
     actions: @Composable() (RowScope.() -> Unit) = {},
+    backgroundColor: Color = MaterialTheme.colorScheme.primary,
+    contentColor: Color = MaterialTheme.colorScheme.onPrimary,
 ) {
     CenterAlignedTopAppBar(
         title = { LargeDisplayText(text) },
@@ -25,11 +28,11 @@ fun HousekeepingTopAppBar(
         navigationIcon = navigationIcon,
         actions = actions,
         colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-            containerColor = MaterialTheme.colorScheme.primary,
+            containerColor = backgroundColor,
             // scrolledContainerColor = Color,
-            navigationIconContentColor = MaterialTheme.colorScheme.onPrimary,
-            titleContentColor = MaterialTheme.colorScheme.onPrimary,
-            actionIconContentColor = MaterialTheme.colorScheme.onPrimary,
+            navigationIconContentColor = contentColor,
+            titleContentColor = contentColor,
+            actionIconContentColor = contentColor,
         ),
         scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior { false },
     )
