@@ -1,5 +1,6 @@
 package alexman.hrms.core.network.retrofit
 
+import alexman.hrms.core.network.retrofit.model.RetrofitAuthResult
 import alexman.hrms.core.network.retrofit.model.RetrofitCleaningStaff
 import alexman.hrms.core.network.retrofit.model.RetrofitCleaningStaffAuthBody
 import alexman.hrms.core.network.retrofit.model.RetrofitNote
@@ -8,7 +9,6 @@ import alexman.hrms.core.network.retrofit.model.RetrofitOrder
 import alexman.hrms.core.network.retrofit.model.RetrofitOrderBody
 import alexman.hrms.core.network.retrofit.model.RetrofitRoom
 import alexman.hrms.core.network.retrofit.model.RetrofitRoomBody
-import alexman.hrms.core.network.retrofit.model.RetrofitSessionId
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.DELETE
@@ -23,14 +23,14 @@ interface HrmsApi {
     @POST("auth")
     suspend fun authenticate(
         @Body auth: RetrofitCleaningStaffAuthBody,
-    ): Response<RetrofitSessionId>
+    ): Response<RetrofitAuthResult>
 
     @GET("employee/{id}")
     suspend fun getCleaningStaff(
         @Path("id") cleaningStaffId: Int,
     ): Response<RetrofitCleaningStaff>
 
-    @GET("provision/")
+    @GET("provision/{employee_id}")
     suspend fun getOrders(
         @Path("employee_id") cleaningStaffId: Int,
     ): Response<List<RetrofitOrder>>

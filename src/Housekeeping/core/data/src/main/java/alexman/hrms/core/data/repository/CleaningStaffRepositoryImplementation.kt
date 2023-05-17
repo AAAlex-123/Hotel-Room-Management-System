@@ -9,7 +9,7 @@ class CleaningStaffRepositoryImplementation (
     private val datasource: HrmsNetworkDataSource,
 ) : CleaningStaffRepository {
 
-    override suspend fun authenticate(query: AuthenticationQuery): String? {
+    override suspend fun authenticate(query: AuthenticationQuery): Int {
         val response = /* withContext(ioDispatcher) { */
             datasource.authenticate(
                 query.asUpstreamCleaningStaffAuth()
@@ -19,7 +19,7 @@ class CleaningStaffRepositoryImplementation (
         return if (response.ok) {
             response.body!!
         } else {
-            null
+            -1
         }
     }
 

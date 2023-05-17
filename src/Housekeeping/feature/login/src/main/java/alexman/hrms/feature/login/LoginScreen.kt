@@ -40,7 +40,7 @@ fun LoginScreenPreview() {
                 // otherwise preview won't work as intended
                 CleaningStaffRepositoryImplementation(FakeNetworkDataSource()),
             ),
-            onNavigateToHome = { _: String, _: String -> }
+            onNavigateToHome = { _: Int -> }
         )
     }
 }
@@ -48,15 +48,15 @@ fun LoginScreenPreview() {
 @Composable
 fun LoginScreen(
     loginViewModel: LoginViewModel,
-    onNavigateToHome: (String, String) -> Unit,
+    onNavigateToHome: (Int) -> Unit,
 ) {
-    suspend fun authenticate(username: String, password: String): String? =
+    suspend fun authenticate(username: String, password: String): Int =
         withContext(Dispatchers.IO) {
             return@withContext loginViewModel.authenticate(username, password)
         }
 
     LoginScreenContent(
-        onClick = ::authenticate,
+        onAuthenticate = ::authenticate,
         onNavigateToHome = onNavigateToHome,
     )
 }
@@ -64,8 +64,8 @@ fun LoginScreen(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LoginScreenContent(
-    onClick: suspend (String, String) -> String?,
-    onNavigateToHome: (String, String) -> Unit,
+    onAuthenticate: suspend (String, String) -> Int,
+    onNavigateToHome: (Int) -> Unit,
 ) {
     var username by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
@@ -122,19 +122,19 @@ fun LoginScreenContent(
                             text = "Submit",
                             onClick = {
                                 coroutineScope.launch {
-                                    val sessionId = onClick(username, password)
+                                    val cleaningStaffId = onAuthenticate(username, password)
 
-                                    success = sessionId !== null
+                                    success = cleaningStaffId != -1
 
-                                    if (sessionId !== null) {
-                                        onNavigateToHome(username, sessionId)
+                                    if (success) {
+                                        onNavigateToHome(cleaningStaffId)
                                     }
                                 }
                             },
                         )
                         if (!success) {
                             ErrorLabel(
-                                text = "Username and Password don't match!",
+                                text = "Invalid Credentials",
                             )
                         }
                     }

@@ -32,14 +32,21 @@ fun <T, U> Response<T>.asHrmsNetworkResponse(map: (T?) -> U?) =
 
 class HrmsRetrofitNetworkDataSource: HrmsNetworkDataSource {
 
-    // TODO("store sessionId somewhere and use it inside header of other requests")
     override suspend fun authenticate(upstreamNetworkCleaningStaffAuth: UpstreamNetworkCleaningStaffAuth):
-            HrmsNetworkResponse<String> =
-        HrmsRetrofitInstance.api.authenticate(
+            HrmsNetworkResponse<Int> {
+
+        with(HrmsRetrofitInstance.api.authenticate(
             upstreamNetworkCleaningStaffAuth.asRetrofitCleaningStaffAuthBody()
-        ).asHrmsNetworkResponse {
-            it?.sessionId
+        )) {
+            if (isSuccessful) {
+                HrmsRetrofitInstance.access_token = body()?.sessionId
+            }
+
+            return asHrmsNetworkResponse {
+                it?.asCleaningStaffId()
+            }
         }
+    }
 
     override suspend fun getCleaningStaff(cleaningStaffId: Int):
             HrmsNetworkResponse<NetworkCleaningStaff> =

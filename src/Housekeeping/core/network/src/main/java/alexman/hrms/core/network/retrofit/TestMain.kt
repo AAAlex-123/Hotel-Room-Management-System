@@ -10,7 +10,7 @@ fun main() {
 
     doPrintResponse("GET /auth") { retrofitDS.authenticate(UpstreamNetworkCleaningStaffAuth("login1", "password1")) }
     doPrintResponse("GET /employee/{id}") { retrofitDS.getCleaningStaff(1) }
-    doPrintResponse("GET /provision/employee/{emp_id}") { retrofitDS.getOrders(2) }
+    doPrintResponse("GET /provision/{emp_id}") { retrofitDS.getOrders(2) }
     doPrintResponse("POST /provision") { retrofitDS.placeOrder(UpstreamNetworkOrderDetails(3, "orderData3")) }
     doPrintResponse("DELETE /provision/{id}") { retrofitDS.deleteOrder(4) }
 }

@@ -13,7 +13,7 @@ data class CleaningStaffQuery(
 
 interface CleaningStaffRepository {
 
-    suspend fun authenticate(query: AuthenticationQuery): String?
+    suspend fun authenticate(query: AuthenticationQuery): Int
 
     suspend fun getCleaningStaff(query: CleaningStaffQuery): CleaningStaff
 }

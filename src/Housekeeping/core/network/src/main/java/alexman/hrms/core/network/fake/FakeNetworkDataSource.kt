@@ -55,7 +55,7 @@ class FakeNetworkDataSource : HrmsNetworkDataSource {
     )
 
     override suspend fun authenticate(upstreamNetworkCleaningStaffAuth: UpstreamNetworkCleaningStaffAuth):
-            HrmsNetworkResponse<String> {
+            HrmsNetworkResponse<Int> {
         with(upstreamNetworkCleaningStaffAuth) {
             val sessionId = if (sessionIdMap.contains(login))
                 sessionIdMap[login]
@@ -66,13 +66,20 @@ class FakeNetworkDataSource : HrmsNetworkDataSource {
             else
                 null
 
+            val success = sessionId != null
+
             if (sessionId != null)
                 sessionIdMap[login] = sessionId
 
             return HrmsNetworkResponse(
-                200,
-                sessionId,
-                null,
+                code = if (success) 200 else 400,
+                body = if (success)
+                    registeredStaffMap.keys.first {
+                        registeredStaffMap[it] == login to password
+                    }
+                else
+                    null,
+                errorBody = null,
             )
         }
     }

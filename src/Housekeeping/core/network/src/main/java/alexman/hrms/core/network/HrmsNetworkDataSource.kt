@@ -5,7 +5,7 @@ import alexman.hrms.core.network.model.*
 interface HrmsNetworkDataSource {
 
     suspend fun authenticate(upstreamNetworkCleaningStaffAuth: UpstreamNetworkCleaningStaffAuth):
-            HrmsNetworkResponse<String>
+            HrmsNetworkResponse<Int>
 
     suspend fun getCleaningStaff(cleaningStaffId: Int):
             HrmsNetworkResponse<NetworkCleaningStaff>
