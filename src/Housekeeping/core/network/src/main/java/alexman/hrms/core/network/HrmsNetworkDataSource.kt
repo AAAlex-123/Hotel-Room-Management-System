@@ -19,11 +19,11 @@ interface HrmsNetworkDataSource {
     suspend fun deleteOrder(orderId: Int):
             HrmsNetworkResponse<Any> // only status code needed
 
-    suspend fun getSingleRoom(roomId: Int):
-            HrmsNetworkResponse<NetworkRoom>
-
     suspend fun getRooms(cleaningLadyId: Int):
             HrmsNetworkResponse<List<NetworkRoom>>
+
+    suspend fun getSingleRoom(roomId: Int):
+            HrmsNetworkResponse<NetworkRoom>
 
     suspend fun updateRoomState(upstreamNetworkRoomUpdateDetails: UpstreamNetworkRoomUpdateDetails):
             HrmsNetworkResponse<NetworkRoom>

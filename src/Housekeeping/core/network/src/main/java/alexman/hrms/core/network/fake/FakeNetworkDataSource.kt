@@ -130,20 +130,20 @@ class FakeNetworkDataSource : HrmsNetworkDataSource {
         )
     }
 
-    override suspend fun getSingleRoom(roomId: Int): HrmsNetworkResponse<NetworkRoom> {
-        return HrmsNetworkResponse(
-            200,
-            roomMap[roomId]!!,
-            null,
-        )
-    }
-
     override suspend fun getRooms(cleaningLadyId: Int): HrmsNetworkResponse<List<NetworkRoom>> {
         val rooms = cleaningStaffRoomMap[cleaningLadyId]!!.map { roomMap[it]!! }
 
         return HrmsNetworkResponse(
             200,
             rooms,
+            null,
+        )
+    }
+
+    override suspend fun getSingleRoom(roomId: Int): HrmsNetworkResponse<NetworkRoom> {
+        return HrmsNetworkResponse(
+            200,
+            roomMap[roomId]!!,
             null,
         )
     }
