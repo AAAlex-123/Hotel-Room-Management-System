@@ -73,7 +73,8 @@ class HrmsRetrofitNetworkDataSource: HrmsNetworkDataSource {
         TODO("Not yet implemented")
     }
 
-    override suspend fun updateRoomState(upstreamNetworkRoomUpdateDetails: UpstreamNetworkRoomUpdateDetails): HrmsNetworkResponse<Any> {
+    override suspend fun updateRoomState(upstreamNetworkRoomUpdateDetails: UpstreamNetworkRoomUpdateDetails):
+            HrmsNetworkResponse<NetworkRoom> {
         TODO("Not yet implemented")
     }
 

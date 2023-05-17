@@ -149,16 +149,16 @@ class FakeNetworkDataSource : HrmsNetworkDataSource {
     }
 
     override suspend fun updateRoomState(upstreamNetworkRoomUpdateDetails: UpstreamNetworkRoomUpdateDetails):
-            HrmsNetworkResponse<Any> {
-        upstreamNetworkRoomUpdateDetails.let {
+            HrmsNetworkResponse<NetworkRoom> {
+        return upstreamNetworkRoomUpdateDetails.let {
             roomMap[it.id] = roomMap[it.id]!!.copy(cleanState = it.cleanState)
-        }
 
-        return HrmsNetworkResponse(
-            200,
-            null,
-            null,
-        )
+            HrmsNetworkResponse(
+                200,
+                roomMap[it.id],
+                null,
+            )
+        }
     }
 
     override suspend fun getNotes(roomId: Int): HrmsNetworkResponse<List<NetworkNote>> {

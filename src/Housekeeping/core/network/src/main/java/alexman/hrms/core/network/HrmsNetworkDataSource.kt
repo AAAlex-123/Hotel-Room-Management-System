@@ -26,7 +26,7 @@ interface HrmsNetworkDataSource {
             HrmsNetworkResponse<List<NetworkRoom>>
 
     suspend fun updateRoomState(upstreamNetworkRoomUpdateDetails: UpstreamNetworkRoomUpdateDetails):
-            HrmsNetworkResponse<Any> // only status code needed
+            HrmsNetworkResponse<NetworkRoom>
 
     suspend fun getNotes(roomId: Int):
             HrmsNetworkResponse<List<NetworkNote>>

@@ -8,21 +8,32 @@ import kotlinx.coroutines.flow.Flow
 
 data class SingleRoomQuery(
     val roomId: Int,
-)
+) {
+    fun matches(room: Room): Boolean = room.id == roomId
+}
 
 data class RoomQuery(
     val cleaningStaffId: Int,
-)
+) {
+    /*
+    TODO: find a way to do it this doesn't seem possible
+     since the matching depends on info outside of the Room entity
+     */
+
+    // fun matches(room: Room): Boolean = ???
+}
 
 data class NoteQuery(
     val roomId: Int,
-)
+) {
+    fun matches(note: Note): Boolean = note.roomId == roomId
+}
 
 interface RoomRepository {
 
-    suspend fun getSingleRoom(singleRoomQuery: SingleRoomQuery): Flow<Room>
-
     suspend fun getRooms(query: RoomQuery): Flow<List<Room>>
+
+    suspend fun getSingleRoom(query: SingleRoomQuery): Flow<Room>
 
     suspend fun updateRoomState(upstreamRoomUpdateDetails: UpstreamRoomUpdateDetails)
 
