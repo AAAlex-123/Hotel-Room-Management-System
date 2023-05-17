@@ -1,7 +1,7 @@
 package alexman.hrms.feature.login
 
 import alexman.hrms.core.data.repository.CleaningStaffRepositoryImplementation
-import alexman.hrms.core.designsystem.PreviewBoth
+import alexman.hrms.core.designsystem.PreviewLight
 import alexman.hrms.core.designsystem.component.MediumDisplayText
 import alexman.hrms.core.designsystem.component.HousekeepingTopAppBar
 import alexman.hrms.core.designsystem.component.InputField
@@ -17,22 +17,18 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
-@PreviewBoth
+@PreviewLight
 @Composable
-fun LoginScreenPreview() {
+private fun LoginScreenPreview() {
     HousekeepingTheme {
         LoginScreen(
             LoginViewModel(
@@ -51,9 +47,7 @@ fun LoginScreen(
     onNavigateToHome: (Int) -> Unit,
 ) {
     suspend fun authenticate(username: String, password: String): Int =
-        withContext(Dispatchers.IO) {
-            return@withContext loginViewModel.authenticate(username, password)
-        }
+        loginViewModel.authenticate(username, password)
 
     LoginScreenContent(
         onAuthenticate = ::authenticate,
@@ -61,9 +55,8 @@ fun LoginScreen(
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LoginScreenContent(
+private fun LoginScreenContent(
     onAuthenticate: suspend (String, String) -> Int,
     onNavigateToHome: (Int) -> Unit,
 ) {
@@ -78,66 +71,60 @@ fun LoginScreenContent(
         topBar = { HousekeepingTopAppBar(text = "Login") },
     ) {
         paddingValues ->
-            Surface (
+            Column(
                 modifier = Modifier
-                    .padding(paddingValues)
+                    .fillMaxSize()
+                    .padding(paddingValues),
+                verticalArrangement = Arrangement.spacedBy(
+                        48.dp,
+                        Alignment.CenterVertically
+                    ),
+                horizontalAlignment = Alignment.CenterHorizontally,
             ) {
-                Column {
-                    Column(
+                Column(
+                    verticalArrangement = Arrangement.spacedBy(8.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                ) {
+                    MediumDisplayText(text = "Staff ID")
+                    InputField(
+                        value = username,
+                        onValueChange = { username = it },
+                        placeholderText = "Staff ID",
+                        isError = !success,
                         modifier = Modifier
-                            .fillMaxSize(),
-                        verticalArrangement = Arrangement.spacedBy(
-                            48.dp,
-                            Alignment.CenterVertically
-                        ),
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                    ) {
-                        Column(
-                            horizontalAlignment = Alignment.CenterHorizontally,
-                        ) {
-                            MediumDisplayText(text = "Staff ID")
-                            InputField(
-                                value = username,
-                                onValueChange = { username = it },
-                                placeholderText = "Staff ID",
-                                isError = !success,
-                                modifier = Modifier
-                                    .wrapContentSize(Alignment.Center),
-                            )
-                        }
-                        Column(
-                            horizontalAlignment = Alignment.CenterHorizontally,
-                        ) {
-                            MediumDisplayText(text = "Password")
-                            InputField(
-                                value = password,
-                                onValueChange = { password = it },
-                                placeholderText = "Password",
-                                isError = !success,
-                                modifier = Modifier
-                                    .wrapContentSize(Alignment.Center),
-                            )
-                        }
-                        ButtonWithText(
-                            text = "Submit",
-                            onClick = {
-                                coroutineScope.launch {
-                                    val cleaningStaffId = onAuthenticate(username, password)
+                            .wrapContentSize(Alignment.Center),
+                    )
+                }
+                Column(
+                    verticalArrangement = Arrangement.spacedBy(8.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                ) {
+                    MediumDisplayText(text = "Password")
+                    InputField(
+                        value = password,
+                        onValueChange = { password = it },
+                        placeholderText = "Password",
+                        isError = !success,
+                        modifier = Modifier
+                            .wrapContentSize(Alignment.Center),
+                    )
+                }
+                ButtonWithText(
+                    text = "Submit",
+                    onClick = {
+                        coroutineScope.launch {
+                            val cleaningStaffId = onAuthenticate(username, password)
 
-                                    success = cleaningStaffId != -1
-
-                                    if (success) {
-                                        onNavigateToHome(cleaningStaffId)
-                                    }
-                                }
-                            },
-                        )
-                        if (!success) {
-                            ErrorLabel(
-                                text = "Invalid Credentials",
-                            )
+                            success = cleaningStaffId != -1
+                            if (success)
+                                onNavigateToHome(cleaningStaffId)
                         }
-                    }
+                    },
+                )
+                if (!success) {
+                    ErrorLabel(
+                        text = "Invalid Credentials",
+                    )
                 }
             }
     }
