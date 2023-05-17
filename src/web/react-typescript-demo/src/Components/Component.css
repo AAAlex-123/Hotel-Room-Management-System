@@ -1,0 +1,40 @@
+
+.main{
+    display: flex;
+    align-items: flex-start;
+    flex-shrink: 1;
+    position: relative;
+    background-color: #FFFFFF;
+    
+
+}
+
+.bigBlock{
+    background-color: #E5EDFF;
+    display:flex;
+    flex-direction: row;
+    float: right;
+}
+
+.userIcon {
+    padding: 1rem;
+    margin: 2rem;
+    border-radius: 5px;
+
+    
+}
+
+.textBlock{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+}
+
+.userText{
+    text-align: left;
+}
+
+
+
+
