@@ -1,7 +1,7 @@
 import React from 'react'
 import Button from "react-bootstrap/Button";
+import SideBar from './SideBar';
 import {Helmet} from "react-helmet";
-import { NavigateFunction } from 'react-router-dom';
 import './Component.css';
 
 
@@ -43,20 +43,17 @@ export default function Main() {
     <img src="./Assets/logo.png" alt="Logo" style={imageStyle}></img>
       <div className='bigBlock'><img className='userIcon' src="./Assets/Stop Being Horny.png" alt="Kontonussy" style={imageStyle2}></img>
         <div className='textBlock'>
-        <div className='userText'>User</div> 
+        <div className='userText' style={{fontSize: '1.5rem'}}>User</div> 
         <div className='userText'>Id: Get Id pls </div> 
       {/* this is where we'll put username so anastasi help */} 
           </div>
         </div>
       </div>
-
+        <SideBar/>
   </>
   )
 }
 
 
-function changePage(path: string, navigate: NavigateFunction){
-  navigate(path, {replace: true})
 
-}
 
