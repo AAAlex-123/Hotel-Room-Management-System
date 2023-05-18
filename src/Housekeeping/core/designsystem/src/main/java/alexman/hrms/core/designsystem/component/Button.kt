@@ -5,19 +5,13 @@ import alexman.hrms.core.designsystem.R
 import alexman.hrms.core.designsystem.theme.HousekeepingShapes
 import alexman.hrms.core.designsystem.theme.HousekeepingTheme
 import androidx.annotation.DrawableRes
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
@@ -40,19 +34,6 @@ private fun ButtonWithIconPreview() {
         ButtonWithIcon(
             id = R.drawable.ic_placeholder,
             alt = "image alt text",
-            onClick = { },
-        )
-    }
-}
-
-@PreviewLight
-@Composable
-private fun ButtonWithTextAndIconPreview() {
-    HousekeepingTheme {
-        ButtonWithTextAndIcon(
-            text = "Button Text",
-            id = R.drawable.ic_placeholder,
-            alt = "Placeholder Button",
             onClick = { },
         )
     }
@@ -101,29 +82,5 @@ fun ButtonWithIcon(
             alt = alt,
             onClick = onClick,
         )
-    }
-}
-
-@Composable
-fun ButtonWithTextAndIcon(
-    text: String,
-    @DrawableRes id: Int,
-    alt: String,
-    onClick: () -> Unit,
-) {
-    Surface {
-        Column(
-            modifier = Modifier
-                .wrapContentSize()
-                .clickable(onClick = onClick),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally,
-        ) {
-            MediumDisplayText(text = text)
-            Icon(
-                id = id,
-                alt = alt,
-            )
-        }
     }
 }
