@@ -49,6 +49,7 @@ android {
 dependencies {
     implementation project(path: ':feature:login')
     implementation project(path: ':feature:home')
+    implementation project(path: ':feature:order')
     implementation project(path: ':core:designsystem')
 
     implementation "androidx.core:core-ktx:$kotlin_version"

@@ -2,6 +2,7 @@ package alexman.hrms.housekeeping
 
 import alexman.hrms.core.designsystem.theme.HousekeepingTheme
 import alexman.hrms.feature.home.navigation.homeScreen
+import alexman.hrms.feature.order.navigation.orderScreen
 import alexman.hrms.feature.login.navigation.loginScreen
 import alexman.hrms.housekeeping.navigation.Destination
 import android.os.Bundle
@@ -59,8 +60,7 @@ private fun HousekeepingNav(
                 "", // Destination.Room.route
             ) },
             onNavigateToOrders = { cleaningStaffId: Int -> navController.navigate(
-                // TODO("navigate to orders with cleaningStaffId")
-                "", // Destination.Order.route
+                Destination.Order.format(cleaningStaffId = cleaningStaffId)
             ) },
         )
 
@@ -70,7 +70,15 @@ private fun HousekeepingNav(
         /* TODO("Not yet implemented")
         singleRoomScreen(...) */
 
-        /* TODO("Not yet implemented")
-        orderScreen(...) */
+        orderScreen(
+            route = Destination.Order.route,
+            onNavigateToHome = { cleaningStaffId: Int -> navController.navigate(
+                Destination.Home.format(cleaningStaffId = cleaningStaffId)
+            ) },
+            onNavigateToRooms = { cleaningStaffId: Int -> navController.navigate(
+                // TODO("navigate to rooms with cleaningStaffId")
+                "", // Destination.Room.route
+            ) },
+        )
     }
 }

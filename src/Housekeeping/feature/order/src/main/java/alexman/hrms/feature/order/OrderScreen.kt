@@ -6,15 +6,20 @@ import alexman.hrms.core.designsystem.SizeVariation
 import alexman.hrms.core.designsystem.component.ButtonWithText
 import alexman.hrms.core.designsystem.component.DefaultNavigationIcon
 import alexman.hrms.core.designsystem.component.DeletableListItem
+import alexman.hrms.core.designsystem.component.HousekeepingBottomBar
 import alexman.hrms.core.designsystem.component.InputField
 import alexman.hrms.core.designsystem.component.HousekeepingTopAppBar
 import alexman.hrms.core.designsystem.component.IconClickable
 import alexman.hrms.core.designsystem.component.MediumDisplayText
+import alexman.hrms.core.designsystem.component.OrdersBottomBarItem
 import alexman.hrms.core.designsystem.component.Popup
+import alexman.hrms.core.designsystem.component.RoomsBottomBarItem
 import alexman.hrms.core.designsystem.theme.HousekeepingTheme
 import alexman.hrms.core.model.data.Order
 import alexman.hrms.core.network.fake.FakeNetworkDataSource
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -22,6 +27,8 @@ import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
@@ -44,7 +51,9 @@ private fun NewOrderPopupContentPreview() {
                 // do not replace with actual network data source
                 // otherwise preview won't work as intended
                 OrderRepositoryImplementation(FakeNetworkDataSource()),
-            )
+            ),
+            onNavigateToHome = { },
+            onNavigateToRooms = { },
         )
     }
 }
@@ -52,49 +61,74 @@ private fun NewOrderPopupContentPreview() {
 @Composable
 fun OrderScreen(
     orderViewModel: OrderViewModel,
-    // TODO("navigation?"),
+    onNavigateToHome: (Int) -> Unit,
+    onNavigateToRooms: (Int) -> Unit,
 ) {
     val cleaningStaffId = orderViewModel.cleaningStaffId
-    val orderState = orderViewModel.orders.collectAsState(listOf())
+    val orders = orderViewModel.orders.collectAsState(listOf())
 
     OrderScreenContent(
         cleaningStaffId = cleaningStaffId,
-        orderState = orderState,
+        orders = orders,
         onDelete = { orderViewModel.deleteOrder(it) },
-        onSubmitNewOrder = { orderViewModel.placeOrder(it) }
+        onSubmitNewOrder = { orderViewModel.placeOrder(it) },
+        onNavigateToHome = onNavigateToHome,
+        onNavigateToRooms = onNavigateToRooms,
     )
 }
 
 @Composable
 private fun OrderScreenContent(
     cleaningStaffId: Int,
-    orderState: State<List<Order>>,
+    orders: State<List<Order>>,
     onDelete: (Int) -> Unit,
     onSubmitNewOrder: (String) -> Unit,
-    // TODO("navigation?")
+    onNavigateToHome: (Int) -> Unit,
+    onNavigateToRooms: (Int) -> Unit,
 ) {
-    Column(
-        modifier = Modifier
-            .fillMaxSize(),
-    ) {
-        HousekeepingTopAppBar(
-            text = "Orders",
-            navigationIcon = { DefaultNavigationIcon(onClick = { /* TODO("navigation?") */ }) },
-            actions = { NewOrderButton(onSubmitNewOrder) },
-        )
-        LazyColumn(
-            verticalArrangement = Arrangement.spacedBy(16.dp),
-            modifier = Modifier
-                .padding(16.dp)
-                .fillMaxSize(),
-        ) {
-            items(orderState.value) {
-                DeletableListItem(
-                    id = it.id,
-                    text = it.orderData,
-                    deletable = it.cleaningLadyId == cleaningStaffId,
-                    onDelete = onDelete,
+    Scaffold(
+        topBar = {
+            HousekeepingTopAppBar(
+                text = "Orders",
+                navigationIcon = { DefaultNavigationIcon(
+                    onClick = { onNavigateToHome(cleaningStaffId) }
+                ) },
+                actions = { NewOrderButton(onSubmitNewOrder) },
+            )
+        },
+        bottomBar = {
+            HousekeepingBottomBar {
+                RoomsBottomBarItem(
+                    onClick = { onNavigateToRooms(cleaningStaffId) },
+                    selected = false,
                 )
+                OrdersBottomBarItem(
+                    onClick = { },
+                    selected = true,
+                )
+            }
+        }
+    ) { paddingValues ->
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(color = MaterialTheme.colorScheme.background)
+                .padding(paddingValues),
+        ) {
+            LazyColumn(
+                verticalArrangement = Arrangement.spacedBy(16.dp),
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(16.dp),
+            ) {
+                items(orders.value) {
+                    DeletableListItem(
+                        id = it.id,
+                        text = it.orderData,
+                        deletable = it.cleaningLadyId == cleaningStaffId,
+                        onDelete = onDelete,
+                    )
+                }
             }
         }
     }
