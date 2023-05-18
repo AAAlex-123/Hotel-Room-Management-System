@@ -8,7 +8,7 @@ import alexman.hrms.core.designsystem.component.DefaultNavigationIcon
 import alexman.hrms.core.designsystem.component.DeletableListItem
 import alexman.hrms.core.designsystem.component.InputField
 import alexman.hrms.core.designsystem.component.HousekeepingTopAppBar
-import alexman.hrms.core.designsystem.component.Icon
+import alexman.hrms.core.designsystem.component.IconClickable
 import alexman.hrms.core.designsystem.component.MediumDisplayText
 import alexman.hrms.core.designsystem.component.Popup
 import alexman.hrms.core.designsystem.theme.HousekeepingTheme
@@ -104,10 +104,9 @@ private fun OrderScreenContent(
 private fun NewOrderButton(
     onSubmitNewOrder: (String) -> Unit,
 ) {
-
     var expanded by remember { mutableStateOf(false) }
 
-    Icon(
+    IconClickable(
         id = R.drawable.ic_menu_add_order,
         alt = "Place Order",
         onClick = { expanded = true },

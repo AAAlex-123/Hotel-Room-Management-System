@@ -77,7 +77,7 @@ fun ButtonWithIcon(
             // disabledContentColor = Color,
         ),
     ) {
-        Icon(
+        IconClickable(
             id = id,
             alt = alt,
             onClick = onClick,

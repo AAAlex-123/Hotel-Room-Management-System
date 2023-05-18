@@ -75,7 +75,7 @@ fun DeletableListItem(
                 modifier = Modifier.weight(1f),
             )
             if (deletable) {
-                Icon(
+                IconClickable(
                     id = R.drawable.ic_trashcan,
                     alt = "Delete order",
                     onClick = { onDelete(id) },

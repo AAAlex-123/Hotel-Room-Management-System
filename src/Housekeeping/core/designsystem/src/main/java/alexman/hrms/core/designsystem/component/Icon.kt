@@ -45,7 +45,7 @@ private fun IconPreview() {
 fun DefaultNavigationIcon(
     onClick: () -> Unit,
 ) {
-    Icon(
+    IconClickable(
         id = R.drawable.ic_menu_back,
         alt = "back",
         onClick = onClick,
@@ -58,14 +58,12 @@ fun Icon(
     @DrawableRes id: Int,
     alt: String,
     modifier: Modifier = Modifier,
-    onClick: () -> Unit = { },
     sizeVariation: SizeVariation = SizeVariation.MEDIUM,
 ) {
     Image(
         painter = painterResource(id = id),
         contentDescription = alt,
         modifier = modifier
-            .clickable(onClick = onClick)
             .size(
                 when (sizeVariation) {
                     SizeVariation.LARGE -> 40.dp
@@ -73,5 +71,22 @@ fun Icon(
                     SizeVariation.SMALL -> 24.dp
                 }
             ),
+    )
+}
+
+@Composable
+fun IconClickable(
+    @DrawableRes id: Int,
+    alt: String,
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit = { },
+    sizeVariation: SizeVariation = SizeVariation.MEDIUM,
+) {
+    Icon(
+        id = id,
+        alt = alt,
+        modifier = modifier
+            .clickable(onClick = onClick),
+        sizeVariation = sizeVariation,
     )
 }
