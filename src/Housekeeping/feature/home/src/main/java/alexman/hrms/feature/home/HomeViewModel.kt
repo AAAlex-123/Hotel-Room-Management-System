@@ -10,8 +10,8 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 
 data class HomeUiState(
-    val staffName: String,
     val staffId: Int,
+    val staffName: String,
 )
 
 class HomeViewModel(
@@ -19,7 +19,7 @@ class HomeViewModel(
     cleaningStaffRepository: CleaningStaffRepository,
 ) : ViewModel() {
 
-    var uiState: HomeUiState by mutableStateOf(HomeUiState("", 0))
+    var uiState: HomeUiState by mutableStateOf(HomeUiState(-1, ""))
         private set
 
     init {
@@ -30,8 +30,8 @@ class HomeViewModel(
                 )
             ) {
                 uiState = uiState.copy(
-                    staffName = this.name,
                     staffId = this.employeeId,
+                    staffName = this.name,
                 )
             }
         }

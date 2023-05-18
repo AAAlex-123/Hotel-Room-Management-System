@@ -1,6 +1,7 @@
 package alexman.hrms.housekeeping
 
 import alexman.hrms.core.designsystem.theme.HousekeepingTheme
+import alexman.hrms.feature.home.navigation.homeScreen
 import alexman.hrms.feature.login.navigation.loginScreen
 import alexman.hrms.housekeeping.navigation.Destination
 import android.os.Bundle
@@ -46,13 +47,22 @@ private fun HousekeepingNav(
         loginScreen(
             route = Destination.Login.route,
             onNavigateToHome = { cleaningStaffId: Int -> navController.navigate(
-                // TODO("navigate to home with cleaningStaffId")
-                "TODO"
-            )}
+                Destination.Home.format(cleaningStaffId = cleaningStaffId)
+            ) }
         )
 
-        /* TODO("Not yet implemented")
-        homeScreen(...) */
+        homeScreen(
+            route = Destination.Home.route,
+            onNavigateToLogin = { navController.navigate(Destination.Login.route) },
+            onNavigateToRooms = { cleaningStaffId: Int -> navController.navigate(
+                // TODO("navigate to rooms with cleaningStaffId")
+                "", // Destination.Room.route
+            ) },
+            onNavigateToOrders = { cleaningStaffId: Int -> navController.navigate(
+                // TODO("navigate to orders with cleaningStaffId")
+                "", // Destination.Order.route
+            ) },
+        )
 
         /* TODO("Not yet implemented")
         roomScreen(...) */
