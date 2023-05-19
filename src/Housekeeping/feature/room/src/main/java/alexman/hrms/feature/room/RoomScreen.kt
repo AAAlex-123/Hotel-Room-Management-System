@@ -72,7 +72,7 @@ fun RoomScreen(
         onNavigateToHome = onNavigateToHome,
         onNavigateToOrders = onNavigateToOrders,
         onNavigateToSingleRoom = { roomId: Int ->
-            onNavigateToSingleRoom(roomViewModel.cleaningStaffId, roomId)
+            onNavigateToSingleRoom(roomId, roomViewModel.cleaningStaffId)
         },
     )
 }

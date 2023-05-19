@@ -5,6 +5,7 @@ import alexman.hrms.feature.home.navigation.homeScreen
 import alexman.hrms.feature.order.navigation.orderScreen
 import alexman.hrms.feature.login.navigation.loginScreen
 import alexman.hrms.feature.room.navigation.roomScreen
+import alexman.hrms.feature.room.navigation.singleRoomScreen
 import alexman.hrms.housekeeping.navigation.Destination
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -72,14 +73,17 @@ private fun HousekeepingNav(
             onNavigateToOrders = { cleaningStaffId: Int -> navController.navigate(
                 Destination.Order.format(cleaningStaffId = cleaningStaffId)
             ) },
-            onNavigateToSingleRoom = { cleaningStaffId: Int, roomId: Int -> navController.navigate(
-                // TODO("navigate to single room with cleaningStaffId and roomId")
-                "", // Destination.SingleRoom.route
-            )}
+            onNavigateToSingleRoom = { roomId: Int, cleaningStaffId: Int -> navController.navigate(
+                Destination.SingleRoom.format(roomId = roomId, cleaningStaffId = cleaningStaffId)
+            ) },
         )
 
-        /* TODO("Not yet implemented")
-        singleRoomScreen(...) */
+        singleRoomScreen(
+            route = Destination.SingleRoom.route,
+            onNavigateToRooms = { cleaningStaffId: Int -> navController.navigate(
+                Destination.Room.format(cleaningStaffId = cleaningStaffId)
+            ) },
+        )
 
         orderScreen(
             route = Destination.Order.route,
