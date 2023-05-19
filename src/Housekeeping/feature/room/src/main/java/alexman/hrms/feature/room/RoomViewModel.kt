@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 
 class RoomViewModel(
-    private val cleaningStaffId: Int,
+    val cleaningStaffId: Int,
     private val roomRepository: RoomRepository,
 ) : ViewModel() {
 

@@ -9,6 +9,11 @@ sealed class Destination(val route: String) {
             route.replace("{cleaningStaffId}", cleaningStaffId.toString())
     }
 
+    object Room : Destination("rooms/{cleaningStaffId}") {
+        fun format(cleaningStaffId: Int) =
+            route.replace("{cleaningStaffId}", cleaningStaffId.toString())
+    }
+
     object Order : Destination("orders/{cleaningStaffId}") {
         fun format(cleaningStaffId: Int) =
             route.replace("{cleaningStaffId}", cleaningStaffId.toString())

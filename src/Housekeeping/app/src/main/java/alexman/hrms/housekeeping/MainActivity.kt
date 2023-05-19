@@ -4,6 +4,7 @@ import alexman.hrms.core.designsystem.theme.HousekeepingTheme
 import alexman.hrms.feature.home.navigation.homeScreen
 import alexman.hrms.feature.order.navigation.orderScreen
 import alexman.hrms.feature.login.navigation.loginScreen
+import alexman.hrms.feature.room.navigation.roomScreen
 import alexman.hrms.housekeeping.navigation.Destination
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -56,16 +57,26 @@ private fun HousekeepingNav(
             route = Destination.Home.route,
             onNavigateToLogin = { navController.navigate(Destination.Login.route) },
             onNavigateToRooms = { cleaningStaffId: Int -> navController.navigate(
-                // TODO("navigate to rooms with cleaningStaffId")
-                "", // Destination.Room.route
+                Destination.Room.format(cleaningStaffId = cleaningStaffId)
             ) },
             onNavigateToOrders = { cleaningStaffId: Int -> navController.navigate(
                 Destination.Order.format(cleaningStaffId = cleaningStaffId)
             ) },
         )
 
-        /* TODO("Not yet implemented")
-        roomScreen(...) */
+        roomScreen(
+            route = Destination.Room.route,
+            onNavigateToHome = { cleaningStaffId: Int -> navController.navigate(
+                Destination.Home.format(cleaningStaffId = cleaningStaffId)
+            ) },
+            onNavigateToOrders = { cleaningStaffId: Int -> navController.navigate(
+                Destination.Order.format(cleaningStaffId = cleaningStaffId)
+            ) },
+            onNavigateToSingleRoom = { cleaningStaffId: Int, roomId: Int -> navController.navigate(
+                // TODO("navigate to single room with cleaningStaffId and roomId")
+                "", // Destination.SingleRoom.route
+            )}
+        )
 
         /* TODO("Not yet implemented")
         singleRoomScreen(...) */
@@ -76,8 +87,7 @@ private fun HousekeepingNav(
                 Destination.Home.format(cleaningStaffId = cleaningStaffId)
             ) },
             onNavigateToRooms = { cleaningStaffId: Int -> navController.navigate(
-                // TODO("navigate to rooms with cleaningStaffId")
-                "", // Destination.Room.route
+                Destination.Room.format(cleaningStaffId = cleaningStaffId)
             ) },
         )
     }
