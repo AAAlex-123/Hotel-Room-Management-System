@@ -1,6 +1,21 @@
 package alexman.hrms.core.network
 
-import alexman.hrms.core.network.model.*
+import alexman.hrms.core.network.model.NetworkCleaningStaff
+import alexman.hrms.core.network.model.NetworkNote
+import alexman.hrms.core.network.model.NetworkOrder
+import alexman.hrms.core.network.model.NetworkRoom
+import alexman.hrms.core.network.model.UpstreamNetworkCleaningStaffAuth
+import alexman.hrms.core.network.model.UpstreamNetworkNoteDetails
+import alexman.hrms.core.network.model.UpstreamNetworkOrderDetails
+import alexman.hrms.core.network.model.UpstreamNetworkRoomUpdateDetails
+
+data class HrmsNetworkResponse<T>(
+    val code: Int,
+    val body: T?,
+    val errorBody: String? // TODO("figure out if this is needed")
+) {
+    val ok: Boolean = (200 <= code) && (code < 300)
+}
 
 interface HrmsNetworkDataSource {
 
@@ -35,5 +50,5 @@ interface HrmsNetworkDataSource {
             HrmsNetworkResponse<NetworkNote>
 
     suspend fun deleteNote(noteId: Int):
-            HrmsNetworkResponse<Any>
+            HrmsNetworkResponse<Any> // only status code needed
 }

@@ -10,7 +10,7 @@ data class RetrofitOrder(
     @Json(name = "employee_id") val cleaningLadyId: Int,
     @Json(name = "description") val orderData: String,
 ) {
-    fun asNetworkOrder() = NetworkOrder(
+    internal fun asNetworkOrder() = NetworkOrder(
         id = id,
         completed = completed,
         cleaningLadyId = cleaningLadyId,
@@ -23,7 +23,7 @@ data class RetrofitOrderBody(
     val description: String,
 )
 
-fun UpstreamNetworkOrderDetails.asRetrofitOrderBody() =
+internal fun UpstreamNetworkOrderDetails.asRetrofitOrderBody() =
     RetrofitOrderBody(
         employee_id = cleaningLadyId,
         description = orderData,

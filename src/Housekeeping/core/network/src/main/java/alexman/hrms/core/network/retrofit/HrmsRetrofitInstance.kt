@@ -1,6 +1,5 @@
 package alexman.hrms.core.network.retrofit
 
-import android.util.Log
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import okhttp3.Interceptor
@@ -9,7 +8,7 @@ import okhttp3.Response
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 
-object HrmsRetrofitInstance {
+internal object HrmsRetrofitInstance {
 
     var access_token: String? = null
 
@@ -33,21 +32,21 @@ object HrmsRetrofitInstance {
             .build()
             .create(HrmsApi::class.java)
     }
+}
 
-    private class AuthorizationHeaderInterceptor : Interceptor {
-        override fun intercept(chain: Interceptor.Chain): Response {
-            val request = chain.request()
+private class AuthorizationHeaderInterceptor : Interceptor {
+    override fun intercept(chain: Interceptor.Chain): Response {
+        val request = chain.request()
 
-            // don't add header on /auth path
-            if (request.url().pathSegments().contains("auth")) {
-                return chain.proceed(request)
-            }
-
-            val newRequest = request.newBuilder()
-                .header("Authorization", access_token ?: "")
-                .build()
-
-            return chain.proceed(newRequest)
+        // don't add header on /auth path
+        if (request.url().pathSegments().contains("auth")) {
+            return chain.proceed(request)
         }
+
+        val newRequest = request.newBuilder()
+            .header("Authorization", HrmsRetrofitInstance.access_token ?: "")
+            .build()
+
+        return chain.proceed(newRequest)
     }
 }

@@ -5,7 +5,8 @@ import alexman.hrms.core.network.model.UpstreamNetworkCleaningStaffAuth
 import alexman.hrms.core.network.model.UpstreamNetworkOrderDetails
 import kotlinx.coroutines.runBlocking
 
-fun main() {
+// TODO: remove when done
+private fun main() {
     val retrofitDS = HrmsRetrofitNetworkDataSource()
 
     doPrintResponse("GET /auth") { retrofitDS.authenticate(UpstreamNetworkCleaningStaffAuth("login1", "password1")) }
@@ -16,7 +17,7 @@ fun main() {
 }
 
 private fun <T> doPrintResponse(rest: String, request: suspend () -> HrmsNetworkResponse<T>) {
-    runBlocking{
+    runBlocking {
         request()
     }.also {
         print("\n\n---\nHTTP ${rest}\nCode: ${it.code} (OK: ${it.ok})\nBody: ${it.body}\nErrorBody: ${it.errorBody}")

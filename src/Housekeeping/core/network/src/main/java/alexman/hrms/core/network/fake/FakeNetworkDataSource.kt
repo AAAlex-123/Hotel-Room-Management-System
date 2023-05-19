@@ -87,6 +87,7 @@ class FakeNetworkDataSource : HrmsNetworkDataSource {
     override suspend fun getCleaningStaff(cleaningStaffId: Int):
             HrmsNetworkResponse<NetworkCleaningStaff> {
         val cleaningStaff = cleaningStaffMap[cleaningStaffId]!!
+
         return HrmsNetworkResponse(
             200,
             cleaningStaff,
@@ -99,6 +100,7 @@ class FakeNetworkDataSource : HrmsNetworkDataSource {
         val orders = orderMap.values
             .filter { it.cleaningLadyId == cleaningLadyId }
             .toList()
+
         return HrmsNetworkResponse(
             200,
             orders,
@@ -108,7 +110,7 @@ class FakeNetworkDataSource : HrmsNetworkDataSource {
 
     override suspend fun placeOrder(upstreamNetworkOrderDetails: UpstreamNetworkOrderDetails):
             HrmsNetworkResponse<NetworkOrder> {
-        with (upstreamNetworkOrderDetails) {
+        with(upstreamNetworkOrderDetails) {
             val newOrderId = orderMap.values.map { it.id }.reduce(Integer::max) + 1
             val newOrder = NetworkOrder(
                 id = newOrderId,
@@ -127,9 +129,9 @@ class FakeNetworkDataSource : HrmsNetworkDataSource {
         }
     }
 
-    // TODO("return true/false to indicate successful/failed DELETE")
     override suspend fun deleteOrder(orderId: Int): HrmsNetworkResponse<Any> {
-        /* return */ orderMap.remove(orderId) /* != null */
+        orderMap.remove(orderId)
+
         return HrmsNetworkResponse(
             200,
             null,
@@ -200,7 +202,8 @@ class FakeNetworkDataSource : HrmsNetworkDataSource {
     }
 
     override suspend fun deleteNote(noteId: Int): HrmsNetworkResponse<Any> {
-        /* return */ noteMap.remove(noteId) /* != null */
+        noteMap.remove(noteId)
+
         return HrmsNetworkResponse(
             200,
             null,

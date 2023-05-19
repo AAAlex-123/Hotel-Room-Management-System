@@ -5,7 +5,7 @@ data class UpstreamNetworkOrderDetails(
     val orderData: String,
 )
 
-data class NetworkOrder (
+data class NetworkOrder(
     val id: Int,
     val completed: Boolean,
     val cleaningLadyId: Int,

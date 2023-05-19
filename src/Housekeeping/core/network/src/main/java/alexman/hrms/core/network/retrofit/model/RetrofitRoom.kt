@@ -10,7 +10,7 @@ data class RetrofitRoom(
     @Json(name = "occupied") val occupied: Boolean,
     @Json(name = "clean_type") val cleanType: Int,
 ) {
-    fun asNetworkRoom() = NetworkRoom(
+    internal fun asNetworkRoom() = NetworkRoom(
         id = id,
         cleanState = cleanState,
         occupied = occupied,
@@ -23,7 +23,7 @@ data class RetrofitRoomBody(
     val clean_state: Int,
 )
 
-fun UpstreamNetworkRoomUpdateDetails.asRetrofitRoomBody() =
+internal fun UpstreamNetworkRoomUpdateDetails.asRetrofitRoomBody() =
     RetrofitRoomBody(
         roomId = id,
         clean_state = cleanState,

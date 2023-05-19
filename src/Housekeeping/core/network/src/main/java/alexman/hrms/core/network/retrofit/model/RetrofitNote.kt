@@ -10,7 +10,7 @@ data class RetrofitNote(
     @Json(name = "cleaning_staff_id") val cleaningStaffId: Int,
     @Json(name = "note_data") val noteData: String,
 ) {
-    fun asNetworkNote() = NetworkNote(
+    internal fun asNetworkNote() = NetworkNote(
         id = id,
         roomId = roomId,
         cleaningStaffId = cleaningStaffId,
@@ -24,7 +24,7 @@ data class RetrofitNoteBody(
     val note_data: String,
 )
 
-fun UpstreamNetworkNoteDetails.asRetrofitNoteBody() =
+internal fun UpstreamNetworkNoteDetails.asRetrofitNoteBody() =
     RetrofitNoteBody(
         room_id = roomId,
         cleaning_staff_id = cleaningStaffId,

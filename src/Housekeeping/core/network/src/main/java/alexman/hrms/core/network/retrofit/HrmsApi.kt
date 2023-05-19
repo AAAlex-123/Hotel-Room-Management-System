@@ -1,8 +1,8 @@
 package alexman.hrms.core.network.retrofit
 
+import alexman.hrms.core.network.retrofit.model.RetrofitAuthBody
 import alexman.hrms.core.network.retrofit.model.RetrofitAuthResult
 import alexman.hrms.core.network.retrofit.model.RetrofitCleaningStaff
-import alexman.hrms.core.network.retrofit.model.RetrofitCleaningStaffAuthBody
 import alexman.hrms.core.network.retrofit.model.RetrofitNote
 import alexman.hrms.core.network.retrofit.model.RetrofitNoteBody
 import alexman.hrms.core.network.retrofit.model.RetrofitOrder
@@ -18,11 +18,11 @@ import retrofit2.http.PUT
 import retrofit2.http.Path
 import retrofit2.http.Query
 
-interface HrmsApi {
+internal interface HrmsApi {
 
     @POST("auth")
     suspend fun authenticate(
-        @Body auth: RetrofitCleaningStaffAuthBody,
+        @Body auth: RetrofitAuthBody,
     ): Response<RetrofitAuthResult>
 
     @GET("employee/{id}")
