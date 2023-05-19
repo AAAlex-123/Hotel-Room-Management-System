@@ -17,9 +17,11 @@ fun NavGraphBuilder.homeScreen(
 ) {
     composable(
         route = route,
-        arguments = listOf(navArgument("cleaningStaffId") { type = NavType.IntType }),
-    ) {
-        navBackStackEntry -> HomeScreen(
+        arguments = listOf(
+            navArgument("cleaningStaffId") { type = NavType.IntType },
+        ),
+    ) { navBackStackEntry ->
+        HomeScreen(
             homeViewModel = HomeViewModel(
                 cleaningStaffId = navBackStackEntry.arguments?.getInt("cleaningStaffId")!!,
                 cleaningStaffRepository = CleaningStaffRepositoryImplementation(

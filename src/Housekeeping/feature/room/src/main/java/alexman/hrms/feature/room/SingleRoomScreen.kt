@@ -63,7 +63,7 @@ private fun SingleRoomScreenContentPreview() {
 }
 
 @Composable
-fun SingleRoomScreen(
+internal fun SingleRoomScreen(
     singleRoomViewModel: SingleRoomViewModel,
     onNavigateToRooms: (Int) -> Unit,
 ) {
@@ -187,7 +187,8 @@ private fun SingleRoomScreenContent(
                     }
                     // don't show button when clean/inspected
                     if (room.cleanState != CleanState.CLEAN
-                        && room.cleanState != CleanState.INSPECTED) {
+                        && room.cleanState != CleanState.INSPECTED
+                    ) {
                         ButtonWithText(
                             text = "Mark ${
                                 when (room.cleanState) {
@@ -206,9 +207,11 @@ private fun SingleRoomScreenContent(
                                             }
                                         )
                                     }
+
                                     CleanState.PENDING_UPLOAD, CleanState.PENDING_CHECK -> {
                                         onUpdateRoomState(CleanState.DIRTY)
                                     }
+
                                     else -> error("CleanState was ${room.cleanState} in ButtonWithText#onClick")
                                 }
                             },

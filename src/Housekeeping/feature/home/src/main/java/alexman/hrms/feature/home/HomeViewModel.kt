@@ -9,22 +9,23 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 
-data class HomeUiState(
+internal data class HomeUiState(
     val staffId: Int,
     val staffName: String,
 )
 
-class HomeViewModel(
+internal class HomeViewModel(
     cleaningStaffId: Int,
     cleaningStaffRepository: CleaningStaffRepository,
 ) : ViewModel() {
 
-    var uiState: HomeUiState by mutableStateOf(HomeUiState(-1, ""))
+    internal var uiState: HomeUiState by mutableStateOf(HomeUiState(-1, ""))
         private set
 
     init {
         viewModelScope.launch {
-            with (
+            // TODO("figure out how to handle failure")
+            with(
                 cleaningStaffRepository.getCleaningStaff(
                     CleaningStaffQuery(cleaningStaffId = cleaningStaffId)
                 )

@@ -21,7 +21,9 @@ fun NavGraphBuilder.roomScreen(
 ) {
     composable(
         route = route,
-        arguments = listOf(navArgument("cleaningStaffId") { type = NavType.IntType }),
+        arguments = listOf(
+            navArgument("cleaningStaffId") { type = NavType.IntType },
+        ),
     ) { navBackStackEntry ->
         RoomScreen(
             roomViewModel = RoomViewModel(

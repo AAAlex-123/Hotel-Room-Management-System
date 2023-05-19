@@ -16,9 +16,11 @@ fun NavGraphBuilder.orderScreen(
 ) {
     composable(
         route = route,
-        arguments = listOf(navArgument("cleaningStaffId") { type = NavType.IntType }),
-    ) {
-        navBackStackEntry -> OrderScreen(
+        arguments = listOf(
+            navArgument("cleaningStaffId") { type = NavType.IntType },
+        ),
+    ) { navBackStackEntry ->
+        OrderScreen(
             orderViewModel = OrderViewModel(
                 cleaningStaffId = navBackStackEntry.arguments?.getInt("cleaningStaffId")!!,
                 orderRepository = OrderRepositoryImplementation(

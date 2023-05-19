@@ -9,7 +9,7 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 
-class OrderViewModel(
+internal class OrderViewModel(
     val cleaningStaffId: Int,
     private val orderRepository: OrderRepository,
 ) : ViewModel() {
@@ -19,6 +19,7 @@ class OrderViewModel(
 
     init {
         viewModelScope.launch {
+            // TODO("figure out how to handle failure")
             orders = orderRepository.getOrders(
                 OrderQuery(cleaningLadyId = cleaningStaffId)
             )
@@ -27,6 +28,7 @@ class OrderViewModel(
 
     internal fun placeOrder(orderData: String) {
         viewModelScope.launch {
+            // TODO("figure out how to handle failure")
             orderRepository.placeOrder(
                 UpstreamOrderDetails(
                     cleaningLadyId = cleaningStaffId,
@@ -38,6 +40,7 @@ class OrderViewModel(
 
     internal fun deleteOrder(orderId: Int) {
         viewModelScope.launch {
+            // TODO("figure out how to handle failure")
             orderRepository.deleteOrder(orderId)
         }
     }

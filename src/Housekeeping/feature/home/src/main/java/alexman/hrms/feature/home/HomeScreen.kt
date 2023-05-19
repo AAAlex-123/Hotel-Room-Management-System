@@ -1,6 +1,5 @@
 package alexman.hrms.feature.home
 
-import alexman.hrms.core.data.repository.CleaningStaffRepositoryImplementation
 import alexman.hrms.core.designsystem.PreviewLight
 import alexman.hrms.core.designsystem.component.ButtonWithIcon
 import alexman.hrms.core.designsystem.component.HousekeepingBottomBar
@@ -9,8 +8,8 @@ import alexman.hrms.core.designsystem.component.LargeDisplayText
 import alexman.hrms.core.designsystem.component.OrdersBottomBarItem
 import alexman.hrms.core.designsystem.component.RoomsBottomBarItem
 import alexman.hrms.core.designsystem.theme.HousekeepingTheme
-import alexman.hrms.core.network.fake.FakeNetworkDataSource
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -22,15 +21,10 @@ import androidx.compose.ui.unit.dp
 
 @PreviewLight
 @Composable
-private fun HomeScreenPreview() {
+private fun HomeScreenContentPreview() {
     HousekeepingTheme {
-        HomeScreen(
-            HomeViewModel(
-                1,
-                // do not replace with actual network data source
-                // otherwise preview won't work as intended
-                CleaningStaffRepositoryImplementation(FakeNetworkDataSource()),
-            ),
+        HomeScreenContent(
+            uiState = HomeUiState(-1, "Jane Doe"),
             onNavigateToLogin = { },
             onNavigateToRooms = { },
             onNavigateToOrders = { },
@@ -39,7 +33,7 @@ private fun HomeScreenPreview() {
 }
 
 @Composable
-fun HomeScreen(
+internal fun HomeScreen(
     homeViewModel: HomeViewModel,
     onNavigateToLogin: () -> Unit,
     onNavigateToRooms: (Int) -> Unit,
@@ -66,8 +60,9 @@ private fun HomeScreenContent(
         topBar = {
             HousekeepingTopAppBar(
                 text = uiState.staffId.toString(),
-                actions = { LogoutButton (onClick = onNavigateToLogin) },
-            ) },
+                actions = { LogoutButton(onClick = onNavigateToLogin) },
+            )
+        },
         bottomBar = {
             HousekeepingBottomBar {
                 RoomsBottomBarItem(
@@ -80,23 +75,22 @@ private fun HomeScreenContent(
                 )
             }
         }
-    ) {
-        paddingValues ->
+    ) { paddingValues ->
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(paddingValues),
+        ) {
             Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically),
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(paddingValues),
             ) {
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically),
-                    modifier = Modifier
-                        .fillMaxSize()
-                ) {
-                    LargeDisplayText("Staff ID: ${uiState.staffId}")
-                    LargeDisplayText("Name: ${uiState.staffName}")
-                }
+                LargeDisplayText("Staff ID: ${uiState.staffId}")
+                LargeDisplayText("Name: ${uiState.staffName}")
             }
+        }
     }
 }
 

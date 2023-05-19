@@ -58,7 +58,7 @@ private fun RoomScreenContentPreview() {
 }
 
 @Composable
-fun RoomScreen(
+internal fun RoomScreen(
     roomViewModel: RoomViewModel,
     onNavigateToHome: (Int) -> Unit,
     onNavigateToOrders: (Int) -> Unit,
@@ -89,9 +89,11 @@ private fun RoomScreenContent(
         topBar = {
             HousekeepingTopAppBar(
                 text = "Rooms",
-                navigationIcon = { DefaultNavigationIcon(
-                    onClick = { onNavigateToHome(cleaningStaffId) },
-                ) },
+                navigationIcon = {
+                    DefaultNavigationIcon(
+                        onClick = { onNavigateToHome(cleaningStaffId) },
+                    )
+                },
             )
         },
         bottomBar = {

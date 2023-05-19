@@ -4,7 +4,7 @@ import alexman.hrms.core.data.repository.AuthenticationQuery
 import alexman.hrms.core.data.repository.CleaningStaffRepository
 import androidx.lifecycle.ViewModel
 
-class LoginViewModel(
+internal class LoginViewModel(
     private val cleaningStaffRepository: CleaningStaffRepository,
 ) : ViewModel() {
 

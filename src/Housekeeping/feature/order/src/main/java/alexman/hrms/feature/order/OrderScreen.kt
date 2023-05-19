@@ -1,22 +1,21 @@
 package alexman.hrms.feature.order
 
-import alexman.hrms.core.data.repository.OrderRepositoryImplementation
 import alexman.hrms.core.designsystem.PreviewLight
 import alexman.hrms.core.designsystem.SizeVariation
 import alexman.hrms.core.designsystem.component.ButtonWithText
 import alexman.hrms.core.designsystem.component.DefaultNavigationIcon
 import alexman.hrms.core.designsystem.component.DeletableListItem
 import alexman.hrms.core.designsystem.component.HousekeepingBottomBar
-import alexman.hrms.core.designsystem.component.InputField
 import alexman.hrms.core.designsystem.component.HousekeepingTopAppBar
 import alexman.hrms.core.designsystem.component.IconClickable
+import alexman.hrms.core.designsystem.component.InputField
 import alexman.hrms.core.designsystem.component.MediumDisplayText
 import alexman.hrms.core.designsystem.component.OrdersBottomBarItem
 import alexman.hrms.core.designsystem.component.Popup
 import alexman.hrms.core.designsystem.component.RoomsBottomBarItem
 import alexman.hrms.core.designsystem.theme.HousekeepingTheme
 import alexman.hrms.core.model.data.Order
-import alexman.hrms.core.network.fake.FakeNetworkDataSource
+import alexman.hrms.core.model.data.OrderStatus
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -30,12 +29,11 @@ import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.DpOffset
@@ -43,23 +41,37 @@ import androidx.compose.ui.unit.dp
 
 @PreviewLight
 @Composable
-private fun NewOrderPopupContentPreview() {
+private fun OrderScreenContentPreview() {
     HousekeepingTheme {
-        OrderScreen(
-            OrderViewModel(
-                1,
-                // do not replace with actual network data source
-                // otherwise preview won't work as intended
-                OrderRepositoryImplementation(FakeNetworkDataSource()),
+        OrderScreenContent(
+            cleaningStaffId = 1,
+            orders = listOf(
+                Order(1, OrderStatus.PENDING, 1, "ORDER 1"),
+                Order(2, OrderStatus.COMPLETED, 1, "ORDER 2"),
+                Order(3, OrderStatus.COMPLETED, 1, "ORDER 3"),
+                Order(4, OrderStatus.PENDING, 2, "ORDER 4"),
+                Order(5, OrderStatus.PENDING, 1, "ORDER 5"),
             ),
+            onDelete = { },
+            onSubmitNewOrder = { },
             onNavigateToHome = { },
             onNavigateToRooms = { },
         )
     }
 }
 
+@PreviewLight
 @Composable
-fun OrderScreen(
+private fun NewOrderPopupContentPreview() {
+    HousekeepingTheme {
+        NewOrderPopupContent(
+            onSubmit = { },
+        )
+    }
+}
+
+@Composable
+internal fun OrderScreen(
     orderViewModel: OrderViewModel,
     onNavigateToHome: (Int) -> Unit,
     onNavigateToRooms: (Int) -> Unit,
@@ -69,7 +81,7 @@ fun OrderScreen(
 
     OrderScreenContent(
         cleaningStaffId = cleaningStaffId,
-        orders = orders,
+        orders = orders.value,
         onDelete = { orderViewModel.deleteOrder(it) },
         onSubmitNewOrder = { orderViewModel.placeOrder(it) },
         onNavigateToHome = onNavigateToHome,
@@ -80,7 +92,7 @@ fun OrderScreen(
 @Composable
 private fun OrderScreenContent(
     cleaningStaffId: Int,
-    orders: State<List<Order>>,
+    orders: List<Order>,
     onDelete: (Int) -> Unit,
     onSubmitNewOrder: (String) -> Unit,
     onNavigateToHome: (Int) -> Unit,
@@ -90,9 +102,11 @@ private fun OrderScreenContent(
         topBar = {
             HousekeepingTopAppBar(
                 text = "Orders",
-                navigationIcon = { DefaultNavigationIcon(
-                    onClick = { onNavigateToHome(cleaningStaffId) }
-                ) },
+                navigationIcon = {
+                    DefaultNavigationIcon(
+                        onClick = { onNavigateToHome(cleaningStaffId) }
+                    )
+                },
                 actions = { NewOrderButton(onSubmitNewOrder) },
             )
         },
@@ -121,7 +135,7 @@ private fun OrderScreenContent(
                     .fillMaxSize()
                     .padding(16.dp),
             ) {
-                items(orders.value) {
+                items(orders) {
                     DeletableListItem(
                         id = it.id,
                         text = it.orderData,

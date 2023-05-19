@@ -16,11 +16,11 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 
-class SingleRoomViewModel(
+internal class SingleRoomViewModel(
     val roomId: Int,
     cleaningStaffId: Int,
     private val roomRepository: RoomRepository,
-    private val cleaningStaffRepository: CleaningStaffRepository,
+    cleaningStaffRepository: CleaningStaffRepository,
 ) : ViewModel() {
 
     lateinit var cleaningStaff: CleaningStaff
@@ -31,6 +31,7 @@ class SingleRoomViewModel(
 
     init {
         viewModelScope.launch {
+            // TODO("figure out how to handle failure")
             cleaningStaff = cleaningStaffRepository.getCleaningStaff(
                 CleaningStaffQuery(cleaningStaffId = cleaningStaffId)
             )
