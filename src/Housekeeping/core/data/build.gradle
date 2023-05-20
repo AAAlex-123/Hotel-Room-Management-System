@@ -32,12 +32,13 @@ android {
 
 dependencies {
 
-    implementation project(path: ':core:network')
     implementation project(path: ':core:model')
+    implementation project(path: ':core:network')
 
     implementation "androidx.core:core-ktx:$kotlin_version"
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4'
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutine_version"
 
+    // TODO("remove test and androidTest dependencies and packages")
     testImplementation 'junit:junit:4.13.2'
 
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
