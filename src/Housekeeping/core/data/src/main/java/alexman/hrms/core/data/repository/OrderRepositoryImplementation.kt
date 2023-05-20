@@ -9,7 +9,9 @@ import alexman.hrms.core.network.model.NetworkOrder
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 
-class OrderRepositoryImplementation (
+// TODO("add dispatcher for datasource calls")
+
+class OrderRepositoryImplementation(
     private val datasource: HrmsNetworkDataSource,
 ) : OrderRepository {
 
@@ -49,8 +51,9 @@ class OrderRepositoryImplementation (
     }
 
     override suspend fun deleteOrder(orderId: Int) {
+
         val response = /* withContext(ioDispatcher) { */
-                datasource.deleteOrder(orderId)
+            datasource.deleteOrder(orderId)
         /* } */
 
         if (response.ok) {

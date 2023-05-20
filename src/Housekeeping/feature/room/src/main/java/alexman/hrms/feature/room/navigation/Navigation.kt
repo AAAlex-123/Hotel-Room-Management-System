@@ -29,7 +29,6 @@ fun NavGraphBuilder.roomScreen(
             roomViewModel = RoomViewModel(
                 cleaningStaffId = navBackStackEntry.arguments?.getInt("cleaningStaffId")!!,
                 roomRepository = RoomRepositoryImplementation(
-                    Dispatchers.IO,
                     FakeNetworkDataSource(),
                 ),
             ),
@@ -56,7 +55,6 @@ fun NavGraphBuilder.singleRoomScreen(
                 roomId = navBackStackEntry.arguments?.getInt("roomId")!!,
                 cleaningStaffId = navBackStackEntry.arguments?.getInt("cleaningStaffId")!!,
                 roomRepository = RoomRepositoryImplementation(
-                    Dispatchers.IO,
                     FakeNetworkDataSource(),
                 ),
                 cleaningStaffRepository = CleaningStaffRepositoryImplementation(

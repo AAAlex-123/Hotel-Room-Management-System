@@ -10,12 +10,12 @@ import alexman.hrms.core.model.data.UpstreamRoomUpdateDetails
 import alexman.hrms.core.network.HrmsNetworkDataSource
 import alexman.hrms.core.network.model.NetworkNote
 import alexman.hrms.core.network.model.NetworkRoom
-import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 
-class RoomRepositoryImplementation (
-    private val ioDispatcher: CoroutineDispatcher,
+// TODO("add dispatcher for datasource calls")
+
+class RoomRepositoryImplementation(
     private val datasource: HrmsNetworkDataSource,
 ) : RoomRepository {
 
@@ -29,7 +29,8 @@ class RoomRepositoryImplementation (
     private val noteCache = NoteCache(datasource)
 
     private val roomFlowMap: MutableMap<RoomQuery, MutableStateFlow<List<Room>>> = mutableMapOf()
-    private val singleRoomFlowMap: MutableMap<SingleRoomQuery, MutableStateFlow<Room>> = mutableMapOf()
+    private val singleRoomFlowMap: MutableMap<SingleRoomQuery, MutableStateFlow<Room>> =
+        mutableMapOf()
     private val noteFlowMap: MutableMap<NoteQuery, MutableStateFlow<List<Note>>> = mutableMapOf()
 
     override suspend fun getRooms(query: RoomQuery): Flow<List<Room>> {
@@ -51,6 +52,7 @@ class RoomRepositoryImplementation (
     }
 
     override suspend fun updateRoomState(upstreamRoomUpdateDetails: UpstreamRoomUpdateDetails) {
+
         val response = /* withContext(ioDispatcher) { */
             datasource.updateRoomState(
                 upstreamRoomUpdateDetails.asUpstreamNetworkRoomUpdateDetails()
@@ -76,6 +78,7 @@ class RoomRepositoryImplementation (
     }
 
     override suspend fun addNote(upstreamNoteDetails: UpstreamNoteDetails) {
+
         val response = /* withContext(ioDispatcher) { */
             datasource.addNote(
                 upstreamNoteDetails.asUpstreamNetworkNoteDetails()
@@ -92,6 +95,7 @@ class RoomRepositoryImplementation (
     }
 
     override suspend fun deleteNote(noteId: Int) {
+
         val response = /* withContext(ioDispatcher) { */
             datasource.deleteNote(noteId)
         /* } */
@@ -121,14 +125,15 @@ class RoomRepositoryImplementation (
             // TODO("try to make match work, but this hack will do")
             // See RoomRepository.kt:15 for more info
             // if (roomQuery.matches(room))
-                mutableStateFlow.value = getFilteredRoomsFromCacheForExistingQuery(roomQuery)
+            mutableStateFlow.value = getFilteredRoomsFromCacheForExistingQuery(roomQuery)
         }
     }
 
     private fun updateSingleRoomFlowsAffectedByRoom(room: Room) {
         singleRoomFlowMap.forEach { (singleRoomQuery, mutableStateFlow) ->
             if (singleRoomQuery.matches(room))
-                mutableStateFlow.value = getFilteredSingleRoomFromCacheForExistingQuery(singleRoomQuery)
+                mutableStateFlow.value =
+                    getFilteredSingleRoomFromCacheForExistingQuery(singleRoomQuery)
         }
     }
 
@@ -144,8 +149,8 @@ class RoomRepositoryImplementation (
     }
 
     private fun getFilteredSingleRoomFromCacheForExistingQuery(query: SingleRoomQuery): Room {
-       return singleRoomCache.getSingleRoomForExistingQuery(query)
-   }
+        return singleRoomCache.getSingleRoomForExistingQuery(query)
+    }
 
     private fun getFilteredNotesFromCacheForExistingQuery(query: NoteQuery): List<Note> {
         return noteCache.getFilteredNotesForExistingQuery(query)

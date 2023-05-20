@@ -13,8 +13,7 @@ fun NetworkOrder.asExternalModel() = Order(
     orderData = orderData,
 )
 
-fun UpstreamOrderDetails.asUpstreamNetworkOrderDetails() =
-    UpstreamNetworkOrderDetails(
-        cleaningLadyId = cleaningLadyId,
-        orderData = orderData,
-    )
+fun UpstreamOrderDetails.asUpstreamNetworkOrderDetails() = UpstreamNetworkOrderDetails(
+    cleaningLadyId = cleaningLadyId,
+    orderData = orderData,
+)

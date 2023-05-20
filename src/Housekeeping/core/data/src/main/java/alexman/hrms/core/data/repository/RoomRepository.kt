@@ -16,8 +16,8 @@ data class RoomQuery(
     val cleaningStaffId: Int,
 ) {
     /*
-    TODO: find a way to do it this doesn't seem possible
-     since the matching depends on info outside of the Room entity
+     * TODO: find a way to do it this doesn't seem possible
+     * since the matching depends on info outside of the Room entity
      */
 
     // fun matches(room: Room): Boolean = ???
