@@ -10,9 +10,8 @@ export class RoomController {
   constructor(private prisma: PrismaService) {}
 
   @Get()
-  async rooms(): Promise<Room[]> {
-    const results = await this.prisma.room.findMany();
-    return results;
+  async rooms() {
+    return await this.prisma.room.findMany();
   }
 
   @Get(':number')

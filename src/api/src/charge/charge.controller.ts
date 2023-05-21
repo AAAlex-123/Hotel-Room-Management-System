@@ -23,7 +23,7 @@ export class ChargeController {
   constructor(private prisma: PrismaService) {}
   @Get()
   @ApiQuery({ name: 'reservation_id', type: Number, required: false })
-  async getAll(@Query('reservation_id', ParseIntPipe) reservation_id?: number) {
+  async getAll(@Query() { reservation_id }: { reservation_id?: number }) {
     return await this.prisma.charge.findMany({
       where: {
         reservation_id,

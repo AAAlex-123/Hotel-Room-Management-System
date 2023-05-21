@@ -4,6 +4,7 @@ import {
   Delete,
   Get,
   Param,
+  ParseIntPipe,
   Post,
   Put,
   Query,
@@ -41,8 +42,8 @@ export class ReservationController {
 
   @Get(':id')
   async getById(
-    @Param('id') id: number,
-    @Query('client') client: boolean,
+    @Param('id', ParseIntPipe) id: number,
+    @Query('client', ParseIntPipe) client: boolean,
   ): Promise<ReservationClientEntity> {
     const results = await this.prisma.reservation.findFirst({
       where: { reservation_id: id },
@@ -57,13 +58,13 @@ export class ReservationController {
   }
 
   @Delete(':id')
-  async deletes(@Param('id') id: number) {
+  async deletes(@Param('id', ParseIntPipe) id: number) {
     await this.prisma.reservation.delete({ where: { reservation_id: id } });
   }
 
   @Put(':id')
   async update(
-    @Param('id') id: number,
+    @Param('id', ParseIntPipe) id: number,
     @Body() reservation: ReservationClientEntity,
   ) {
     await this.prisma.reservation.upsert({

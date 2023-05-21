@@ -10,19 +10,26 @@ import {
   Put,
   Query,
 } from '@nestjs/common';
-import { ApiQuery } from '@nestjs/swagger';
+import { ApiQuery, ApiTags } from '@nestjs/swagger';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { NoteEntity } from './note.entity/note.entity';
 
 @Controller('api/note')
+@ApiTags('note')
 export class NoteController {
   constructor(private prisma: PrismaService, private logger: ConsoleLogger) {}
   @Get()
   @ApiQuery({ name: 'room_number', required: false, type: String })
   @ApiQuery({ name: 'employee_id', required: false, type: Number })
   async getAll(
-    @Query('room_number') room_number?: string,
-    @Query('employee_id', ParseIntPipe) employee_id?: number,
+    @Query()
+    {
+      room_number,
+      employee_id,
+    }: {
+      room_number?: string;
+      employee_id?: number;
+    },
   ) {
     return await this.prisma.note.findMany({
       where: { room_number, employee_id },
@@ -57,7 +64,7 @@ export class NoteController {
   async update(@Param('id', ParseIntPipe) id: number, dto: NoteEntity) {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { note_id, ...rest } = dto;
-    this.prisma.note.upsert({
+    await this.prisma.note.upsert({
       create: { ...rest },
       update: { note_id: id, ...rest },
       where: {

@@ -4,6 +4,7 @@ import {
   Delete,
   Get,
   Param,
+  ParseIntPipe,
   Post,
   Put,
   Query,
@@ -27,7 +28,7 @@ export class MenuorderController {
     required: false,
     description: 'Room to filter orders to',
   })
-  async getAll(@Query('room_number') room_number?: string) {
+  async getAll(@Query() { room_number }: { room_number?: string }) {
     const o: select =
       room_number === undefined
         ? {}
@@ -40,7 +41,7 @@ export class MenuorderController {
   }
 
   @Get(':order_id')
-  async getId(@Param('id') id: number) {
+  async getId(@Param('order_id', ParseIntPipe) id: number) {
     return await this.prisma.menuOrder.findUnique({
       where: {
         order_id: id,
@@ -56,7 +57,7 @@ export class MenuorderController {
   }
 
   @Delete(':order_id')
-  async delete(@Param('order_id') order_id: number) {
+  async delete(@Param('order_id', ParseIntPipe) order_id: number) {
     await this.prisma.menuOrder.delete({
       where: {
         order_id,
@@ -65,7 +66,10 @@ export class MenuorderController {
   }
 
   @Put(':order_id')
-  async update(@Param('order_id') id: number, @Body() order: MenuOrderEntity) {
+  async update(
+    @Param('order_id', ParseIntPipe) id: number,
+    @Body() order: MenuOrderEntity,
+  ) {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { order_id, ...rest } = order;
     await this.prisma.menuOrder.upsert({

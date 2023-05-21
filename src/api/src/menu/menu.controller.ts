@@ -9,8 +9,8 @@ import {
   Put,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { MenuEntity } from 'src/menu.entity/menu.entity';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { MenuEntity } from './menu.entity/menu.entity';
 
 @Controller('api/menu')
 @ApiTags('menu')

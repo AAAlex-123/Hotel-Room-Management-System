@@ -70,7 +70,7 @@ model Employee {
   employee_id Int          @id @default(autoincrement())
   type        EmployeeType
   name        String
-  username    String
+  username    String       @unique
   password    String
 
   notes        Note[]

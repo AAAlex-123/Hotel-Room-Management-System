@@ -3,7 +3,10 @@ import { EmployeeType } from '@prisma/client';
 
 export class EmployeeEntity {
   employee_id?: number;
-  @ApiProperty({ default: EmployeeType.HOUSEKEEPER })
+  @ApiProperty({
+    default: EmployeeType.HOUSEKEEPER,
+    enum: [EmployeeType.HOUSEKEEPER, EmployeeType.CHAIMBERMAID],
+  })
   type: EmployeeType;
   @ApiProperty({ default: 'user full name' })
   name: string;
