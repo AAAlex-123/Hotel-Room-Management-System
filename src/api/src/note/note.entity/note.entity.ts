@@ -3,9 +3,9 @@ import { ApiProperty } from '@nestjs/swagger';
 export class NoteEntity {
   note_id?: number;
   @ApiProperty({ default: 1, description: 'The employee id of the creator' })
-  employee_id: number;
+  cleaning_staff_id: number;
   @ApiProperty({ default: 'text', description: 'The content of the note' })
-  content: string;
+  note_data: string;
   created: Date;
   @ApiProperty({ default: '001', description: 'The room the note concerns' })
   room_number: string;
@@ -14,5 +14,5 @@ export class NoteEntity {
     description:
       'A boolean mask about whether the issue documented was resolved',
   })
-  completed: boolean;
+  completed?: boolean;
 }

@@ -11,9 +11,9 @@ datasource db {
 }
 
 model Room {
-  room_number     String  @id
+  room_id     String  @id
   occupied        Boolean @default(false)
-  cleaning_status Status  @default(CLEAN)
+  cleaning_state Status  @default(CLEAN)
   service         Boolean @default(false)
   out_of_order    Boolean @default(false)
   clean_type      Type    @default(DAILY)
@@ -27,11 +27,11 @@ model Room {
 
 model Reservation {
   reservation_id Int      @id @default(autoincrement())
-  room_number    String
+  room_id    String
   client_id      Int
   arrival        DateTime @default(now())
   departure      DateTime @default(now())
-  room           Room     @relation(fields: [room_number], references: [room_number])
+  room           Room     @relation(fields: [room_id], references: [room_id])
   client         Client   @relation(fields: [client_id], references: [client_id])
   charge         Charge[]
 }
@@ -49,13 +49,13 @@ model Charge {
 
 model Note {
   note_id     Int      @id @default(autoincrement())
+  room_id String
+  cleaning_staff_id Int
   completed   Boolean
-  content     String
+  note_data     String
   created     DateTime @default(now())
-  room_number String
-  employee_id Int
-  chambermaid Employee @relation(fields: [employee_id], references: [employee_id])
-  room        Room     @relation(fields: [room_number], references: [room_number])
+  chambermaid Employee @relation(fields: [cleaning_staff_id], references: [employee_id])
+  room        Room     @relation(fields: [room_id], references: [room_id])
 }
 
 model Client {
@@ -98,11 +98,11 @@ model GroupChamber {
 
 model GroopRooms {
   group_id    Int
-  room_number String @unique
+  room_id String @unique
   group       Group  @relation(fields: [group_id], references: [group_id])
-  room        Room   @relation(fields: [room_number], references: [room_number])
+  room        Room   @relation(fields: [room_id], references: [room_id])
 
-  @@id([group_id, room_number])
+  @@id([group_id, room_id])
 }
 
 model ProvisionOrder {
@@ -116,11 +116,11 @@ model ProvisionOrder {
 model MenuOrder {
   order_id    Int      @id @default(autoincrement())
   menu_id     Int
-  room_number String
+  room_id String
   amount      Int
   complete    Boolean
   creation    DateTime @default(now())
-  room        Room     @relation(fields: [room_number], references: [room_number])
+  room        Room     @relation(fields: [room_id], references: [room_id])
   menu        MenuItem @relation(fields: [menu_id], references: [menu_id])
 }
 
@@ -133,11 +133,11 @@ model MenuItem {
 }
 
 model RoomDescription {
-  room_number String @id
+  room_id String @id
   roomType    String
   roomClass   String
   floor       String
-  room        Room   @relation(fields: [room_number], references: [room_number])
+  room        Room   @relation(fields: [room_id], references: [room_id])
 }
 
 enum ChargeType {

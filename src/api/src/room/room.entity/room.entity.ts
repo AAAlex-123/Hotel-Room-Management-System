@@ -7,7 +7,7 @@ export default class RoomEntity {
   @ApiProperty({ required: false, default: true })
   occupied?: boolean;
   @ApiProperty({ required: false, default: Status.DIRTY })
-  cleaning_status?: Status;
+  cleaning_state?: Status;
   @ApiProperty({ required: false, default: false })
   service?: boolean;
   @ApiProperty({ required: false, default: false })

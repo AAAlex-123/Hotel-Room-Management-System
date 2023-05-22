@@ -1,8 +1,16 @@
-import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Query,
+} from '@nestjs/common';
 import { Room } from '@prisma/client';
 import { PrismaService } from 'src/prisma/prisma.service';
 import RoomEntity from './room.entity/room.entity';
-import { ApiParam, ApiTags } from '@nestjs/swagger';
+import { ApiParam, ApiQuery, ApiTags } from '@nestjs/swagger';
 
 @Controller('api/room')
 @ApiTags('room')
@@ -10,8 +18,24 @@ export class RoomController {
   constructor(private prisma: PrismaService) {}
 
   @Get()
-  async rooms() {
-    return await this.prisma.room.findMany();
+  @ApiQuery({
+    name: 'chambermaid_id',
+    description:
+      'The employee id of the chambermaid tha is in the group this room is assigned to.',
+    required: false,
+  })
+  async rooms(@Query() { chambermaid_id }: { chambermaid_id?: number }) {
+    return await this.prisma.room.findMany({
+      where: {
+        groupRoom: {
+          group: {
+            GroupChamber: {
+              some: { chambermaid_id },
+            },
+          },
+        },
+      },
+    });
   }
 
   @Get(':number')
