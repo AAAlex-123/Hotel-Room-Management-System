@@ -17,7 +17,7 @@ fun NavGraphBuilder.roomScreen(
     route: String,
     onNavigateToHome: (Int) -> Unit,
     onNavigateToOrders: (Int) -> Unit,
-    onNavigateToSingleRoom: (Int, Int) -> Unit,
+    onNavigateToSingleRoom: (String, Int) -> Unit,
 ) {
     composable(
         route = route,
@@ -46,13 +46,13 @@ fun NavGraphBuilder.singleRoomScreen(
     composable(
         route = route,
         arguments = listOf(
-            navArgument("roomId") { type = NavType.IntType },
+            navArgument("roomId") { type = NavType.StringType },
             navArgument("cleaningStaffId") { type = NavType.IntType },
         ),
     ) { navBackStackEntry ->
         SingleRoomScreen(
             singleRoomViewModel = SingleRoomViewModel(
-                roomId = navBackStackEntry.arguments?.getInt("roomId")!!,
+                roomId = navBackStackEntry.arguments?.getString("roomId")!!,
                 cleaningStaffId = navBackStackEntry.arguments?.getInt("cleaningStaffId")!!,
                 roomRepository = RoomRepositoryImplementation(
                     FakeNetworkDataSource(),

@@ -52,7 +52,7 @@ internal interface HrmsApi {
 
     @GET("room/{id}")
     suspend fun getSingleRoom(
-        @Path("id") roomId: Int,
+        @Path("id") roomId: String,
     ): Response<RetrofitRoom>
 
     @PUT("room")
@@ -62,7 +62,7 @@ internal interface HrmsApi {
 
     @GET("note")
     suspend fun getNotes(
-        @Query("room_id") roomId: Int,
+        @Query("room_id") roomId: String,
     ): Response<List<RetrofitNote>>
 
     @POST("note")

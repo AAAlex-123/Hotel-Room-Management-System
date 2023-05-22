@@ -5,7 +5,7 @@ import alexman.hrms.core.network.model.UpstreamNetworkRoomUpdateDetails
 import com.squareup.moshi.Json
 
 data class RetrofitRoom(
-    @Json(name = "room_id") val id: Int,
+    @Json(name = "room_id") val id: String,
     @Json(name = "clean_state") val cleanState: Int,
     @Json(name = "occupied") val occupied: Boolean,
     @Json(name = "clean_type") val cleanType: Int,
@@ -19,12 +19,12 @@ data class RetrofitRoom(
 }
 
 data class RetrofitRoomBody(
-    val roomId: Int,
+    val room_id: String,
     val clean_state: Int,
 )
 
 internal fun UpstreamNetworkRoomUpdateDetails.asRetrofitRoomBody() =
     RetrofitRoomBody(
-        roomId = id,
+        room_id = id,
         clean_state = cleanState,
     )

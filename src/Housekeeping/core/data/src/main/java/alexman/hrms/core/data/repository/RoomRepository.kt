@@ -7,7 +7,7 @@ import alexman.hrms.core.model.data.UpstreamRoomUpdateDetails
 import kotlinx.coroutines.flow.Flow
 
 data class SingleRoomQuery(
-    val roomId: Int,
+    val roomId: String,
 ) {
     fun matches(room: Room): Boolean = room.id == roomId
 }
@@ -24,7 +24,7 @@ data class RoomQuery(
 }
 
 data class NoteQuery(
-    val roomId: Int,
+    val roomId: String,
 ) {
     fun matches(note: Note): Boolean = note.roomId == roomId
 }

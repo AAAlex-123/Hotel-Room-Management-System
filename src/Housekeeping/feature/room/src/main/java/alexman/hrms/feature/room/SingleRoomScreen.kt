@@ -46,13 +46,13 @@ private fun SingleRoomScreenContentPreview() {
         SingleRoomScreenContent(
             cleaningStaffId = 1,
             cleaningStaffType = CleaningStaffType.CLEANING_LADY,
-            room = Room(101, CleanState.DIRTY, CleanType.NORMAL, Occupied.OCCUPIED),
+            room = Room("101", CleanState.DIRTY, CleanType.NORMAL, Occupied.OCCUPIED),
             notes = listOf(
-                Note(1, 101, 1, "NOTE 1"),
-                Note(2, 101, 1, "NOTE 2"),
-                Note(3, 101, 2, "NOTE 3"),
-                Note(4, 101, 2, "NOTE 4"),
-                Note(5, 101, 1, "NOTE 5"),
+                Note(1, "101", 1, "NOTE 1"),
+                Note(2, "101", 1, "NOTE 2"),
+                Note(3, "101", 2, "NOTE 3"),
+                Note(4, "101", 2, "NOTE 4"),
+                Note(5, "101", 1, "NOTE 5"),
             ),
             onUpdateRoomState = { },
             onAddNote = { },
@@ -70,7 +70,7 @@ internal fun SingleRoomScreen(
     val roomId = singleRoomViewModel.roomId
     val room = singleRoomViewModel.room.collectAsState(
         initial = Room(
-            -1, CleanState.DIRTY, CleanType.NORMAL, Occupied.OCCUPIED,
+            "-1", CleanState.DIRTY, CleanType.NORMAL, Occupied.OCCUPIED,
         )
     )
     val notes = singleRoomViewModel.notes.collectAsState(

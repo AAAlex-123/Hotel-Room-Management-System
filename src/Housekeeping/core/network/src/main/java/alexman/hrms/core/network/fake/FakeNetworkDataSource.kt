@@ -36,22 +36,22 @@ class FakeNetworkDataSource : HrmsNetworkDataSource {
         5 to NetworkOrder(5, true, 1, "Alice's order 3"),
     )
 
-    private val roomMap: MutableMap<Int, NetworkRoom> = mutableMapOf(
-        101 to NetworkRoom(101, 0, true, 0),
-        102 to NetworkRoom(102, 1, true, 1),
-        103 to NetworkRoom(103, 2, false, 0),
-        104 to NetworkRoom(104, 3, false, 0),
-        105 to NetworkRoom(105, 4, false, 1),
+    private val roomMap: MutableMap<String, NetworkRoom> = mutableMapOf(
+        "101" to NetworkRoom("101", 0, true, 0),
+        "102" to NetworkRoom("102", 1, true, 1),
+        "103" to NetworkRoom("103", 2, false, 0),
+        "104" to NetworkRoom("104", 3, false, 0),
+        "105" to NetworkRoom("105", 4, false, 1),
     )
 
     private val noteMap: MutableMap<Int, NetworkNote> = mutableMapOf(
-        1 to NetworkNote(1, 101, 1, "room 123, note 1, cl 1"),
-        2 to NetworkNote(2, 101, 2, "room 123, note 2, cl 2"),
-        3 to NetworkNote(3, 101, 1, "room 123, note 3, cl 1"),
+        1 to NetworkNote(1, "101", 1, "room 123, note 1, cl 1"),
+        2 to NetworkNote(2, "101", 2, "room 123, note 2, cl 2"),
+        3 to NetworkNote(3, "101", 1, "room 123, note 3, cl 1"),
     )
 
-    private val cleaningStaffRoomMap: Map<Int, List<Int>> = mapOf(
-        1 to listOf(101, 102, 103, 104, 105),
+    private val cleaningStaffRoomMap: Map<Int, List<String>> = mapOf(
+        1 to listOf("101", "102", "103", "104", "105"),
     )
 
     override suspend fun authenticate(upstreamNetworkCleaningStaffAuth: UpstreamNetworkCleaningStaffAuth):
@@ -149,7 +149,7 @@ class FakeNetworkDataSource : HrmsNetworkDataSource {
         )
     }
 
-    override suspend fun getSingleRoom(roomId: Int): HrmsNetworkResponse<NetworkRoom> {
+    override suspend fun getSingleRoom(roomId: String): HrmsNetworkResponse<NetworkRoom> {
         return HrmsNetworkResponse(
             200,
             roomMap[roomId]!!,
@@ -170,7 +170,7 @@ class FakeNetworkDataSource : HrmsNetworkDataSource {
         }
     }
 
-    override suspend fun getNotes(roomId: Int): HrmsNetworkResponse<List<NetworkNote>> {
+    override suspend fun getNotes(roomId: String): HrmsNetworkResponse<List<NetworkNote>> {
         val notes = noteMap.values
             .filter { it.roomId == roomId }
 

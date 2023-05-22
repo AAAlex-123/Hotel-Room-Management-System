@@ -37,13 +37,13 @@ interface HrmsNetworkDataSource {
     suspend fun getRooms(cleaningLadyId: Int):
             HrmsNetworkResponse<List<NetworkRoom>>
 
-    suspend fun getSingleRoom(roomId: Int):
+    suspend fun getSingleRoom(roomId: String):
             HrmsNetworkResponse<NetworkRoom>
 
     suspend fun updateRoomState(upstreamNetworkRoomUpdateDetails: UpstreamNetworkRoomUpdateDetails):
             HrmsNetworkResponse<NetworkRoom>
 
-    suspend fun getNotes(roomId: Int):
+    suspend fun getNotes(roomId: String):
             HrmsNetworkResponse<List<NetworkNote>>
 
     suspend fun addNote(upstreamNetworkNoteDetails: UpstreamNetworkNoteDetails):

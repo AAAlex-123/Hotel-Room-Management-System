@@ -209,7 +209,7 @@ class RoomRepositoryImplementation(
         private val datasource: HrmsNetworkDataSource,
     ) {
         private val querySet: MutableSet<SingleRoomQuery> = mutableSetOf()
-        private val singleRoomMap: MutableMap<Int, Room> = mutableMapOf()
+        private val singleRoomMap: MutableMap<String, Room> = mutableMapOf()
 
         // TODO("refresh fun")
 

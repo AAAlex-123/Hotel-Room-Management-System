@@ -44,11 +44,11 @@ private fun RoomScreenContentPreview() {
         RoomScreenContent(
             cleaningStaffId = 1,
             rooms = listOf(
-                Room(101, CleanState.DIRTY, CleanType.NORMAL, Occupied.VACANT),
-                Room(102, CleanState.PENDING_UPLOAD, CleanType.NORMAL, Occupied.OCCUPIED),
-                Room(103, CleanState.CLEAN, CleanType.NORMAL, Occupied.VACANT),
-                Room(104, CleanState.PENDING_CHECK, CleanType.DEEP, Occupied.OCCUPIED),
-                Room(105, CleanState.INSPECTED, CleanType.DEEP, Occupied.VACANT),
+                Room("101", CleanState.DIRTY, CleanType.NORMAL, Occupied.VACANT),
+                Room("102", CleanState.PENDING_UPLOAD, CleanType.NORMAL, Occupied.OCCUPIED),
+                Room("103", CleanState.CLEAN, CleanType.NORMAL, Occupied.VACANT),
+                Room("104", CleanState.PENDING_CHECK, CleanType.DEEP, Occupied.OCCUPIED),
+                Room("105", CleanState.INSPECTED, CleanType.DEEP, Occupied.VACANT),
             ),
             onNavigateToHome = { },
             onNavigateToOrders = { },
@@ -62,7 +62,7 @@ internal fun RoomScreen(
     roomViewModel: RoomViewModel,
     onNavigateToHome: (Int) -> Unit,
     onNavigateToOrders: (Int) -> Unit,
-    onNavigateToSingleRoom: (Int, Int) -> Unit,
+    onNavigateToSingleRoom: (String, Int) -> Unit,
 ) {
     val rooms = roomViewModel.rooms.collectAsState(listOf())
 
@@ -71,7 +71,7 @@ internal fun RoomScreen(
         rooms = rooms.value,
         onNavigateToHome = onNavigateToHome,
         onNavigateToOrders = onNavigateToOrders,
-        onNavigateToSingleRoom = { roomId: Int ->
+        onNavigateToSingleRoom = { roomId: String ->
             onNavigateToSingleRoom(roomId, roomViewModel.cleaningStaffId)
         },
     )
@@ -83,7 +83,7 @@ private fun RoomScreenContent(
     rooms: List<Room>,
     onNavigateToHome: (Int) -> Unit,
     onNavigateToOrders: (Int) -> Unit,
-    onNavigateToSingleRoom: (Int) -> Unit,
+    onNavigateToSingleRoom: (String) -> Unit,
 ) {
     Scaffold(
         topBar = {
@@ -140,7 +140,7 @@ private fun RoomRow(
     room1: Room?,
     room2: Room?,
     room3: Room?,
-    onNavigateToSingleRoom: (Int) -> Unit,
+    onNavigateToSingleRoom: (String) -> Unit,
 ) {
     Row(
         horizontalArrangement = Arrangement.SpaceBetween,
@@ -157,7 +157,7 @@ private fun RoomRow(
 @Composable
 private fun RoomComposable(
     room: Room?,
-    onNavigateToSingleRoom: (Int) -> Unit,
+    onNavigateToSingleRoom: (String) -> Unit,
 ) {
     Box(
         modifier = Modifier

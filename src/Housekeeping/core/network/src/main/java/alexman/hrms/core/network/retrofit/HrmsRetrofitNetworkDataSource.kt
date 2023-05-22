@@ -90,7 +90,7 @@ class HrmsRetrofitNetworkDataSource : HrmsNetworkDataSource {
             }
         }
 
-    override suspend fun getSingleRoom(roomId: Int):
+    override suspend fun getSingleRoom(roomId: String):
             HrmsNetworkResponse<NetworkRoom> =
         HrmsRetrofitInstance.api.getSingleRoom(
             roomId
@@ -106,7 +106,7 @@ class HrmsRetrofitNetworkDataSource : HrmsNetworkDataSource {
             it?.asNetworkRoom()
         }
 
-    override suspend fun getNotes(roomId: Int):
+    override suspend fun getNotes(roomId: String):
             HrmsNetworkResponse<List<NetworkNote>> =
         HrmsRetrofitInstance.api.getNotes(
             roomId

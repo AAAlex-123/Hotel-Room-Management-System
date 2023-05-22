@@ -15,8 +15,8 @@ sealed class Destination(val route: String) {
     }
 
     object SingleRoom : Destination("singleRoom/{roomId}/{cleaningStaffId}") {
-        fun format(roomId: Int, cleaningStaffId: Int) =
-            route.replace("{roomId}", roomId.toString())
+        fun format(roomId: String, cleaningStaffId: Int) =
+            route.replace("{roomId}", roomId)
                 .replace("{cleaningStaffId}", cleaningStaffId.toString())
     }
 

@@ -83,7 +83,7 @@ private fun HousekeepingNav(
                     Destination.Order.format(cleaningStaffId = cleaningStaffId)
                 )
             },
-            onNavigateToSingleRoom = { roomId: Int, cleaningStaffId: Int ->
+            onNavigateToSingleRoom = { roomId: String, cleaningStaffId: Int ->
                 navController.navigate(
                     Destination.SingleRoom.format(
                         roomId = roomId,

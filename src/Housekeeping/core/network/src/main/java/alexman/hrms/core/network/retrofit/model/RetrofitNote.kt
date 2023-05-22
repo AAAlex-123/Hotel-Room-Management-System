@@ -6,7 +6,7 @@ import com.squareup.moshi.Json
 
 data class RetrofitNote(
     @Json(name = "note_id") val id: Int,
-    @Json(name = "room_id") val roomId: Int,
+    @Json(name = "room_id") val roomId: String,
     @Json(name = "cleaning_staff_id") val cleaningStaffId: Int,
     @Json(name = "note_data") val noteData: String,
 ) {
@@ -19,7 +19,7 @@ data class RetrofitNote(
 }
 
 data class RetrofitNoteBody(
-    val room_id: Int,
+    val room_id: String,
     val cleaning_staff_id: Int,
     val note_data: String,
 )

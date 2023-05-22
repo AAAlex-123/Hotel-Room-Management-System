@@ -17,7 +17,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 
 internal class SingleRoomViewModel(
-    val roomId: Int,
+    val roomId: String,
     cleaningStaffId: Int,
     private val roomRepository: RoomRepository,
     cleaningStaffRepository: CleaningStaffRepository,
@@ -46,7 +46,7 @@ internal class SingleRoomViewModel(
 
     // This code is (should be) duplicate of
     // RoomViewModel#updateRoomState(Int, CleanState)
-    internal fun updateRoomState(roomId: Int, cleanState: CleanState) {
+    internal fun updateRoomState(roomId: String, cleanState: CleanState) {
         viewModelScope.launch {
             // TODO("figure out how to handle failure")
             roomRepository.updateRoomState(
