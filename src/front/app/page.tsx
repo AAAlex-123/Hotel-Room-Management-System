@@ -1,10 +1,10 @@
-"use client"
+
 import Image from 'next/image'
 import styles from './page.module.css'
 import { Suspense } from 'react'
 import Hello from './components/Hello'
 export default async function Home() {
-  const text =(await fetch(`http://host.docker.internal:8081/api/hello`)).text()
+  const text = (await fetch(`http://host.docker.internal:8081/api/hello`, { cache: 'no-store' })).text()
   return (
     <main className={styles.main}>
       <div className={styles.description}>
@@ -12,10 +12,7 @@ export default async function Home() {
           Get started by editing&nbsp;
           <code className={styles.code}>app/page.tsx</code>
         </p>
-        <Suspense fallback={<>Loading...</>}>
-          {/* @ts-expect-error Server Component*/}
-          <Hello promise={text}/>
-        </Suspense>
+          <h1>Text={text}</h1>
 
         <div>
           <a
