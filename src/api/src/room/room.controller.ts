@@ -43,7 +43,7 @@ export class RoomController {
   async room_by_id(@Param('number') id: string): Promise<Room> {
     return await this.prisma.room.findFirst({
       where: {
-        room_number: id,
+        room_id: id,
       },
     });
   }
@@ -58,7 +58,7 @@ export class RoomController {
   async delete_room(@Param('number') id: string) {
     await this.prisma.room.delete({
       where: {
-        room_number: id,
+        room_id: id,
       },
     });
   }

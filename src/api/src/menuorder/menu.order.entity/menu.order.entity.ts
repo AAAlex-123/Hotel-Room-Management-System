@@ -9,7 +9,7 @@ export class MenuOrderEntity {
     default: '001',
     description: 'Order Destination Room',
   })
-  room_number: string;
+  room_id: string;
   @ApiProperty({ required: true, default: 1, description: 'Order Amount' })
   amount: number;
   @ApiProperty({

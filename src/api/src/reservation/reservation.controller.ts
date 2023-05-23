@@ -70,7 +70,7 @@ export class ReservationController {
     await this.prisma.reservation.upsert({
       create: { ...reservation },
       update: {
-        room_number: reservation.room_number,
+        room_id: reservation.room_id,
         client_id: reservation.client_id,
         arrival: reservation.arrival,
         departure: reservation.departure,

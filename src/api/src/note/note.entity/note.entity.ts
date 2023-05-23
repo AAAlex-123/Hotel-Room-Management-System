@@ -6,13 +6,13 @@ export class NoteEntity {
   cleaning_staff_id: number;
   @ApiProperty({ default: 'text', description: 'The content of the note' })
   note_data: string;
-  created: Date;
+  created?: Date;
   @ApiProperty({ default: '001', description: 'The room the note concerns' })
-  room_number: string;
+  room_id: string;
   @ApiProperty({
     default: false,
     description:
       'A boolean mask about whether the issue documented was resolved',
   })
-  completed?: boolean;
+  completed: boolean;
 }

@@ -19,20 +19,20 @@ import { NoteEntity } from './note.entity/note.entity';
 export class NoteController {
   constructor(private prisma: PrismaService, private logger: ConsoleLogger) {}
   @Get()
-  @ApiQuery({ name: 'room_number', required: false, type: String })
-  @ApiQuery({ name: 'employee_id', required: false, type: Number })
+  @ApiQuery({ name: 'room_id', required: false, type: String })
+  @ApiQuery({ name: 'cleaning_staff_id', required: false, type: Number })
   async getAll(
     @Query()
     {
-      room_number,
-      employee_id,
+      room_id,
+      cleaning_staff_id,
     }: {
-      room_number?: string;
-      employee_id?: number;
+      room_id?: string;
+      cleaning_staff_id?: number;
     },
   ) {
     return await this.prisma.note.findMany({
-      where: { room_number, employee_id },
+      where: { room_id, cleaning_staff_id },
     });
   }
   @Get(':id')

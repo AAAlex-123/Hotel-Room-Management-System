@@ -19,20 +19,20 @@ export class RoomDescriptionController {
   async getAll() {
     return await this.prisma.roomDescription.findMany();
   }
-  @Get(':room_number')
-  async getRoom(@Param('room_number') room_number: string) {
+  @Get(':room_id')
+  async getRoom(@Param('room_id') room_id: string) {
     return await this.prisma.roomDescription.findUnique({
       where: {
-        room_number,
+        room_id,
       },
     });
   }
 
-  @Delete(':room_number')
-  async delete(@Param('room_number') room: string) {
+  @Delete(':room_id')
+  async delete(@Param('room_id') room: string) {
     return await this.prisma.roomDescription.delete({
       where: {
-        room_number: room,
+        room_id: room,
       },
     });
   }
@@ -44,16 +44,16 @@ export class RoomDescriptionController {
     });
   }
 
-  @Put(':room_number')
+  @Put(':room_id')
   async putRoom(
-    @Param('room_number') number: string,
+    @Param('room_id') number: string,
     @Body() dto: RoomDescription,
   ) {
     return await this.prisma.roomDescription.upsert({
       create: { ...dto },
       update: { ...dto },
       where: {
-        room_number: number,
+        room_id: number,
       },
     });
   }

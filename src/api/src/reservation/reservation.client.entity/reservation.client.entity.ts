@@ -4,7 +4,7 @@ export class ReservationClientEntity {
   @ApiProperty()
   reservation_id?: number;
   @ApiProperty({ default: '001' })
-  room_number: string;
+  room_id: string;
   @ApiProperty({ default: 1000 })
   client_id: number;
   @ApiProperty({ default: Date.now() })

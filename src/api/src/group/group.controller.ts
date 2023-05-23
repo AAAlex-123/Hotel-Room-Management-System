@@ -38,7 +38,7 @@ export class GroupController {
     await this.prisma.groopRooms.createMany({
       data: group.room_numbers.map(
         (value) =>
-          ({ group_id: result.group_id, room_number: value } as GroopRooms),
+          ({ group_id: result.group_id, room_id: value } as GroopRooms),
       ),
     });
     await this.prisma.groupChamber.createMany({

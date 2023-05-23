@@ -3,7 +3,7 @@ import { Status, Type } from '@prisma/client';
 
 export default class RoomEntity {
   @ApiProperty({ default: '001' })
-  room_number: string;
+  room_id: string;
   @ApiProperty({ required: false, default: true })
   occupied?: boolean;
   @ApiProperty({ required: false, default: Status.DIRTY })

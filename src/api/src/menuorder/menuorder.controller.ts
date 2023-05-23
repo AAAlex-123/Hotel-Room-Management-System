@@ -12,11 +12,7 @@ import {
 import { PrismaService } from 'src/prisma/prisma.service';
 import { MenuOrderEntity } from './menu.order.entity/menu.order.entity';
 import { ApiQuery, ApiTags } from '@nestjs/swagger';
-type select = {
-  where?: {
-    room_number: string;
-  };
-};
+
 @Controller('api/menu/order')
 @ApiTags('menu-order')
 export class MenuorderController {
@@ -28,16 +24,12 @@ export class MenuorderController {
     required: false,
     description: 'Room to filter orders to',
   })
-  async getAll(@Query() { room_number }: { room_number?: string }) {
-    const o: select =
-      room_number === undefined
-        ? {}
-        : {
-            where: {
-              room_number,
-            },
-          };
-    return await this.prisma.menuOrder.findMany(o);
+  async getAll(@Query() { room_id }: { room_id?: string }) {
+    return await this.prisma.menuOrder.findMany({
+      where: {
+        room_id,
+      },
+    });
   }
 
   @Get(':order_id')
