@@ -1,100 +1,79 @@
+"use client"
+import { redirect } from 'next/navigation';
+import { useState } from 'react';
+import Head from 'next/head';
+import "./Login.css"
+import { Button, Form } from 'react-bootstrap';
+export default async function Login() {
 
-import Image from 'next/image'
-import styles from './page.module.css'
-import { Suspense } from 'react'
-import Hello from './components/Hello'
-export default async function Home() {
-  const text = (await fetch(`http://host.docker.internal:8081/api/hello`, { cache: 'no-store' })).text()
+
+  const imageStyle = {
+    textAlign: 'center' as const,
+    marginBottom: '20px',
+    width: '200px',
+    height: 'auto',
+
+  };
+
+  const [login, setUsername] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+
+  const handleSubmit = async () => {
+    try {
+      const response = await fetch(`http://host.docker.internal:8081/api/auth`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ login, password }),
+      })
+
+      redirect("/main");
+    } catch (err: any) {
+      console.log("HEHEHEHEHEHEH")
+      redirect("/");
+    }
+
+  }
+
+  // const text = (await fetch(`http://host.docker.internal:8081/api/hello`, { cache: 'no-store' })).text()
   return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>app/page.tsx</code>
-        </p>
-          <h1>Text={text}</h1>
+    <main>
+      <Head>
+        <title> Login | User </title>
+        <link rel="icon" href="../../public/favicon.ico" />
+        <link href='https://fonts.googleapis.com/css?family=Aleo' rel='stylesheet' />
+        <style>{`
+        * {
+            font-family: 'Aleo';font-size: 1rem;
+        }
+      `}</style>
+      </Head>
+      <div className="Login">
+        <div className="Box">
+          <img src="./Assets/logo.png" alt="Logo" style={imageStyle}></img>
 
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
+          <Form className="form-field" onSubmit={handleSubmit} action="#">
+
+            <Form.Group controlId="username" >
+              <Form.Control className="form-field-wrapper" autoFocus type="string" value={login} placeholder="Username" onChange={(e) => setUsername(e.target.value)} />
+            </Form.Group>
+
+
+            <Form.Group controlId="password" >
+              <Form.Control className="form-field-wrapper" type="password" value={password} placeholder="Password" onChange={(e) => setPassword(e.target.value)} />
+            </Form.Group>
+
+            <Button className="blueButton" type="submit"  >
+
+              Login
+
+            </Button>
+
+          </Form>
         </div>
       </div>
 
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className={styles.grid}>
-        <a
-          href="https://beta.nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore the Next.js 13 playground.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
     </main>
   )
 }
