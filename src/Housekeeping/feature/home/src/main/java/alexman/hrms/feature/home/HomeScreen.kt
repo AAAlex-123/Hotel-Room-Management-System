@@ -1,8 +1,8 @@
 package alexman.hrms.feature.home
 
 import alexman.hrms.core.designsystem.PreviewLight
-import alexman.hrms.core.designsystem.component.ButtonWithIcon
 import alexman.hrms.core.designsystem.component.HrmsScaffold
+import alexman.hrms.core.designsystem.component.IconClickable
 import alexman.hrms.core.designsystem.component.LargeDisplayText
 import alexman.hrms.core.designsystem.theme.HousekeepingTheme
 import androidx.compose.foundation.layout.Arrangement
@@ -70,7 +70,7 @@ private fun HomeScreenContent(
 
 @Composable
 private fun LogoutButton(onClick: () -> Unit) {
-    ButtonWithIcon(
+    IconClickable(
         id = R.drawable.ic_menu_logout,
         alt = "logout",
         onClick = onClick,
