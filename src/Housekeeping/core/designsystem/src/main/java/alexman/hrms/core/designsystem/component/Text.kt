@@ -1,8 +1,8 @@
 package alexman.hrms.core.designsystem.component
 
 import alexman.hrms.core.designsystem.PreviewLight
-import alexman.hrms.core.designsystem.theme.HousekeepingTheme
-import alexman.hrms.core.designsystem.theme.HousekeepingTypography
+import alexman.hrms.core.designsystem.theme.HrmsTheme
+import alexman.hrms.core.designsystem.theme.HrmsTypography
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -11,7 +11,7 @@ import androidx.compose.ui.Modifier
 @PreviewLight
 @Composable
 private fun LargeDisplayTextPreview() {
-    HousekeepingTheme {
+    HrmsTheme {
         LargeDisplayText("Display Large")
     }
 }
@@ -19,7 +19,7 @@ private fun LargeDisplayTextPreview() {
 @PreviewLight
 @Composable
 private fun MediumDisplayTextPreview() {
-    HousekeepingTheme {
+    HrmsTheme {
         MediumDisplayText("Display Medium")
     }
 }
@@ -27,7 +27,7 @@ private fun MediumDisplayTextPreview() {
 @PreviewLight
 @Composable
 private fun SmallDisplayTextPreview() {
-    HousekeepingTheme {
+    HrmsTheme {
         SmallDisplayText("Display Small")
     }
 }
@@ -35,7 +35,7 @@ private fun SmallDisplayTextPreview() {
 @PreviewLight
 @Composable
 private fun LargeBodyTextPreview() {
-    HousekeepingTheme {
+    HrmsTheme {
         LargeBodyText("Body Large")
     }
 }
@@ -43,7 +43,7 @@ private fun LargeBodyTextPreview() {
 @PreviewLight
 @Composable
 private fun MediumBodyTextPreview() {
-    HousekeepingTheme {
+    HrmsTheme {
         MediumBodyText("Body Medium")
     }
 }
@@ -51,7 +51,7 @@ private fun MediumBodyTextPreview() {
 @PreviewLight
 @Composable
 private fun ErrorLabelPreview() {
-    HousekeepingTheme {
+    HrmsTheme {
         ErrorLabel("Error Label")
     }
 }
@@ -63,7 +63,7 @@ fun LargeDisplayText(
 ) {
     Text(
         text = text,
-        style = HousekeepingTypography.displayLarge,
+        style = HrmsTypography.displayLarge,
         modifier = modifier,
     )
 }
@@ -75,7 +75,7 @@ fun MediumDisplayText(
 ) {
     Text(
         text = text,
-        style = HousekeepingTypography.displayMedium,
+        style = HrmsTypography.displayMedium,
         modifier = modifier,
     )
 }
@@ -87,7 +87,7 @@ fun SmallDisplayText(
 ) {
     Text(
         text = text,
-        style = HousekeepingTypography.displaySmall,
+        style = HrmsTypography.displaySmall,
         modifier = modifier,
     )
 }
@@ -99,7 +99,7 @@ fun LargeBodyText(
 ) {
     Text(
         text = text,
-        style = HousekeepingTypography.bodyLarge,
+        style = HrmsTypography.bodyLarge,
         modifier = modifier,
     )
 }
@@ -111,7 +111,7 @@ fun MediumBodyText(
 ) {
     Text(
         text = text,
-        style = HousekeepingTypography.bodyMedium,
+        style = HrmsTypography.bodyMedium,
         modifier = modifier,
     )
 }
@@ -123,6 +123,6 @@ fun ErrorLabel(
     Text(
         text = text,
         color = MaterialTheme.colorScheme.error,
-        style = HousekeepingTypography.labelLarge,
+        style = HrmsTypography.labelLarge,
     )
 }

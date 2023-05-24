@@ -2,7 +2,7 @@ package alexman.hrms.core.designsystem.component
 
 import alexman.hrms.core.designsystem.PreviewLight
 import alexman.hrms.core.designsystem.R
-import alexman.hrms.core.designsystem.theme.HousekeepingTheme
+import alexman.hrms.core.designsystem.theme.HrmsTheme
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
@@ -119,7 +119,7 @@ private fun HrmsTopAppBar(
 @PreviewLight
 @Composable
 private fun HrmsBottomBarPreview() {
-    HousekeepingTheme {
+    HrmsTheme {
         HrmsBottomBar {
             RoomsBottomBarItem(
                 onClick = { },

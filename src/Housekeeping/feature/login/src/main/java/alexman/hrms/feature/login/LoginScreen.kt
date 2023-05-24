@@ -7,7 +7,7 @@ import alexman.hrms.core.designsystem.component.ErrorLabel
 import alexman.hrms.core.designsystem.component.HrmsScaffold
 import alexman.hrms.core.designsystem.component.TextInputField
 import alexman.hrms.core.designsystem.component.MediumDisplayText
-import alexman.hrms.core.designsystem.theme.HousekeepingTheme
+import alexman.hrms.core.designsystem.theme.HrmsTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -26,7 +26,7 @@ import kotlinx.coroutines.launch
 @PreviewLight
 @Composable
 private fun LoginScreenContentPreview() {
-    HousekeepingTheme {
+    HrmsTheme {
         LoginScreenContent(
             onAuthenticate = { _: String, _: String -> -1 },
             onNavigateToHome = { },

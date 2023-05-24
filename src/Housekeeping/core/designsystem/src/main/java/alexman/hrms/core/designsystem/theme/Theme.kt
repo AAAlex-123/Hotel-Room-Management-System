@@ -23,7 +23,7 @@ private val LightColorScheme = lightColorScheme(
 )
 
 @Composable
-fun HousekeepingTheme(
+fun HrmsTheme(
     content: @Composable () -> Unit,
 ) {
     val colorScheme = LightColorScheme
@@ -37,8 +37,8 @@ fun HousekeepingTheme(
 
     MaterialTheme(
         colorScheme = colorScheme,
-        shapes = HousekeepingShapes,
-        typography = HousekeepingTypography,
+        shapes = HrmsShapes,
+        typography = HrmsTypography,
         content = content,
     )
 }

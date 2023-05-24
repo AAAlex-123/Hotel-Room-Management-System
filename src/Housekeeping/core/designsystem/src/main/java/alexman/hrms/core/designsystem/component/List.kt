@@ -3,8 +3,8 @@ package alexman.hrms.core.designsystem.component
 import alexman.hrms.core.designsystem.PreviewLight
 import alexman.hrms.core.designsystem.R
 import alexman.hrms.core.designsystem.SizeVariation
-import alexman.hrms.core.designsystem.theme.HousekeepingShapes
-import alexman.hrms.core.designsystem.theme.HousekeepingTheme
+import alexman.hrms.core.designsystem.theme.HrmsShapes
+import alexman.hrms.core.designsystem.theme.HrmsTheme
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -26,7 +26,7 @@ import androidx.compose.ui.unit.dp
 @PreviewLight
 @Composable
 private fun DeletableListItemPreview() {
-    HousekeepingTheme {
+    HrmsTheme {
         Column(
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
@@ -65,7 +65,7 @@ fun DeletableListItem(
             modifier = Modifier
                 .wrapContentHeight()
                 .fillMaxWidth()
-                .clip(HousekeepingShapes.medium)
+                .clip(HrmsShapes.medium)
                 .padding(16.dp),
         ) {
             ListItemNumber(
@@ -98,7 +98,7 @@ fun DeletableListItem(
 @PreviewLight
 @Composable
 private fun ListItemNumberPreview() {
-    HousekeepingTheme {
+    HrmsTheme {
         Column(
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {

@@ -9,8 +9,8 @@ import alexman.hrms.core.designsystem.component.HrmsScaffold
 import alexman.hrms.core.designsystem.component.IconClickable
 import alexman.hrms.core.designsystem.component.TextInputField
 import alexman.hrms.core.designsystem.component.MediumDisplayText
-import alexman.hrms.core.designsystem.component.Popup
-import alexman.hrms.core.designsystem.theme.HousekeepingTheme
+import alexman.hrms.core.designsystem.component.HrmsPopup
+import alexman.hrms.core.designsystem.theme.HrmsTheme
 import alexman.hrms.core.model.data.Order
 import alexman.hrms.core.model.data.OrderStatus
 import androidx.compose.foundation.layout.Arrangement
@@ -35,7 +35,7 @@ import androidx.compose.ui.unit.dp
 @PreviewLight
 @Composable
 private fun OrderScreenContentPreview() {
-    HousekeepingTheme {
+    HrmsTheme {
         OrderScreenContent(
             cleaningStaffId = 1,
             orders = listOf(
@@ -56,7 +56,7 @@ private fun OrderScreenContentPreview() {
 @PreviewLight
 @Composable
 private fun NewOrderPopupContentPreview() {
-    HousekeepingTheme {
+    HrmsTheme {
         NewOrderPopupContent(
             onSubmit = { },
         )
@@ -154,7 +154,7 @@ private fun NewOrderPopupContent(
 ) {
     val (value, setValue) = remember { mutableStateOf("") }
 
-    Popup {
+    HrmsPopup {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(16.dp),

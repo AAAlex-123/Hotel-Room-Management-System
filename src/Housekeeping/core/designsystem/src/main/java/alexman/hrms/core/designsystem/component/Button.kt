@@ -2,8 +2,8 @@ package alexman.hrms.core.designsystem.component
 
 import alexman.hrms.core.designsystem.PreviewLight
 import alexman.hrms.core.designsystem.SizeVariation
-import alexman.hrms.core.designsystem.theme.HousekeepingShapes
-import alexman.hrms.core.designsystem.theme.HousekeepingTheme
+import alexman.hrms.core.designsystem.theme.HrmsShapes
+import alexman.hrms.core.designsystem.theme.HrmsTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -16,7 +16,7 @@ import androidx.compose.ui.unit.dp
 @PreviewLight
 @Composable
 private fun ButtonWithTextPreview() {
-    HousekeepingTheme {
+    HrmsTheme {
         Column(
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
@@ -45,7 +45,7 @@ fun ButtonWithText(
         onClick = onClick,
         modifier = modifier,
         enabled = true,
-        shape = HousekeepingShapes.medium,
+        shape = HrmsShapes.medium,
         border = null,
         colors = ButtonDefaults.buttonColors(),
         contentPadding = PaddingValues(8.dp),

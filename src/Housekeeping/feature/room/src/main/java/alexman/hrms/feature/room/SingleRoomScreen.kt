@@ -8,7 +8,7 @@ import alexman.hrms.core.designsystem.component.HrmsScaffold
 import alexman.hrms.core.designsystem.component.TextInputField
 import alexman.hrms.core.designsystem.component.LargeBodyText
 import alexman.hrms.core.designsystem.component.SmallDisplayText
-import alexman.hrms.core.designsystem.theme.HousekeepingTheme
+import alexman.hrms.core.designsystem.theme.HrmsTheme
 import alexman.hrms.core.model.data.CleanState
 import alexman.hrms.core.model.data.CleanType
 import alexman.hrms.core.model.data.CleaningStaffType
@@ -38,7 +38,7 @@ import androidx.compose.ui.unit.dp
 @PreviewLight
 @Composable
 private fun SingleRoomScreenContentPreview() {
-    HousekeepingTheme {
+    HrmsTheme {
         SingleRoomScreenContent(
             cleaningStaffId = 1,
             cleaningStaffType = CleaningStaffType.CLEANING_LADY,

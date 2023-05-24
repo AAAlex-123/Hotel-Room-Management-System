@@ -3,7 +3,7 @@ package alexman.hrms.core.designsystem.component
 import alexman.hrms.core.designsystem.PreviewLight
 import alexman.hrms.core.designsystem.R
 import alexman.hrms.core.designsystem.SizeVariation
-import alexman.hrms.core.designsystem.theme.HousekeepingTheme
+import alexman.hrms.core.designsystem.theme.HrmsTheme
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -18,7 +18,7 @@ import androidx.compose.ui.unit.dp
 @PreviewLight
 @Composable
 private fun IconPreview() {
-    HousekeepingTheme {
+    HrmsTheme {
         Column(
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {

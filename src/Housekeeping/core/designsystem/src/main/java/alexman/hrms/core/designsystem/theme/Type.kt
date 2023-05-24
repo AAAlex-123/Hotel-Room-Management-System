@@ -36,7 +36,7 @@ private val baseTextStyle = TextStyle(
     textIndent = TextIndent.None,
 )
 
-internal val HousekeepingTypography = Typography(
+internal val HrmsTypography = Typography(
     displayLarge = baseTextStyle.copy(
         fontSize = 36.sp,
         fontWeight = FontWeight.SemiBold,

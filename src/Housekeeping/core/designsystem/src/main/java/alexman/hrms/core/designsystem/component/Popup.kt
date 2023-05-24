@@ -1,8 +1,8 @@
 package alexman.hrms.core.designsystem.component
 
 import alexman.hrms.core.designsystem.PreviewLight
-import alexman.hrms.core.designsystem.theme.HousekeepingShapes
-import alexman.hrms.core.designsystem.theme.HousekeepingTheme
+import alexman.hrms.core.designsystem.theme.HrmsShapes
+import alexman.hrms.core.designsystem.theme.HrmsTheme
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
@@ -15,15 +15,15 @@ import androidx.compose.ui.unit.dp
 @PreviewLight
 @Composable
 private fun PopupPreview() {
-    HousekeepingTheme {
-        Popup {
+    HrmsTheme {
+        HrmsPopup {
             LargeBodyText(text = "This is a popup")
         }
     }
 }
 
 @Composable
-fun Popup(
+fun HrmsPopup(
     content: @Composable () -> Unit
 ) {
     Surface(
@@ -31,7 +31,7 @@ fun Popup(
             .wrapContentSize()
             .padding(16.dp)
             .background(MaterialTheme.colorScheme.background),
-        shape = HousekeepingShapes.medium,
+        shape = HrmsShapes.medium,
         color = MaterialTheme.colorScheme.background,
         contentColor = MaterialTheme.colorScheme.onBackground,
         tonalElevation = 0.dp,

@@ -1,6 +1,6 @@
 package alexman.hrms.housekeeping
 
-import alexman.hrms.core.designsystem.theme.HousekeepingTheme
+import alexman.hrms.core.designsystem.theme.HrmsTheme
 import alexman.hrms.feature.home.navigation.homeScreen
 import alexman.hrms.feature.login.navigation.loginScreen
 import alexman.hrms.feature.order.navigation.orderScreen
@@ -24,12 +24,12 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            HousekeepingTheme {
+            HrmsTheme {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    HousekeepingNav()
+                    HrmsNav()
                 }
             }
         }
@@ -37,7 +37,7 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-private fun HousekeepingNav(
+private fun HrmsNav(
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController(),
     startDestination: String = Destination.Login.route,

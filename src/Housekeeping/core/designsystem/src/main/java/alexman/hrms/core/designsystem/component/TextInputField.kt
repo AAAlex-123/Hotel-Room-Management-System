@@ -1,8 +1,8 @@
 package alexman.hrms.core.designsystem.component
 
 import alexman.hrms.core.designsystem.PreviewLight
-import alexman.hrms.core.designsystem.theme.HousekeepingTheme
-import alexman.hrms.core.designsystem.theme.HousekeepingTypography
+import alexman.hrms.core.designsystem.theme.HrmsTheme
+import alexman.hrms.core.designsystem.theme.HrmsTypography
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.OutlinedTextField
@@ -18,7 +18,7 @@ import androidx.compose.ui.unit.dp
 private fun InputFieldPreview() {
     val (value, setValue) = remember { mutableStateOf("") }
 
-    HousekeepingTheme {
+    HrmsTheme {
         Column(
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
@@ -54,7 +54,7 @@ fun TextInputField(
         placeholder = {
             Text(
                 text = placeholderText,
-                style = HousekeepingTypography.labelMedium,
+                style = HrmsTypography.labelMedium,
             )
         },
         isError = isError,

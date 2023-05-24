@@ -4,7 +4,7 @@ import alexman.hrms.core.designsystem.PreviewLight
 import alexman.hrms.core.designsystem.component.HrmsScaffold
 import alexman.hrms.core.designsystem.component.IconClickable
 import alexman.hrms.core.designsystem.component.LargeDisplayText
-import alexman.hrms.core.designsystem.theme.HousekeepingTheme
+import alexman.hrms.core.designsystem.theme.HrmsTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -16,7 +16,7 @@ import androidx.compose.ui.unit.dp
 @PreviewLight
 @Composable
 private fun HomeScreenContentPreview() {
-    HousekeepingTheme {
+    HrmsTheme {
         HomeScreenContent(
             uiState = HomeUiState(-1, "Jane Doe"),
             onNavigateToLogin = { },

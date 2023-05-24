@@ -5,7 +5,7 @@ import alexman.hrms.core.designsystem.component.BottomBarItem
 import alexman.hrms.core.designsystem.component.HrmsScaffold
 import alexman.hrms.core.designsystem.component.MediumDisplayText
 import alexman.hrms.core.designsystem.component.SmallDisplayText
-import alexman.hrms.core.designsystem.theme.HousekeepingTheme
+import alexman.hrms.core.designsystem.theme.HrmsTheme
 import alexman.hrms.core.model.data.CleanState
 import alexman.hrms.core.model.data.CleanType
 import alexman.hrms.core.model.data.Occupied
@@ -35,7 +35,7 @@ import androidx.compose.ui.unit.dp
 @PreviewLight
 @Composable
 private fun RoomScreenContentPreview() {
-    HousekeepingTheme {
+    HrmsTheme {
         RoomScreenContent(
             cleaningStaffId = 1,
             rooms = listOf(
