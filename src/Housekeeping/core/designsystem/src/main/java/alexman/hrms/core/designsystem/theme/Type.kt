@@ -52,6 +52,11 @@ internal val HousekeepingTypography = Typography(
         fontWeight = FontWeight.SemiBold,
     ),
     bodyLarge = baseTextStyle.copy(
+        fontSize = 18.sp,
+        lineHeight = 24.sp,
+        letterSpacing = 0.5.sp,
+    ),
+    bodyMedium = baseTextStyle.copy(
         fontSize = 16.sp,
         lineHeight = 24.sp,
         letterSpacing = 0.5.sp,

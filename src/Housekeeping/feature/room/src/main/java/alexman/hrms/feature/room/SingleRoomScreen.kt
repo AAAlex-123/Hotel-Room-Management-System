@@ -1,6 +1,7 @@
 package alexman.hrms.feature.room
 
 import alexman.hrms.core.designsystem.PreviewLight
+import alexman.hrms.core.designsystem.SizeVariation
 import alexman.hrms.core.designsystem.component.ButtonWithText
 import alexman.hrms.core.designsystem.component.DeletableListItem
 import alexman.hrms.core.designsystem.component.HrmsScaffold
@@ -197,6 +198,7 @@ private fun SingleRoomScreenContent(
                                 else -> error("CleanState was ${room.cleanState} in ButtonWithText#onClick")
                             }
                         },
+                        sizeVariation = SizeVariation.SECONDARY,
                     )
                 }
             }
@@ -214,6 +216,7 @@ private fun SingleRoomScreenContent(
                         deletable = cleaningStaffType == CleaningStaffType.HOUSEKEEPER
                                 || it.cleaningStaffId == cleaningStaffId,
                         onDelete = onDeleteNote,
+                        sizeVariation = SizeVariation.SECONDARY,
                     )
                 }
             }
@@ -228,6 +231,7 @@ private fun SingleRoomScreenContent(
             ButtonWithText(
                 text = "Add Note",
                 onClick = { onAddNote(noteData) },
+                sizeVariation = SizeVariation.SECONDARY,
             )
         }
     }

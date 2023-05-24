@@ -42,6 +42,14 @@ private fun LargeBodyTextPreview() {
 
 @PreviewLight
 @Composable
+private fun MediumBodyTextPreview() {
+    HousekeepingTheme {
+        MediumBodyText("Body Medium")
+    }
+}
+
+@PreviewLight
+@Composable
 private fun ErrorLabelPreview() {
     HousekeepingTheme {
         ErrorLabel("Error Label")
@@ -94,6 +102,18 @@ fun LargeBodyText(
     Text(
         text = text,
         style = HousekeepingTypography.bodyLarge,
+        modifier = modifier,
+    )
+}
+
+@Composable
+fun MediumBodyText(
+    text: String,
+    modifier: Modifier = Modifier,
+) {
+    Text(
+        text = text,
+        style = HousekeepingTypography.bodyMedium,
         modifier = modifier,
     )
 }

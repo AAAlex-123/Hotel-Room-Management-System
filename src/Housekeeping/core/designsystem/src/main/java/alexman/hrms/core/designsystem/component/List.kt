@@ -21,27 +21,28 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
 @PreviewLight
 @Composable
 private fun DeletableListItemPreview() {
     HousekeepingTheme {
-        Column (
+        Column(
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             DeletableListItem(
                 id = 1,
-                text = "Lorem",
+                text = "Lorem ipsum",
                 deletable = true,
                 onDelete = { },
+                sizeVariation = SizeVariation.PRIMARY,
             )
             DeletableListItem(
                 id = 2,
-                text = "Lorem",
-                deletable = false,
+                text = "Lorem ipsum",
+                deletable = true,
                 onDelete = { },
+                sizeVariation = SizeVariation.SECONDARY,
             )
         }
     }
@@ -53,8 +54,9 @@ fun DeletableListItem(
     text: String,
     deletable: Boolean,
     onDelete: (Int) -> Unit,
+    sizeVariation: SizeVariation,
 ) {
-    Surface (
+    Surface(
         shape = MaterialTheme.shapes.medium,
     ) {
         Row(
@@ -68,18 +70,25 @@ fun DeletableListItem(
         ) {
             ListItemNumber(
                 number = id,
-                sizeVariation = SizeVariation.MEDIUM,
+                sizeVariation = sizeVariation,
             )
-            LargeBodyText(
-                text = text,
-                modifier = Modifier.weight(1f),
-            )
+            when (sizeVariation) {
+                SizeVariation.PRIMARY -> LargeBodyText(
+                    text = text,
+                    modifier = Modifier.weight(1f),
+                )
+
+                SizeVariation.SECONDARY -> MediumBodyText(
+                    text = text,
+                    modifier = Modifier.weight(1f),
+                )
+            }
             if (deletable) {
                 IconClickable(
                     id = R.drawable.ic_trashcan,
                     alt = "Delete order",
                     onClick = { onDelete(id) },
-                    sizeVariation = SizeVariation.MEDIUM,
+                    sizeVariation = sizeVariation,
                 )
             }
         }
@@ -90,7 +99,12 @@ fun DeletableListItem(
 @Composable
 private fun ListItemNumberPreview() {
     HousekeepingTheme {
-        ListItemNumber(1, SizeVariation.MEDIUM)
+        Column(
+            verticalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            ListItemNumber(1, SizeVariation.PRIMARY)
+            ListItemNumber(2, SizeVariation.SECONDARY)
+        }
     }
 }
 
@@ -99,29 +113,20 @@ private fun ListItemNumber(
     number: Int,
     sizeVariation: SizeVariation,
 ) {
-    ListItemNumber(
-        number = number,
-        size = when(sizeVariation) {
-            SizeVariation.LARGE -> 48.dp
-            SizeVariation.MEDIUM -> 32.dp
-            SizeVariation.SMALL -> 16.dp
-        },
-    )
-}
-
-@Composable
-private fun ListItemNumber(
-    number: Int,
-    size: Dp,
-) {
     Box(
         modifier = Modifier
-            .size(size)
+            .size(
+                when (sizeVariation) {
+                    SizeVariation.PRIMARY -> 40.dp
+                    SizeVariation.SECONDARY -> 32.dp
+                }
+            )
             .background(MaterialTheme.colorScheme.primary, shape = CircleShape),
         contentAlignment = Alignment.Center,
     ) {
-        MediumDisplayText(
-            text = number.toString(),
-        )
+        when (sizeVariation) {
+            SizeVariation.PRIMARY -> MediumDisplayText(text = number.toString())
+            SizeVariation.SECONDARY -> SmallDisplayText(text = number.toString())
+        }
     }
 }

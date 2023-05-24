@@ -111,6 +111,7 @@ private fun LoginScreenContent(
                             onNavigateToHome(cleaningStaffId)
                     }
                 },
+                sizeVariation = SizeVariation.PRIMARY,
             )
             if (!success) {
                 ErrorLabel(

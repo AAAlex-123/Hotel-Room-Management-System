@@ -111,6 +111,7 @@ private fun OrderScreenContent(
                     text = it.orderData,
                     deletable = it.cleaningLadyId == cleaningStaffId,
                     onDelete = onDelete,
+                    SizeVariation.PRIMARY,
                 )
             }
         }
@@ -127,7 +128,7 @@ private fun NewOrderButton(
         id = R.drawable.ic_menu_add_order,
         alt = "Place Order",
         onClick = { expanded = true },
-        sizeVariation = SizeVariation.LARGE,
+        sizeVariation = SizeVariation.PRIMARY,
         modifier = Modifier
             .padding(8.dp),
     )
@@ -173,6 +174,7 @@ private fun NewOrderPopupContent(
             ButtonWithText(
                 text = "Submit",
                 onClick = { onSubmit(value) },
+                sizeVariation = SizeVariation.SECONDARY,
             )
         }
     }

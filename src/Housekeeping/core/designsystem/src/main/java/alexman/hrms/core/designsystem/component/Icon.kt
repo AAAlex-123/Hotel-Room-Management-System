@@ -25,17 +25,12 @@ private fun IconPreview() {
             Icon(
                 R.drawable.ic_placeholder,
                 alt = "placeholder",
-                sizeVariation = SizeVariation.SMALL,
+                sizeVariation = SizeVariation.PRIMARY,
             )
             Icon(
                 R.drawable.ic_placeholder,
                 alt = "placeholder",
-                sizeVariation = SizeVariation.MEDIUM,
-            )
-            Icon(
-                R.drawable.ic_placeholder,
-                alt = "placeholder",
-                sizeVariation = SizeVariation.LARGE,
+                sizeVariation = SizeVariation.SECONDARY,
             )
         }
     }
@@ -49,28 +44,7 @@ fun DefaultNavigationIcon(
         id = R.drawable.ic_menu_back,
         alt = "back",
         onClick = onClick,
-        sizeVariation = SizeVariation.LARGE,
-    )
-}
-
-@Composable
-fun Icon(
-    @DrawableRes id: Int,
-    alt: String,
-    modifier: Modifier = Modifier,
-    sizeVariation: SizeVariation = SizeVariation.MEDIUM,
-) {
-    Image(
-        painter = painterResource(id = id),
-        contentDescription = alt,
-        modifier = modifier
-            .size(
-                when (sizeVariation) {
-                    SizeVariation.LARGE -> 40.dp
-                    SizeVariation.MEDIUM -> 32.dp
-                    SizeVariation.SMALL -> 24.dp
-                }
-            ),
+        sizeVariation = SizeVariation.PRIMARY,
     )
 }
 
@@ -80,7 +54,7 @@ fun IconClickable(
     alt: String,
     modifier: Modifier = Modifier,
     onClick: () -> Unit = { },
-    sizeVariation: SizeVariation = SizeVariation.MEDIUM,
+    sizeVariation: SizeVariation = SizeVariation.SECONDARY,
 ) {
     Icon(
         id = id,
@@ -88,5 +62,25 @@ fun IconClickable(
         modifier = modifier
             .clickable(onClick = onClick),
         sizeVariation = sizeVariation,
+    )
+}
+
+@Composable
+fun Icon(
+    @DrawableRes id: Int,
+    alt: String,
+    modifier: Modifier = Modifier,
+    sizeVariation: SizeVariation = SizeVariation.SECONDARY,
+) {
+    Image(
+        painter = painterResource(id = id),
+        contentDescription = alt,
+        modifier = modifier
+            .size(
+                when (sizeVariation) {
+                    SizeVariation.PRIMARY -> 40.dp
+                    SizeVariation.SECONDARY -> 32.dp
+                }
+            ),
     )
 }
