@@ -1,12 +1,9 @@
 package alexman.hrms.feature.room
 
 import alexman.hrms.core.designsystem.PreviewLight
-import alexman.hrms.core.designsystem.component.DefaultNavigationIcon
-import alexman.hrms.core.designsystem.component.HousekeepingBottomBar
-import alexman.hrms.core.designsystem.component.HousekeepingTopAppBar
+import alexman.hrms.core.designsystem.component.BottomBarItem
+import alexman.hrms.core.designsystem.component.HrmsScaffold
 import alexman.hrms.core.designsystem.component.MediumDisplayText
-import alexman.hrms.core.designsystem.component.OrdersBottomBarItem
-import alexman.hrms.core.designsystem.component.RoomsBottomBarItem
 import alexman.hrms.core.designsystem.component.SmallDisplayText
 import alexman.hrms.core.designsystem.theme.HousekeepingTheme
 import alexman.hrms.core.model.data.CleanState
@@ -22,13 +19,11 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
@@ -85,50 +80,26 @@ private fun RoomScreenContent(
     onNavigateToOrders: (Int) -> Unit,
     onNavigateToSingleRoom: (String) -> Unit,
 ) {
-    Scaffold(
-        topBar = {
-            HousekeepingTopAppBar(
-                text = "Rooms",
-                navigationIcon = {
-                    DefaultNavigationIcon(
-                        onClick = { onNavigateToHome(cleaningStaffId) },
-                    )
-                },
-            )
-        },
-        bottomBar = {
-            HousekeepingBottomBar {
-                RoomsBottomBarItem(
-                    onClick = { },
-                    selected = true,
-                )
-                OrdersBottomBarItem(
-                    onClick = { onNavigateToOrders(cleaningStaffId) },
-                    selected = false,
-                )
-            }
-        }
-    ) { paddingValues ->
-        Box(
+    HrmsScaffold(
+        topBarText = "Rooms",
+        onNavigationIconClick = { onNavigateToHome(cleaningStaffId) },
+        onNavigateToRooms = { },
+        onNavigateToOrders = { onNavigateToOrders(cleaningStaffId) },
+        selectedBottomBarItem = BottomBarItem.ROOMS,
+    ) {
+        LazyColumn(
+            verticalArrangement = Arrangement.spacedBy(16.dp),
+            contentPadding = PaddingValues(16.dp),
             modifier = Modifier
                 .fillMaxSize()
-                .background(color = MaterialTheme.colorScheme.background)
-                .padding(paddingValues),
         ) {
-            LazyColumn(
-                verticalArrangement = Arrangement.spacedBy(16.dp),
-                contentPadding = PaddingValues(16.dp),
-                modifier = Modifier
-                    .fillMaxSize()
-            ) {
-                itemsIndexed(rooms) { i, _ ->
-                    if (i % 3 == 0) {
-                        val room1 = rooms.getOrNull(i)
-                        val room2 = rooms.getOrNull(i + 1)
-                        val room3 = rooms.getOrNull(i + 2)
+            itemsIndexed(rooms) { i, _ ->
+                if (i % 3 == 0) {
+                    val room1 = rooms.getOrNull(i)
+                    val room2 = rooms.getOrNull(i + 1)
+                    val room3 = rooms.getOrNull(i + 2)
 
-                        RoomRow(room1, room2, room3, onNavigateToSingleRoom)
-                    }
+                    RoomRow(room1, room2, room3, onNavigateToSingleRoom)
                 }
             }
         }

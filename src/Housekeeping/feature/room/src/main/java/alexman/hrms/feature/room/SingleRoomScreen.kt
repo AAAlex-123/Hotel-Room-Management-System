@@ -2,9 +2,8 @@ package alexman.hrms.feature.room
 
 import alexman.hrms.core.designsystem.PreviewLight
 import alexman.hrms.core.designsystem.component.ButtonWithText
-import alexman.hrms.core.designsystem.component.DefaultNavigationIcon
 import alexman.hrms.core.designsystem.component.DeletableListItem
-import alexman.hrms.core.designsystem.component.HousekeepingTopAppBar
+import alexman.hrms.core.designsystem.component.HrmsScaffold
 import alexman.hrms.core.designsystem.component.InputField
 import alexman.hrms.core.designsystem.component.LargeBodyText
 import alexman.hrms.core.designsystem.component.SmallDisplayText
@@ -15,20 +14,16 @@ import alexman.hrms.core.model.data.CleaningStaffType
 import alexman.hrms.core.model.data.Note
 import alexman.hrms.core.model.data.Occupied
 import alexman.hrms.core.model.data.Room
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -116,8 +111,23 @@ private fun SingleRoomScreenContent(
 ) {
     val (noteData, setNoteData) = remember { mutableStateOf("") }
 
-    Scaffold(
-        topBar = {
+    HrmsScaffold(
+        topBarText = "Room ${room.id}",
+        onNavigationIconClick = { onNavigateToRooms(cleaningStaffId) },
+        topBarBackgroundColor = when (room.cleanState) {
+            CleanState.DIRTY -> Color.Red
+            CleanState.PENDING_UPLOAD, CleanState.PENDING_CHECK -> Color.Yellow
+            CleanState.CLEAN -> Color.Green
+            CleanState.INSPECTED -> Color.Cyan
+        },
+    ) {
+        Column(
+            verticalArrangement = Arrangement.spacedBy(8.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier
+                .padding(8.dp),
+        ) {
+            /* alternative to scaffold: remove it and uncomment the following
             HousekeepingTopAppBar(
                 text = "Room ${room.id}",
                 navigationIcon = {
@@ -130,125 +140,95 @@ private fun SingleRoomScreenContent(
                     CleanState.INSPECTED -> Color.Cyan
                 },
             )
-        }
-    ) { paddingValues ->
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(color = MaterialTheme.colorScheme.background)
-                .padding(paddingValues),
-        ) {
-            Column(
-                verticalArrangement = Arrangement.spacedBy(8.dp),
-                horizontalAlignment = Alignment.CenterHorizontally,
+            MyDivider()
+            */
+            Row(
+                horizontalArrangement = Arrangement.SpaceEvenly,
+                verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier
-                    .padding(8.dp),
+                    .fillMaxWidth()
+                    .padding(
+                        horizontal = 0.dp,
+                        vertical = 8.dp,
+                    ),
             ) {
-                /* alternative to scaffold: remove it and uncomment the following
-                HousekeepingTopAppBar(
-                    text = "Room ${room.id}",
-                    navigationIcon = {
-                        DefaultNavigationIcon(onClick = { onNavigateToRooms(cleaningStaffId) })
-                    },
-                    backgroundColor = when (room.cleanState) {
-                        CleanState.DIRTY -> Color.Red
-                        CleanState.PENDING_UPLOAD, CleanState.PENDING_CHECK -> Color.Yellow
-                        CleanState.CLEAN -> Color.Green
-                        CleanState.INSPECTED -> Color.Cyan
-                    },
-                )
-                MyDivider()
-                */
-                Row(
-                    horizontalArrangement = Arrangement.SpaceEvenly,
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(
-                            horizontal = 0.dp,
-                            vertical = 8.dp,
-                        ),
+                Surface(
+                    shape = MaterialTheme.shapes.medium,
                 ) {
-                    Surface(
-                        shape = MaterialTheme.shapes.medium,
+                    Column(
+                        verticalArrangement = Arrangement.spacedBy(8.dp),
+                        modifier = Modifier
+                            .padding(8.dp),
                     ) {
-                        Column(
-                            verticalArrangement = Arrangement.spacedBy(8.dp),
-                            modifier = Modifier
-                                .padding(8.dp),
-                        ) {
-                            LargeBodyText(
-                                text = "Occupied: ${room.occupied.toSentenceCase()}"
-                            )
-                            LargeBodyText(
-                                text = "Clean Type: ${room.cleanType.toSentenceCase()}"
-                            )
-                        }
-                    }
-                    // don't show button when clean/inspected
-                    if (room.cleanState != CleanState.CLEAN
-                        && room.cleanState != CleanState.INSPECTED
-                    ) {
-                        ButtonWithText(
-                            text = "Mark ${
-                                when (room.cleanState) {
-                                    CleanState.DIRTY -> "Clean"
-                                    CleanState.PENDING_UPLOAD, CleanState.PENDING_CHECK -> "Dirty"
-                                    else -> error("CleanState was ${room.cleanState} in ButtonWithText#text")
-                                }
-                            }",
-                            onClick = {
-                                when (room.cleanState) {
-                                    CleanState.DIRTY -> {
-                                        onUpdateRoomState(
-                                            when (room.cleanType) {
-                                                CleanType.NORMAL -> CleanState.PENDING_UPLOAD
-                                                CleanType.DEEP -> CleanState.PENDING_CHECK
-                                            }
-                                        )
-                                    }
-
-                                    CleanState.PENDING_UPLOAD, CleanState.PENDING_CHECK -> {
-                                        onUpdateRoomState(CleanState.DIRTY)
-                                    }
-
-                                    else -> error("CleanState was ${room.cleanState} in ButtonWithText#onClick")
-                                }
-                            },
-                            enabled = true,
+                        LargeBodyText(
+                            text = "Occupied: ${room.occupied.toSentenceCase()}"
+                        )
+                        LargeBodyText(
+                            text = "Clean Type: ${room.cleanType.toSentenceCase()}"
                         )
                     }
                 }
-                MyDivider()
-                SmallDisplayText(text = "Notes")
-                LazyColumn(
-                    contentPadding = PaddingValues(8.dp),
-                    verticalArrangement = Arrangement.spacedBy(8.dp),
-                    modifier = Modifier.weight(1f) // full height
+                // don't show button when clean/inspected
+                if (room.cleanState != CleanState.CLEAN
+                    && room.cleanState != CleanState.INSPECTED
                 ) {
-                    items(notes) {
-                        DeletableListItem(
-                            id = it.id,
-                            text = it.noteData,
-                            deletable = cleaningStaffType == CleaningStaffType.HOUSEKEEPER
-                                    || it.cleaningStaffId == cleaningStaffId,
-                            onDelete = onDeleteNote,
-                        )
-                    }
+                    ButtonWithText(
+                        text = "Mark ${
+                            when (room.cleanState) {
+                                CleanState.DIRTY -> "Clean"
+                                CleanState.PENDING_UPLOAD, CleanState.PENDING_CHECK -> "Dirty"
+                                else -> error("CleanState was ${room.cleanState} in ButtonWithText#text")
+                            }
+                        }",
+                        onClick = {
+                            when (room.cleanState) {
+                                CleanState.DIRTY -> {
+                                    onUpdateRoomState(
+                                        when (room.cleanType) {
+                                            CleanType.NORMAL -> CleanState.PENDING_UPLOAD
+                                            CleanType.DEEP -> CleanState.PENDING_CHECK
+                                        }
+                                    )
+                                }
+                                CleanState.PENDING_UPLOAD, CleanState.PENDING_CHECK -> {
+                                    onUpdateRoomState(CleanState.DIRTY)
+                                }
+
+                                else -> error("CleanState was ${room.cleanState} in ButtonWithText#onClick")
+                            }
+                        },
+                    )
                 }
-                MyDivider()
-                InputField(
-                    value = noteData,
-                    onValueChange = setNoteData,
-                    placeholderText = "Please type your Note",
-                    modifier = Modifier
-                        .fillMaxWidth()
-                )
-                ButtonWithText(
-                    text = "Add Note",
-                    onClick = { onAddNote(noteData) }
-                )
             }
+            MyDivider()
+            SmallDisplayText(text = "Notes")
+            LazyColumn(
+                contentPadding = PaddingValues(8.dp),
+                verticalArrangement = Arrangement.spacedBy(8.dp),
+                modifier = Modifier.weight(1f) // full height
+            ) {
+                items(notes) {
+                    DeletableListItem(
+                        id = it.id,
+                        text = it.noteData,
+                        deletable = cleaningStaffType == CleaningStaffType.HOUSEKEEPER
+                                || it.cleaningStaffId == cleaningStaffId,
+                        onDelete = onDeleteNote,
+                    )
+                }
+            }
+            MyDivider()
+            InputField(
+                value = noteData,
+                onValueChange = setNoteData,
+                placeholderText = "Please type your Note",
+                modifier = Modifier
+                    .fillMaxWidth(),
+            )
+            ButtonWithText(
+                text = "Add Note",
+                onClick = { onAddNote(noteData) },
+            )
         }
     }
 }

@@ -1,18 +1,17 @@
 package alexman.hrms.feature.login
 
 import alexman.hrms.core.designsystem.PreviewLight
+import alexman.hrms.core.designsystem.SizeVariation
 import alexman.hrms.core.designsystem.component.ButtonWithText
 import alexman.hrms.core.designsystem.component.ErrorLabel
-import alexman.hrms.core.designsystem.component.HousekeepingTopAppBar
+import alexman.hrms.core.designsystem.component.HrmsScaffold
 import alexman.hrms.core.designsystem.component.InputField
 import alexman.hrms.core.designsystem.component.MediumDisplayText
 import alexman.hrms.core.designsystem.theme.HousekeepingTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -61,13 +60,12 @@ private fun LoginScreenContent(
 
     val coroutineScope = rememberCoroutineScope()
 
-    Scaffold(
-        topBar = { HousekeepingTopAppBar(text = "Login") },
-    ) { paddingValues ->
+    HrmsScaffold(
+        topBarText = "Login",
+    ) {
         Column(
             modifier = Modifier
-                .fillMaxSize()
-                .padding(paddingValues),
+                .fillMaxSize(),
             verticalArrangement = Arrangement.spacedBy(
                 48.dp,
                 Alignment.CenterVertically

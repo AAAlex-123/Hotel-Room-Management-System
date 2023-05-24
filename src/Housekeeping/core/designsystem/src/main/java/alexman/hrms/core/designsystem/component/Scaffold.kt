@@ -12,23 +12,115 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 
+enum class BottomBarItem {
+    NONE, ROOMS, ORDERS;
+}
+
+@Composable
+fun HrmsScaffold(
+    topBarText: String,
+    topBarBackgroundColor: Color = MaterialTheme.colorScheme.primary,
+    onNavigationIconClick: (() -> Unit)? = null,
+    actions: @Composable (RowScope.() -> Unit) = {},
+    onNavigateToRooms: (() -> Unit)? = null,
+    onNavigateToOrders: (() -> Unit)? = null,
+    selectedBottomBarItem: BottomBarItem = BottomBarItem.NONE,
+    content: @Composable () -> Unit
+) {
+    Scaffold(
+        topBar = {
+            HrmsTopAppBar(
+                text = topBarText,
+                navigationIcon = {
+                    if (onNavigationIconClick != null) {
+                        DefaultNavigationIcon(onClick = onNavigationIconClick)
+                    }
+                },
+                actions = actions,
+                backgroundColor = topBarBackgroundColor,
+            )
+        },
+        bottomBar = {
+            // hide bottom bar if there's nothing to show
+            if (!(onNavigateToRooms == null && onNavigateToOrders == null)) {
+                HrmsBottomBar {
+                    // if (BottomBarItem.ROOMS in bottomBarItems) {
+                    if (onNavigateToRooms != null) {
+                        RoomsBottomBarItem(
+                            onClick = onNavigateToRooms,
+                            selected = selectedBottomBarItem == BottomBarItem.ROOMS,
+                        )
+                    }
+                    if (onNavigateToOrders != null) {
+                        OrdersBottomBarItem(
+                            onClick = onNavigateToOrders,
+                            selected = selectedBottomBarItem == BottomBarItem.ORDERS,
+                        )
+                    }
+                }
+            }
+        }
+    ) { paddingValues ->
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(color = MaterialTheme.colorScheme.background)
+                .padding(paddingValues),
+        ) {
+            content()
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun HrmsTopAppBar(
+    text: String,
+    navigationIcon: @Composable () -> Unit = {},
+    actions: @Composable (RowScope.() -> Unit) = {},
+    backgroundColor: Color = MaterialTheme.colorScheme.primary,
+    contentColor: Color = MaterialTheme.colorScheme.onPrimary,
+) {
+    CenterAlignedTopAppBar(
+        title = { LargeDisplayText(text) },
+        modifier = Modifier
+            .fillMaxWidth()
+            .wrapContentHeight(),
+        navigationIcon = navigationIcon,
+        actions = actions,
+        colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+            containerColor = backgroundColor,
+            // scrolledContainerColor = Color,
+            navigationIconContentColor = contentColor,
+            titleContentColor = contentColor,
+            actionIconContentColor = contentColor,
+        ),
+        scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior { false },
+    )
+}
+
 @PreviewLight
 @Composable
-private fun HousekeepingBottomBarPreview() {
+private fun HrmsBottomBarPreview() {
     HousekeepingTheme {
-        HousekeepingBottomBar {
+        HrmsBottomBar {
             RoomsBottomBarItem(
                 onClick = { },
                 selected = true,
@@ -42,7 +134,7 @@ private fun HousekeepingBottomBarPreview() {
 }
 
 @Composable
-fun HousekeepingBottomBar(
+private fun HrmsBottomBar(
     content: @Composable RowScope.() -> Unit,
 ) {
     Row(
@@ -58,7 +150,7 @@ fun HousekeepingBottomBar(
 }
 
 @Composable
-fun RowScope.RoomsBottomBarItem(
+private fun RowScope.RoomsBottomBarItem(
     onClick: () -> Unit,
     selected: Boolean,
 ) {
@@ -72,7 +164,7 @@ fun RowScope.RoomsBottomBarItem(
 }
 
 @Composable
-fun RowScope.OrdersBottomBarItem(
+private fun RowScope.OrdersBottomBarItem(
     onClick: () -> Unit,
     selected: Boolean,
 ) {
