@@ -56,8 +56,6 @@ private fun ErrorLabelPreview() {
     }
 }
 
-// TODO("figure out what is going on with typography")
-
 @Composable
 fun LargeDisplayText(
     text: String,
