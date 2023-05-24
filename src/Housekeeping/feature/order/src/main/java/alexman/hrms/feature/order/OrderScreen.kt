@@ -7,7 +7,7 @@ import alexman.hrms.core.designsystem.component.ButtonWithText
 import alexman.hrms.core.designsystem.component.DeletableListItem
 import alexman.hrms.core.designsystem.component.HrmsScaffold
 import alexman.hrms.core.designsystem.component.IconClickable
-import alexman.hrms.core.designsystem.component.InputField
+import alexman.hrms.core.designsystem.component.TextInputField
 import alexman.hrms.core.designsystem.component.MediumDisplayText
 import alexman.hrms.core.designsystem.component.Popup
 import alexman.hrms.core.designsystem.theme.HousekeepingTheme
@@ -164,12 +164,13 @@ private fun NewOrderPopupContent(
             MediumDisplayText(
                 text = "New Order",
             )
-            InputField(
+            TextInputField(
                 value = value,
                 onValueChange = setValue,
                 placeholderText = "Please type your Order",
                 modifier = Modifier
                     .wrapContentSize(Alignment.Center),
+                singleLine = false,
             )
             ButtonWithText(
                 text = "Submit",

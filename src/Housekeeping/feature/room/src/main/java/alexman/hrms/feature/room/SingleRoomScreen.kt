@@ -5,7 +5,7 @@ import alexman.hrms.core.designsystem.SizeVariation
 import alexman.hrms.core.designsystem.component.ButtonWithText
 import alexman.hrms.core.designsystem.component.DeletableListItem
 import alexman.hrms.core.designsystem.component.HrmsScaffold
-import alexman.hrms.core.designsystem.component.InputField
+import alexman.hrms.core.designsystem.component.TextInputField
 import alexman.hrms.core.designsystem.component.LargeBodyText
 import alexman.hrms.core.designsystem.component.SmallDisplayText
 import alexman.hrms.core.designsystem.theme.HousekeepingTheme
@@ -221,12 +221,13 @@ private fun SingleRoomScreenContent(
                 }
             }
             MyDivider()
-            InputField(
+            TextInputField(
                 value = noteData,
                 onValueChange = setNoteData,
                 placeholderText = "Please type your Note",
                 modifier = Modifier
                     .fillMaxWidth(),
+                singleLine = false,
             )
             ButtonWithText(
                 text = "Add Note",

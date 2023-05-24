@@ -5,7 +5,7 @@ import alexman.hrms.core.designsystem.SizeVariation
 import alexman.hrms.core.designsystem.component.ButtonWithText
 import alexman.hrms.core.designsystem.component.ErrorLabel
 import alexman.hrms.core.designsystem.component.HrmsScaffold
-import alexman.hrms.core.designsystem.component.InputField
+import alexman.hrms.core.designsystem.component.TextInputField
 import alexman.hrms.core.designsystem.component.MediumDisplayText
 import alexman.hrms.core.designsystem.theme.HousekeepingTheme
 import androidx.compose.foundation.layout.Arrangement
@@ -77,7 +77,7 @@ private fun LoginScreenContent(
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 MediumDisplayText(text = "Staff ID")
-                InputField(
+                TextInputField(
                     value = username,
                     onValueChange = { username = it },
                     placeholderText = "Staff ID",
@@ -91,7 +91,7 @@ private fun LoginScreenContent(
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 MediumDisplayText(text = "Password")
-                InputField(
+                TextInputField(
                     value = password,
                     onValueChange = { password = it },
                     placeholderText = "Password",
