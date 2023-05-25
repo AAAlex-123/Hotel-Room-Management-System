@@ -1,7 +1,6 @@
 import React from 'react'
 import Head from 'next/head';
-import SideBar from './components/SideBar';
-import './Component.css';
+import SideBar from '../../components/SideBar';
 
 export const metadata = {
   title: "Main Menu",

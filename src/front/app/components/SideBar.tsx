@@ -1,5 +1,5 @@
+"use client"
 import React from 'react'
-import './Component.css';
 import { NextRouter, Router, useRouter } from 'next/router';
 
 export default function SideBar() {

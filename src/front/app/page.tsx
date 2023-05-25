@@ -9,9 +9,9 @@ export default async function Login() {
 
   const imageStyle = {
     textAlign: 'center' as const,
-    marginBottom: '20px',
-    width: '200px',
-    height: 'auto',
+    // marginBottom: '20px',
+    width: '100%',
+    // height: 'auto',
 
   };
 
