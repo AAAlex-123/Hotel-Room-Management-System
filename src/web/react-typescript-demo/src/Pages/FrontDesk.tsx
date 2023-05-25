@@ -3,7 +3,7 @@ import Layout from '../Components/Layout'
 
 export default function FrontDesk () {
     return (
-      <div>XDDDKDKDKD </div>
+      <div><Layout/></div>
       
     )
   }

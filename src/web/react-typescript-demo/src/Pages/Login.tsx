@@ -1,3 +1,4 @@
+"use client"
 import React, { useState } from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
@@ -33,7 +34,7 @@ export const Login =() =>{
     console.log("HAHAHAHAHA");
     navigate("/main", {replace: true});
   } catch (err:any) {
-    console.log("HEHEHEHEHEHEH")
+    console.log(err)
     navigate("/main", {replace: true});
   }
 

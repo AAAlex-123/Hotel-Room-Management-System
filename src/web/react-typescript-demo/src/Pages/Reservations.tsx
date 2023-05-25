@@ -3,7 +3,7 @@ import Layout from '../Components/Layout'
 
 export default function Reservartions () {
     return (
-      <div>XDDDKDKDKD </div>
+      <div><Layout/></div>
       
     )
   }

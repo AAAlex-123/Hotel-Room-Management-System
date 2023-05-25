@@ -3,7 +3,7 @@ import Layout from '../Components/Layout'
 
 export default function RoomManagement () {
     return (
-      <div>XDDDKDKDKD </div>
+      <div><Layout/></div>
       
     )
   }

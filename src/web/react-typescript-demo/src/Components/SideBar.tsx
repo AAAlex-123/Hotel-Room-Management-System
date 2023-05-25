@@ -2,6 +2,8 @@ import React from 'react'
 import './Component.css';
 import { NavigateFunction } from 'react-router-dom';
 import { useNavigate } from "react-router-dom";
+import { Link } from 'react-router-dom';
+import Button from "react-bootstrap/Button";
 
 export default function SideBar() {
 
@@ -9,16 +11,25 @@ export default function SideBar() {
   return (
     <>
     <nav>
-    <ul className="nav-list">
-        <li onClick={() => changePage('/reservations', navigate)}>Reservartions</li>
-        <li onClick={() => changePage('/front desk', navigate)}>Front Desk</li>
-        <li onClick={() => changePage('/arrivals', navigate)}>Arrivals</li>
-        <li onClick={() => changePage('/room management', navigate)}>Room Management</li>
-        <li onClick={() => changePage('/cashiering', navigate)}>Cashiering</li>
-        <li onClick={() => changePage('/misc', navigate)}>Miscellaneous</li>
+    <div className="nav-list">
+        <div onClick={() => changePage('/reservations', navigate)}>Reservartions</div>
+        <div onClick={() => changePage('/front desk', navigate)}>Front Desk</div>
+        <div onClick={() => changePage('/arrivals', navigate)}>Arrivals</div>
+        <div onClick={() => changePage('/room management', navigate)}>Room Management</div>
+        <div onClick={() => changePage('/cashiering', navigate)}>Cashiering</div>
+        <div onClick={() => changePage('/misc', navigate)}>Miscellaneous</div>
 
-      </ul>
+      <Link to='/'>
+        <Button className="blueButton" type="submit"  >
+
+          Exit
+
+        </Button>
+      </Link>
+      </div>
+
     </nav>
+
     </>
     
   )
