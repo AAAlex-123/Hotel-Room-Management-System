@@ -69,3 +69,52 @@
 }
 
 
+.grid-container{
+    display: grid;
+    grid-template-columns: auto auto auto;
+    grid-gap: 20px;
+
+}
+
+.grid-container > button {
+    background-color: #FFFFFF;
+    text-align: center;
+    padding: 2rem;
+    font-size: 3rem;
+    border-radius: 10px;
+    border-style: hidden;
+    
+  }
+
+.grid-button-container{
+    background-color: #C8D2EC;
+    padding: 3rem;
+    position: relative;
+    margin-left: 10%;
+    border: 3rem solid #FFF;
+    margin: 0 10% 0 20%;
+
+}
+
+.total-screen{
+
+    margin: 0 10% 0 20%;
+}
+
+  .big-screen{
+    background-color: #FFFFFF;
+
+}
+
+
+
+.small-screen{
+    background-color: #C8D2EC;
+    font-size: 3rem;
+    margin-top: 2rem;
+    size: 100px;
+
+}
+
+
+
