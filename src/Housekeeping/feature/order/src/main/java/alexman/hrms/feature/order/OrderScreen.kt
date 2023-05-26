@@ -4,7 +4,7 @@ import alexman.hrms.core.designsystem.PreviewLight
 import alexman.hrms.core.designsystem.SizeVariation
 import alexman.hrms.core.designsystem.component.BottomBarItem
 import alexman.hrms.core.designsystem.component.ButtonWithText
-import alexman.hrms.core.designsystem.component.DeletableListItem
+import alexman.hrms.core.designsystem.component.ListItem
 import alexman.hrms.core.designsystem.component.HrmsScaffold
 import alexman.hrms.core.designsystem.component.IconClickable
 import alexman.hrms.core.designsystem.component.TextInputField
@@ -106,11 +106,16 @@ private fun OrderScreenContent(
                 .padding(16.dp),
         ) {
             items(orders) {
-                DeletableListItem(
+                ListItem(
                     id = it.id,
                     text = it.orderData,
                     deletable = it.cleaningLadyId == cleaningStaffId,
                     onDelete = onDelete,
+                    completed = it.completed == OrderStatus.COMPLETED,
+                    markable = false, // TODO("make it so it depends on cleaningStaffType")
+                    onMarkCompleted = { id: Int, completed: Boolean ->
+                        // TODO("add actual method")
+                    },
                     SizeVariation.PRIMARY,
                 )
             }

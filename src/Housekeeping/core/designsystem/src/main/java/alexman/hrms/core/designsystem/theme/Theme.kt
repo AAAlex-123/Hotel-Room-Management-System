@@ -19,6 +19,8 @@ private val LightColorScheme = lightColorScheme(
     onBackground = Color.Black,
     surface = Gray30,
     onSurface = Color.Black,
+    surfaceVariant = Gray50,
+    onSurfaceVariant = Color.Black,
     outline = Blue20,
 )
 

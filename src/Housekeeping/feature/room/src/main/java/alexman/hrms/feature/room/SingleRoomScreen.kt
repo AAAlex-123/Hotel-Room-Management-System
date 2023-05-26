@@ -3,7 +3,7 @@ package alexman.hrms.feature.room
 import alexman.hrms.core.designsystem.PreviewLight
 import alexman.hrms.core.designsystem.SizeVariation
 import alexman.hrms.core.designsystem.component.ButtonWithText
-import alexman.hrms.core.designsystem.component.DeletableListItem
+import alexman.hrms.core.designsystem.component.ListItem
 import alexman.hrms.core.designsystem.component.HrmsScaffold
 import alexman.hrms.core.designsystem.component.TextInputField
 import alexman.hrms.core.designsystem.component.LargeBodyText
@@ -210,12 +210,15 @@ private fun SingleRoomScreenContent(
                 modifier = Modifier.weight(1f) // full height
             ) {
                 items(notes) {
-                    DeletableListItem(
+                    ListItem(
                         id = it.id,
                         text = it.noteData,
                         deletable = cleaningStaffType == CleaningStaffType.HOUSEKEEPER
                                 || it.cleaningStaffId == cleaningStaffId,
                         onDelete = onDeleteNote,
+                        completed = false,
+                        markable = false,
+                        onMarkCompleted = { _: Int, _: Boolean -> },
                         sizeVariation = SizeVariation.SECONDARY,
                     )
                 }

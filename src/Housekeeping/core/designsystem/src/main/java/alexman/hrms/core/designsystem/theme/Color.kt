@@ -14,3 +14,5 @@ internal val Blue20 = Color(0xFF86C5FF)
 
 internal val Gray50 = Color(0xFF9F9F9F)
 internal val Gray30 = Color(0xFFE1E1E1)
+
+internal val BlackTransparent33 = Color(0x55000000)

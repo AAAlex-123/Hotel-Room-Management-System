@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.Checkbox
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
@@ -25,23 +26,49 @@ import androidx.compose.ui.unit.dp
 
 @PreviewLight
 @Composable
-private fun DeletableListItemPreview() {
+private fun ListItemPreview() {
     HrmsTheme {
         Column(
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            DeletableListItem(
+            ListItem(
                 id = 1,
                 text = "Lorem ipsum",
                 deletable = true,
                 onDelete = { },
+                completed = false,
+                markable = true,
+                onMarkCompleted = { _: Int, _: Boolean -> },
                 sizeVariation = SizeVariation.PRIMARY,
             )
-            DeletableListItem(
+            ListItem(
                 id = 2,
                 text = "Lorem ipsum",
                 deletable = true,
                 onDelete = { },
+                completed = false,
+                markable = true,
+                onMarkCompleted = { _: Int, _: Boolean -> },
+                sizeVariation = SizeVariation.SECONDARY,
+            )
+            ListItem(
+                id = 3,
+                text = "Lorem ipsum",
+                deletable = false,
+                onDelete = { },
+                completed = false,
+                markable = true,
+                onMarkCompleted = { _: Int, _: Boolean -> },
+                sizeVariation = SizeVariation.SECONDARY,
+            )
+            ListItem(
+                id = 4,
+                text = "Lorem ipsum",
+                deletable = true,
+                onDelete = { },
+                completed = true,
+                markable = true,
+                onMarkCompleted = { _: Int, _: Boolean -> },
                 sizeVariation = SizeVariation.SECONDARY,
             )
         }
@@ -49,11 +76,14 @@ private fun DeletableListItemPreview() {
 }
 
 @Composable
-fun DeletableListItem(
+fun ListItem(
     id: Int,
     text: String,
     deletable: Boolean,
     onDelete: (Int) -> Unit,
+    completed: Boolean,
+    markable: Boolean,
+    onMarkCompleted: (Int, Boolean) -> Unit,
     sizeVariation: SizeVariation,
 ) {
     Surface(
@@ -71,24 +101,46 @@ fun DeletableListItem(
             ListItemNumber(
                 number = id,
                 sizeVariation = sizeVariation,
+                completed = completed
             )
+            val textModifier = Modifier.weight(1f)
             when (sizeVariation) {
-                SizeVariation.PRIMARY -> LargeBodyText(
-                    text = text,
-                    modifier = Modifier.weight(1f),
-                )
+                SizeVariation.PRIMARY -> when (completed) {
+                    false -> LargeBodyText(
+                        text = text,
+                        modifier = textModifier,
+                    )
 
-                SizeVariation.SECONDARY -> MediumBodyText(
-                    text = text,
-                    modifier = Modifier.weight(1f),
-                )
+                    true -> StrikethroughLargeBodyText(
+                        text = text,
+                        modifier = textModifier,
+                    )
+                }
+
+                SizeVariation.SECONDARY -> when (completed) {
+                    false -> MediumBodyText(
+                        text = text,
+                        modifier = textModifier,
+                    )
+
+                    true -> StrikethroughMediumBodyText(
+                        text = text,
+                        modifier = textModifier,
+                    )
+                }
             }
             if (deletable) {
                 IconClickable(
                     id = R.drawable.ic_trashcan,
-                    alt = "Delete order",
+                    alt = "delete",
                     onClick = { onDelete(id) },
                     sizeVariation = sizeVariation,
+                )
+            }
+            if (markable) {
+                Checkbox(
+                    checked = completed,
+                    onCheckedChange = { checked -> onMarkCompleted(id, checked) },
                 )
             }
         }
@@ -102,8 +154,10 @@ private fun ListItemNumberPreview() {
         Column(
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            ListItemNumber(1, SizeVariation.PRIMARY)
-            ListItemNumber(2, SizeVariation.SECONDARY)
+            ListItemNumber(1, SizeVariation.PRIMARY, true)
+            ListItemNumber(2, SizeVariation.SECONDARY, true)
+            ListItemNumber(3, SizeVariation.PRIMARY, false)
+            ListItemNumber(4, SizeVariation.SECONDARY, false)
         }
     }
 }
@@ -112,6 +166,7 @@ private fun ListItemNumberPreview() {
 private fun ListItemNumber(
     number: Int,
     sizeVariation: SizeVariation,
+    completed: Boolean,
 ) {
     Box(
         modifier = Modifier
@@ -121,7 +176,13 @@ private fun ListItemNumber(
                     SizeVariation.SECONDARY -> 32.dp
                 }
             )
-            .background(MaterialTheme.colorScheme.primary, shape = CircleShape),
+            .background(
+                color = when (completed) {
+                    false -> MaterialTheme.colorScheme.primary
+                    true -> MaterialTheme.colorScheme.surfaceVariant
+                },
+                shape = CircleShape
+            ),
         contentAlignment = Alignment.Center,
     ) {
         when (sizeVariation) {

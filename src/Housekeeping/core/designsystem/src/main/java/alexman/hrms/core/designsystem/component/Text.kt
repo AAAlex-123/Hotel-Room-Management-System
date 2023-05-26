@@ -1,12 +1,14 @@
 package alexman.hrms.core.designsystem.component
 
 import alexman.hrms.core.designsystem.PreviewLight
+import alexman.hrms.core.designsystem.theme.BlackTransparent33
 import alexman.hrms.core.designsystem.theme.HrmsTheme
 import alexman.hrms.core.designsystem.theme.HrmsTypography
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextDecoration
 
 @PreviewLight
 @Composable
@@ -45,6 +47,22 @@ private fun LargeBodyTextPreview() {
 private fun MediumBodyTextPreview() {
     HrmsTheme {
         MediumBodyText("Body Medium")
+    }
+}
+
+@PreviewLight
+@Composable
+private fun StrikethroughLargeBodyTextPreview() {
+    HrmsTheme {
+        StrikethroughLargeBodyText("Body Strikethrough Large")
+    }
+}
+
+@PreviewLight
+@Composable
+private fun StrikethroughMediumBodyTextPreview() {
+    HrmsTheme {
+        StrikethroughMediumBodyText("Body Strikethrough Medium")
     }
 }
 
@@ -112,6 +130,36 @@ fun MediumBodyText(
     Text(
         text = text,
         style = HrmsTypography.bodyMedium,
+        modifier = modifier,
+    )
+}
+
+@Composable
+fun StrikethroughLargeBodyText(
+    text: String,
+    modifier: Modifier = Modifier,
+) {
+    Text(
+        text = text,
+        style = HrmsTypography.bodyLarge.copy(
+            color = BlackTransparent33,
+            textDecoration = TextDecoration.LineThrough,
+        ),
+        modifier = modifier,
+    )
+}
+
+@Composable
+fun StrikethroughMediumBodyText(
+    text: String,
+    modifier: Modifier = Modifier,
+) {
+    Text(
+        text = text,
+        style = HrmsTypography.bodyMedium.copy(
+            color = BlackTransparent33,
+            textDecoration = TextDecoration.LineThrough,
+        ),
         modifier = modifier,
     )
 }
