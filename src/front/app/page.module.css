@@ -1,3 +1,67 @@
-body {
-  background-color: #424771;
+.main{
+  display: flex;
+  align-items: flex-start;
+  background-color: #FFFFFF;
+  
+
+}
+
+.bigBlock{
+  background-color: #E5EDFF;
+  display:flex;
+  flex-direction: row;
+  float: right;
+  justify-content: flex-end;
+  border-radius: 10px;
+  padding: 0.5rem;
+  margin: 1rem;
+  padding-right: 10rem;
+  margin-left: 80rem;  
+
+  
+}
+
+
+
+.userIcon {
+  padding: 1rem;
+  margin: 2rem;
+  border-radius: 5px;
+
+  
+}
+
+.textBlock{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-left: 10px; 
+
+}
+
+.userText{
+  text-align: left;
+}
+
+.nav-list {
+  background-color: #C8D2EC;
+  display: flex;
+  position: absolute;
+  flex-direction: column;
+  list-style: none;
+  text-align: center;
+  /* margin-left: 10px;  */
+  flex-shrink: 1;
+  justify-content: flex-end;
+  
+}
+
+.nav-list > div {
+  background-color: #FFFFFF;
+  margin: 10%;
+  font-size: 1.25rem;
+  border-radius: 10px;
+  padding: 1.25rem;
+
+  
 }
