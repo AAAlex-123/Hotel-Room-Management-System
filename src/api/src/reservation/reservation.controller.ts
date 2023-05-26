@@ -4,6 +4,7 @@ import {
   Delete,
   Get,
   Param,
+  ParseBoolPipe,
   ParseIntPipe,
   Post,
   Put,
@@ -43,7 +44,7 @@ export class ReservationController {
   @Get(':id')
   async getById(
     @Param('id', ParseIntPipe) id: number,
-    @Query('client', ParseIntPipe) client: boolean,
+    @Query('client', ParseBoolPipe) client: boolean,
   ): Promise<ReservationClientEntity> {
     const results = await this.prisma.reservation.findFirst({
       where: { reservation_id: id },

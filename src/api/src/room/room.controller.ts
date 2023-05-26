@@ -30,7 +30,7 @@ export class RoomController {
         groupRoom: {
           group: {
             GroupChamber: {
-              some: { chambermaid_id },
+              some: { chambermaid_id: Number(chambermaid_id) },
             },
           },
         },

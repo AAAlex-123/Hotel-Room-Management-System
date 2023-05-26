@@ -32,7 +32,7 @@ export class NoteController {
     },
   ) {
     return await this.prisma.note.findMany({
-      where: { room_id, cleaning_staff_id },
+      where: { room_id, cleaning_staff_id: Number(cleaning_staff_id) },
     });
   }
   @Get(':id')

@@ -73,9 +73,10 @@ model Employee {
   username    String       @unique
   password    String
 
-  notes        Note[]
-  Group        Group[]
-  GroupChamber GroupChamber[]
+  notes          Note[]
+  Group          Group[]
+  GroupChamber   GroupChamber?
+  ProvisionOrder ProvisionOrder[]
 }
 
 model Group {
@@ -89,7 +90,7 @@ model Group {
 
 model GroupChamber {
   group_id       Int
-  chambermaid_id Int
+  chambermaid_id Int      @unique
   group          Group    @relation(fields: [group_id], references: [group_id])
   chambermaid    Employee @relation(fields: [chambermaid_id], references: [employee_id])
 
@@ -111,6 +112,7 @@ model ProvisionOrder {
   employee_id  Int
   complete     Boolean
   creation     DateTime @default(now())
+  employee     Employee @relation(fields: [employee_id], references: [employee_id])
 }
 
 model MenuOrder {
@@ -170,7 +172,7 @@ enum Type {
 
 enum EmployeeType {
   HOUSEKEEPER
-  CHAIMBERMAID
+  CHAMBERMAID
   KITCHEN
   RECEPTION
 }

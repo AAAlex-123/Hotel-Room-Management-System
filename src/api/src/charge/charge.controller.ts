@@ -26,7 +26,7 @@ export class ChargeController {
   async getAll(@Query() { reservation_id }: { reservation_id?: number }) {
     return await this.prisma.charge.findMany({
       where: {
-        reservation_id,
+        reservation_id: Number(reservation_id),
       },
     });
   }

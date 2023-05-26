@@ -14,6 +14,8 @@ import { ChargeController } from './charge/charge.controller';
 import { NoteController } from './note/note.controller';
 import { GroupController } from './group/group.controller';
 import { RoomDescriptionController } from './room-description/room-description.controller';
+import { ChambermaidController } from './chambermaid/chambermaid.controller';
+import { HousekeeperController } from './housekeeper/housekeeper.controller';
 
 export const IS_PUBLIC_KEY = 'isPublic';
 export const Public = () => SetMetadata(IS_PUBLIC_KEY, true);
@@ -32,6 +34,8 @@ export const Public = () => SetMetadata(IS_PUBLIC_KEY, true);
     NoteController,
     GroupController,
     RoomDescriptionController,
+    ChambermaidController,
+    HousekeeperController,
   ],
   providers: [PrismaService, ConsoleLogger],
 })
