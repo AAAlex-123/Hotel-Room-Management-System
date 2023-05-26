@@ -1,4 +1,4 @@
-import { Controller, Get, ParseIntPipe, Query } from '@nestjs/common';
+import { Controller, Get, Query } from '@nestjs/common';
 import { ApiQuery, ApiTags } from '@nestjs/swagger';
 import { PrismaService } from 'src/prisma/prisma.service';
 
