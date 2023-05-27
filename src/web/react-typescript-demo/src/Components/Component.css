@@ -17,8 +17,8 @@
     border-radius: 10px;
     padding: 0.5rem;
     margin: 1rem;
-    padding-right: 10rem;
-    margin-left: 80rem;  
+    margin-left: auto;
+    margin-right: 1rem; 
 
     
 }
@@ -26,8 +26,8 @@
 
 
 .userIcon {
-    padding: 1rem;
-    margin: 2rem;
+    padding: 0.5rem;
+    margin: 1rem;
     border-radius: 5px;
 
     
@@ -45,25 +45,27 @@
     text-align: left;
 }
 
+
+
+
 .nav-list {
     background-color: #C8D2EC;
     display: flex;
     position: absolute;
     flex-direction: column;
-    list-style: none;
     text-align: center;
-    /* margin-left: 10px;  */
-    flex-shrink: 1;
-    justify-content: flex-end;
+    min-height: 80vh;
+    justify-content: flex-start;
     
 }
 
 .nav-list > div {
     background-color: #FFFFFF;
     margin: 10%;
-    font-size: 1.25rem;
+    font-size: 1rem;
     border-radius: 10px;
     padding: 1.25rem;
+    flex: 0;
 
     
 }
@@ -72,15 +74,16 @@
 .grid-container{
     display: grid;
     grid-template-columns: auto auto auto;
-    grid-gap: 20px;
+    grid-gap: 1.5rem;
+
 
 }
 
 .grid-container > button {
     background-color: #FFFFFF;
     text-align: center;
-    padding: 2rem;
-    font-size: 3rem;
+    padding: 1.5rem;
+    font-size: 2.8rem;
     border-radius: 10px;
     border-style: hidden;
     
@@ -90,8 +93,7 @@
     background-color: #C8D2EC;
     padding: 3rem;
     position: relative;
-    margin-left: 10%;
-    border: 3rem solid #FFF;
+    border: 2.3rem solid #FFF;
     margin: 0 10% 0 20%;
 
 }
@@ -117,4 +119,69 @@
 }
 
 
+.det-button-container{
+
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+    flex-direction: column; 
+    background-color: #E9F3FF;
+    padding: 1rem; 
+    max-width: 60%; 
+    margin: 8% auto auto 25%
+}
+
+
+.det-container{
+    display: grid;
+    grid-template-columns: 1fr 1fr; 
+    grid-gap: 1rem; 
+
+}
+
+
+.det-container span:first-child {
+    font-weight: bold;
+    text-align: right;
+}
+
+.det-container span:last-child {
+    text-align: left;
+    
+}
+
+.det-container span {
+    margin: 0.6rem;
+    font-size: 1.3rem;
+    position: relative;
+    display: inline-block;
+    text-decoration: none;
+}
+
+.det-container span::before,
+.det-container span::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 2px;
+    background-color: #C8D2EC;
+}
+
+.det-container span::before {
+  top: 0; 
+  transform: scaleX(1);
+  transform-origin: left center;
+
+}
+
+
+
+.det-container span::after {
+  bottom: 0;
+  transform: scaleX(1);
+  transform-origin: right center;
+
+}
 

@@ -20,7 +20,7 @@ export default function SideBar() {
         <div onClick={() => changePage('/misc', navigate)}>Miscellaneous</div>
 
       <Link to='/'>
-        <Button className="blueButton" type="submit"  >
+        <Button className="blueButton" type="submit">
 
           Exit
 
