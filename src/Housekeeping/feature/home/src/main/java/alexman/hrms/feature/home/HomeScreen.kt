@@ -61,7 +61,10 @@ private fun HomeScreenContent(
     scaffoldNavigation: ScaffoldNavigation,
 ) {
     HrmsScaffold(
-        topBarText = uiState.staffId.toString(),
+        topBarText = when (staff.staffType) {
+            CleaningStaffType.CLEANING_LADY -> "Cleaning Lady"
+            CleaningStaffType.HOUSEKEEPER -> "Housekeeper"
+        },
         actions = { LogoutButton(onClick = onNavigateToLogin) },
         scaffoldNavigation = scaffoldNavigation,
     ) {
@@ -71,8 +74,8 @@ private fun HomeScreenContent(
             modifier = Modifier
                 .fillMaxSize()
         ) {
-            LargeDisplayText("Staff ID: ${uiState.staffId}")
-            LargeDisplayText("Name: ${uiState.staffName}")
+            LargeDisplayText("Staff ID: ${staff.staffId}")
+            LargeDisplayText("Name: ${staff.staffName}")
         }
     }
 }
