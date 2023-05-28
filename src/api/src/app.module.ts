@@ -17,9 +17,8 @@ import { RoomDescriptionController } from './room-description/room-description.c
 import { ChambermaidController } from './chambermaid/chambermaid.controller';
 import { HousekeeperController } from './housekeeper/housekeeper.controller';
 import { ClientController } from './client/client.controller';
-
-export const IS_PUBLIC_KEY = 'isPublic';
-export const Public = () => SetMetadata(IS_PUBLIC_KEY, true);
+import { APP_GUARD } from '@nestjs/core';
+import { AuthGuard } from './auth/auth.guard/auth.guard';
 
 @Module({
   imports: [AuthModule, ConfigModule.forRoot()],
@@ -39,6 +38,13 @@ export const Public = () => SetMetadata(IS_PUBLIC_KEY, true);
     HousekeeperController,
     ClientController,
   ],
-  providers: [PrismaService, ConsoleLogger],
+  providers: [
+    PrismaService,
+    ConsoleLogger,
+    // {
+    //   provide: APP_GUARD,
+    //   useClass: AuthGuard,
+    // },
+  ],
 })
 export class AppModule {}
