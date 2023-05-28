@@ -15,6 +15,7 @@ import { GroupController } from './group/group.controller';
 import { ChambermaidController } from './chambermaid/chambermaid.controller';
 import { HousekeeperController } from './housekeeper/housekeeper.controller';
 import { ClientController } from './client/client.controller';
+import { DirtyServiceService } from './dirty-service/dirty-service.service';
 
 @Module({
   imports: [AuthModule, ConfigModule.forRoot()],
@@ -36,6 +37,7 @@ import { ClientController } from './client/client.controller';
   providers: [
     PrismaService,
     ConsoleLogger,
+    DirtyServiceService,
     // {
     //   provide: APP_GUARD,
     //   useClass: AuthGuard,
