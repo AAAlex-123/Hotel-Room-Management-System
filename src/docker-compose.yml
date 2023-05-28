@@ -18,15 +18,7 @@ services:
       MYSQL_ROOT_PASSWORD: manasou
     volumes:
       - mysql_vol:/var/lib/mysql
-
-  # waitt:
-  #   image: ubuntu:latest
-  #   command: [ "bash", "sleep 20" ]
-  #   entrypoint: [ "bash", "echo", "'done'" ]
-  #   profiles:
-  #     - first_batch
-  #   depends_on:
-  #     - mysql_image
+    mem_limit: "700M"
 
   api:
     build: ./api/
@@ -40,6 +32,7 @@ services:
       - main
     depends_on:
       - mysql_image
+    mem_limit: "350M"
 
   front:
     build: ./front/
@@ -51,6 +44,7 @@ services:
       - main
     depends_on:
       - api
+    mem_limit: "300M"
 
   nginx:
     image: nginx:latest
@@ -66,6 +60,7 @@ services:
       - main
     depends_on:
       - front
+    mem_limit: "30M"
 volumes:
   mysql_vol:
 networks:
