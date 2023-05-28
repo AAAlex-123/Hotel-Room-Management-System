@@ -17,22 +17,30 @@ model Room {
   service        Boolean @default(false)
   out_of_order   Boolean @default(false)
   clean_type     Type    @default(DAILY)
+  roomType       String  @default("")
+  roomClass      String  @default("")
+  floor          String  @default("")
 
   Reservation      Reservation[]
   groupRoom        GroopRooms?
   chambermaid_note Note[]
-  RoomDescription  RoomDescription?
   MenuOrder        MenuOrder[]
 }
 
 model Reservation {
   reservation_id Int      @id @default(autoincrement())
   room_id        String
-  client_id      Int
+  name           String
+  email          String   @default("")
+  cellphone      String   @unique
+  city           String   @default("")
+  country        String   @default("")
+  address        String   @default("")
+  postcode       String   @default("")
+  visitor        Int      @default(1)
   arrival        DateTime @default(now())
   departure      DateTime @default(now())
-  room           Room     @relation(fields: [room_id], references: [room_id])
-  client         Client   @relation(fields: [client_id], references: [client_id])
+  room           Room     @relation(fields: [room_id], references: [room_id], onDelete: Cascade)
   charge         Charge[]
 }
 
@@ -42,7 +50,7 @@ model Charge {
   description    String
   amount         Float
   type           ChargeType
-  reservation    Reservation @relation(fields: [reservation_id], references: [reservation_id])
+  reservation    Reservation @relation(fields: [reservation_id], references: [reservation_id], onDelete: Cascade)
 
   @@id([reservation_id, timestamp])
 }
@@ -54,16 +62,8 @@ model Note {
   completed         Boolean
   note_data         String
   created           DateTime @default(now())
-  chambermaid       Employee @relation(fields: [cleaning_staff_id], references: [employee_id])
-  room              Room     @relation(fields: [room_id], references: [room_id])
-}
-
-model Client {
-  client_id   Int           @id @default(autoincrement())
-  name        String
-  cellphone   String
-  email       String
-  Reservation Reservation[]
+  chambermaid       Employee @relation(fields: [cleaning_staff_id], references: [employee_id], onDelete: Cascade)
+  room              Room     @relation(fields: [room_id], references: [room_id], onDelete: Cascade)
 }
 
 model Employee {
@@ -85,14 +85,14 @@ model Group {
 
   groupRooms   GroopRooms[]
   GroupChamber GroupChamber[]
-  HouseKeepers Employee       @relation(fields: [housekeeper_id], references: [employee_id])
+  HouseKeepers Employee       @relation(fields: [housekeeper_id], references: [employee_id], onDelete: Cascade)
 }
 
 model GroupChamber {
   group_id       Int
   chambermaid_id Int      @unique
-  group          Group    @relation(fields: [group_id], references: [group_id])
-  chambermaid    Employee @relation(fields: [chambermaid_id], references: [employee_id])
+  group          Group    @relation(fields: [group_id], references: [group_id], onDelete: Cascade)
+  chambermaid    Employee @relation(fields: [chambermaid_id], references: [employee_id], onDelete: Cascade)
 
   @@id([group_id, chambermaid_id])
 }
@@ -112,7 +112,7 @@ model ProvisionOrder {
   employee_id  Int
   complete     Boolean
   creation     DateTime @default(now())
-  employee     Employee @relation(fields: [employee_id], references: [employee_id])
+  employee     Employee @relation(fields: [employee_id], references: [employee_id], onDelete: Cascade)
 }
 
 model MenuOrder {
@@ -122,8 +122,8 @@ model MenuOrder {
   amount   Int
   complete Boolean
   creation DateTime @default(now())
-  room     Room     @relation(fields: [room_id], references: [room_id])
-  menu     MenuItem @relation(fields: [menu_id], references: [menu_id])
+  room     Room     @relation(fields: [room_id], references: [room_id], onDelete: Cascade)
+  menu     MenuItem @relation(fields: [menu_id], references: [menu_id], onDelete: Cascade)
 }
 
 model MenuItem {
@@ -134,14 +134,6 @@ model MenuItem {
   MenuOrder    MenuOrder[]
 }
 
-model RoomDescription {
-  room_id   String @id
-  roomType  String
-  roomClass String
-  floor     String
-  room      Room   @relation(fields: [room_id], references: [room_id])
-}
-
 enum ChargeType {
   CHARGE
   CREDIT
@@ -149,8 +141,6 @@ enum ChargeType {
 
 enum Status {
   DIRTY
-  PENDING_UPLOAD
-  PENDING_CHECK
   CLEAN
   INSPECTED
 }
