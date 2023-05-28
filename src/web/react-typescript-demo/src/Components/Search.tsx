@@ -1,6 +1,7 @@
 import './Component.css';
 import React, { useState } from 'react';
 
+
 interface SearchProps {
     onSearch: (searchText: string) => void;
     label: string;
@@ -25,7 +26,8 @@ interface SearchProps {
 
   
     return (
-      <div>
+    <div className="bar-container">
+      <div className="search-container">
         <label>{label}</label>
         <input
           type="text"
@@ -33,6 +35,7 @@ interface SearchProps {
           onChange={(e) => setSearchText(e.target.value)}
           onKeyDown={handleKeyDown}
         />  
+      </div>
       </div>
     );
   };

@@ -1,22 +1,21 @@
 import './Component.css';
 import Button from "react-bootstrap/Button";
-import React, { useState} from 'react';
+
 
 interface DetElem {
     titles: string[];
     content: string[];
     elem: number;
     text: string;
+    text2?: string | null;
+    onClose: () => void;
   }
   
-  const Details: React.FC<DetElem> = ({ titles, content, elem, text}) =>  {
-    const [showPopup, setShowPopup] = useState(false);
-    const closePopup = () => {
-      setShowPopup(false);
-    };
-    if (!showPopup) {
-      return null; 
-    }
+  const Details: React.FC<DetElem> = ({ titles, content, elem, text, text2='', onClose}) =>  {
+
+
+  
+
     const renderGridItems = () => {
         const items = [];
         for (let i = 0; i < elem; i++) {
@@ -26,6 +25,7 @@ interface DetElem {
           <div className="det-container">
             <span key={i}> {title} </span> 
             <span> {con} </span>
+
           </div>
           );
         }
@@ -35,12 +35,22 @@ interface DetElem {
       return ( 
       <div className="det-button-container">
         {renderGridItems()} 
-        <Button className="blueButton" type="submit" onClick={closePopup} >
+      <div className='button-container'>
+        <Button className="blueButton" type="submit" onClick={onClose} >
 
           {text}
 
         </Button>
+        {text2 !== null && ( 
 
+          <Button className="blueButton" type="submit">
+
+            {text2}
+            
+          </Button>
+        )}
+
+        </div>  
 
       </div>
       )

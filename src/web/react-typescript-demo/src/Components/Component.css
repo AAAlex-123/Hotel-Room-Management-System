@@ -1,5 +1,3 @@
-
-
 .main{
     display: flex;
     align-items: flex-start;
@@ -54,6 +52,7 @@
     position: absolute;
     flex-direction: column;
     text-align: center;
+    /* For smaller laptop screen min-height: 80vh; */
     min-height: 80vh;
     justify-content: flex-start;
     
@@ -112,7 +111,7 @@
 
 .small-screen{
     background-color: #C8D2EC;
-    font-size: 3rem;
+    font-size: 2rem;
     margin-top: 2rem;
     size: 100px;
 
@@ -126,9 +125,14 @@
     align-items: center; 
     flex-direction: column; 
     background-color: #E9F3FF;
-    padding: 1rem; 
     max-width: 60%; 
-    margin: 8% auto auto 25%
+    margin: 3% auto auto 20%
+}
+
+.button-container{
+    display: flex;
+    justify-content: space-between;
+
 }
 
 
@@ -136,6 +140,7 @@
     display: grid;
     grid-template-columns: 1fr 1fr; 
     grid-gap: 1rem; 
+
 
 }
 
@@ -185,3 +190,52 @@
 
 }
 
+
+
+.res-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 10% 0 20%;
+
+  }
+
+
+
+.whiteBox {
+    background-color: #fff;
+    min-width: 100%;
+    /*For smaller screens height: 90vh; */
+    height: 70vh;
+   
+  }
+
+
+.bar-container{
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+    padding-top: 3% 
+    
+} 
+.search-container{
+    background-color: #C8D2EC;
+    width: 80%;
+    padding: 20px;
+    box-sizing: border-box;
+    border-radius: 10px;
+ 
+}
+
+
+.search-container > label{
+    font-size: 1rem;
+    padding: 1rem; 
+}
+
+.search-container > input{
+    font-size: 1rem;
+    width: 50%;
+    border: none;
+
+}
