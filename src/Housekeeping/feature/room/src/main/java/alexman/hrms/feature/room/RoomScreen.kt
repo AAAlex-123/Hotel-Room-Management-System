@@ -42,10 +42,10 @@ private fun RoomScreenContentPreview() {
             staff = RoomStaffUiState(1, CleaningStaffType.CLEANING_LADY),
             rooms = listOf(
                 Room("101", CleanState.DIRTY, CleanType.NORMAL, Occupied.VACANT),
-                Room("102", CleanState.PENDING_UPLOAD, CleanType.NORMAL, Occupied.OCCUPIED),
+                Room("102", CleanState.PENDING, CleanType.NORMAL, Occupied.OCCUPIED),
                 Room("103", CleanState.CLEAN, CleanType.NORMAL, Occupied.VACANT),
-                Room("104", CleanState.PENDING_CHECK, CleanType.DEEP, Occupied.OCCUPIED),
-                Room("105", CleanState.INSPECTED, CleanType.DEEP, Occupied.VACANT),
+                Room("104", CleanState.PENDING, CleanType.DEEP, Occupied.OCCUPIED),
+                Room("105", CleanState.CLEAN, CleanType.DEEP, Occupied.VACANT),
             ),
             onNavigateToHome = { },
             onNavigateToSingleRoom = { },
@@ -153,15 +153,7 @@ private fun RoomComposable(
                     onNavigateToSingleRoom(it.id)
                 }
             }
-            .background(
-                when (room?.cleanState) {
-                    CleanState.DIRTY -> Color.Red
-                    CleanState.PENDING_UPLOAD, CleanState.PENDING_CHECK -> Color.Yellow
-                    CleanState.CLEAN -> Color.Green
-                    CleanState.INSPECTED -> Color.Cyan
-                    else -> Color.Transparent
-                }
-            )
+            .background(room.color())
     ) {
         room?.let {
             MediumDisplayText(

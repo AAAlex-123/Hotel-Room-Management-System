@@ -2,12 +2,12 @@ package alexman.hrms.core.network.model
 
 data class UpstreamNetworkRoomUpdateDetails(
     val id: String,
-    val cleanState: Int,
+    val cleanState: String,
 )
 
 data class NetworkRoom(
     val id: String,
-    val cleanState: Int,
+    val cleanState: String,
     val occupied: Boolean,
-    val cleanType: Int,
+    val cleanType: String,
 )

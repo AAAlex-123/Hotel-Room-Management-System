@@ -62,8 +62,9 @@ internal interface HrmsApi {
         @Path("id") roomId: String,
     ): Response<RetrofitRoom>
 
-    @PUT("room")
+    @PUT("room/{id}")
     suspend fun updateRoom(
+        @Path("id") roomId: String,
         @Body room: RetrofitRoomBody,
     ): Response<RetrofitRoom>
 

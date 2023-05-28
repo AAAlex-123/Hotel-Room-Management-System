@@ -78,15 +78,9 @@ internal fun SingleRoomScreen(
         staff = staffUiState,
         room.value,
         notes.value,
-        onUpdateRoomState = {
-            singleRoomViewModel.updateRoomState(roomId, it)
-        },
-        onAddNote = {
-            singleRoomViewModel.addNote(it)
-        },
-        onDeleteNote = {
-            singleRoomViewModel.deleteNote(it)
-        },
+        onUpdateRoomState = { singleRoomViewModel.updateRoomState(roomId, it) },
+        onAddNote = { singleRoomViewModel.addNote(it) },
+        onDeleteNote = { singleRoomViewModel.deleteNote(it) },
         onNavigateToRooms = onNavigateToRooms,
     )
 }
@@ -112,14 +106,14 @@ private fun SingleRoomScreenContent(
     val (noteData, setNoteData) = remember { mutableStateOf("") }
 
     HrmsScaffold(
-        topBarText = "Room ${room.id}",
+        topBarText = "Room ${room.id}${
+            when (room.cleanType) {
+                CleanType.NORMAL -> ""
+                CleanType.DEEP -> "*"
+            }
+        }",
         onNavigationIconClick = { onNavigateToRooms(staff.staffId) },
-        topBarBackgroundColor = when (room.cleanState) {
-            CleanState.DIRTY -> Color.Red
-            CleanState.PENDING_UPLOAD, CleanState.PENDING_CHECK -> Color.Yellow
-            CleanState.CLEAN -> Color.Green
-            CleanState.INSPECTED -> Color.Cyan
-        },
+        topBarBackgroundColor = room.color(),
     ) {
         Column(
             verticalArrangement = Arrangement.spacedBy(8.dp),
@@ -168,33 +162,43 @@ private fun SingleRoomScreenContent(
                         )
                     }
                 }
-                // don't show button when clean/inspected
-                if (room.cleanState != CleanState.CLEAN
-                    && room.cleanState != CleanState.INSPECTED
-                ) {
+                // show dirty <-> pending button regardless of staff type
+                // but don't show button when clean
+                if (room.cleanState != CleanState.CLEAN) {
                     ButtonWithText(
-                        text = "Mark ${
-                            when (room.cleanState) {
-                                CleanState.DIRTY -> "Clean"
-                                CleanState.PENDING_UPLOAD, CleanState.PENDING_CHECK -> "Dirty"
-                                else -> error("CleanState was ${room.cleanState} in ButtonWithText#text")
-                            }
-                        }",
+                        text = when (room.cleanState) {
+                            CleanState.DIRTY -> "Mark\nPending"
+                            CleanState.PENDING -> "Mark\nDirty"
+                            else -> error("CleanState was ${room.cleanState} in ButtonWithText1#text")
+                        },
                         onClick = {
                             when (room.cleanState) {
-                                CleanState.DIRTY -> {
-                                    onUpdateRoomState(
-                                        when (room.cleanType) {
-                                            CleanType.NORMAL -> CleanState.PENDING_UPLOAD
-                                            CleanType.DEEP -> CleanState.PENDING_CHECK
-                                        }
-                                    )
-                                }
-                                CleanState.PENDING_UPLOAD, CleanState.PENDING_CHECK -> {
-                                    onUpdateRoomState(CleanState.DIRTY)
-                                }
-
-                                else -> error("CleanState was ${room.cleanState} in ButtonWithText#onClick")
+                                CleanState.DIRTY -> onUpdateRoomState(CleanState.PENDING)
+                                CleanState.PENDING -> onUpdateRoomState(CleanState.DIRTY)
+                                else -> error("CleanState was ${room.cleanState} in ButtonWithText1#onClick")
+                            }
+                        },
+                        sizeVariation = SizeVariation.SECONDARY,
+                    )
+                }
+                // show pending <-> clean button only for housekeepers
+                // but don't show button when dirty
+                if (staff.staffType == CleaningStaffType.HOUSEKEEPER
+                    && room.cleanState != CleanState.DIRTY) {
+                    ButtonWithText(
+                        text = when (room.cleanState) {
+                            CleanState.PENDING -> when (room.cleanType) {
+                                CleanType.NORMAL -> "Mark\nClean"
+                                CleanType.DEEP -> "Mark\nInspected"
+                            }
+                            CleanState.CLEAN -> "Mark\nPending"
+                            else -> error("CleanState was ${room.cleanState} in ButtonWithText2#text")
+                        },
+                        onClick = {
+                            when (room.cleanState) {
+                                CleanState.PENDING -> onUpdateRoomState(CleanState.CLEAN)
+                                CleanState.CLEAN -> onUpdateRoomState(CleanState.PENDING)
+                                else -> error("CleanState was ${room.cleanState} in ButtonWithText2#onClick")
                             }
                         },
                         sizeVariation = SizeVariation.SECONDARY,
@@ -212,8 +216,8 @@ private fun SingleRoomScreenContent(
                     ListItem(
                         id = it.id,
                         text = it.noteData,
-                        deletable = cleaningStaffType == CleaningStaffType.HOUSEKEEPER
-                                || it.cleaningStaffId == cleaningStaffId,
+                        deletable = staff.staffType == CleaningStaffType.HOUSEKEEPER
+                                || it.cleaningStaffId == staff.staffId,
                         onDelete = onDeleteNote,
                         completed = false,
                         markable = false,

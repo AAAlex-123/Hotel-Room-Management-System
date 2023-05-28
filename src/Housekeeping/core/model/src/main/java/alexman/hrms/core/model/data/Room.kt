@@ -1,7 +1,7 @@
 package alexman.hrms.core.model.data
 
 enum class CleanState {
-    DIRTY, PENDING_UPLOAD, PENDING_CHECK, CLEAN, INSPECTED,
+    DIRTY, PENDING, CLEAN,
 }
 
 enum class CleanType {

@@ -38,11 +38,11 @@ class FakeNetworkDataSource : HrmsNetworkDataSource {
     )
 
     private val roomMap: MutableMap<String, NetworkRoom> = mutableMapOf(
-        "101" to NetworkRoom("101", 0, true, 0),
-        "102" to NetworkRoom("102", 1, true, 1),
-        "103" to NetworkRoom("103", 2, false, 0),
-        "104" to NetworkRoom("104", 3, false, 0),
-        "105" to NetworkRoom("105", 4, false, 1),
+        "101" to NetworkRoom("101", "DIRTY", true, "DAILY"),
+        "102" to NetworkRoom("102", "PENDING", true, "DAILY"),
+        "103" to NetworkRoom("103", "PENDING", false, "DEEP"),
+        "104" to NetworkRoom("104", "CLEAN", false, "DAILY"),
+        "105" to NetworkRoom("105", "CLEAN", false, "DEEP"),
     )
 
     private val noteMap: MutableMap<Int, NetworkNote> = mutableMapOf(

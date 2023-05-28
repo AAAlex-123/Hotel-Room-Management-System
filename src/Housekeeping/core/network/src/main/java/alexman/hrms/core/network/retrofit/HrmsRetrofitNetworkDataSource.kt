@@ -112,7 +112,8 @@ class HrmsRetrofitNetworkDataSource : HrmsNetworkDataSource {
     override suspend fun updateRoomState(upstreamNetworkRoomUpdateDetails: UpstreamNetworkRoomUpdateDetails):
             HrmsNetworkResponse<NetworkRoom> =
         HrmsRetrofitInstance.api.updateRoom(
-            upstreamNetworkRoomUpdateDetails.asRetrofitRoomBody()
+            upstreamNetworkRoomUpdateDetails.id,
+            upstreamNetworkRoomUpdateDetails.asRetrofitRoomBody(),
         ).asHrmsNetworkResponse {
             it?.asNetworkRoom()
         }

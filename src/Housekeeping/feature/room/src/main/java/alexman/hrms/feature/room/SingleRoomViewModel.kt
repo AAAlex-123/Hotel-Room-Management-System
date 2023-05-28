@@ -61,6 +61,10 @@ internal class SingleRoomViewModel(
             room = roomRepository.getSingleRoom(
                 SingleRoomQuery(roomId = roomId)
             )
+        }
+
+        viewModelScope.launch {
+            // TODO("figure out how to handle failure")
             notes = roomRepository.getNotes(
                 NoteQuery(roomId = roomId)
             )

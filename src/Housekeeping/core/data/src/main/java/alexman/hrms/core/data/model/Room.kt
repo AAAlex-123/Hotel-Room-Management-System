@@ -11,17 +11,15 @@ import alexman.hrms.core.network.model.UpstreamNetworkRoomUpdateDetails
 fun NetworkRoom.asExternalModel() = Room(
     id = id,
     cleanState = when (cleanState) {
-        0 -> CleanState.DIRTY
-        1 -> CleanState.PENDING_UPLOAD
-        2 -> CleanState.PENDING_CHECK
-        3 -> CleanState.CLEAN
-        4 -> CleanState.INSPECTED
+        "DIRTY" -> CleanState.DIRTY
+        "PENDING" -> CleanState.PENDING
+        "CLEAN" -> CleanState.CLEAN
         else -> error("Invalid clean state $cleanState")
     },
     occupied = if (occupied) Occupied.OCCUPIED else Occupied.VACANT,
     cleanType = when (cleanType) {
-        0 -> CleanType.NORMAL
-        1 -> CleanType.DEEP
+        "DAILY" -> CleanType.NORMAL
+        "DEEP" -> CleanType.DEEP
         else -> error("Invalid clean type $cleanType")
     },
 )
@@ -30,10 +28,8 @@ fun UpstreamRoomUpdateDetails.asUpstreamNetworkRoomUpdateDetails() =
     UpstreamNetworkRoomUpdateDetails(
         id = id,
         cleanState = when (cleanState) {
-            CleanState.DIRTY -> 0
-            CleanState.PENDING_UPLOAD -> 1
-            CleanState.PENDING_CHECK -> 2
-            CleanState.CLEAN -> 3
-            CleanState.INSPECTED -> 4
+            CleanState.DIRTY -> "DIRTY"
+            CleanState.PENDING -> "PENDING"
+            CleanState.CLEAN -> "CLEAN"
         }
     )
