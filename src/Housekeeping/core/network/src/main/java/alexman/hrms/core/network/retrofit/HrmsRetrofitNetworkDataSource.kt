@@ -9,10 +9,12 @@ import alexman.hrms.core.network.model.NetworkRoom
 import alexman.hrms.core.network.model.UpstreamNetworkCleaningStaffAuth
 import alexman.hrms.core.network.model.UpstreamNetworkNoteDetails
 import alexman.hrms.core.network.model.UpstreamNetworkOrderDetails
+import alexman.hrms.core.network.model.UpstreamNetworkOrderUpdateDetails
 import alexman.hrms.core.network.model.UpstreamNetworkRoomUpdateDetails
 import alexman.hrms.core.network.retrofit.model.asRetrofitCleaningStaffAuthBody
 import alexman.hrms.core.network.retrofit.model.asRetrofitNoteBody
 import alexman.hrms.core.network.retrofit.model.asRetrofitOrderBody
+import alexman.hrms.core.network.retrofit.model.asRetrofitOrderUpdateBody
 import alexman.hrms.core.network.retrofit.model.asRetrofitRoomBody
 import retrofit2.Response
 
@@ -70,6 +72,15 @@ class HrmsRetrofitNetworkDataSource : HrmsNetworkDataSource {
             HrmsNetworkResponse<NetworkOrder> =
         HrmsRetrofitInstance.api.postOrder(
             upstreamNetworkOrderDetails.asRetrofitOrderBody()
+        ).asHrmsNetworkResponse {
+            it?.asNetworkOrder()
+        }
+
+    override suspend fun updateOrderState(upstreamNetworkOrderUpdateDetails: UpstreamNetworkOrderUpdateDetails):
+            HrmsNetworkResponse<NetworkOrder> =
+        HrmsRetrofitInstance.api.updateOrder(
+            upstreamNetworkOrderUpdateDetails.id,
+            upstreamNetworkOrderUpdateDetails.asRetrofitOrderUpdateBody(),
         ).asHrmsNetworkResponse {
             it?.asNetworkOrder()
         }

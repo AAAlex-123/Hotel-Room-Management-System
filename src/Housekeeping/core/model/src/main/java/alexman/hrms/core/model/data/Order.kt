@@ -9,6 +9,11 @@ enum class OrderStatus {
     PENDING, COMPLETED
 }
 
+data class UpstreamOrderUpdateDetails(
+    val id: Int,
+    val completed: OrderStatus,
+)
+
 data class Order(
     val id: Int,
     val completed: OrderStatus,

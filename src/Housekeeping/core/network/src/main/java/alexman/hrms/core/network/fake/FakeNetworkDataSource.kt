@@ -9,6 +9,7 @@ import alexman.hrms.core.network.model.NetworkRoom
 import alexman.hrms.core.network.model.UpstreamNetworkCleaningStaffAuth
 import alexman.hrms.core.network.model.UpstreamNetworkNoteDetails
 import alexman.hrms.core.network.model.UpstreamNetworkOrderDetails
+import alexman.hrms.core.network.model.UpstreamNetworkOrderUpdateDetails
 import alexman.hrms.core.network.model.UpstreamNetworkRoomUpdateDetails
 import java.util.UUID
 
@@ -124,6 +125,19 @@ class FakeNetworkDataSource : HrmsNetworkDataSource {
             return HrmsNetworkResponse(
                 200,
                 newOrder,
+                null,
+            )
+        }
+    }
+
+    override suspend fun updateOrderState(upstreamNetworkOrderUpdateDetails: UpstreamNetworkOrderUpdateDetails):
+            HrmsNetworkResponse<NetworkOrder> {
+        return upstreamNetworkOrderUpdateDetails.let {
+            orderMap[it.id] = orderMap[it.id]!!.copy(completed = it.completed)
+
+            HrmsNetworkResponse(
+                200,
+                orderMap[it.id],
                 null,
             )
         }

@@ -6,7 +6,9 @@ import alexman.hrms.core.data.repository.OrderQuery
 import alexman.hrms.core.data.repository.OrderRepository
 import alexman.hrms.core.model.data.CleaningStaffType
 import alexman.hrms.core.model.data.Order
+import alexman.hrms.core.model.data.OrderStatus
 import alexman.hrms.core.model.data.UpstreamOrderDetails
+import alexman.hrms.core.model.data.UpstreamOrderUpdateDetails
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -73,6 +75,18 @@ internal class OrderViewModel(
         viewModelScope.launch {
             // TODO("figure out how to handle failure")
             orderRepository.deleteOrder(orderId)
+        }
+    }
+
+    internal fun markOrderCompleted(orderId: Int, completed: Boolean) {
+        viewModelScope.launch {
+            // TODO("figure out how to handle failure")
+            orderRepository.updateOrderState(
+                UpstreamOrderUpdateDetails(
+                    id = orderId,
+                    completed = if (completed) OrderStatus.COMPLETED else OrderStatus.PENDING,
+                )
+            )
         }
     }
 }

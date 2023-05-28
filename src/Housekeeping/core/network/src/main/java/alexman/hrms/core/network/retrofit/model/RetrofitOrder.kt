@@ -2,6 +2,7 @@ package alexman.hrms.core.network.retrofit.model
 
 import alexman.hrms.core.network.model.NetworkOrder
 import alexman.hrms.core.network.model.UpstreamNetworkOrderDetails
+import alexman.hrms.core.network.model.UpstreamNetworkOrderUpdateDetails
 import com.squareup.moshi.Json
 
 data class RetrofitOrder(
@@ -27,4 +28,13 @@ internal fun UpstreamNetworkOrderDetails.asRetrofitOrderBody() =
     RetrofitOrderBody(
         employee_id = cleaningLadyId,
         description = orderData,
+    )
+
+data class RetrofitOrderUpdateBody(
+    val complete: Boolean,
+)
+
+internal fun UpstreamNetworkOrderUpdateDetails.asRetrofitOrderUpdateBody() =
+    RetrofitOrderUpdateBody(
+        complete = completed,
     )

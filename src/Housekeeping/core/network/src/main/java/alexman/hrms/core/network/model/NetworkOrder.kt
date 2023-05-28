@@ -5,6 +5,11 @@ data class UpstreamNetworkOrderDetails(
     val orderData: String,
 )
 
+data class UpstreamNetworkOrderUpdateDetails(
+    val id: Int,
+    val completed: Boolean,
+)
+
 data class NetworkOrder(
     val id: Int,
     val completed: Boolean,

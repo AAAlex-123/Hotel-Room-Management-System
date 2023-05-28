@@ -5,12 +5,12 @@ import alexman.hrms.core.designsystem.SizeVariation
 import alexman.hrms.core.designsystem.component.BottomBarItem
 import alexman.hrms.core.designsystem.component.ButtonWithText
 import alexman.hrms.core.designsystem.component.ListItem
+import alexman.hrms.core.designsystem.component.HrmsPopup
 import alexman.hrms.core.designsystem.component.HrmsScaffold
 import alexman.hrms.core.designsystem.component.IconClickable
-import alexman.hrms.core.designsystem.component.TextInputField
 import alexman.hrms.core.designsystem.component.MediumDisplayText
-import alexman.hrms.core.designsystem.component.HrmsPopup
 import alexman.hrms.core.designsystem.component.ScaffoldNavigation
+import alexman.hrms.core.designsystem.component.TextInputField
 import alexman.hrms.core.designsystem.theme.HrmsTheme
 import alexman.hrms.core.model.data.CleaningStaffType
 import alexman.hrms.core.model.data.Order
@@ -48,6 +48,7 @@ private fun OrderScreenContentPreview() {
                 Order(5, OrderStatus.PENDING, 1, "ORDER 5"),
             ),
             onDelete = { },
+            onMarkOrderCompleted = { _: Int, _: Boolean -> },
             onSubmitNewOrder = { },
             onNavigateToHome = { },
             scaffoldNavigation = ScaffoldNavigation(),
@@ -81,6 +82,9 @@ internal fun OrderScreen(
         staff = staffUiState,
         orders = orders.value,
         onDelete = { orderViewModel.deleteOrder(it) },
+        onMarkOrderCompleted = { orderId: Int, completed: Boolean ->
+            orderViewModel.markOrderCompleted(orderId, completed)
+        },
         onSubmitNewOrder = { orderViewModel.placeOrder(it) },
         onNavigateToHome = onNavigateToHome,
         scaffoldNavigation = ScaffoldNavigation(
@@ -100,6 +104,7 @@ private fun OrderScreenContent(
     staff: OrderStaffUiState,
     orders: List<Order>,
     onDelete: (Int) -> Unit,
+    onMarkOrderCompleted: (Int, Boolean) -> Unit,
     onSubmitNewOrder: (String) -> Unit,
     onNavigateToHome: (Int) -> Unit,
     scaffoldNavigation: ScaffoldNavigation,
@@ -121,12 +126,12 @@ private fun OrderScreenContent(
                 ListItem(
                     id = it.id,
                     text = it.orderData,
-                    deletable = it.cleaningLadyId == cleaningStaffId,
+                    deletable = it.cleaningLadyId == staff.staffId,
                     onDelete = onDelete,
                     completed = it.completed == OrderStatus.COMPLETED,
-                    markable = false, // TODO("make it so it depends on cleaningStaffType")
+                    markable = staff.staffType == CleaningStaffType.HOUSEKEEPER,
                     onMarkCompleted = { id: Int, completed: Boolean ->
-                        // TODO("add actual method")
+                        onMarkOrderCompleted(id, completed)
                     },
                     SizeVariation.PRIMARY,
                 )

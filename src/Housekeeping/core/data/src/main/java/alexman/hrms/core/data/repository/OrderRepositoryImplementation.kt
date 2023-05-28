@@ -2,8 +2,10 @@ package alexman.hrms.core.data.repository
 
 import alexman.hrms.core.data.model.asExternalModel
 import alexman.hrms.core.data.model.asUpstreamNetworkOrderDetails
+import alexman.hrms.core.data.model.asUpstreamNetworkOrderUpdateDetails
 import alexman.hrms.core.model.data.Order
 import alexman.hrms.core.model.data.UpstreamOrderDetails
+import alexman.hrms.core.model.data.UpstreamOrderUpdateDetails
 import alexman.hrms.core.network.HrmsNetworkDataSource
 import alexman.hrms.core.network.model.NetworkOrder
 import kotlinx.coroutines.flow.Flow
@@ -64,6 +66,23 @@ class OrderRepositoryImplementation(
         }
     }
 
+    override suspend fun updateOrderState(upstreamOrderUpdateDetails: UpstreamOrderUpdateDetails) {
+
+        val response = /* withContext(ioDispatcher) { */
+            datasource.updateOrderState(
+                upstreamOrderUpdateDetails.asUpstreamNetworkOrderUpdateDetails()
+            )
+        /* } */
+
+        if (response.ok) {
+            val updatedOrder = response.body!!.asExternalModel()
+            orderCache.updateOrder(updatedOrder)
+            updateFlowsAffectedByOrder(updatedOrder)
+        } else {
+            TODO("figure out what to do on PUT error")
+        }
+    }
+
     private suspend fun getFilteredOrdersFromCacheForNewQuery(query: OrderQuery): List<Order> {
         return orderCache.getFilteredOrdersForNewQuery(query)
     }
@@ -118,6 +137,10 @@ class OrderRepositoryImplementation(
 
         fun deleteOrder(orderId: Int): Order {
             return orderMap.remove(orderId)!!
+        }
+
+        fun updateOrder(order: Order) {
+            orderMap[order.id] = order
         }
 
         fun getFilteredOrdersForExistingQuery(query: OrderQuery): List<Order> {

@@ -2,6 +2,7 @@ package alexman.hrms.core.data.repository
 
 import alexman.hrms.core.model.data.Order
 import alexman.hrms.core.model.data.UpstreamOrderDetails
+import alexman.hrms.core.model.data.UpstreamOrderUpdateDetails
 import kotlinx.coroutines.flow.Flow
 
 data class OrderQuery(
@@ -17,4 +18,6 @@ interface OrderRepository {
     suspend fun placeOrder(upstreamOrderDetails: UpstreamOrderDetails)
 
     suspend fun deleteOrder(orderId: Int)
+
+    suspend fun updateOrderState(upstreamOrderUpdateDetails: UpstreamOrderUpdateDetails)
 }

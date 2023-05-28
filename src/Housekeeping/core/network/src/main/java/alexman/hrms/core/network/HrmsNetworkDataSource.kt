@@ -7,6 +7,7 @@ import alexman.hrms.core.network.model.NetworkRoom
 import alexman.hrms.core.network.model.UpstreamNetworkCleaningStaffAuth
 import alexman.hrms.core.network.model.UpstreamNetworkNoteDetails
 import alexman.hrms.core.network.model.UpstreamNetworkOrderDetails
+import alexman.hrms.core.network.model.UpstreamNetworkOrderUpdateDetails
 import alexman.hrms.core.network.model.UpstreamNetworkRoomUpdateDetails
 
 data class HrmsNetworkResponse<T>(
@@ -29,6 +30,9 @@ interface HrmsNetworkDataSource {
             HrmsNetworkResponse<List<NetworkOrder>>
 
     suspend fun placeOrder(upstreamNetworkOrderDetails: UpstreamNetworkOrderDetails):
+            HrmsNetworkResponse<NetworkOrder>
+
+    suspend fun updateOrderState(upstreamNetworkOrderUpdateDetails: UpstreamNetworkOrderUpdateDetails):
             HrmsNetworkResponse<NetworkOrder>
 
     suspend fun deleteOrder(orderId: Int):

@@ -7,6 +7,7 @@ import alexman.hrms.core.network.retrofit.model.RetrofitNote
 import alexman.hrms.core.network.retrofit.model.RetrofitNoteBody
 import alexman.hrms.core.network.retrofit.model.RetrofitOrder
 import alexman.hrms.core.network.retrofit.model.RetrofitOrderBody
+import alexman.hrms.core.network.retrofit.model.RetrofitOrderUpdateBody
 import alexman.hrms.core.network.retrofit.model.RetrofitRoom
 import alexman.hrms.core.network.retrofit.model.RetrofitRoomBody
 import retrofit2.Response
@@ -38,6 +39,12 @@ internal interface HrmsApi {
     @POST("provision")
     suspend fun postOrder(
         @Body order: RetrofitOrderBody,
+    ): Response<RetrofitOrder>
+
+    @PUT("provision/{id}")
+    suspend fun updateOrder(
+        @Path("id") orderId: Int,
+        @Body order: RetrofitOrderUpdateBody,
     ): Response<RetrofitOrder>
 
     @DELETE("provision/{id}")

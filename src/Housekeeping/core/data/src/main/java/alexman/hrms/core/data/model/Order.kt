@@ -3,8 +3,10 @@ package alexman.hrms.core.data.model
 import alexman.hrms.core.model.data.Order
 import alexman.hrms.core.model.data.OrderStatus
 import alexman.hrms.core.model.data.UpstreamOrderDetails
+import alexman.hrms.core.model.data.UpstreamOrderUpdateDetails
 import alexman.hrms.core.network.model.NetworkOrder
 import alexman.hrms.core.network.model.UpstreamNetworkOrderDetails
+import alexman.hrms.core.network.model.UpstreamNetworkOrderUpdateDetails
 
 fun NetworkOrder.asExternalModel() = Order(
     id = id,
@@ -17,3 +19,9 @@ fun UpstreamOrderDetails.asUpstreamNetworkOrderDetails() = UpstreamNetworkOrderD
     cleaningLadyId = cleaningLadyId,
     orderData = orderData,
 )
+
+fun UpstreamOrderUpdateDetails.asUpstreamNetworkOrderUpdateDetails() =
+    UpstreamNetworkOrderUpdateDetails(
+        id = id,
+        completed = completed == OrderStatus.COMPLETED,
+    )
