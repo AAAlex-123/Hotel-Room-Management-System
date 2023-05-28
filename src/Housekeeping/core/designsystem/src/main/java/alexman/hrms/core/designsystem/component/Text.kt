@@ -8,6 +8,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 
 @PreviewLight
@@ -78,11 +79,13 @@ private fun ErrorLabelPreview() {
 fun LargeDisplayText(
     text: String,
     modifier: Modifier = Modifier,
+    textAlign: TextAlign? = null,
 ) {
     Text(
         text = text,
         style = HrmsTypography.displayLarge,
         modifier = modifier,
+        textAlign = textAlign,
     )
 }
 
@@ -90,11 +93,13 @@ fun LargeDisplayText(
 fun MediumDisplayText(
     text: String,
     modifier: Modifier = Modifier,
+    textAlign: TextAlign? = null,
 ) {
     Text(
         text = text,
         style = HrmsTypography.displayMedium,
         modifier = modifier,
+        textAlign = textAlign,
     )
 }
 
@@ -102,11 +107,13 @@ fun MediumDisplayText(
 fun SmallDisplayText(
     text: String,
     modifier: Modifier = Modifier,
+    textAlign: TextAlign? = null,
 ) {
     Text(
         text = text,
         style = HrmsTypography.displaySmall,
         modifier = modifier,
+        textAlign = textAlign,
     )
 }
 
@@ -114,11 +121,13 @@ fun SmallDisplayText(
 fun LargeBodyText(
     text: String,
     modifier: Modifier = Modifier,
+    textAlign: TextAlign? = null,
 ) {
     Text(
         text = text,
         style = HrmsTypography.bodyLarge,
         modifier = modifier,
+        textAlign = textAlign,
     )
 }
 
@@ -126,11 +135,13 @@ fun LargeBodyText(
 fun MediumBodyText(
     text: String,
     modifier: Modifier = Modifier,
+    textAlign: TextAlign? = null,
 ) {
     Text(
         text = text,
         style = HrmsTypography.bodyMedium,
         modifier = modifier,
+        textAlign = textAlign,
     )
 }
 
@@ -138,6 +149,7 @@ fun MediumBodyText(
 fun StrikethroughLargeBodyText(
     text: String,
     modifier: Modifier = Modifier,
+    textAlign: TextAlign? = null,
 ) {
     Text(
         text = text,
@@ -146,6 +158,7 @@ fun StrikethroughLargeBodyText(
             textDecoration = TextDecoration.LineThrough,
         ),
         modifier = modifier,
+        textAlign = textAlign,
     )
 }
 
@@ -153,6 +166,7 @@ fun StrikethroughLargeBodyText(
 fun StrikethroughMediumBodyText(
     text: String,
     modifier: Modifier = Modifier,
+    textAlign: TextAlign? = null,
 ) {
     Text(
         text = text,
@@ -161,16 +175,19 @@ fun StrikethroughMediumBodyText(
             textDecoration = TextDecoration.LineThrough,
         ),
         modifier = modifier,
+        textAlign = textAlign,
     )
 }
 
 @Composable
 fun ErrorLabel(
     text: String,
+    textAlign: TextAlign? = null,
 ) {
     Text(
         text = text,
         color = MaterialTheme.colorScheme.error,
         style = HrmsTypography.labelLarge,
+        textAlign = textAlign,
     )
 }

@@ -11,6 +11,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 
 @PreviewLight
@@ -51,8 +52,14 @@ fun ButtonWithText(
         contentPadding = PaddingValues(8.dp),
     ) {
         when (sizeVariation) {
-            SizeVariation.PRIMARY -> SmallDisplayText(text = text)
-            SizeVariation.SECONDARY -> LargeBodyText(text = text)
+            SizeVariation.PRIMARY -> SmallDisplayText(
+                text = text,
+                textAlign = TextAlign.Center,
+            )
+            SizeVariation.SECONDARY -> LargeBodyText(
+                text = text,
+                textAlign = TextAlign.Center,
+            )
         }
     }
 }
