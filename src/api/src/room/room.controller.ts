@@ -5,6 +5,7 @@ import {
   Get,
   Param,
   Post,
+  Put,
   Query,
 } from '@nestjs/common';
 import { Room } from '@prisma/client';
@@ -30,7 +31,11 @@ export class RoomController {
         groupRoom: {
           group: {
             GroupChamber: {
-              some: { chambermaid_id: Number(chambermaid_id) },
+              some: {
+                chambermaid_id: chambermaid_id
+                  ? Number(chambermaid_id)
+                  : undefined,
+              },
             },
           },
         },
@@ -51,6 +56,19 @@ export class RoomController {
   @Post()
   async create_room(@Body() room: RoomEntity) {
     await this.prisma.room.create({ data: room });
+  }
+
+  @Put(':room_id')
+  async update_room(@Param('room_id') id: string, @Body() room: RoomEntity) {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { room_id, ...rest } = room;
+    await this.prisma.room.upsert({
+      create: { room_id: id, ...rest },
+      update: { ...rest },
+      where: {
+        room_id: id,
+      },
+    });
   }
 
   @Delete(':number')
