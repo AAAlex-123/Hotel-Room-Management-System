@@ -2,6 +2,6 @@
 
 npm install
 
-npm run prisma:migrate
+npm run prisma:dev:deploy
 
 npm run start:dev 
