@@ -44,7 +44,9 @@ private class AuthorizationHeaderInterceptor : Interceptor {
         }
 
         val newRequest = request.newBuilder()
-            .header("Authorization", HrmsRetrofitInstance.access_token ?: "")
+            .header("Authorization", HrmsRetrofitInstance.access_token?.let {
+                "Bearer $it"
+            } ?: "")
             .build()
 
         return chain.proceed(newRequest)
