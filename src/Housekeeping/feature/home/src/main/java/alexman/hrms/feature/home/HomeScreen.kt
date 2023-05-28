@@ -4,7 +4,9 @@ import alexman.hrms.core.designsystem.PreviewLight
 import alexman.hrms.core.designsystem.component.HrmsScaffold
 import alexman.hrms.core.designsystem.component.IconClickable
 import alexman.hrms.core.designsystem.component.LargeDisplayText
+import alexman.hrms.core.designsystem.component.ScaffoldNavigation
 import alexman.hrms.core.designsystem.theme.HrmsTheme
+import alexman.hrms.core.model.data.CleaningStaffType
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -18,10 +20,9 @@ import androidx.compose.ui.unit.dp
 private fun HomeScreenContentPreview() {
     HrmsTheme {
         HomeScreenContent(
-            uiState = HomeUiState(-1, "Jane Doe"),
+            staff = HomeStaffUiState(-1, "Jane Doe", CleaningStaffType.CLEANING_LADY),
             onNavigateToLogin = { },
-            onNavigateToRooms = { },
-            onNavigateToOrders = { },
+            scaffoldNavigation = ScaffoldNavigation(),
         )
     }
 }
@@ -31,30 +32,38 @@ internal fun HomeScreen(
     homeViewModel: HomeViewModel,
     onNavigateToLogin: () -> Unit,
     onNavigateToRooms: (Int) -> Unit,
+    onNavigateToCleaningLadies: (Int) -> Unit,
     onNavigateToOrders: (Int) -> Unit,
 ) {
-    val uiState = homeViewModel.uiState
+    val staffUiState = homeViewModel.staffUiState
+
+    val (id, _, type) = staffUiState
 
     HomeScreenContent(
-        uiState = uiState,
+        staff = staffUiState,
         onNavigateToLogin = onNavigateToLogin,
-        onNavigateToRooms = onNavigateToRooms,
-        onNavigateToOrders = onNavigateToOrders,
+        scaffoldNavigation = ScaffoldNavigation(
+            toRooms = { onNavigateToRooms(id) },
+            toCleaningLadies = if (type == CleaningStaffType.HOUSEKEEPER) {
+                { onNavigateToCleaningLadies(id) }
+            } else {
+                null
+            },
+            toOrders = { onNavigateToOrders(id) },
+        )
     )
 }
 
 @Composable
 private fun HomeScreenContent(
-    uiState: HomeUiState,
+    staff: HomeStaffUiState,
     onNavigateToLogin: () -> Unit,
-    onNavigateToRooms: (Int) -> Unit,
-    onNavigateToOrders: (Int) -> Unit,
+    scaffoldNavigation: ScaffoldNavigation,
 ) {
     HrmsScaffold(
         topBarText = uiState.staffId.toString(),
         actions = { LogoutButton(onClick = onNavigateToLogin) },
-        onNavigateToRooms = { onNavigateToRooms(uiState.staffId) },
-        onNavigateToOrders = { onNavigateToOrders(uiState.staffId) },
+        scaffoldNavigation = scaffoldNavigation,
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,

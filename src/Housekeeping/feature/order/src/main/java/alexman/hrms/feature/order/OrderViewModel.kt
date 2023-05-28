@@ -1,23 +1,54 @@
 package alexman.hrms.feature.order
 
+import alexman.hrms.core.data.repository.CleaningStaffQuery
+import alexman.hrms.core.data.repository.CleaningStaffRepository
 import alexman.hrms.core.data.repository.OrderQuery
 import alexman.hrms.core.data.repository.OrderRepository
+import alexman.hrms.core.model.data.CleaningStaffType
 import alexman.hrms.core.model.data.Order
 import alexman.hrms.core.model.data.UpstreamOrderDetails
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 
+internal data class OrderStaffUiState(
+    val staffId: Int,
+    val staffType: CleaningStaffType,
+)
+
 internal class OrderViewModel(
-    val cleaningStaffId: Int,
+    cleaningStaffId: Int,
+    cleaningStaffRepository: CleaningStaffRepository,
     private val orderRepository: OrderRepository,
 ) : ViewModel() {
+
+    internal var staffUiState: OrderStaffUiState by mutableStateOf(
+        OrderStaffUiState(-1, CleaningStaffType.CLEANING_LADY)
+    )
+        private set
 
     lateinit var orders: Flow<List<Order>>
         private set
 
     init {
+        viewModelScope.launch {
+            // TODO("figure out how to handle failure")
+            with(
+                cleaningStaffRepository.getCleaningStaff(
+                    CleaningStaffQuery(cleaningStaffId = cleaningStaffId)
+                )
+            ) {
+                staffUiState = staffUiState.copy(
+                    staffId = this.employeeId,
+                    staffType = this.cleaningStaffType,
+                )
+            }
+        }
+
         viewModelScope.launch {
             // TODO("figure out how to handle failure")
             orders = orderRepository.getOrders(
@@ -31,7 +62,7 @@ internal class OrderViewModel(
             // TODO("figure out how to handle failure")
             orderRepository.placeOrder(
                 UpstreamOrderDetails(
-                    cleaningLadyId = cleaningStaffId,
+                    cleaningLadyId = staffUiState.staffId,
                     orderData = orderData,
                 )
             )

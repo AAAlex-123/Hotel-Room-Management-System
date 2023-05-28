@@ -4,10 +4,12 @@ import alexman.hrms.core.designsystem.PreviewLight
 import alexman.hrms.core.designsystem.component.BottomBarItem
 import alexman.hrms.core.designsystem.component.HrmsScaffold
 import alexman.hrms.core.designsystem.component.MediumDisplayText
+import alexman.hrms.core.designsystem.component.ScaffoldNavigation
 import alexman.hrms.core.designsystem.component.SmallDisplayText
 import alexman.hrms.core.designsystem.theme.HrmsTheme
 import alexman.hrms.core.model.data.CleanState
 import alexman.hrms.core.model.data.CleanType
+import alexman.hrms.core.model.data.CleaningStaffType
 import alexman.hrms.core.model.data.Occupied
 import alexman.hrms.core.model.data.Room
 import androidx.compose.foundation.background
@@ -37,7 +39,7 @@ import androidx.compose.ui.unit.dp
 private fun RoomScreenContentPreview() {
     HrmsTheme {
         RoomScreenContent(
-            cleaningStaffId = 1,
+            staff = RoomStaffUiState(1, CleaningStaffType.CLEANING_LADY),
             rooms = listOf(
                 Room("101", CleanState.DIRTY, CleanType.NORMAL, Occupied.VACANT),
                 Room("102", CleanState.PENDING_UPLOAD, CleanType.NORMAL, Occupied.OCCUPIED),
@@ -46,8 +48,8 @@ private fun RoomScreenContentPreview() {
                 Room("105", CleanState.INSPECTED, CleanType.DEEP, Occupied.VACANT),
             ),
             onNavigateToHome = { },
-            onNavigateToOrders = { },
             onNavigateToSingleRoom = { },
+            scaffoldNavigation = ScaffoldNavigation(),
         )
     }
 }
@@ -56,35 +58,46 @@ private fun RoomScreenContentPreview() {
 internal fun RoomScreen(
     roomViewModel: RoomViewModel,
     onNavigateToHome: (Int) -> Unit,
-    onNavigateToOrders: (Int) -> Unit,
     onNavigateToSingleRoom: (String, Int) -> Unit,
+    onNavigateToCleaningLadies: (Int) -> Unit,
+    onNavigateToOrders: (Int) -> Unit,
 ) {
+    val staffUiState = roomViewModel.staffUiState
+    val (id, type) = staffUiState
+
     val rooms = roomViewModel.rooms.collectAsState(listOf())
 
     RoomScreenContent(
-        cleaningStaffId = roomViewModel.cleaningStaffId,
+        staff = staffUiState,
         rooms = rooms.value,
         onNavigateToHome = onNavigateToHome,
-        onNavigateToOrders = onNavigateToOrders,
         onNavigateToSingleRoom = { roomId: String ->
-            onNavigateToSingleRoom(roomId, roomViewModel.cleaningStaffId)
+            onNavigateToSingleRoom(roomId, id)
         },
+        scaffoldNavigation = ScaffoldNavigation(
+            toRooms = { },
+            toCleaningLadies = {
+                if (type == CleaningStaffType.HOUSEKEEPER) {
+                    onNavigateToCleaningLadies(id)
+                }
+            },
+            toOrders = { onNavigateToOrders(id) },
+        ),
     )
 }
 
 @Composable
 private fun RoomScreenContent(
-    cleaningStaffId: Int,
+    staff: RoomStaffUiState,
     rooms: List<Room>,
     onNavigateToHome: (Int) -> Unit,
-    onNavigateToOrders: (Int) -> Unit,
     onNavigateToSingleRoom: (String) -> Unit,
+    scaffoldNavigation: ScaffoldNavigation,
 ) {
     HrmsScaffold(
         topBarText = "Rooms",
-        onNavigationIconClick = { onNavigateToHome(cleaningStaffId) },
-        onNavigateToRooms = { },
-        onNavigateToOrders = { onNavigateToOrders(cleaningStaffId) },
+        onNavigationIconClick = { onNavigateToHome(staff.staffId) },
+        scaffoldNavigation = scaffoldNavigation,
         selectedBottomBarItem = BottomBarItem.ROOMS,
     ) {
         LazyColumn(

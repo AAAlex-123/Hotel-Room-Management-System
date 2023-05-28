@@ -30,8 +30,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 
 enum class BottomBarItem {
-    NONE, ROOMS, ORDERS;
+    NONE, ROOMS, CLEANING_LADIES, ORDERS;
 }
+
+data class ScaffoldNavigation(
+    val toRooms: (() -> Unit)? = null,
+    val toCleaningLadies: (() -> Unit)? = null,
+    val toOrders: (() -> Unit)? = null,
+)
 
 @Composable
 fun HrmsScaffold(
@@ -39,8 +45,7 @@ fun HrmsScaffold(
     topBarBackgroundColor: Color = MaterialTheme.colorScheme.primary,
     onNavigationIconClick: (() -> Unit)? = null,
     actions: @Composable (RowScope.() -> Unit) = {},
-    onNavigateToRooms: (() -> Unit)? = null,
-    onNavigateToOrders: (() -> Unit)? = null,
+    scaffoldNavigation: ScaffoldNavigation? = null,
     selectedBottomBarItem: BottomBarItem = BottomBarItem.NONE,
     content: @Composable () -> Unit
 ) {
@@ -59,18 +64,23 @@ fun HrmsScaffold(
         },
         bottomBar = {
             // hide bottom bar if there's nothing to show
-            if (!(onNavigateToRooms == null && onNavigateToOrders == null)) {
+            scaffoldNavigation?.let {
                 HrmsBottomBar {
-                    // if (BottomBarItem.ROOMS in bottomBarItems) {
-                    if (onNavigateToRooms != null) {
+                    it.toRooms?.let {
                         RoomsBottomBarItem(
-                            onClick = onNavigateToRooms,
+                            onClick = it,
                             selected = selectedBottomBarItem == BottomBarItem.ROOMS,
                         )
                     }
-                    if (onNavigateToOrders != null) {
+                    it.toCleaningLadies?.let {
+                        CleaningLadiesBottomBarItem(
+                            onClick = it,
+                            selected = selectedBottomBarItem == BottomBarItem.CLEANING_LADIES,
+                        )
+                    }
+                    it.toOrders?.let {
                         OrdersBottomBarItem(
-                            onClick = onNavigateToOrders,
+                            onClick = it,
                             selected = selectedBottomBarItem == BottomBarItem.ORDERS,
                         )
                     }
@@ -172,6 +182,20 @@ private fun RowScope.OrdersBottomBarItem(
         label = "Orders",
         id = R.drawable.ic_tab_orders,
         alt = "orders",
+        onClick = onClick,
+        selected = selected,
+    )
+}
+
+@Composable
+private fun RowScope.CleaningLadiesBottomBarItem(
+    onClick: () -> Unit,
+    selected: Boolean,
+) {
+    BottomBarItem(
+        label = "Maids",
+        id = R.drawable.ic_placeholder,
+        alt = "cleaning ladies",
         onClick = onClick,
         selected = selected,
     )

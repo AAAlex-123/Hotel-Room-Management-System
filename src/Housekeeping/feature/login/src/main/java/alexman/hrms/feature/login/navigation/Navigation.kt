@@ -1,7 +1,6 @@
 package alexman.hrms.feature.login.navigation
 
-import alexman.hrms.core.data.repository.CleaningStaffRepositoryImplementation
-import alexman.hrms.core.network.fake.FakeNetworkDataSource
+import alexman.hrms.core.data.Repository
 import alexman.hrms.feature.login.LoginScreen
 import alexman.hrms.feature.login.LoginViewModel
 import androidx.navigation.NavGraphBuilder
@@ -15,11 +14,7 @@ fun NavGraphBuilder.loginScreen(
         route = route,
     ) {
         LoginScreen(
-            loginViewModel = LoginViewModel(
-                CleaningStaffRepositoryImplementation(
-                    FakeNetworkDataSource(),
-                ),
-            ),
+            loginViewModel = LoginViewModel(Repository.cleaningStaff),
             onNavigateToHome = onNavigateToHome,
         )
     }

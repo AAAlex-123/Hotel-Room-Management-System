@@ -6,15 +6,23 @@ import alexman.hrms.core.data.repository.NoteQuery
 import alexman.hrms.core.data.repository.RoomRepository
 import alexman.hrms.core.data.repository.SingleRoomQuery
 import alexman.hrms.core.model.data.CleanState
-import alexman.hrms.core.model.data.CleaningStaff
+import alexman.hrms.core.model.data.CleaningStaffType
 import alexman.hrms.core.model.data.Note
 import alexman.hrms.core.model.data.Room
 import alexman.hrms.core.model.data.UpstreamNoteDetails
 import alexman.hrms.core.model.data.UpstreamRoomUpdateDetails
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
+
+internal data class SingleRoomStaffUiState(
+    val staffId: Int,
+    val staffType: CleaningStaffType,
+)
 
 internal class SingleRoomViewModel(
     val roomId: String,
@@ -23,7 +31,11 @@ internal class SingleRoomViewModel(
     cleaningStaffRepository: CleaningStaffRepository,
 ) : ViewModel() {
 
-    lateinit var cleaningStaff: CleaningStaff
+    internal var staffUiState: SingleRoomStaffUiState by mutableStateOf(
+        SingleRoomStaffUiState(-1, CleaningStaffType.CLEANING_LADY)
+    )
+        private set
+
     lateinit var room: Flow<Room>
         private set
     lateinit var notes: Flow<List<Note>>
@@ -32,9 +44,20 @@ internal class SingleRoomViewModel(
     init {
         viewModelScope.launch {
             // TODO("figure out how to handle failure")
-            cleaningStaff = cleaningStaffRepository.getCleaningStaff(
-                CleaningStaffQuery(cleaningStaffId = cleaningStaffId)
-            )
+            with(
+                cleaningStaffRepository.getCleaningStaff(
+                    CleaningStaffQuery(cleaningStaffId = cleaningStaffId)
+                )
+            ) {
+                staffUiState = staffUiState.copy(
+                    staffId = this.employeeId,
+                    staffType = this.cleaningStaffType,
+                )
+            }
+        }
+
+        viewModelScope.launch {
+            // TODO("figure out how to handle failure")
             room = roomRepository.getSingleRoom(
                 SingleRoomQuery(roomId = roomId)
             )
@@ -64,7 +87,7 @@ internal class SingleRoomViewModel(
             roomRepository.addNote(
                 UpstreamNoteDetails(
                     roomId = roomId,
-                    cleaningStaffId = cleaningStaff.employeeId,
+                    cleaningStaffId = staffUiState.staffId,
                     noteData = noteData,
                 )
             )

@@ -64,6 +64,12 @@ private fun HrmsNav(
                     Destination.Room.format(cleaningStaffId = cleaningStaffId)
                 )
             },
+            onNavigateToCleaningLadies = { cleaningStaffId: Int ->
+                navController.navigate(
+                    // TODO("not yet implemented")
+                    "TODO" // Destination.CleaningLadies.format(cleaningStaffId = cleaningStaffId)
+                )
+            },
             onNavigateToOrders = { cleaningStaffId: Int ->
                 navController.navigate(
                     Destination.Order.format(cleaningStaffId = cleaningStaffId)
@@ -76,6 +82,12 @@ private fun HrmsNav(
             onNavigateToHome = { cleaningStaffId: Int ->
                 navController.navigate(
                     Destination.Home.format(cleaningStaffId = cleaningStaffId)
+                )
+            },
+            onNavigateToCleaningLadies = { cleaningStaffId: Int ->
+                navController.navigate(
+                    // TODO("not yet implemented")
+                    "TODO" // Destination.CleaningLadies.format(cleaningStaffId = cleaningStaffId)
                 )
             },
             onNavigateToOrders = { cleaningStaffId: Int ->
@@ -107,6 +119,12 @@ private fun HrmsNav(
             onNavigateToHome = { cleaningStaffId: Int ->
                 navController.navigate(
                     Destination.Home.format(cleaningStaffId = cleaningStaffId)
+                )
+            },
+            onNavigateToCleaningLadies = { cleaningStaffId: Int ->
+                navController.navigate(
+                    // TODO("not yet implemented")
+                    "TODO" // Destination.CleaningLadies.format(cleaningStaffId = cleaningStaffId)
                 )
             },
             onNavigateToRooms = { cleaningStaffId: Int ->

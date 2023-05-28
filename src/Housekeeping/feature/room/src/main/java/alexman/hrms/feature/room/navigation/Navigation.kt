@@ -1,8 +1,6 @@
 package alexman.hrms.feature.room.navigation
 
-import alexman.hrms.core.data.repository.CleaningStaffRepositoryImplementation
-import alexman.hrms.core.data.repository.RoomRepositoryImplementation
-import alexman.hrms.core.network.fake.FakeNetworkDataSource
+import alexman.hrms.core.data.Repository
 import alexman.hrms.feature.room.RoomScreen
 import alexman.hrms.feature.room.RoomViewModel
 import alexman.hrms.feature.room.SingleRoomScreen
@@ -11,11 +9,11 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import kotlinx.coroutines.Dispatchers
 
 fun NavGraphBuilder.roomScreen(
     route: String,
     onNavigateToHome: (Int) -> Unit,
+    onNavigateToCleaningLadies: (Int) -> Unit,
     onNavigateToOrders: (Int) -> Unit,
     onNavigateToSingleRoom: (String, Int) -> Unit,
 ) {
@@ -28,11 +26,11 @@ fun NavGraphBuilder.roomScreen(
         RoomScreen(
             roomViewModel = RoomViewModel(
                 cleaningStaffId = navBackStackEntry.arguments?.getInt("cleaningStaffId")!!,
-                roomRepository = RoomRepositoryImplementation(
-                    FakeNetworkDataSource(),
-                ),
+                cleaningStaffRepository = Repository.cleaningStaff,
+                roomRepository = Repository.room,
             ),
             onNavigateToHome = onNavigateToHome,
+            onNavigateToCleaningLadies = onNavigateToCleaningLadies,
             onNavigateToOrders = onNavigateToOrders,
             onNavigateToSingleRoom = onNavigateToSingleRoom,
         )
@@ -54,12 +52,8 @@ fun NavGraphBuilder.singleRoomScreen(
             singleRoomViewModel = SingleRoomViewModel(
                 roomId = navBackStackEntry.arguments?.getString("roomId")!!,
                 cleaningStaffId = navBackStackEntry.arguments?.getInt("cleaningStaffId")!!,
-                roomRepository = RoomRepositoryImplementation(
-                    FakeNetworkDataSource(),
-                ),
-                cleaningStaffRepository = CleaningStaffRepositoryImplementation(
-                    FakeNetworkDataSource(),
-                ),
+                roomRepository = Repository.room,
+                cleaningStaffRepository = Repository.cleaningStaff,
             ),
             onNavigateToRooms = onNavigateToRooms,
         )

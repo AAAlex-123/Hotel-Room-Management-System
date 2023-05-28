@@ -1,7 +1,6 @@
 package alexman.hrms.feature.home.navigation
 
-import alexman.hrms.core.data.repository.CleaningStaffRepositoryImplementation
-import alexman.hrms.core.network.fake.FakeNetworkDataSource
+import alexman.hrms.core.data.Repository
 import alexman.hrms.feature.home.HomeScreen
 import alexman.hrms.feature.home.HomeViewModel
 import androidx.navigation.NavGraphBuilder
@@ -13,6 +12,7 @@ fun NavGraphBuilder.homeScreen(
     route: String,
     onNavigateToLogin: () -> Unit,
     onNavigateToRooms: (Int) -> Unit,
+    onNavigateToCleaningLadies: (Int) -> Unit,
     onNavigateToOrders: (Int) -> Unit,
 ) {
     composable(
@@ -24,12 +24,11 @@ fun NavGraphBuilder.homeScreen(
         HomeScreen(
             homeViewModel = HomeViewModel(
                 cleaningStaffId = navBackStackEntry.arguments?.getInt("cleaningStaffId")!!,
-                cleaningStaffRepository = CleaningStaffRepositoryImplementation(
-                    FakeNetworkDataSource(),
-                ),
+                cleaningStaffRepository = Repository.cleaningStaff,
             ),
             onNavigateToLogin = onNavigateToLogin,
             onNavigateToRooms = onNavigateToRooms,
+            onNavigateToCleaningLadies = onNavigateToCleaningLadies,
             onNavigateToOrders = onNavigateToOrders,
         )
     }

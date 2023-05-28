@@ -40,8 +40,7 @@ import androidx.compose.ui.unit.dp
 private fun SingleRoomScreenContentPreview() {
     HrmsTheme {
         SingleRoomScreenContent(
-            cleaningStaffId = 1,
-            cleaningStaffType = CleaningStaffType.CLEANING_LADY,
+            staff = SingleRoomStaffUiState(1, CleaningStaffType.CLEANING_LADY),
             room = Room("101", CleanState.DIRTY, CleanType.NORMAL, Occupied.OCCUPIED),
             notes = listOf(
                 Note(1, "101", 1, "NOTE 1"),
@@ -63,6 +62,8 @@ internal fun SingleRoomScreen(
     singleRoomViewModel: SingleRoomViewModel,
     onNavigateToRooms: (Int) -> Unit,
 ) {
+    val staffUiState = singleRoomViewModel.staffUiState
+
     val roomId = singleRoomViewModel.roomId
     val room = singleRoomViewModel.room.collectAsState(
         initial = Room(
@@ -74,8 +75,7 @@ internal fun SingleRoomScreen(
     )
 
     SingleRoomScreenContent(
-        cleaningStaffId = singleRoomViewModel.cleaningStaff.employeeId,
-        cleaningStaffType = singleRoomViewModel.cleaningStaff.cleaningStaffType,
+        staff = staffUiState,
         room.value,
         notes.value,
         onUpdateRoomState = {
@@ -101,8 +101,7 @@ private fun MyDivider() {
 
 @Composable
 private fun SingleRoomScreenContent(
-    cleaningStaffId: Int,
-    cleaningStaffType: CleaningStaffType,
+    staff: SingleRoomStaffUiState,
     room: Room,
     notes: List<Note>,
     onUpdateRoomState: (CleanState) -> Unit,
@@ -114,7 +113,7 @@ private fun SingleRoomScreenContent(
 
     HrmsScaffold(
         topBarText = "Room ${room.id}",
-        onNavigationIconClick = { onNavigateToRooms(cleaningStaffId) },
+        onNavigationIconClick = { onNavigateToRooms(staff.staffId) },
         topBarBackgroundColor = when (room.cleanState) {
             CleanState.DIRTY -> Color.Red
             CleanState.PENDING_UPLOAD, CleanState.PENDING_CHECK -> Color.Yellow

@@ -10,7 +10,9 @@ import alexman.hrms.core.designsystem.component.IconClickable
 import alexman.hrms.core.designsystem.component.TextInputField
 import alexman.hrms.core.designsystem.component.MediumDisplayText
 import alexman.hrms.core.designsystem.component.HrmsPopup
+import alexman.hrms.core.designsystem.component.ScaffoldNavigation
 import alexman.hrms.core.designsystem.theme.HrmsTheme
+import alexman.hrms.core.model.data.CleaningStaffType
 import alexman.hrms.core.model.data.Order
 import alexman.hrms.core.model.data.OrderStatus
 import androidx.compose.foundation.layout.Arrangement
@@ -37,7 +39,7 @@ import androidx.compose.ui.unit.dp
 private fun OrderScreenContentPreview() {
     HrmsTheme {
         OrderScreenContent(
-            cleaningStaffId = 1,
+            staff = OrderStaffUiState(1, CleaningStaffType.CLEANING_LADY),
             orders = listOf(
                 Order(1, OrderStatus.PENDING, 1, "ORDER 1"),
                 Order(2, OrderStatus.COMPLETED, 1, "ORDER 2"),
@@ -48,7 +50,7 @@ private fun OrderScreenContentPreview() {
             onDelete = { },
             onSubmitNewOrder = { },
             onNavigateToHome = { },
-            onNavigateToRooms = { },
+            scaffoldNavigation = ScaffoldNavigation(),
         )
     }
 }
@@ -67,36 +69,46 @@ private fun NewOrderPopupContentPreview() {
 internal fun OrderScreen(
     orderViewModel: OrderViewModel,
     onNavigateToHome: (Int) -> Unit,
+    onNavigateToCleaningLadies: (Int) -> Unit,
     onNavigateToRooms: (Int) -> Unit,
 ) {
-    val cleaningStaffId = orderViewModel.cleaningStaffId
+    val staffUiState = orderViewModel.staffUiState
+    val (id, type) = staffUiState
+
     val orders = orderViewModel.orders.collectAsState(listOf())
 
     OrderScreenContent(
-        cleaningStaffId = cleaningStaffId,
+        staff = staffUiState,
         orders = orders.value,
         onDelete = { orderViewModel.deleteOrder(it) },
         onSubmitNewOrder = { orderViewModel.placeOrder(it) },
         onNavigateToHome = onNavigateToHome,
-        onNavigateToRooms = onNavigateToRooms,
+        scaffoldNavigation = ScaffoldNavigation(
+            toRooms = { onNavigateToRooms(id) },
+            toCleaningLadies = if (type == CleaningStaffType.HOUSEKEEPER) {
+                { onNavigateToCleaningLadies(id) }
+            } else {
+                null
+            },
+            toOrders = { },
+        ),
     )
 }
 
 @Composable
 private fun OrderScreenContent(
-    cleaningStaffId: Int,
+    staff: OrderStaffUiState,
     orders: List<Order>,
     onDelete: (Int) -> Unit,
     onSubmitNewOrder: (String) -> Unit,
     onNavigateToHome: (Int) -> Unit,
-    onNavigateToRooms: (Int) -> Unit,
+    scaffoldNavigation: ScaffoldNavigation,
 ) {
     HrmsScaffold(
         topBarText = "Orders",
-        onNavigationIconClick = { onNavigateToHome(cleaningStaffId) },
+        onNavigationIconClick = { onNavigateToHome(staff.staffId) },
         actions = { NewOrderButton(onSubmitNewOrder) },
-        onNavigateToRooms = { onNavigateToRooms(cleaningStaffId) },
-        onNavigateToOrders = { },
+        scaffoldNavigation = scaffoldNavigation,
         selectedBottomBarItem = BottomBarItem.ORDERS,
     ) {
         LazyColumn(
