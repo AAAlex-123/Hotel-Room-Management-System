@@ -3,6 +3,7 @@ package alexman.hrms.housekeeping
 import alexman.hrms.core.designsystem.theme.HrmsTheme
 import alexman.hrms.feature.home.navigation.homeScreen
 import alexman.hrms.feature.login.navigation.loginScreen
+import alexman.hrms.feature.maids.navigation.maidScreen
 import alexman.hrms.feature.order.navigation.orderScreen
 import alexman.hrms.feature.room.navigation.roomScreen
 import alexman.hrms.feature.room.navigation.singleRoomScreen
@@ -66,8 +67,7 @@ private fun HrmsNav(
             },
             onNavigateToCleaningLadies = { cleaningStaffId: Int ->
                 navController.navigate(
-                    // TODO("not yet implemented")
-                    "TODO" // Destination.CleaningLadies.format(cleaningStaffId = cleaningStaffId)
+                    Destination.Maid.format(housekeeperId = cleaningStaffId)
                 )
             },
             onNavigateToOrders = { cleaningStaffId: Int ->
@@ -86,8 +86,7 @@ private fun HrmsNav(
             },
             onNavigateToCleaningLadies = { cleaningStaffId: Int ->
                 navController.navigate(
-                    // TODO("not yet implemented")
-                    "TODO" // Destination.CleaningLadies.format(cleaningStaffId = cleaningStaffId)
+                    Destination.Maid.format(housekeeperId = cleaningStaffId)
                 )
             },
             onNavigateToOrders = { cleaningStaffId: Int ->
@@ -123,13 +122,31 @@ private fun HrmsNav(
             },
             onNavigateToCleaningLadies = { cleaningStaffId: Int ->
                 navController.navigate(
-                    // TODO("not yet implemented")
-                    "TODO" // Destination.CleaningLadies.format(cleaningStaffId = cleaningStaffId)
+                    Destination.Maid.format(housekeeperId = cleaningStaffId)
                 )
             },
             onNavigateToRooms = { cleaningStaffId: Int ->
                 navController.navigate(
                     Destination.Room.format(cleaningStaffId = cleaningStaffId)
+                )
+            },
+        )
+
+        maidScreen(
+            route = Destination.Maid.route,
+            onNavigateToHome = { cleaningStaffId: Int ->
+                navController.navigate(
+                    Destination.Home.format(cleaningStaffId = cleaningStaffId)
+                )
+            },
+            onNavigateToRooms = { cleaningStaffId: Int ->
+                navController.navigate(
+                    Destination.Room.format(cleaningStaffId = cleaningStaffId)
+                )
+            },
+            onNavigateToOrders = { cleaningStaffId: Int ->
+                navController.navigate(
+                    Destination.Order.format(cleaningStaffId = cleaningStaffId)
                 )
             },
         )

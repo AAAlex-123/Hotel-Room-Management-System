@@ -194,7 +194,7 @@ private fun RowScope.CleaningLadiesBottomBarItem(
 ) {
     BottomBarItem(
         label = "Maids",
-        id = R.drawable.ic_placeholder,
+        id = R.drawable.ic_tab_maids,
         alt = "cleaning ladies",
         onClick = onClick,
         selected = selected,

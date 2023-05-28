@@ -37,4 +37,17 @@ class CleaningStaffRepositoryImplementation(
             TODO("figure out what to do on GET error")
         }
     }
+
+    override suspend fun getCleaningLadies(query: CleaningLadiesQuery): List<CleaningStaff> {
+
+        val response = /* withContext(ioDispatcher) { */
+            datasource.getCleaningLadies(query.housekeeperId)
+        /* } */
+
+        if (response.ok) {
+            return response.body!!.map { it.asExternalCleaningStaffModel() }
+        } else {
+            TODO("figure out what to do on GET error")
+        }
+    }
 }

@@ -26,6 +26,9 @@ interface HrmsNetworkDataSource {
     suspend fun getCleaningStaff(cleaningStaffId: Int):
             HrmsNetworkResponse<NetworkCleaningStaff>
 
+    suspend fun getCleaningLadies(housekeeperId: Int):
+            HrmsNetworkResponse<List<NetworkCleaningStaff>>
+
     suspend fun getOrders(cleaningLadyId: Int):
             HrmsNetworkResponse<List<NetworkOrder>>
 

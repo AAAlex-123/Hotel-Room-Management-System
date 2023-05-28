@@ -52,6 +52,7 @@ dependencies {
 
     implementation project(path: ':feature:home')
     implementation project(path: ':feature:login')
+    implementation project(path: ':feature:maid')
     implementation project(path: ':feature:order')
     implementation project(path: ':feature:room')
 

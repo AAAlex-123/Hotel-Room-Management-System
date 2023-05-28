@@ -58,6 +58,16 @@ class HrmsRetrofitNetworkDataSource : HrmsNetworkDataSource {
             it?.asNetworkCleaningStaff()
         }
 
+    override suspend fun getCleaningLadies(housekeeperId: Int):
+            HrmsNetworkResponse<List<NetworkCleaningStaff>> =
+        HrmsRetrofitInstance.api.getCleaningLadies(
+            housekeeperId
+        ).asHrmsNetworkResponse { cleaningLadyList ->
+            cleaningLadyList?.map {
+                it.asNetworkCleaningStaff()
+            }
+        }
+
     override suspend fun getOrders(cleaningLadyId: Int):
             HrmsNetworkResponse<List<NetworkOrder>> =
         HrmsRetrofitInstance.api.getOrders(

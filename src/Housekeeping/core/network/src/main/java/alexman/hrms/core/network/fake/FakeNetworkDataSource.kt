@@ -24,9 +24,13 @@ class FakeNetworkDataSource : HrmsNetworkDataSource {
     private val sessionIdMap: MutableMap<String, String> = mutableMapOf()
 
     private val cleaningStaffMap: Map<Int, NetworkCleaningStaff> = mapOf(
-        1 to NetworkCleaningStaff(1, "Alice", "CHAMBERMAID"),
+        1 to NetworkCleaningStaff(1, "Alice", "HOUSEKEEPER"),
         2 to NetworkCleaningStaff(2, "Bob", "CHAMBERMAID"),
         3 to NetworkCleaningStaff(3, "Charlie", "CHAMBERMAID"),
+    )
+
+    private val housekeeperMap: Map<Int, List<Int>> = mapOf(
+        1 to listOf(2, 3),
     )
 
     private val orderMap: MutableMap<Int, NetworkOrder> = mutableMapOf(
@@ -92,6 +96,17 @@ class FakeNetworkDataSource : HrmsNetworkDataSource {
         return HrmsNetworkResponse(
             200,
             cleaningStaff,
+            null,
+        )
+    }
+
+    override suspend fun getCleaningLadies(housekeeperId: Int):
+            HrmsNetworkResponse<List<NetworkCleaningStaff>> {
+        val cleaningLadies = housekeeperMap[housekeeperId]!!.map { id -> cleaningStaffMap[id]!! }
+
+        return HrmsNetworkResponse(
+            200,
+            cleaningLadies,
             null,
         )
     }

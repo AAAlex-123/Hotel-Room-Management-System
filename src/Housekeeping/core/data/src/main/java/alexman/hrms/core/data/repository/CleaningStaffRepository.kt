@@ -11,9 +11,15 @@ data class CleaningStaffQuery(
     val cleaningStaffId: Int,
 )
 
+data class CleaningLadiesQuery(
+    val housekeeperId: Int,
+)
+
 interface CleaningStaffRepository {
 
     suspend fun authenticate(query: AuthenticationQuery): Int
 
     suspend fun getCleaningStaff(query: CleaningStaffQuery): CleaningStaff
+
+    suspend fun getCleaningLadies(query: CleaningLadiesQuery): List<CleaningStaff>
 }

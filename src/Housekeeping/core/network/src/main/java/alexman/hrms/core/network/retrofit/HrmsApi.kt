@@ -31,6 +31,11 @@ internal interface HrmsApi {
         @Path("id") cleaningStaffId: Int,
     ): Response<RetrofitCleaningStaff>
 
+    @GET("chambermaid")
+    suspend fun getCleaningLadies(
+        @Query("cleaning_staff_id") housekeeperId: Int,
+    ): Response<List<RetrofitCleaningStaff>>
+
     @GET("provision")
     suspend fun getOrders(
         @Query("employee_id") cleaningStaffId: Int,
