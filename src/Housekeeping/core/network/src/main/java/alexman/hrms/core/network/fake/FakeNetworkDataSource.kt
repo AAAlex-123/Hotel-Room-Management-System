@@ -13,6 +13,7 @@ import alexman.hrms.core.network.model.UpstreamNetworkOrderUpdateDetails
 import alexman.hrms.core.network.model.UpstreamNetworkRoomUpdateDetails
 import java.util.UUID
 
+// TODO("remove when done")
 class FakeNetworkDataSource : HrmsNetworkDataSource {
 
     private val registeredStaffMap: Map<Int, Pair<String, String>> = mapOf(
@@ -158,7 +159,8 @@ class FakeNetworkDataSource : HrmsNetworkDataSource {
         }
     }
 
-    override suspend fun deleteOrder(orderId: Int): HrmsNetworkResponse<Any> {
+    override suspend fun deleteOrder(orderId: Int):
+            HrmsNetworkResponse<Any> {
         orderMap.remove(orderId)
 
         return HrmsNetworkResponse(
@@ -168,7 +170,8 @@ class FakeNetworkDataSource : HrmsNetworkDataSource {
         )
     }
 
-    override suspend fun getRooms(cleaningLadyId: Int): HrmsNetworkResponse<List<NetworkRoom>> {
+    override suspend fun getRooms(cleaningLadyId: Int):
+            HrmsNetworkResponse<List<NetworkRoom>> {
         val rooms = cleaningStaffRoomMap[cleaningLadyId]!!.map { roomMap[it]!! }
 
         return HrmsNetworkResponse(
@@ -178,7 +181,8 @@ class FakeNetworkDataSource : HrmsNetworkDataSource {
         )
     }
 
-    override suspend fun getSingleRoom(roomId: String): HrmsNetworkResponse<NetworkRoom> {
+    override suspend fun getSingleRoom(roomId: String):
+            HrmsNetworkResponse<NetworkRoom> {
         return HrmsNetworkResponse(
             200,
             roomMap[roomId]!!,
@@ -199,7 +203,8 @@ class FakeNetworkDataSource : HrmsNetworkDataSource {
         }
     }
 
-    override suspend fun getNotes(roomId: String): HrmsNetworkResponse<List<NetworkNote>> {
+    override suspend fun getNotes(roomId: String):
+            HrmsNetworkResponse<List<NetworkNote>> {
         val notes = noteMap.values
             .filter { it.roomId == roomId }
 
@@ -210,7 +215,8 @@ class FakeNetworkDataSource : HrmsNetworkDataSource {
         )
     }
 
-    override suspend fun addNote(upstreamNetworkNoteDetails: UpstreamNetworkNoteDetails): HrmsNetworkResponse<NetworkNote> {
+    override suspend fun addNote(upstreamNetworkNoteDetails: UpstreamNetworkNoteDetails):
+            HrmsNetworkResponse<NetworkNote> {
         val newNote = with(upstreamNetworkNoteDetails) {
             val newNoteId = noteMap.values.map { it.id }.reduce(Integer::max) + 1
             NetworkNote(
@@ -230,7 +236,8 @@ class FakeNetworkDataSource : HrmsNetworkDataSource {
         )
     }
 
-    override suspend fun deleteNote(noteId: Int): HrmsNetworkResponse<Any> {
+    override suspend fun deleteNote(noteId: Int):
+            HrmsNetworkResponse<Any> {
         noteMap.remove(noteId)
 
         return HrmsNetworkResponse(

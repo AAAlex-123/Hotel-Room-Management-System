@@ -98,7 +98,7 @@ private fun HrmsNav(
                 navController.navigate(
                     Destination.SingleRoom.format(
                         roomId = roomId,
-                        cleaningStaffId = cleaningStaffId
+                        cleaningStaffId = cleaningStaffId,
                     )
                 )
             },
