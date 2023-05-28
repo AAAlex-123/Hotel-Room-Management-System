@@ -10,24 +10,19 @@ export class AuthService {
   async signInClient(login: string) {
     const client = await this.prisma.reservation.findFirst({
       where: {
-        client: {
-          cellphone: {
-            endsWith: login,
-          },
+        cellphone: {
+          endsWith: login,
         },
-      },
-      include: {
-        client: true,
       },
     });
     if (client === undefined) throw new UnauthorizedException();
 
     const payload = {
-      username: client.client.name,
-      sub: client.client.client_id,
+      username: client.name,
+      sub: client.cellphone,
     };
     return {
-      client_id: client.client_id,
+      reservation_id: client.reservation_id,
       access_token: await this.jwtService.signAsync(payload),
     };
   }

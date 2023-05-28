@@ -7,18 +7,14 @@ import { ReservationController } from './reservation/reservation.controller';
 import { AuthModule } from './auth/auth.module';
 import { ProvisionController } from './provision/provision.controller';
 import { ConfigModule } from '@nestjs/config';
-import { SetMetadata } from '@nestjs/common';
 import { MenuorderController } from './menuorder/menuorder.controller';
 import { MenuController } from './menu/menu.controller';
 import { ChargeController } from './charge/charge.controller';
 import { NoteController } from './note/note.controller';
 import { GroupController } from './group/group.controller';
-import { RoomDescriptionController } from './room-description/room-description.controller';
 import { ChambermaidController } from './chambermaid/chambermaid.controller';
 import { HousekeeperController } from './housekeeper/housekeeper.controller';
 import { ClientController } from './client/client.controller';
-import { APP_GUARD } from '@nestjs/core';
-import { AuthGuard } from './auth/auth.guard/auth.guard';
 
 @Module({
   imports: [AuthModule, ConfigModule.forRoot()],
@@ -33,7 +29,6 @@ import { AuthGuard } from './auth/auth.guard/auth.guard';
     ChargeController,
     NoteController,
     GroupController,
-    RoomDescriptionController,
     ChambermaidController,
     HousekeeperController,
     ClientController,
