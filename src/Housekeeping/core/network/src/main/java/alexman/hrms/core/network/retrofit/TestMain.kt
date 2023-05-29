@@ -5,7 +5,7 @@ import alexman.hrms.core.network.model.UpstreamNetworkCleaningStaffAuth
 import alexman.hrms.core.network.model.UpstreamNetworkOrderDetails
 import kotlinx.coroutines.runBlocking
 
-// TODO: remove when done
+// TODO("remove when done")
 private fun main() {
     val retrofitDS = HrmsRetrofitNetworkDataSource()
 
