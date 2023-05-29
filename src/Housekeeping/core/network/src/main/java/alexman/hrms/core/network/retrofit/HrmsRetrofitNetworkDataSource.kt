@@ -101,10 +101,10 @@ class HrmsRetrofitNetworkDataSource : HrmsNetworkDataSource {
             orderId
         ).asHrmsNetworkResponse()
 
-    override suspend fun getRooms(cleaningLadyId: Int):
+    override suspend fun getRooms(cleaningStaffId: Int):
             HrmsNetworkResponse<List<NetworkRoom>> =
         HrmsRetrofitInstance.api.getRooms(
-            cleaningLadyId
+            cleaningStaffId
         ).asHrmsNetworkResponse { retrofitRoomList ->
             retrofitRoomList?.map {
                 it.asNetworkRoom()

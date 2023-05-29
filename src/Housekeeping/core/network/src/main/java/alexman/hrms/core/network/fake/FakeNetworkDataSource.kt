@@ -51,13 +51,16 @@ class FakeNetworkDataSource : HrmsNetworkDataSource {
     )
 
     private val noteMap: MutableMap<Int, NetworkNote> = mutableMapOf(
-        1 to NetworkNote(1, "101", 1, "room 123, note 1, cl 1"),
-        2 to NetworkNote(2, "101", 2, "room 123, note 2, cl 2"),
-        3 to NetworkNote(3, "101", 1, "room 123, note 3, cl 1"),
+        1 to NetworkNote(1, "101", 2, "Bob: room 101, note 1"),
+        2 to NetworkNote(2, "101", 3, "Charlie: room 101, note 2"),
+        3 to NetworkNote(3, "101", 2, "Bob: room 101, note 3"),
+        4 to NetworkNote(4, "103", 2, "Bob: room 103, note 4"),
+        5 to NetworkNote(5, "103", 2, "Bob: room 103, note 5"),
     )
 
-    private val cleaningStaffRoomMap: Map<Int, List<String>> = mapOf(
-        1 to listOf("101", "102", "103", "104", "105"),
+    private val cleaningLadyRoomMap: Map<Int, List<String>> = mapOf(
+        2 to listOf("101", "102", "103", "105"),
+        3 to listOf("101", "103", "104")
     )
 
     override suspend fun authenticate(upstreamNetworkCleaningStaffAuth: UpstreamNetworkCleaningStaffAuth):
@@ -182,9 +185,22 @@ class FakeNetworkDataSource : HrmsNetworkDataSource {
         )
     }
 
-    override suspend fun getRooms(cleaningLadyId: Int):
+    override suspend fun getRooms(cleaningStaffId: Int):
             HrmsNetworkResponse<List<NetworkRoom>> {
-        val rooms = cleaningStaffRoomMap[cleaningLadyId]!!.map { roomMap[it]!! }
+        val cleaningStaffType = cleaningStaffMap[cleaningStaffId]!!.cleaningStaffType
+
+        val rooms = when (cleaningStaffType) {
+            "CHAMBERMAID" -> cleaningLadyRoomMap[cleaningStaffId]!!
+                .map { roomMap[it]!! }
+
+            "HOUSEKEEPER" -> housekeeperMap[cleaningStaffId]!!
+                .flatMap { cleaningLady -> cleaningLadyRoomMap[cleaningLady]!! }
+                .map { roomMap[it]!! }
+                .distinctBy { it.id }
+                .sortedBy { it.id }
+
+            else -> error("CleaningStaffType was $cleaningStaffType in getRooms")
+        }
 
         return HrmsNetworkResponse(
             200,

@@ -63,6 +63,9 @@ class RoomRepositoryImplementation(
             val updatedRoom = response.body!!.asExternalModel()
             singleRoomCache.updateRoom(updatedRoom)
             updateSingleRoomFlowsAffectedByRoom(updatedRoom)
+
+            roomCache.updateRoom(updatedRoom)
+            updateRoomFlowsAffectedByRoom(updatedRoom)
         } else {
             TODO("figure out what to do on PUT error")
         }
@@ -170,7 +173,7 @@ class RoomRepositoryImplementation(
     ) {
 
         private val querySet: MutableSet<RoomQuery> = mutableSetOf()
-        private val roomMap: MutableMap<Int, List<Room>> = mutableMapOf()
+        private val roomMap: MutableMap<Int, MutableList<Room>> = mutableMapOf()
 
         // TODO("refresh fun")
 
@@ -192,13 +195,24 @@ class RoomRepositoryImplementation(
             return roomMap[query.cleaningStaffId]!!
         }
 
+        fun updateRoom(room: Room) {
+            roomMap.values
+                .forEach {
+                    it.forEachIndexed { index, _room ->
+                        if (_room.id == room.id) {
+                            it[index] = room
+                        }
+                    }
+                }
+        }
+
         private suspend fun updateMapWithRoomsFromQuery(query: RoomQuery) {
             val response = datasource.getRooms(query.cleaningStaffId)
 
             if (response.ok) {
-                with(response.body!!) {
-                    roomMap[query.cleaningStaffId] = this.map(NetworkRoom::asExternalModel)
-                }
+                roomMap[query.cleaningStaffId] = response.body!!
+                    .map(NetworkRoom::asExternalModel)
+                    .toMutableList()
             } else {
                 TODO("figure out what to do on GET error")
             }
@@ -240,7 +254,7 @@ class RoomRepositoryImplementation(
 
             if (response.ok) {
                 with(response.body!!) {
-                    singleRoomMap[id] = this.asExternalModel()
+                    singleRoomMap[this.id] = this.asExternalModel()
                 }
             } else {
                 // TODO("figure out what to do on GET error")
