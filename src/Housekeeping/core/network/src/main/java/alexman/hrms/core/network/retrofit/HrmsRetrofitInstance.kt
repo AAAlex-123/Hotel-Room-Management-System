@@ -12,9 +12,12 @@ internal object HrmsRetrofitInstance {
 
     var access_token: String? = null
 
-    // TODO("set the IP address")
-    // TODO("add back `api/` for prod")
-    private const val baseUrl = "http://localhost:8000/" /* api/" */
+    // --- ENDPOINT FOR DUMMY EXPRESS SERVER --- server not included, also sort of deprecated
+    // TODO("delete when done")
+    // private const val baseUrl = "http://localhost:8000/"
+
+    // --- ENDPOINT FOR ACTUAL SERVER ---
+    private const val baseUrl = "https://f317-2a02-587-b830-1500-6dee-9a1f-4394-148f.ngrok-free.app/api/"
 
     private val moshi = Moshi.Builder()
         .add(KotlinJsonAdapterFactory())
