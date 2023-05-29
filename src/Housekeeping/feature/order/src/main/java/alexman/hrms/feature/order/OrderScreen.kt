@@ -4,10 +4,10 @@ import alexman.hrms.core.designsystem.PreviewLight
 import alexman.hrms.core.designsystem.SizeVariation
 import alexman.hrms.core.designsystem.component.BottomBarItem
 import alexman.hrms.core.designsystem.component.ButtonWithText
-import alexman.hrms.core.designsystem.component.ListItem
 import alexman.hrms.core.designsystem.component.HrmsPopup
 import alexman.hrms.core.designsystem.component.HrmsScaffold
 import alexman.hrms.core.designsystem.component.IconClickable
+import alexman.hrms.core.designsystem.component.ListItem
 import alexman.hrms.core.designsystem.component.MediumDisplayText
 import alexman.hrms.core.designsystem.component.ScaffoldNavigation
 import alexman.hrms.core.designsystem.component.TextInputField
@@ -126,7 +126,8 @@ private fun OrderScreenContent(
                 ListItem(
                     id = it.id,
                     text = it.orderData,
-                    deletable = it.cleaningLadyId == staff.staffId,
+                    deletable = staff.staffType == CleaningStaffType.HOUSEKEEPER
+                            || it.cleaningLadyId == staff.staffId,
                     onDelete = onDelete,
                     completed = it.completed == OrderStatus.COMPLETED,
                     markable = staff.staffType == CleaningStaffType.HOUSEKEEPER,

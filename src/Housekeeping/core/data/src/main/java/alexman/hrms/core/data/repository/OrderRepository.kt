@@ -6,9 +6,11 @@ import alexman.hrms.core.model.data.UpstreamOrderUpdateDetails
 import kotlinx.coroutines.flow.Flow
 
 data class OrderQuery(
-    val cleaningLadyId: Int,
+    val cleaningLadyIds: List<Int>,
 ) {
-    fun matches(order: Order): Boolean = order.cleaningLadyId == cleaningLadyId
+    constructor(cleaningLadyId: Int) : this(listOf(cleaningLadyId))
+
+    fun matches(order: Order): Boolean = cleaningLadyIds.contains(order.cleaningLadyId)
 }
 
 interface OrderRepository {

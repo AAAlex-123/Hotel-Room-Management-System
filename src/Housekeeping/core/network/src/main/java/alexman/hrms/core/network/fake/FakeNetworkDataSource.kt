@@ -35,11 +35,11 @@ class FakeNetworkDataSource : HrmsNetworkDataSource {
     )
 
     private val orderMap: MutableMap<Int, NetworkOrder> = mutableMapOf(
-        1 to NetworkOrder(1, false, 1, "Alice's order 1"),
-        2 to NetworkOrder(2, false, 1, "Alice's order 2"),
-        3 to NetworkOrder(3, true, 2, "Bob's order 1"),
-        4 to NetworkOrder(4, false, 2, "Bob's order 2"),
-        5 to NetworkOrder(5, true, 1, "Alice's order 3"),
+        1 to NetworkOrder(1, false, 2, "Bob's order 1"),
+        2 to NetworkOrder(2, false, 2, "Bob's order 2"),
+        3 to NetworkOrder(3, true, 3, "Charlie's order 1"),
+        4 to NetworkOrder(4, false, 3, "Charlie's order 2"),
+        5 to NetworkOrder(5, true, 2, "Bob's order 3"),
     )
 
     private val roomMap: MutableMap<String, NetworkRoom> = mutableMapOf(
@@ -114,9 +114,21 @@ class FakeNetworkDataSource : HrmsNetworkDataSource {
 
     override suspend fun getOrders(cleaningLadyId: Int):
             HrmsNetworkResponse<List<NetworkOrder>> {
-        val orders = orderMap.values
-            .filter { it.cleaningLadyId == cleaningLadyId }
-            .toList()
+
+        val cleaningStaffType = cleaningStaffMap[cleaningLadyId]!!.cleaningStaffType
+
+        val orders = when (cleaningStaffType) {
+            "CHAMBERMAID" -> orderMap.values
+                .filter { it.cleaningLadyId == cleaningLadyId }
+
+            "HOUSEKEEPER" -> housekeeperMap[cleaningLadyId]!!
+                .flatMap { cleaningLadyId ->
+                    orderMap.values
+                        .filter { order -> cleaningLadyId == order.cleaningLadyId }
+                }
+
+            else -> error("CleaningStaffType was $cleaningStaffType in getRooms")
+        }
 
         return HrmsNetworkResponse(
             200,

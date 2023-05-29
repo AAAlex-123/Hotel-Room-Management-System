@@ -1,5 +1,6 @@
 package alexman.hrms.feature.order
 
+import alexman.hrms.core.data.repository.CleaningLadiesQuery
 import alexman.hrms.core.data.repository.CleaningStaffQuery
 import alexman.hrms.core.data.repository.CleaningStaffRepository
 import alexman.hrms.core.data.repository.OrderQuery
@@ -54,7 +55,14 @@ internal class OrderViewModel(
         viewModelScope.launch {
             // TODO("figure out how to handle failure")
             orders = orderRepository.getOrders(
-                OrderQuery(cleaningLadyId = cleaningStaffId)
+                when (staffUiState.staffType) {
+                    CleaningStaffType.CLEANING_LADY -> OrderQuery(cleaningLadyId = cleaningStaffId)
+                    CleaningStaffType.HOUSEKEEPER -> OrderQuery(
+                        cleaningLadyIds = cleaningStaffRepository.getCleaningLadies(
+                            CleaningLadiesQuery(housekeeperId = cleaningStaffId)
+                        ).map { it.employeeId }
+                    )
+                }
             )
         }
     }

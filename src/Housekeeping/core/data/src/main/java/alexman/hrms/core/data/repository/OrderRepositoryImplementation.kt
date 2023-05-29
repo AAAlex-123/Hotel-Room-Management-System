@@ -7,7 +7,6 @@ import alexman.hrms.core.model.data.Order
 import alexman.hrms.core.model.data.UpstreamOrderDetails
 import alexman.hrms.core.model.data.UpstreamOrderUpdateDetails
 import alexman.hrms.core.network.HrmsNetworkDataSource
-import alexman.hrms.core.network.model.NetworkOrder
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 
@@ -110,8 +109,8 @@ class OrderRepositoryImplementation(
     ) {
 
         private val querySet: MutableSet<OrderQuery> = mutableSetOf()
-
-        private val orderMap: MutableMap<Int, Order> = mutableMapOf()
+        private val cleaningStaffIdToOrderIdsMap: MutableMap<Int, MutableList<Int>> = mutableMapOf()
+        private val orderIdToOrderMap: MutableMap<Int, Order> = mutableMapOf()
 
         // TODO("figure out where to call this and how it will work")
         suspend fun refresh/*AndGetDiff*/() /*: List<Order> */ {
@@ -132,15 +131,19 @@ class OrderRepositoryImplementation(
         }
 
         fun placeOrder(order: Order) {
-            orderMap[order.id] = order
+            cleaningStaffIdToOrderIdsMap[order.cleaningLadyId]!!.add(order.id)
+            orderIdToOrderMap[order.id] = order
         }
 
         fun deleteOrder(orderId: Int): Order {
-            return orderMap.remove(orderId)!!
+            cleaningStaffIdToOrderIdsMap.values
+                .forEach { orderIds -> orderIds.remove(orderId) }
+
+            return orderIdToOrderMap.remove(orderId)!!
         }
 
         fun updateOrder(order: Order) {
-            orderMap[order.id] = order
+            orderIdToOrderMap[order.id] = order
         }
 
         fun getFilteredOrdersForExistingQuery(query: OrderQuery): List<Order> {
@@ -148,19 +151,27 @@ class OrderRepositoryImplementation(
                 error("Query $query does not exist in cache")
             }
 
-            return orderMap.values
-                .filter { query.matches(it) }
+            return query.cleaningLadyIds
+                .flatMap { cleaningStaffIdToOrderIdsMap[it]!! }
+                .map(orderIdToOrderMap::getValue)
         }
 
         private suspend fun updateMapWithOrdersFromQuery(query: OrderQuery) {
-            val response = datasource.getOrders(query.cleaningLadyId)
+            query.cleaningLadyIds.forEach { cleaningLadyId ->
+                val response = datasource.getOrders(cleaningLadyId)
 
-            if (response.ok) {
-                response.body!!
-                    .map(NetworkOrder::asExternalModel)
-                    .forEach { orderMap[it.id] = it }
-            } else {
-                // TODO("figure out what to do on GET error. Maybe just return false?")
+                if (response.ok) {
+                    cleaningStaffIdToOrderIdsMap[cleaningLadyId] = response.body!!
+                        .map { networkOrder -> networkOrder.id }
+                        .toMutableList()
+
+                    response.body!!
+                        .forEach { networkOrder ->
+                            orderIdToOrderMap[networkOrder.id] = networkOrder.asExternalModel()
+                        }
+                } else {
+                    // TODO("figure out what to do on GET error. Maybe just return false?")
+                }
             }
         }
     }
