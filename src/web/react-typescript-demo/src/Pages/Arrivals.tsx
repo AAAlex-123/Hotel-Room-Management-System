@@ -7,9 +7,9 @@ import { Link } from 'react-router-dom';
 import Button from "react-bootstrap/Button";
 
 const Arrivals: React.FC = () => {
-  const titles = ['Name', 'Room Number', 'Arrival Time', 'Visitors', 'Departure', 'Reservation Status', 'E-mail', 'Bill'];
-  const content = ['Minako Arisato', 'O63,064', '12:00', '4', '31/05/2023', 'Confirmed', 'minakoaris@gmail.com', '450.30$'];
-  const elem = 8;
+  const titles = ['Name', 'Room Number', 'Arrival Time', 'Visitors', 'Departure', 'E-mail', 'Bill'];
+  const content = ['Minako Arisato', 'O63,064', '12:00', '4', '31/05/2023',  'minakoaris@gmail.com', '450.30$'];
+  const elem = 7;
   const text= "Close";
   const label= 'Arrivals';
 
