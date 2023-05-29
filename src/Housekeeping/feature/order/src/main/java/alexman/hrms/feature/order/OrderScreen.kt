@@ -112,7 +112,11 @@ private fun OrderScreenContent(
     HrmsScaffold(
         topBarText = "Orders",
         onNavigationIconClick = { onNavigateToHome(staff.staffId) },
-        actions = { NewOrderButton(onSubmitNewOrder) },
+        actions = {
+            if (staff.staffType == CleaningStaffType.CLEANING_LADY) {
+                NewOrderButton(onSubmitNewOrder)
+            }
+        },
         scaffoldNavigation = scaffoldNavigation,
         selectedBottomBarItem = BottomBarItem.ORDERS,
     ) {
