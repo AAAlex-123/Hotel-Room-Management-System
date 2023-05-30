@@ -15,7 +15,7 @@ export default function SideBar() {
         <div onClick={() => changePage('/reservations', navigate)}>Reservartions</div>
         <div onClick={() => changePage('/front desk', navigate)}>Front Desk</div>
         <div onClick={() => changePage('/arrivals', navigate)}>Arrivals</div>
-        <div onClick={() => changePage('/room management', navigate)}>Room Management</div>
+        <div onClick={() => changePage('/room-management', navigate)}>Room Management</div>
         <div onClick={() => changePage('/cashiering', navigate)}>Cashiering</div>
         <div onClick={() => changePage('/misc', navigate)}>Miscellaneous</div>
 
