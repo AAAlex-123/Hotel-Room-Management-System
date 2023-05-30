@@ -50,7 +50,7 @@
     flex-direction: column;
     text-align: center;
     /* For smaller laptop screen min-height: 80vh; */
-    min-height: 85vh;
+    min-height: 87vh;
     justify-content: flex-start;
     
 }
@@ -205,7 +205,7 @@
     background-color: #fff;
     min-width: 100%;
     /*For smaller screens height: 90vh; */
-    height: 75vh;
+    height: 77vh;
    
   }
 

@@ -22,7 +22,7 @@ const RoomManagement: React.FC = () => {
   };
     return (
       <>
-      <div><Layout/> </div>
+      <div><Layout title={'Room Management'}/> </div>
       <div> <SmallScreen label={label}/>
         <Grid labels={labels} elem={elem} clicked={handleLabelClick}/>
         

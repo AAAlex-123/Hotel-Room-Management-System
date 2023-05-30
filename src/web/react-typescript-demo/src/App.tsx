@@ -11,6 +11,7 @@ import FindReservation from "./Pages/FindReservation";
 import FrontDesk from './Pages/FrontDesk';
 import Arrivals from './Pages/Arrivals';
 import RoomManagement from './Pages/RoomManagement';
+import MaidManagement from './Pages/MaidManagement';
 import Cashiering from './Pages/Cashiering';
 import Misc from './Pages/Misc';
 
@@ -27,7 +28,8 @@ function App() {
           <Route path="/find-reservation" element={<FindReservation/>}/>
           <Route path="/front desk" element={<FrontDesk/>}/> 
           <Route path="/arrivals" element={<Arrivals/>}/> 
-          <Route path="/room management" element={<RoomManagement/>}/> 
+          <Route path="/room management" element={<RoomManagement/>}/>
+          <Route path="/maid-management" element={<MaidManagement/>} /> 
           <Route path="/cashiering" element={<Cashiering/>}/> 
           <Route path="/misc" element={<Misc/>}/> 
           <Route path="/" element={<Login/>}/> 

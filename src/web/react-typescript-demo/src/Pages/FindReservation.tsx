@@ -28,7 +28,7 @@ const FindReservation: React.FC = () => {
 
     return (
       <>
-      <div><Layout/> </div>
+      <div><Layout title={'Find Reservation'}/> </div>
       <div> <SmallScreen label={label}/>
       <div className="res-container">
       <div className="whiteBox">

@@ -20,7 +20,7 @@ const Misc: React.FC = () => {
   };
     return (
       <>
-      <div><Layout/> </div>
+      <div><Layout title={'Miscellaneous'}/> </div>
       <div> <SmallScreen label={label}/>
         <Grid labels={labels} elem={elem} clicked={handleLabelClick}/>
         

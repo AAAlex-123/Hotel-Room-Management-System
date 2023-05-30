@@ -9,9 +9,10 @@ interface DetElem {
     text: string;
     text2?: string | null;
     onClose: () => void;
+    onButtonClick?: () => void;
   }
   
-  const Details: React.FC<DetElem> = ({ titles, content, elem, text, text2='', onClose}) =>  {
+  const Details: React.FC<DetElem> = ({ titles, content, elem, text, text2='', onClose , onButtonClick}) =>  {
 
 
   
@@ -43,7 +44,7 @@ interface DetElem {
         </Button>
         {text2 !== null && ( 
 
-          <Button className="blueButton" type="submit">
+          <Button className="blueButton" type="submit" onClick={onButtonClick}>
 
             {text2}
             

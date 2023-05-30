@@ -22,7 +22,7 @@ const Cashiering: React.FC = () => {
   };
     return (
       <>
-      <div><Layout/> </div>
+      <div><Layout title={'Cashiering'}/> </div>
       <div> <SmallScreen label={label}/>
         <Grid labels={labels} elem={elem} clicked={handleLabelClick}/>
         

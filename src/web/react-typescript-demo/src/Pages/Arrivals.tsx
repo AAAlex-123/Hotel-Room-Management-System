@@ -28,7 +28,7 @@ const Arrivals: React.FC = () => {
 
     return (
       <>
-      <div><Layout/> </div>
+      <div><Layout title={'Arrivals'}/> </div>
       <div> <SmallScreen label={label}/>
       <div className="res-container">
       <div className="whiteBox">

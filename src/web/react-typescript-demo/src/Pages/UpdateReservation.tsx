@@ -5,6 +5,7 @@ import Search from '../Components/Search';
 import React, { useState} from 'react';
 import { Link } from 'react-router-dom';
 import Button from "react-bootstrap/Button";
+import ResForm, {UserData} from '../Components/ResForm';
 
 const UpdateReservation: React.FC = () => {
   const titles = ['Room Number', 'Arrival', 'Departure', 'Name', "Cellphone",  'Visitors','E-mail', 'Bill' ];
@@ -15,21 +16,32 @@ const UpdateReservation: React.FC = () => {
   const label= 'Update Reservation';
 
   const [showDetails, setShowDetails] = useState(false);
+  const [showForm, setShowForm] = useState(false);
 
   const handleSearch = (searchQuery: string) => {
- 
     setShowDetails(true);
   };
 
   const closeDetails = () => {
     setShowDetails(false);
   };
+  
+  const handleSubmit = (userData: UserData) => {
+    // Handle the form submission here
+
+  };
+
+  const handleButtonClick = () => {
+    setShowForm(true);
+    setShowDetails(false);
+  };
+  
 
 
 
     return (
       <>
-      <div><Layout/> </div>
+      <div><Layout title={'Update Reservation'}/> </div>
       <div> <SmallScreen label={label}/>
       <div className="res-container">
       <div className="whiteBox">
@@ -45,8 +57,13 @@ const UpdateReservation: React.FC = () => {
           text={text}
           text2={text2}
           onClose={closeDetails}
+          onButtonClick={handleButtonClick}
         />
       )}
+
+      {showForm && (
+              <ResForm onSubmit={handleSubmit} />
+            )}
              
             <Link to='/reservations'>
             <Button className="blueButton" type="submit">

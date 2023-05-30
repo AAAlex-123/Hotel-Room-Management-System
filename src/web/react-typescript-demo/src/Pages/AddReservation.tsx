@@ -1,7 +1,6 @@
 import Layout from '../Components/Layout';
 import ResForm, {UserData} from '../Components/ResForm';
 import SmallScreen from '../Components/SmallScreen';
-import Search from '../Components/Search';
 import React, { useState} from 'react';
 import { Link } from 'react-router-dom';
 import Button from "react-bootstrap/Button";
@@ -12,14 +11,14 @@ const AddReservation: React.FC = () => {
 
   const handleSubmit = (userData: UserData) => {
     // Handle the form submission here
-    console.log(userData);
+
   };
 
 
 
     return (
       <>
-      <div><Layout/> </div>
+      <div><Layout title={'Add Reservation'}/> </div>
       <div> <SmallScreen label={label}/>
       <div className="res-container">
       <div className="whiteBox">

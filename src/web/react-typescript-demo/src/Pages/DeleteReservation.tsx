@@ -29,7 +29,7 @@ const DeleteReservation: React.FC = () => {
 
     return (
       <>
-      <div><Layout/> </div>
+      <div><Layout title={'Delete Reservation'}/> </div>
       <div> <SmallScreen label={label}/>
       <div className="res-container">
       <div className="whiteBox">

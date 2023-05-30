@@ -1,11 +1,14 @@
 import React from 'react'
-import Button from "react-bootstrap/Button";
 import SideBar from './SideBar';
 import {Helmet} from "react-helmet";
 import './Component.css';
 
 
-export default function Main() {
+interface MainProps {
+  title: string;
+}
+
+export default function Main({ title }: MainProps) {
 
   const imageStyle = {
     textAlign: 'center' as const,
@@ -30,7 +33,7 @@ export default function Main() {
   return (
     <>
         <Helmet>
-      <title> Main Menu </title>
+      <title> {title}</title>
       <link rel="icon" href="../../public/favicon.ico" />
       <link href='https://fonts.googleapis.com/css?family=Aleo' rel='stylesheet'/>
         <style>{`

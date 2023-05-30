@@ -29,7 +29,7 @@ const FrontDesk: React.FC = () => {
 
     return (
       <>
-      <div><Layout/> </div>
+      <div><Layout title={'Front Desk'}/> </div>
       <div> <SmallScreen label={label}/>
       <div className="res-container">
       <div className="whiteBox">
