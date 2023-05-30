@@ -261,3 +261,129 @@
 .form-field-wrapper input[type="date"]::-webkit-calendar-picker-indicator {
     filter: invert(1);
   }
+
+
+.statBox{
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start; 
+    justify-content: space-between;
+    background-color: white;
+    padding: 0.1rem;
+    border: 0.1rem solid #292929;
+    border-radius: 10px;
+    width: 85%;
+    margin: 0 auto; 
+    margin-top: 1rem;
+
+}
+
+
+.small-statBox {
+    flex: 1;
+    margin: 1rem; 
+    background-color: #C8D2EC;
+    border-radius: 10px;
+}
+
+
+
+.small-statBox p:first-child {
+    font-size: 1.5rem; 
+}
+  
+  .small-statBox p:last-child{
+    font-size:3rem;
+  }
+
+.date {
+    font-size: 2rem;
+    align-self: flex-start;
+    padding: 1rem;
+    margin-top:  2rem;
+    
+}
+
+.small-statBox2 {
+    flex: 1;
+    margin: 1rem; 
+    background-color: #C8D2EC;
+    border-radius: 10px;
+}
+
+
+
+.small-statBox2 p:first-child {
+    font-size: 3rem; 
+}
+  
+  .small-statBox2 p:last-child{
+    font-size:1.5rem;
+  }
+
+  .msg-list {
+    display: flex;
+    position: absolute;
+    flex-direction: column;
+    text-align: center;
+    justify-content: flex-start;
+    max-height: 30rem;
+    overflow-y: scroll;
+    
+}
+
+.msg-list > div {
+    background-color: #C8D2EC;
+    font-size: 0.5rem;
+    border-radius: 10px;
+    margin: 2rem;
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+    
+    
+}
+
+.msg-list .message-content {
+    margin-left: 0.5rem;
+    text-align: left;
+    font-weight: bold;
+}
+
+.num-circle {
+    background-color: #66BBF9;
+    width: 4rem; 
+    height: 4rem;
+    border-radius: 50%;
+    font-size: 2rem;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.roomSearch{
+
+    margin: 3% auto 2% 10%;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    text-align: left;
+    display: flex;
+    align-items: center;
+}
+
+.selected-message{
+
+    background-color: #C8D2EC;
+    font-size: 2rem;
+    border-radius: 10px;
+    font-weight: bold;
+    margin: 1rem;
+    padding: 1rem;
+    top: 0;
+    right: 0;
+    box-sizing: border-box;
+    overflow-y: auto;
+    margin: 3% 3% 15% 40%;
+    
+}

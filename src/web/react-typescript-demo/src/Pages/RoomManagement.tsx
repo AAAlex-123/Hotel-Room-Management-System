@@ -24,7 +24,7 @@ const RoomManagement: React.FC = () => {
       <>
       <div><Layout title={'Room Management'}/> </div>
       <div> <SmallScreen label={label}/>
-        <Grid labels={labels} elem={elem} clicked={handleLabelClick}/>
+        <Grid labels={labels} elem={elem} clicked={handleLabelClick} link='/main'/>
         
        </div>
       </>

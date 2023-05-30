@@ -24,7 +24,7 @@ const Cashiering: React.FC = () => {
       <>
       <div><Layout title={'Cashiering'}/> </div>
       <div> <SmallScreen label={label}/>
-        <Grid labels={labels} elem={elem} clicked={handleLabelClick}/>
+        <Grid labels={labels} elem={elem} clicked={handleLabelClick} link='/main'/>
         
        </div>
       </>

@@ -14,6 +14,8 @@ import RoomManagement from './Pages/RoomManagement';
 import MaidManagement from './Pages/MaidManagement';
 import Cashiering from './Pages/Cashiering';
 import Misc from './Pages/Misc';
+import EndOfDay from './Pages/EndOfDay';
+import GuestMessages from './Pages/GuestMessages'
 
 function App() {
   return (
@@ -28,10 +30,12 @@ function App() {
           <Route path="/find-reservation" element={<FindReservation/>}/>
           <Route path="/front desk" element={<FrontDesk/>}/> 
           <Route path="/arrivals" element={<Arrivals/>}/> 
-          <Route path="/room management" element={<RoomManagement/>}/>
+          <Route path="/room-management" element={<RoomManagement/>}/>
           <Route path="/maid-management" element={<MaidManagement/>} /> 
           <Route path="/cashiering" element={<Cashiering/>}/> 
           <Route path="/misc" element={<Misc/>}/> 
+          <Route path="/end-of-day" element={<EndOfDay/>}/>
+          <Route path="/guest-messages" element={<GuestMessages/>}/>  
           <Route path="/" element={<Login/>}/> 
         </Routes>
         </Router> 

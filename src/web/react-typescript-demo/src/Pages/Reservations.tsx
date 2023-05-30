@@ -24,7 +24,7 @@ const Reservations: React.FC = () => {
       <>
       <div><Layout title={'Reservations'}/> </div>
       <div> <SmallScreen label={label}/>
-        <Grid labels={labels} elem={elem} clicked={handleLabelClick}/>
+        <Grid labels={labels} elem={elem} clicked={handleLabelClick} link='/main'/>
         
        </div>
       </>

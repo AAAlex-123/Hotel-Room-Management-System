@@ -7,9 +7,10 @@ interface GridElem {
     labels: string[];
     elem: number;
     clicked: (label: string) => void;
+    link: string; 
   }
 
-  const Grid: React.FC<GridElem> = ({ labels, elem, clicked }) =>  {
+  const Grid: React.FC<GridElem> = ({ labels, elem, clicked, link}) =>  {
     const renderGridItems = () => {
         const items = [];
         for (let i = 0; i < elem; i++) {
@@ -23,7 +24,7 @@ interface GridElem {
       return ( 
       <div className="grid-button-container">
         <div className="grid-container">{renderGridItems()} </div>
-        <Link to='/main'>
+        <Link to={link}>
         <Button className="blueButton" type="submit" >
 
           Close

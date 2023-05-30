@@ -5,26 +5,26 @@ import SmallScreen from '../Components/SmallScreen'
 import { useNavigate } from 'react-router-dom';
 
 const Reservations: React.FC = () => {
-  const labels = ['Add Reservation', 'Delete Reservation', 'Update Reservation', 'Find Reservation'];
+  const labels = ['Create Group', 'Assign Rooms', 'Room Notes', 'Orders'];
   const elem = 4;
-  const label= 'Reservations';
+  const label= 'Maid Management';
   const navigate = useNavigate();
   const handleLabelClick = (label: string) => {
-     if (label === 'Add Reservation') {
-      navigate('/add-reservation');
-    } else if (label === 'Delete Reservation') {
-      navigate('/delete-reservation');
-    } else if (label === 'Update Reservation') {
-      navigate('/update-reservation');
-    } else if (label === 'Find Reservation') {
-      navigate('/find-reservation');
+     if (label === 'Create Group') {
+      navigate('/create-group');
+    } else if (label === 'Assign Rooms') {
+      navigate('/assign-rooms');
+    } else if (label === 'Room Notes') {
+      navigate('/room-notes');
+    } else if (label === 'Orders') {
+      navigate('/orders');
     }
   };
     return (
       <>
-      <div><Layout title={'Reservations'}/> </div>
+      <div><Layout title={'Maid Management'}/> </div>
       <div> <SmallScreen label={label}/>
-        <Grid labels={labels} elem={elem} clicked={handleLabelClick}/>
+        <Grid labels={labels} elem={elem} clicked={handleLabelClick} link='/room-management'/>
         
        </div>
       </>
