@@ -14,4 +14,10 @@ export default class RoomEntity {
   out_of_order?: boolean;
   @ApiProperty({ required: false, default: Type.DAILY })
   clean_type: Type;
+  @ApiProperty({ required: false, default: '' })
+  roomType: string;
+  @ApiProperty({ required: false, default: '' })
+  roomClass: string;
+  @ApiProperty({ required: false, default: 0 })
+  floor: number;
 }

@@ -19,7 +19,7 @@ model Room {
   clean_type     Type    @default(DAILY)
   roomType       String  @default("")
   roomClass      String  @default("")
-  floor          String  @default("")
+  floor          Int     @default(0)
 
   Reservation      Reservation[]
   groupRoom        GroopRooms?

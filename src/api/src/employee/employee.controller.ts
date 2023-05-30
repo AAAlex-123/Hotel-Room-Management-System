@@ -63,6 +63,25 @@ export class EmployeeController {
     });
     return employees.employee_id;
   }
+  @Post('many')
+  async createMany(@Body() employee: EmployeeEntity[]) {
+    const pepperRounds = this.config.get<number>('sale') || 10;
+    employee.forEach(async (value) => {
+      const pre_hashed_code = value.password;
+      value.password = await hash(pre_hashed_code, pepperRounds);
+    });
+    Logger.log(employee);
+    await this.prisma.employee.createMany({
+      data: { ...employee },
+    });
+    return await this.prisma.employee.findMany({
+      where: {
+        username: {
+          in: employee.map((emp) => emp.username),
+        },
+      },
+    });
+  }
 
   @Delete(':id')
   async remove(@Param('id', ParseIntPipe) id: number) {

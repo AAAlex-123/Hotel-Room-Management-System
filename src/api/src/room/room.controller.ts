@@ -57,6 +57,10 @@ export class RoomController {
   async create_room(@Body() room: RoomEntity) {
     await this.prisma.room.create({ data: room });
   }
+  @Post('many')
+  async create_rooms(@Body() room: RoomEntity[]) {
+    await this.prisma.room.createMany({ data: room });
+  }
 
   @Put(':room_id')
   async update_room(@Param('room_id') id: string, @Body() room: RoomEntity) {
