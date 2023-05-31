@@ -46,12 +46,20 @@ export const Login =() =>{
     <Helmet>
       <title> Login | User </title>
       <link rel="icon" href="../../public/favicon.ico" />
-      <link href='https://fonts.googleapis.com/css?family=Aleo' rel='stylesheet'/>
-        <style>{`
-        * {
-            font-family: 'Aleo';font-size: 1rem;
-        }
-      `}</style>
+      {/* <link href='https://fonts.googleapis.com/css?family=Aleo' rel='stylesheet'/> */}
+      <style>
+      {`
+            @font-face {
+              font-family: 'Aleo-Regular';
+              src: url('../../public/Assets/Aleo-Regular.ttf') format('truetype');
+            }
+
+            * {
+              font-family: 'Aleo-Regular';
+            }
+          `}
+        
+        </style>
     </Helmet>
     <div className="Login">
         <div className= "Box">

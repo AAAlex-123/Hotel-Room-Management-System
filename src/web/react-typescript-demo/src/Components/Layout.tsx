@@ -44,7 +44,7 @@ export default function Main({ title }: MainProps) {
     </Helmet>
     <div className= 'main'>
     <img src="./Assets/logo.png" alt="Logo" style={imageStyle}></img>
-      <div className='bigBlock'><img className='userIcon' src="./Assets/Stop Being Horny.png" alt="Kontonussy" style={imageStyle2}></img>
+      <div className='bigBlock'><img className='userIcon' src="./Assets/profile.png" alt="Profile" style={imageStyle2}></img>
         <div className='textBlock'>
         <div className='userText' style={{fontSize: '1.5rem'}}>User</div> 
         <div className='userText'>Id: Get Id pls </div> 
