@@ -10,13 +10,14 @@ import alexman.hrms.core.model.data.UpstreamRoomUpdateDetails
 import alexman.hrms.core.network.HrmsNetworkDataSource
 import alexman.hrms.core.network.model.NetworkNote
 import alexman.hrms.core.network.model.NetworkRoom
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
-
-// TODO("add dispatcher for datasource calls")
+import kotlinx.coroutines.withContext
 
 class RoomRepositoryImplementation(
     private val datasource: HrmsNetworkDataSource,
+    private val ioDispatcher: CoroutineDispatcher,
 ) : RoomRepository {
 
     /* TODO("figure out automatic updates")
@@ -24,9 +25,9 @@ class RoomRepositoryImplementation(
      * - maybe add some diffing when getting data to update only the necessary flows?
      */
 
-    private val roomCache = RoomCache(datasource)
-    private val singleRoomCache = SingleRoomCache(datasource)
-    private val noteCache = NoteCache(datasource)
+    private val roomCache = RoomCache(datasource, ioDispatcher)
+    private val singleRoomCache = SingleRoomCache(datasource, ioDispatcher)
+    private val noteCache = NoteCache(datasource, ioDispatcher)
 
     private val roomFlowMap: MutableMap<RoomQuery, MutableStateFlow<List<Room>>> = mutableMapOf()
     private val singleRoomFlowMap: MutableMap<SingleRoomQuery, MutableStateFlow<Room>> =
@@ -53,11 +54,11 @@ class RoomRepositoryImplementation(
 
     override suspend fun updateRoomState(upstreamRoomUpdateDetails: UpstreamRoomUpdateDetails) {
 
-        val response = /* withContext(ioDispatcher) { */
+        val response = withContext(ioDispatcher) {
             datasource.updateRoomState(
                 upstreamRoomUpdateDetails.asUpstreamNetworkRoomUpdateDetails()
             )
-        /* } */
+        }
 
         if (response.ok) {
             val updatedRoom = response.body!!.asExternalModel()
@@ -82,11 +83,11 @@ class RoomRepositoryImplementation(
 
     override suspend fun addNote(upstreamNoteDetails: UpstreamNoteDetails) {
 
-        val response = /* withContext(ioDispatcher) { */
+        val response = withContext(ioDispatcher) {
             datasource.addNote(
                 upstreamNoteDetails.asUpstreamNetworkNoteDetails()
             )
-        /* } */
+        }
 
         if (response.ok) {
             val newNote = response.body!!.asExternalModel()
@@ -99,9 +100,9 @@ class RoomRepositoryImplementation(
 
     override suspend fun deleteNote(noteId: Int) {
 
-        val response = /* withContext(ioDispatcher) { */
+        val response = withContext(ioDispatcher) {
             datasource.deleteNote(noteId)
-        /* } */
+        }
 
         if (response.ok) {
             val deletedNote = noteCache.deleteNote(noteId)
@@ -170,6 +171,7 @@ class RoomRepositoryImplementation(
 
     private class RoomCache(
         private val datasource: HrmsNetworkDataSource,
+        private val ioDispatcher: CoroutineDispatcher,
     ) {
 
         private val querySet: MutableSet<RoomQuery> = mutableSetOf()
@@ -207,7 +209,9 @@ class RoomRepositoryImplementation(
         }
 
         private suspend fun updateMapWithRoomsFromQuery(query: RoomQuery) {
-            val response = datasource.getRooms(query.cleaningStaffId)
+            val response = withContext(ioDispatcher) {
+                datasource.getRooms(query.cleaningStaffId)
+            }
 
             if (response.ok) {
                 roomMap[query.cleaningStaffId] = response.body!!
@@ -221,6 +225,7 @@ class RoomRepositoryImplementation(
 
     private class SingleRoomCache(
         private val datasource: HrmsNetworkDataSource,
+        private val ioDispatcher: CoroutineDispatcher,
     ) {
         private val querySet: MutableSet<SingleRoomQuery> = mutableSetOf()
         private val singleRoomMap: MutableMap<String, Room> = mutableMapOf()
@@ -250,7 +255,9 @@ class RoomRepositoryImplementation(
         }
 
         private suspend fun updateMapWithSingleRoomFromQuery(query: SingleRoomQuery) {
-            val response = datasource.getSingleRoom(query.roomId)
+            val response = withContext(ioDispatcher) {
+                datasource.getSingleRoom(query.roomId)
+            }
 
             if (response.ok) {
                 with(response.body!!) {
@@ -264,6 +271,7 @@ class RoomRepositoryImplementation(
 
     private class NoteCache(
         private val datasource: HrmsNetworkDataSource,
+        private val ioDispatcher: CoroutineDispatcher,
     ) {
         private val querySet: MutableSet<NoteQuery> = mutableSetOf()
         private val noteMap: MutableMap<Int, Note> = mutableMapOf()
@@ -296,7 +304,9 @@ class RoomRepositoryImplementation(
         }
 
         private suspend fun updateMapWithNotesFromQuery(query: NoteQuery) {
-            val response = datasource.getNotes(query.roomId)
+            val response = withContext(ioDispatcher) {
+                datasource.getNotes(query.roomId)
+            }
 
             if (response.ok) {
                 response.body!!

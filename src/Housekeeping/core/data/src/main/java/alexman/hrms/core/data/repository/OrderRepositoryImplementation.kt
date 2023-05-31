@@ -7,13 +7,14 @@ import alexman.hrms.core.model.data.Order
 import alexman.hrms.core.model.data.UpstreamOrderDetails
 import alexman.hrms.core.model.data.UpstreamOrderUpdateDetails
 import alexman.hrms.core.network.HrmsNetworkDataSource
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
-
-// TODO("add dispatcher for datasource calls")
+import kotlinx.coroutines.withContext
 
 class OrderRepositoryImplementation(
     private val datasource: HrmsNetworkDataSource,
+    private val ioDispatcher: CoroutineDispatcher,
 ) : OrderRepository {
 
     /* TODO("figure out automatic updates")
@@ -21,7 +22,7 @@ class OrderRepositoryImplementation(
      * - maybe add some diffing when getting data to update only the necessary flows?
      */
 
-    private val orderCache = OrderCache(datasource)
+    private val orderCache = OrderCache(datasource, ioDispatcher)
 
     private val flowMap: MutableMap<OrderQuery, MutableStateFlow<List<Order>>> = mutableMapOf()
 
@@ -36,11 +37,11 @@ class OrderRepositoryImplementation(
 
     override suspend fun placeOrder(upstreamOrderDetails: UpstreamOrderDetails) {
 
-        val response = /* withContext(ioDispatcher) { */
+        val response = withContext(ioDispatcher) {
             datasource.placeOrder(
                 upstreamOrderDetails.asUpstreamNetworkOrderDetails()
             )
-        /* } */
+        }
 
         if (response.ok) {
             val newOrder = response.body!!.asExternalModel()
@@ -53,9 +54,9 @@ class OrderRepositoryImplementation(
 
     override suspend fun deleteOrder(orderId: Int) {
 
-        val response = /* withContext(ioDispatcher) { */
+        val response = withContext(ioDispatcher) {
             datasource.deleteOrder(orderId)
-        /* } */
+        }
 
         if (response.ok) {
             val deletedOrder = orderCache.deleteOrder(orderId)
@@ -67,11 +68,11 @@ class OrderRepositoryImplementation(
 
     override suspend fun updateOrderState(upstreamOrderUpdateDetails: UpstreamOrderUpdateDetails) {
 
-        val response = /* withContext(ioDispatcher) { */
+        val response = withContext(ioDispatcher) {
             datasource.updateOrderState(
                 upstreamOrderUpdateDetails.asUpstreamNetworkOrderUpdateDetails()
             )
-        /* } */
+        }
 
         if (response.ok) {
             val updatedOrder = response.body!!.asExternalModel()
@@ -106,6 +107,7 @@ class OrderRepositoryImplementation(
 
     private class OrderCache(
         private val datasource: HrmsNetworkDataSource,
+        private val ioDispatcher: CoroutineDispatcher,
     ) {
 
         private val querySet: MutableSet<OrderQuery> = mutableSetOf()
@@ -157,8 +159,11 @@ class OrderRepositoryImplementation(
         }
 
         private suspend fun updateMapWithOrdersFromQuery(query: OrderQuery) {
+
             query.cleaningLadyIds.forEach { cleaningLadyId ->
-                val response = datasource.getOrders(cleaningLadyId)
+                val response = withContext(ioDispatcher) {
+                    datasource.getOrders(cleaningLadyId)
+                }
 
                 if (response.ok) {
                     cleaningStaffIdToOrderIdsMap[cleaningLadyId] = response.body!!
