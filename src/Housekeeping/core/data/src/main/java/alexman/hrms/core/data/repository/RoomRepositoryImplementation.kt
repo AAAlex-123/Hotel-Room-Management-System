@@ -11,19 +11,48 @@ import alexman.hrms.core.network.HrmsNetworkDataSource
 import alexman.hrms.core.network.model.NetworkNote
 import alexman.hrms.core.network.model.NetworkRoom
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.async
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.withContext
+import kotlin.time.Duration
 
 class RoomRepositoryImplementation(
     private val datasource: HrmsNetworkDataSource,
     private val ioDispatcher: CoroutineDispatcher,
+    refreshPeriod: Duration,
 ) : RoomRepository {
 
-    /* TODO("figure out automatic updates")
-     * - add automatic polling for data (see `refresh()`)
-     * - maybe add some diffing when getting data to update only the necessary flows?
-     */
+    private fun startAutomaticUpdates(period: Duration) {
+
+        val onAutomaticUpdate = suspend { doUpdate() }
+
+        // https://stackoverflow.com/questions/54827455/how-to-implement-timer-with-kotlin-coroutines#answer-63939980
+        val unused = CoroutineScope(ioDispatcher).async {
+            while (true) {
+                onAutomaticUpdate()
+                delay(period)
+            }
+        }
+    }
+
+    private suspend fun doUpdate() {
+        roomCache.refresh()
+        singleRoomCache.refresh()
+        noteCache.refresh()
+
+        roomFlowMap.forEach { (roomQuery, mutableStateFlow) ->
+            mutableStateFlow.value = getFilteredRoomsFromCacheForExistingQuery(roomQuery)
+        }
+        singleRoomFlowMap.forEach { (singleRoomQuery, mutableStateFlow) ->
+            mutableStateFlow.value = getFilteredSingleRoomFromCacheForExistingQuery(singleRoomQuery)
+        }
+        noteFlowMap.forEach { (noteQuery, mutableStateFlow) ->
+                mutableStateFlow.value = getFilteredNotesFromCacheForExistingQuery(noteQuery)
+        }
+    }
 
     private val roomCache = RoomCache(datasource, ioDispatcher)
     private val singleRoomCache = SingleRoomCache(datasource, ioDispatcher)
@@ -33,6 +62,10 @@ class RoomRepositoryImplementation(
     private val singleRoomFlowMap: MutableMap<SingleRoomQuery, MutableStateFlow<Room>> =
         mutableMapOf()
     private val noteFlowMap: MutableMap<NoteQuery, MutableStateFlow<List<Note>>> = mutableMapOf()
+
+    init {
+        startAutomaticUpdates(refreshPeriod)
+    }
 
     override suspend fun getRooms(query: RoomQuery): Flow<List<Room>> {
         if (!roomFlowMap.containsKey(query)) {
@@ -160,15 +193,6 @@ class RoomRepositoryImplementation(
         return noteCache.getFilteredNotesForExistingQuery(query)
     }
 
-    private suspend fun refresh() {
-        /* TODO("figure out algorithm")
-            - val orderDiffList = orderCache.refreshAndGetDiff()
-            - orderDiffList.forEach { updateFlowsAffectedByOrder(it) }
-         */
-
-        // TODO("add refresh to every cache")
-    }
-
     private class RoomCache(
         private val datasource: HrmsNetworkDataSource,
         private val ioDispatcher: CoroutineDispatcher,
@@ -177,7 +201,13 @@ class RoomRepositoryImplementation(
         private val querySet: MutableSet<RoomQuery> = mutableSetOf()
         private val roomMap: MutableMap<Int, MutableList<Room>> = mutableMapOf()
 
-        // TODO("refresh fun")
+        suspend fun refresh() {
+            roomMap.clear()
+
+            querySet.forEach {
+                updateMapWithRoomsFromQuery(it)
+            }
+        }
 
         suspend fun getFilteredRoomsForNewQuery(query: RoomQuery): List<Room> {
             if (querySet.contains(query)) {
@@ -230,7 +260,13 @@ class RoomRepositoryImplementation(
         private val querySet: MutableSet<SingleRoomQuery> = mutableSetOf()
         private val singleRoomMap: MutableMap<String, Room> = mutableMapOf()
 
-        // TODO("refresh fun")
+        suspend fun refresh() {
+            singleRoomMap.clear()
+
+            querySet.forEach {
+                updateMapWithSingleRoomFromQuery(it)
+            }
+        }
 
         suspend fun getSingleRoomForNewQuery(query: SingleRoomQuery): Room {
             if (querySet.contains(query)) {
@@ -275,6 +311,14 @@ class RoomRepositoryImplementation(
     ) {
         private val querySet: MutableSet<NoteQuery> = mutableSetOf()
         private val noteMap: MutableMap<Int, Note> = mutableMapOf()
+
+        suspend fun refresh() {
+            noteMap.clear()
+
+            querySet.forEach {
+                updateMapWithNotesFromQuery(it)
+            }
+        }
 
         suspend fun getFilteredNotesForNewQuery(query: NoteQuery): List<Note> {
             if (querySet.contains(query)) {

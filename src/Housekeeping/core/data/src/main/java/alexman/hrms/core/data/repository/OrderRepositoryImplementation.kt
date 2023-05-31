@@ -8,23 +8,48 @@ import alexman.hrms.core.model.data.UpstreamOrderDetails
 import alexman.hrms.core.model.data.UpstreamOrderUpdateDetails
 import alexman.hrms.core.network.HrmsNetworkDataSource
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.async
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.withContext
+import kotlin.time.Duration
 
 class OrderRepositoryImplementation(
     private val datasource: HrmsNetworkDataSource,
     private val ioDispatcher: CoroutineDispatcher,
+    refreshPeriod: Duration,
 ) : OrderRepository {
 
-    /* TODO("figure out automatic updates")
-     * - add automatic polling for data (see `refresh()`)
-     * - maybe add some diffing when getting data to update only the necessary flows?
-     */
+    private fun startAutomaticUpdates(period: Duration) {
+
+        val onAutomaticUpdate = suspend { doUpdate() }
+
+        // https://stackoverflow.com/questions/54827455/how-to-implement-timer-with-kotlin-coroutines#answer-63939980
+        val unused = CoroutineScope(ioDispatcher).async {
+            while (true) {
+                onAutomaticUpdate()
+                delay(period)
+            }
+        }
+    }
+
+    private suspend fun doUpdate() {
+        orderCache.refresh()
+
+        flowMap.forEach { (orderQuery, mutableStateFlow) ->
+            mutableStateFlow.value = getFilteredOrdersFromCacheForExistingQuery(orderQuery)
+        }
+    }
 
     private val orderCache = OrderCache(datasource, ioDispatcher)
 
     private val flowMap: MutableMap<OrderQuery, MutableStateFlow<List<Order>>> = mutableMapOf()
+
+    init {
+        startAutomaticUpdates(refreshPeriod)
+    }
 
     override suspend fun getOrders(query: OrderQuery): Flow<List<Order>> {
         if (!flowMap.containsKey(query)) {
@@ -98,13 +123,6 @@ class OrderRepositoryImplementation(
         }
     }
 
-    private suspend fun refresh() {
-        /* TODO("figure out algorithm")
-            - val orderDiffList = orderCache.refreshAndGetDiff()
-            - orderDiffList.forEach { updateFlowsAffectedByOrder(it) }
-         */
-    }
-
     private class OrderCache(
         private val datasource: HrmsNetworkDataSource,
         private val ioDispatcher: CoroutineDispatcher,
@@ -114,9 +132,10 @@ class OrderRepositoryImplementation(
         private val cleaningStaffIdToOrderIdsMap: MutableMap<Int, MutableList<Int>> = mutableMapOf()
         private val orderIdToOrderMap: MutableMap<Int, Order> = mutableMapOf()
 
-        // TODO("figure out where to call this and how it will work")
-        suspend fun refresh/*AndGetDiff*/() /*: List<Order> */ {
-            // TODO("figure out to diff or not to diff")
+        suspend fun refresh() {
+            cleaningStaffIdToOrderIdsMap.clear()
+            orderIdToOrderMap.clear()
+
             querySet.forEach {
                 updateMapWithOrdersFromQuery(it)
             }
