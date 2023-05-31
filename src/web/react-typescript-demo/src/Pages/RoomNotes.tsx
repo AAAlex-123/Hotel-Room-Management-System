@@ -5,8 +5,8 @@ import { Link } from 'react-router-dom';
 import Button from "react-bootstrap/Button";
 import MessageList, {MessageData} from '../Components/MessageList';
 
-const StaffMessages: React.FC = () => {
-    const label= 'Staff Messages';
+const RoomNotes: React.FC = () => {
+    const label= 'Room Notes';
     const [messages, setMessages] = useState<MessageData[]>([
         { num: '166', text: 'I want to put Dottore in a blender' , name:"Electra"},
         { num: '123', text: 'Hello, world!' , name: "Who"},
@@ -18,20 +18,19 @@ const StaffMessages: React.FC = () => {
         { num: '129', text: 'Hello, world.' , name: "Who"},
   
       ]);
-        // TO-DO: You see the messages? Ok cool then find them instead of this temporary content jk there's no stuff messages...
-
+            //You get the idea.
       const handleDeleteMessage = (message: MessageData) => {
         setMessages((prevMessages) => prevMessages.filter((m) => m !== message));
       };
       return (
         <>
-        <div><Layout title={'Staff Messages'}/> </div>
+        <div><Layout title={'Room Notes'}/> </div>
         <div> <SmallScreen label={label}/>
         <div className="res-container">
       <div className="whiteBox">
         <MessageList messages={messages} onDeleteMessage={handleDeleteMessage}/>
 
-      <Link to='/misc'>
+      <Link to='/maid-management'>
             <Button className="blueButton" type="submit">
     
               Close
@@ -51,4 +50,4 @@ const StaffMessages: React.FC = () => {
       )
     }
   
-  export default StaffMessages;
+  export default RoomNotes;

@@ -16,6 +16,8 @@ const Billing: React.FC = () => {
   const [showDetails, setShowDetails] = useState(false);
 
   const handleSearch = (searchQuery: string) => {
+        // TO-DO: You see the titles/content stuff? Ok cool when the search happens just add the details of the bill in them instead of this 
+    //temporary content. The search bar works based on...Reservation ID or what? You decide idk. 
  
     setShowDetails(true);
   };

@@ -17,6 +17,10 @@ const FrontDesk: React.FC = () => {
   const [showDetails, setShowDetails] = useState(false);
 
   const handleSearch = (searchQuery: string) => {
+            // TO-DO: You see the titles/content stuff? Ok cool when the search happens just add the details of the Reservation in them instead of this 
+    //temporary content. The search bar works based on...Name/Cellphone. Also I've made an oops with the checkin button because it's called By Details so I'll
+    //probably find how to pass a function for check in eventually? Yeah...
+ 
  
     setShowDetails(true);
   };

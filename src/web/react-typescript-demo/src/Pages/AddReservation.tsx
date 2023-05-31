@@ -1,7 +1,7 @@
 import Layout from '../Components/Layout';
 import ResForm, {UserData} from '../Components/ResForm';
 import SmallScreen from '../Components/SmallScreen';
-import React, { useState} from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import Button from "react-bootstrap/Button";
 
@@ -11,6 +11,7 @@ const AddReservation: React.FC = () => {
 
   const handleSubmit = (userData: UserData) => {
     // Handle the form submission here
+    //TO-DO: Take the user data and create a new reservation
 
   };
 

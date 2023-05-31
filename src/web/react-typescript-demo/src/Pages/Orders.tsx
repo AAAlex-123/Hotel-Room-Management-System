@@ -17,7 +17,8 @@ const Orders: React.FC = () => {
         { num: '128', text: 'Hell, word!' , name: "Who"},
         { num: '129', text: 'Hello, world.' , name: "Who"},
   
-      ]);
+      ]); 
+      //Sex with Dottore 
 
       const handleDeleteMessage = (message: MessageData) => {
         setMessages((prevMessages) => prevMessages.filter((m) => m !== message));
@@ -30,7 +31,7 @@ const Orders: React.FC = () => {
       <div className="whiteBox">
         <MessageList messages={messages} onDeleteMessage={handleDeleteMessage}/>
 
-      <Link to='/misc'>
+      <Link to='/maid-management'>
             <Button className="blueButton" type="submit">
     
               Close

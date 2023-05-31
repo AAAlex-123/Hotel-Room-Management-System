@@ -18,6 +18,7 @@ const GuestMessages: React.FC = () => {
         { num: '129', text: 'Hello, world.' , name: "Who"},
   
       ]);
+                 // TO-DO: You see the messages? Ok cool then find them instead of this temporary content
 
       const handleDeleteMessage = (message: MessageData) => {
         setMessages((prevMessages) => prevMessages.filter((m) => m !== message));

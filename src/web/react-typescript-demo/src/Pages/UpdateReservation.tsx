@@ -27,7 +27,7 @@ const UpdateReservation: React.FC = () => {
   };
   
   const handleSubmit = (userData: UserData) => {
-    // Handle the form submission here
+    // Handle the form submission here please I'm tired of copy-pasting the same form you get the idea
 
   };
 
