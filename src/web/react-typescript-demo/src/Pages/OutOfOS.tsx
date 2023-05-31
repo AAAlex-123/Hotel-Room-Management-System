@@ -1,3 +1,4 @@
+"use client"
 import Layout from '../Components/Layout'
 import SmallScreen from '../Components/SmallScreen'
 import React from 'react';
@@ -9,7 +10,12 @@ const OutOfOS: React.FC = () => {
 
     return (
       <>
-      <div><Layout title={'Out Of Order/Service'}/> </div>
+              {/* <Head>
+          <title>Out Of Order/Service</title>
+      </Head> */}
+      <div><Layout 
+      // title={'Out Of Order/Service'}
+      /> </div>
       <div> <SmallScreen label={label}/>
       <div className="res-container">
       <div className="whiteBox">

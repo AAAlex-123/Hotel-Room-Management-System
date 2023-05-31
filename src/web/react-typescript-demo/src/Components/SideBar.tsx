@@ -1,3 +1,4 @@
+"use client"
 import React from 'react'
 import './Component.css';
 import { NavigateFunction } from 'react-router-dom';

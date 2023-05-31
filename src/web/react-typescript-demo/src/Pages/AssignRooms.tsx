@@ -1,3 +1,4 @@
+"use client"
 import Layout from '../Components/Layout'
 import SmallScreen from '../Components/SmallScreen'
 import React from 'react';
@@ -9,7 +10,12 @@ const AssignRooms: React.FC = () => {
 
     return (
       <>
-      <div><Layout title={'Assign Rooms'}/> </div>
+        {/* <Head>
+          <title>Assign Rooms</title>
+      </Head> */}
+      <div><Layout 
+      // title={'Assign Rooms'}
+      /> </div>
       <div> <SmallScreen label={label}/>
       <div className="res-container">
       <div className="whiteBox">

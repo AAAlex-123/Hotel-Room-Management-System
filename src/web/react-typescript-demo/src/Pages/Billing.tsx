@@ -1,3 +1,4 @@
+"use client"
 import Layout from '../Components/Layout'
 import Details from '../Components/Details';
 import SmallScreen from '../Components/SmallScreen'
@@ -30,7 +31,12 @@ const Billing: React.FC = () => {
 
     return (
       <>
-      <div><Layout title={'Billing'}/> </div>
+        {/* <Head>
+          <title>Billing</title>
+      </Head> */}
+      <div><Layout 
+      // title={'Billing'}
+      /> </div>
       <div> <SmallScreen label={label}/>
       <div className="res-container">
       <div className="whiteBox">

@@ -1,14 +1,17 @@
+"use client"
 import React from 'react'
 import SideBar from './SideBar';
 import {Helmet} from "react-helmet";
 import './Component.css';
 
 
-interface MainProps {
-  title: string;
-}
+// interface MainProps {
+//   title: string;
+// }
 
-export default function Main({ title }: MainProps) {
+export default function Main(
+  // { title }: MainProps
+  ) {
 
   const imageStyle = {
     textAlign: 'center' as const,
@@ -33,7 +36,7 @@ export default function Main({ title }: MainProps) {
   return (
     <>
         <Helmet>
-      <title> {title}</title>
+      {/* <title> {title}</title> */}
       <link rel="icon" href="../../public/favicon.ico" />
       <link href='https://fonts.googleapis.com/css?family=Aleo' rel='stylesheet'/>
         <style>{`

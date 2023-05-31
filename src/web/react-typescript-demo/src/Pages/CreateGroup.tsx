@@ -1,3 +1,4 @@
+"use client"
 import Layout from '../Components/Layout'
 import SmallScreen from '../Components/SmallScreen'
 import React from 'react';
@@ -9,7 +10,12 @@ const CreateGroup: React.FC = () => {
 
     return (
       <>
-      <div><Layout title={'Create Group'}/> </div>
+              {/* <Head>
+          <title>Create Group</title>
+      </Head> */}
+      <div><Layout 
+      // title={'Create Group'}
+      /> </div>
       <div> <SmallScreen label={label}/>
       <div className="res-container">
       <div className="whiteBox">

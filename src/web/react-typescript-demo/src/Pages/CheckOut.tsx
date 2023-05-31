@@ -1,3 +1,4 @@
+"use client"
 import Layout from '../Components/Layout'
 import Details from '../Components/Details';
 import SmallScreen from '../Components/SmallScreen'
@@ -32,7 +33,12 @@ const CheckOut: React.FC = () => {
 
     return (
       <>
-      <div><Layout title={'Check Out'}/> </div>
+        {/* <Head>
+          <title>Check Out</title>
+      </Head> */}
+      <div><Layout 
+      // title={'Check Out'}
+      /> </div>
       <div> <SmallScreen label={label}/>
       <div className="res-container">
       <div className="whiteBox">

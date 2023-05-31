@@ -1,3 +1,4 @@
+"use client"
 import './Component.css';
 import React, { useState } from 'react';
 

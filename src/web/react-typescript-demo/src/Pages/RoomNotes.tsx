@@ -1,3 +1,4 @@
+"use client"
 import React, { useState } from 'react'
 import Layout from '../Components/Layout'
 import SmallScreen from '../Components/SmallScreen'
@@ -24,7 +25,12 @@ const RoomNotes: React.FC = () => {
       };
       return (
         <>
-        <div><Layout title={'Room Notes'}/> </div>
+                {/* <Head>
+          <title>Room Notes</title>
+      </Head> */}
+        <div><Layout 
+        // title={'Room Notes'}
+        /> </div>
         <div> <SmallScreen label={label}/>
         <div className="res-container">
       <div className="whiteBox">

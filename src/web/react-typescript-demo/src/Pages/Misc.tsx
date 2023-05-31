@@ -1,3 +1,4 @@
+"use client"
 import React, { Component } from 'react'
 import Layout from '../Components/Layout'
 import Grid from '../Components/Grid'
@@ -20,7 +21,12 @@ const Misc: React.FC = () => {
   };
     return (
       <>
-      <div><Layout title={'Miscellaneous'}/> </div>
+                    {/* <Head>
+          <title>Miscellaneous</title>
+      </Head> */}
+      <div><Layout 
+      // title={'Miscellaneous'}
+      /> </div>
       <div> <SmallScreen label={label}/>
         <Grid labels={labels} elem={elem} clicked={handleLabelClick} link='/main'/>
         

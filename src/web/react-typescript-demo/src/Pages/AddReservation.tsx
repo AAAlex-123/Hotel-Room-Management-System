@@ -1,3 +1,4 @@
+"use client"
 import Layout from '../Components/Layout';
 import ResForm, {UserData} from '../Components/ResForm';
 import SmallScreen from '../Components/SmallScreen';
@@ -19,7 +20,12 @@ const AddReservation: React.FC = () => {
 
     return (
       <>
-      <div><Layout title={'Add Reservation'}/> </div>
+        {/* <Head>
+          <title>Add Reservation/</title>
+      </Head> */}
+      <div><Layout 
+      // title={'Add Reservation'}
+      /> </div>
       <div> <SmallScreen label={label}/>
       <div className="res-container">
       <div className="whiteBox">

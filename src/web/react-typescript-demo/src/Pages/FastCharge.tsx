@@ -1,3 +1,4 @@
+"use client"
 import Layout from '../Components/Layout'
 import SmallScreen from '../Components/SmallScreen'
 import React from 'react';
@@ -9,7 +10,12 @@ const FastCharge: React.FC = () => {
 
     return (
       <>
-      <div><Layout title={'Fast Charge'}/> </div>
+              {/* <Head>
+          <title>Fast Charge</title>
+      </Head> */}
+      <div><Layout 
+      // title={'Fast Charge'}
+      /> </div>
       <div> <SmallScreen label={label}/>
       <div className="res-container">
       <div className="whiteBox">

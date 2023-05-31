@@ -1,3 +1,4 @@
+"use client"
 import React, { Component } from 'react'
 import Layout from '../Components/Layout'
 import SmallScreen from '../Components/SmallScreen'
@@ -12,7 +13,12 @@ const EndOfDay: React.FC = () => {
     //TO:DO FETCH ALL THESE STATISTICS BABY???
       return (
         <>
-        <div><Layout title={'End Of Day'}/> </div>
+                {/* <Head>
+          <title>End Of Day</title>
+      </Head> */}
+        <div><Layout 
+        // title={'End Of Day'}
+        /> </div>
         <div> <SmallScreen label={label}/>
         <div className="res-container">
       <div className="whiteBox">
