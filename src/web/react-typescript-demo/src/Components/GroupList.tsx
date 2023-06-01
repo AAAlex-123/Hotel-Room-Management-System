@@ -2,26 +2,22 @@
 import React ,{ useState }  from 'react'
 import './Component.css';
 import Message from './Message';
+import {GroupData}from '../Pages/CreateGroup';
 
-
-export interface ListData {
-    num: string;
-    name?: string | null;
-  }
   
-  interface ListProps {
-    listelem: ListData[] 
-    onSelection: (selectedElements: ListData[]) => void;
+  interface GroupProps {
+    listelem: GroupData[] 
+    onSelection: (selectedElements: GroupData[]) => void;
 
   }
   
-const SelectionList: React.FC<ListProps> = ({ listelem, onSelection }) => {
-    const [selectedElems, setSelectedElems] = useState<ListData[]>([]);
+const SelectionList: React.FC<GroupProps> = ({ listelem, onSelection }) => {
+    const [selectedElems, setSelectedElems] = useState<GroupData[]>([]);
 
-    const handleElemClick = (listelem: ListData) => {
-      if (selectedElems.some((elem) => elem.num === listelem.num)) {
+    const handleElemClick = (listelem: GroupData) => {
+      if (selectedElems.some((elem) => elem.name === listelem.name)) {
 
-        const updatedSelection = selectedElems.filter((elem) => elem.num !== listelem.num);
+        const updatedSelection = selectedElems.filter((elem) => elem.name !== listelem.name);
         setSelectedElems(updatedSelection);
       } else {
 
@@ -30,23 +26,22 @@ const SelectionList: React.FC<ListProps> = ({ listelem, onSelection }) => {
       }
     };
   
-    const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>, listelem: ListData) => {
+    const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>, listelem: GroupData) => {
       if (e.target.checked) {
   
         const updatedSelection = [...selectedElems, listelem];
         setSelectedElems(updatedSelection);
       } else {
 
-        const updatedSelection = selectedElems.filter((elem) => elem.num !== listelem.num);
+        const updatedSelection = selectedElems.filter((elem) => elem.name !== listelem.name);
         setSelectedElems(updatedSelection);
       }
     };
   
     const [searchQuery, setSearchQuery] = useState('');
     const filteredElems = listelem.filter((listelem) => {
-      const numMatch = listelem.num.includes(searchQuery);
-      const nameMatch = listelem.name ? listelem.name.includes(searchQuery) : false;
-      return numMatch || nameMatch;
+      const nameMatch =  listelem.name.includes(searchQuery);
+      return  nameMatch;
     });
   
 
@@ -66,16 +61,16 @@ const SelectionList: React.FC<ListProps> = ({ listelem, onSelection }) => {
       {filteredElems.map((listelem, index) => (
         <div key={index} className="message" onClick={() => handleElemClick(listelem)}>
           <Message
-            num={listelem.num}
+            num={null}
             text={null}
             name={listelem.name}
-            selected={selectedElems.some((elem) => elem.num === listelem.num)}
+            selected={selectedElems.some((elem) => elem.name === listelem.name)}
             onClick={() => handleElemClick(listelem)}
           />
           <div className="checkbox-container">
             <input
               type="checkbox"
-              checked={selectedElems.some((elem) => elem.num === listelem.num)}
+              checked={selectedElems.some((elem) => elem.name === listelem.name)}
               onChange={(e) => handleCheckboxChange(e, listelem)}
               onClick={(e) => e.stopPropagation()}
             />
@@ -87,4 +82,3 @@ const SelectionList: React.FC<ListProps> = ({ listelem, onSelection }) => {
   );
 };
   export default SelectionList;
-

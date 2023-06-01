@@ -31,12 +31,17 @@ const CreateGroup: React.FC = () => {
 
   const handleSelectionChange = (selectedElems: ListData[]) => {
     setSelectedElements(selectedElems);
+    
   };
 
   const createGroup = () => {
-
+    
     if (selectedElements.length === 0) {
       setShowWarning(true);
+      
+      setTimeout(() => {
+        setShowWarning(false);
+      }, 1000);
       return;
     }
     setShowWarning(false);

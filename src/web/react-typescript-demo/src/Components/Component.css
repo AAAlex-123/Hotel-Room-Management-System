@@ -206,6 +206,7 @@
     min-width: 100%;
     /*For smaller screens height: 90vh; */
     height: 77vh;
+    
    
   }
 
@@ -393,3 +394,18 @@
     margin-left: 3rem; 
   }
   
+  .listColumn{
+    flex: 1;
+    margin-right: 0.5rem; 
+    margin-top: 5rem;
+  }
+
+  .manyLists {
+    display: flex;
+  }
+
+  .warning{
+    font-size: 1rem;
+    margin-top: 6rem;
+
+  }
