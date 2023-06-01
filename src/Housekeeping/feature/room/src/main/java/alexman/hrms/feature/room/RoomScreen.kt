@@ -76,10 +76,10 @@ internal fun RoomScreen(
         },
         scaffoldNavigation = ScaffoldNavigation(
             toRooms = { },
-            toCleaningLadies = {
-                if (type == CleaningStaffType.HOUSEKEEPER) {
-                    onNavigateToCleaningLadies(id)
-                }
+            toCleaningLadies = if (type == CleaningStaffType.HOUSEKEEPER) {
+                { onNavigateToCleaningLadies(id) }
+            } else {
+               null
             },
             toOrders = { onNavigateToOrders(id) },
         ),
