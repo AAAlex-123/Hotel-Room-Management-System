@@ -4,15 +4,16 @@ import React from 'react';
 
 interface MessageProps {
   num: string;
-  text: string;
+  text?: string | null;
   name: string;
   selected: boolean;
+  children?: React.ReactNode; 
   onClick: () => void;
 
 
 }
 
-const Message: React.FC<MessageProps> = ({ num, text, name, selected,  onClick,}) => {
+const Message: React.FC<MessageProps> = ({ num, text= " ", name, selected,  onClick,}) => {
 
   return (
        <div className={`message ${selected ? 'selected' : ''}`} onClick={onClick}>

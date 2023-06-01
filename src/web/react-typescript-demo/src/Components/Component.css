@@ -387,3 +387,9 @@
     margin: 3% 3% 15% 40%;
     
 }
+
+  .checkbox-container input[type='checkbox'] {
+    transform: scale(2);
+    margin-left: 3rem; 
+  }
+  
