@@ -6,18 +6,22 @@ import alexman.hrms.core.data.repository.NoteQuery
 import alexman.hrms.core.data.repository.RoomRepository
 import alexman.hrms.core.data.repository.SingleRoomQuery
 import alexman.hrms.core.model.data.CleanState
+import alexman.hrms.core.model.data.CleanType
 import alexman.hrms.core.model.data.CleaningStaffType
 import alexman.hrms.core.model.data.Note
+import alexman.hrms.core.model.data.Occupied
 import alexman.hrms.core.model.data.Room
 import alexman.hrms.core.model.data.UpstreamNoteDetails
 import alexman.hrms.core.model.data.UpstreamRoomUpdateDetails
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 
 internal data class SingleRoomStaffUiState(
     val staffId: Int,
@@ -31,42 +35,48 @@ internal class SingleRoomViewModel(
     cleaningStaffRepository: CleaningStaffRepository,
 ) : ViewModel() {
 
-    internal var staffUiState: SingleRoomStaffUiState by mutableStateOf(
+    private val _staffUiState = MutableStateFlow(
         SingleRoomStaffUiState(-1, CleaningStaffType.CLEANING_LADY)
     )
+
+    val staffUiState: StateFlow<SingleRoomStaffUiState> = _staffUiState.asStateFlow()
+
+    var room: StateFlow<Room>
         private set
 
-    lateinit var room: Flow<Room>
-        private set
-    lateinit var notes: Flow<List<Note>>
+    var notes: StateFlow<List<Note>>
         private set
 
     init {
-        viewModelScope.launch {
+        runBlocking {
             // TODO("figure out how to handle failure")
             with(
                 cleaningStaffRepository.getCleaningStaff(
                     CleaningStaffQuery(cleaningStaffId = cleaningStaffId)
                 )
             ) {
-                staffUiState = staffUiState.copy(
+                _staffUiState.value = SingleRoomStaffUiState(
                     staffId = this.employeeId,
                     staffType = this.cleaningStaffType,
                 )
             }
-        }
 
-        viewModelScope.launch {
             // TODO("figure out how to handle failure")
             room = roomRepository.getSingleRoom(
                 SingleRoomQuery(roomId = roomId)
+            ).stateIn(
+                viewModelScope,
+                SharingStarted.WhileSubscribed(5000L),
+                Room("-1", CleanState.DIRTY, CleanType.NORMAL, Occupied.OCCUPIED)
             )
-        }
 
-        viewModelScope.launch {
             // TODO("figure out how to handle failure")
             notes = roomRepository.getNotes(
                 NoteQuery(roomId = roomId)
+            ).stateIn(
+                viewModelScope,
+                SharingStarted.WhileSubscribed(5000L),
+                listOf(),
             )
         }
     }
@@ -91,7 +101,7 @@ internal class SingleRoomViewModel(
             roomRepository.addNote(
                 UpstreamNoteDetails(
                     roomId = roomId,
-                    cleaningStaffId = staffUiState.staffId,
+                    cleaningStaffId = staffUiState.value.staffId,
                     noteData = noteData,
                 )
             )

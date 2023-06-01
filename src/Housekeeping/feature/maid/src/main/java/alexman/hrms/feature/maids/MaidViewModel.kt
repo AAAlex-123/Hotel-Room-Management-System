@@ -3,12 +3,11 @@ package alexman.hrms.feature.maids
 import alexman.hrms.core.data.repository.CleaningLadiesQuery
 import alexman.hrms.core.data.repository.CleaningStaffRepository
 import alexman.hrms.core.model.data.CleaningStaff
-import alexman.hrms.core.model.data.CleaningStaffType
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 internal data class MaidStaffUiState(
@@ -16,24 +15,25 @@ internal data class MaidStaffUiState(
 )
 
 internal class MaidViewModel(
-    cleaningStaffId: Int,
+    housekeeperId: Int,
     cleaningStaffRepository: CleaningStaffRepository,
 ) : ViewModel() {
 
-    internal var staffUiState: MaidStaffUiState by mutableStateOf(
-        MaidStaffUiState(staffId = cleaningStaffId)
+    private val _staffUiState = MutableStateFlow(
+        MaidStaffUiState(staffId = housekeeperId)
     )
-        private set
 
-    private lateinit var _cleaningStaff: List<CleaningStaff>
+    val staffUiState: StateFlow<MaidStaffUiState> = _staffUiState.asStateFlow()
 
-    val cleaningLadies get() = listOf(*_cleaningStaff.toTypedArray())
+    private val _cleaningStaff: MutableStateFlow<List<CleaningStaff>> = MutableStateFlow(listOf())
+
+    var cleaningLadies: StateFlow<List<CleaningStaff>> = _cleaningStaff.asStateFlow()
 
     init {
         viewModelScope.launch {
             // TODO("figure out how to handle failure")
-            _cleaningStaff = cleaningStaffRepository.getCleaningLadies(
-                CleaningLadiesQuery(housekeeperId = cleaningStaffId)
+            _cleaningStaff.value = cleaningStaffRepository.getCleaningLadies(
+                CleaningLadiesQuery(housekeeperId = housekeeperId)
             )
         }
     }

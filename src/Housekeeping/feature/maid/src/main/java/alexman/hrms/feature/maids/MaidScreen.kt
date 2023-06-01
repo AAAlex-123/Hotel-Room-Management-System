@@ -3,8 +3,8 @@ package alexman.hrms.feature.maids
 import alexman.hrms.core.designsystem.PreviewLight
 import alexman.hrms.core.designsystem.SizeVariation
 import alexman.hrms.core.designsystem.component.BottomBarItem
-import alexman.hrms.core.designsystem.component.ListItem
 import alexman.hrms.core.designsystem.component.HrmsScaffold
+import alexman.hrms.core.designsystem.component.ListItem
 import alexman.hrms.core.designsystem.component.ScaffoldNavigation
 import alexman.hrms.core.designsystem.theme.HrmsTheme
 import alexman.hrms.core.model.data.CleaningStaff
@@ -15,8 +15,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 
 @PreviewLight
 @Composable
@@ -44,10 +46,10 @@ internal fun MaidScreen(
     onNavigateToRooms: (Int) -> Unit,
     onNavigateToOrders: (Int) -> Unit,
 ) {
-    val staffUiState = maidViewModel.staffUiState
-    val (id) = staffUiState
+    val staffUiState by maidViewModel.staffUiState.collectAsStateWithLifecycle()
+    val cleaningLadies by maidViewModel.cleaningLadies.collectAsStateWithLifecycle()
 
-    val cleaningLadies = maidViewModel.cleaningLadies
+    val (id) = staffUiState
 
     MaidScreenContent(
         staff = staffUiState,

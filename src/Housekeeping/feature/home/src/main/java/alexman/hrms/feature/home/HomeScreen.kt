@@ -11,9 +11,11 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 
 @PreviewLight
 @Composable
@@ -35,7 +37,7 @@ internal fun HomeScreen(
     onNavigateToCleaningLadies: (Int) -> Unit,
     onNavigateToOrders: (Int) -> Unit,
 ) {
-    val staffUiState = homeViewModel.staffUiState
+    val staffUiState by homeViewModel.staffUiState.collectAsStateWithLifecycle()
 
     val (id, _, type) = staffUiState
 

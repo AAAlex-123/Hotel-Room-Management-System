@@ -6,13 +6,14 @@ import alexman.hrms.core.data.repository.RoomQuery
 import alexman.hrms.core.data.repository.RoomRepository
 import alexman.hrms.core.model.data.CleaningStaffType
 import alexman.hrms.core.model.data.Room
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.runBlocking
 
 internal data class RoomStaffUiState(
     val staffId: Int,
@@ -25,33 +26,36 @@ internal class RoomViewModel(
     roomRepository: RoomRepository,
 ) : ViewModel() {
 
-    internal var staffUiState: RoomStaffUiState by mutableStateOf(
+    private val _staffUiState = MutableStateFlow(
         RoomStaffUiState(-1, CleaningStaffType.CLEANING_LADY)
     )
-        private set
 
-    lateinit var rooms: Flow<List<Room>>
+    val staffUiState: StateFlow<RoomStaffUiState> = _staffUiState.asStateFlow()
+
+    var rooms: StateFlow<List<Room>>
         private set
 
     init {
-        viewModelScope.launch {
+        runBlocking {
             // TODO("figure out how to handle failure")
             with(
                 cleaningStaffRepository.getCleaningStaff(
                     CleaningStaffQuery(cleaningStaffId = cleaningStaffId)
                 )
             ) {
-                staffUiState = staffUiState.copy(
+                _staffUiState.value = RoomStaffUiState(
                     staffId = this.employeeId,
                     staffType = this.cleaningStaffType,
                 )
             }
-        }
 
-        viewModelScope.launch {
             // TODO("figure out how to handle failure")
             rooms = roomRepository.getRooms(
                 RoomQuery(cleaningStaffId = cleaningStaffId)
+            ).stateIn(
+                viewModelScope,
+                SharingStarted.WhileSubscribed(5000L),
+                listOf(),
             )
         }
     }

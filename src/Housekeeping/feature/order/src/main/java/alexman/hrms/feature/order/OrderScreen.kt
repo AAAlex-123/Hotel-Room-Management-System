@@ -24,7 +24,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -33,6 +32,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 
 @PreviewLight
 @Composable
@@ -73,14 +73,14 @@ internal fun OrderScreen(
     onNavigateToCleaningLadies: (Int) -> Unit,
     onNavigateToRooms: (Int) -> Unit,
 ) {
-    val staffUiState = orderViewModel.staffUiState
-    val (id, type) = staffUiState
+    val staffUiState by orderViewModel.staffUiState.collectAsStateWithLifecycle()
+    val orders by orderViewModel.orders.collectAsStateWithLifecycle()
 
-    val orders = orderViewModel.orders.collectAsState(listOf())
+    val (id, type) = staffUiState
 
     OrderScreenContent(
         staff = staffUiState,
-        orders = orders.value,
+        orders = orders,
         onDelete = { orderViewModel.deleteOrder(it) },
         onMarkOrderCompleted = { orderId: Int, completed: Boolean ->
             orderViewModel.markOrderCompleted(orderId, completed)

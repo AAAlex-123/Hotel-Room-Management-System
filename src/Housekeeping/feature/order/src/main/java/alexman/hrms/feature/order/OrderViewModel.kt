@@ -10,13 +10,15 @@ import alexman.hrms.core.model.data.Order
 import alexman.hrms.core.model.data.OrderStatus
 import alexman.hrms.core.model.data.UpstreamOrderDetails
 import alexman.hrms.core.model.data.UpstreamOrderUpdateDetails
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 
 internal data class OrderStaffUiState(
     val staffId: Int,
@@ -29,33 +31,32 @@ internal class OrderViewModel(
     private val orderRepository: OrderRepository,
 ) : ViewModel() {
 
-    internal var staffUiState: OrderStaffUiState by mutableStateOf(
+    private val _staffUiState = MutableStateFlow(
         OrderStaffUiState(-1, CleaningStaffType.CLEANING_LADY)
     )
-        private set
 
-    lateinit var orders: Flow<List<Order>>
+    val staffUiState: StateFlow<OrderStaffUiState> = _staffUiState.asStateFlow()
+
+    var orders: StateFlow<List<Order>>
         private set
 
     init {
-        viewModelScope.launch {
+        runBlocking {
             // TODO("figure out how to handle failure")
             with(
                 cleaningStaffRepository.getCleaningStaff(
                     CleaningStaffQuery(cleaningStaffId = cleaningStaffId)
                 )
             ) {
-                staffUiState = staffUiState.copy(
+                _staffUiState.value = OrderStaffUiState(
                     staffId = this.employeeId,
                     staffType = this.cleaningStaffType,
                 )
             }
-        }
 
-        viewModelScope.launch {
             // TODO("figure out how to handle failure")
             orders = orderRepository.getOrders(
-                when (staffUiState.staffType) {
+                when (staffUiState.value.staffType) {
                     CleaningStaffType.CLEANING_LADY -> OrderQuery(cleaningLadyId = cleaningStaffId)
                     CleaningStaffType.HOUSEKEEPER -> OrderQuery(
                         cleaningLadyIds = cleaningStaffRepository.getCleaningLadies(
@@ -63,30 +64,34 @@ internal class OrderViewModel(
                         ).map { it.employeeId }
                     )
                 }
+            ).stateIn(
+                viewModelScope,
+                SharingStarted.WhileSubscribed(5000L),
+                listOf(),
             )
         }
     }
 
-    internal fun placeOrder(orderData: String) {
+    fun placeOrder(orderData: String) {
         viewModelScope.launch {
             // TODO("figure out how to handle failure")
             orderRepository.placeOrder(
                 UpstreamOrderDetails(
-                    cleaningLadyId = staffUiState.staffId,
+                    cleaningLadyId = staffUiState.value.staffId,
                     orderData = orderData,
                 )
             )
         }
     }
 
-    internal fun deleteOrder(orderId: Int) {
+    fun deleteOrder(orderId: Int) {
         viewModelScope.launch {
             // TODO("figure out how to handle failure")
             orderRepository.deleteOrder(orderId)
         }
     }
 
-    internal fun markOrderCompleted(orderId: Int, completed: Boolean) {
+    fun markOrderCompleted(orderId: Int, completed: Boolean) {
         viewModelScope.launch {
             // TODO("figure out how to handle failure")
             orderRepository.updateOrderState(

@@ -22,7 +22,7 @@ fun NavGraphBuilder.maidScreen(
     ) { navBackStackEntry ->
         MaidScreen(
             maidViewModel = MaidViewModel(
-                cleaningStaffId = navBackStackEntry.arguments?.getInt("housekeeperId")!!,
+                housekeeperId = navBackStackEntry.arguments?.getInt("housekeeperId")!!,
                 cleaningStaffRepository = Repository.cleaningStaff,
             ),
             onNavigateToHome = onNavigateToHome,

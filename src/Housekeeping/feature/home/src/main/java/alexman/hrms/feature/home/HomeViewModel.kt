@@ -3,11 +3,11 @@ package alexman.hrms.feature.home
 import alexman.hrms.core.data.repository.CleaningStaffQuery
 import alexman.hrms.core.data.repository.CleaningStaffRepository
 import alexman.hrms.core.model.data.CleaningStaffType
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 internal data class HomeStaffUiState(
@@ -21,10 +21,11 @@ internal class HomeViewModel(
     cleaningStaffRepository: CleaningStaffRepository,
 ) : ViewModel() {
 
-    internal var staffUiState: HomeStaffUiState by mutableStateOf(
+    private val _staffUiState = MutableStateFlow(
         HomeStaffUiState(-1, "", CleaningStaffType.CLEANING_LADY)
     )
-        private set
+
+    val staffUiState: StateFlow<HomeStaffUiState> = _staffUiState.asStateFlow()
 
     init {
         viewModelScope.launch {
@@ -34,7 +35,7 @@ internal class HomeViewModel(
                     CleaningStaffQuery(cleaningStaffId = cleaningStaffId)
                 )
             ) {
-                staffUiState = staffUiState.copy(
+                _staffUiState.value = HomeStaffUiState(
                     staffId = this.employeeId,
                     staffName = this.name,
                     staffType = this.cleaningStaffType

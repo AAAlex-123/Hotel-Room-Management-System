@@ -3,11 +3,11 @@ package alexman.hrms.feature.room
 import alexman.hrms.core.designsystem.PreviewLight
 import alexman.hrms.core.designsystem.SizeVariation
 import alexman.hrms.core.designsystem.component.ButtonWithText
-import alexman.hrms.core.designsystem.component.ListItem
 import alexman.hrms.core.designsystem.component.HrmsScaffold
-import alexman.hrms.core.designsystem.component.TextInputField
 import alexman.hrms.core.designsystem.component.LargeBodyText
+import alexman.hrms.core.designsystem.component.ListItem
 import alexman.hrms.core.designsystem.component.SmallDisplayText
+import alexman.hrms.core.designsystem.component.TextInputField
 import alexman.hrms.core.designsystem.theme.HrmsTheme
 import alexman.hrms.core.model.data.CleanState
 import alexman.hrms.core.model.data.CleanType
@@ -27,13 +27,14 @@ import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 
 @PreviewLight
 @Composable
@@ -62,22 +63,16 @@ internal fun SingleRoomScreen(
     singleRoomViewModel: SingleRoomViewModel,
     onNavigateToRooms: (Int) -> Unit,
 ) {
-    val staffUiState = singleRoomViewModel.staffUiState
+    val staffUiState by singleRoomViewModel.staffUiState.collectAsStateWithLifecycle()
+    val room by singleRoomViewModel.room.collectAsStateWithLifecycle()
+    val notes by singleRoomViewModel.notes.collectAsStateWithLifecycle()
 
     val roomId = singleRoomViewModel.roomId
-    val room = singleRoomViewModel.room.collectAsState(
-        initial = Room(
-            "-1", CleanState.DIRTY, CleanType.NORMAL, Occupied.OCCUPIED,
-        )
-    )
-    val notes = singleRoomViewModel.notes.collectAsState(
-        initial = listOf(),
-    )
 
     SingleRoomScreenContent(
         staff = staffUiState,
-        room.value,
-        notes.value,
+        room = room,
+        notes = notes,
         onUpdateRoomState = { singleRoomViewModel.updateRoomState(roomId, it) },
         onAddNote = { singleRoomViewModel.addNote(it) },
         onDeleteNote = { singleRoomViewModel.deleteNote(it) },
