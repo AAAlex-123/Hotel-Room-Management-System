@@ -3,6 +3,7 @@ import {
   Controller,
   Delete,
   Get,
+  Logger,
   Param,
   Post,
   Put,
@@ -59,7 +60,32 @@ export class RoomController {
   }
   @Post('many')
   async create_rooms(@Body() room: RoomEntity[]) {
-    await this.prisma.room.createMany({ data: room });
+    Logger.debug(room);
+    return await this.prisma.$transaction(async (ctx) => {
+      //Delete all rooms that are not in the final array
+      ctx.room.deleteMany({
+        where: {
+          room_id: {
+            notIn: room.map((value) => value.room_id),
+          },
+        },
+      });
+      //Create or update the necessary rooms
+      const array: Room[] = [];
+      for (const iterator of room) {
+        const { room_id, ...rest } = iterator;
+        array.push(
+          await this.prisma.room.upsert({
+            create: iterator,
+            update: { ...rest },
+            where: {
+              room_id,
+            },
+          }),
+        );
+      }
+      return array;
+    });
   }
 
   @Put(':room_id')

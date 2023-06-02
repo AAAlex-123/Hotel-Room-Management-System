@@ -6,20 +6,21 @@ import Link from "next/link";
 
 export default async function LogicClient() {
   const searchParams = useSearchParams()
+  if (!searchParams) notFound()
   const username = searchParams.get("username") || "Username"
-  const client_id = searchParams.get("client_id")
-  if (client_id!==undefined){
-    notFound()
-  }
+  const reservation_id = searchParams.get("reservation_id")
+  // if (client_id!==undefined){
+  //   notFound()
+  // }
   const navigate = useRouter();
-  const clientData=await fetch(`http://host.internal.docker:8081/api/client/${client_id}`,{cache:"no-store"})
 
-  function handleCheckout() {
-    //TODO-[25/05/2023]: 
+  async function handleCheckout() {
+    await fetch("http://host.docker.internal:8081/api/client/checkout/", { cache: "no-cache", method: "POST", body: JSON.stringify({ reservation_id }) })
   }
 
-  function handleAbsence() {
-    //TODO-[25/05/2023]: Add absense hook
+  async function handleAbsence() {
+    await fetch("http://host.docker.internal:8081/api/client/absent/", { cache: "no-cache", method: "POST", body: JSON.stringify({ reservation_id, state: true }) })
+
   }
 
   return (
@@ -34,7 +35,7 @@ export default async function LogicClient() {
           e.preventDefault()
           handleAbsence()
         }} >Absence Notification</Button></span>
-        <Link href="tel://6900000000">
+        <Link href="tel:6900000000">
           <Button>Contact Reception</Button>
         </Link>
         <span><Button onClick={e => {

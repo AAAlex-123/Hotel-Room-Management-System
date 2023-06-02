@@ -1,7 +1,6 @@
 import {
   Body,
   Controller,
-  Delete,
   Get,
   Logger,
   Param,
@@ -63,33 +62,45 @@ export class EmployeeController {
     });
     return employees.employee_id;
   }
+
   @Post('many')
   async createMany(@Body() employee: EmployeeEntity[]) {
     const pepperRounds = this.config.get<number>('sale') || 10;
     employee.forEach(async (value) => {
+      if ((value.password = '*******')) return;
       const pre_hashed_code = value.password;
       value.password = await hash(pre_hashed_code, pepperRounds);
     });
-    Logger.log(employee);
-    await this.prisma.employee.createMany({
-      data: { ...employee },
-    });
-    return await this.prisma.employee.findMany({
-      where: {
-        username: {
-          in: employee.map((emp) => emp.username),
+    return await this.prisma.$transaction(async (ctx) => {
+      ctx.employee.deleteMany({
+        where: {
+          username: {
+            notIn: employee.map((value) => value.username),
+          },
         },
-      },
-    });
-  }
-
-  @Delete(':id')
-  async remove(@Param('id', ParseIntPipe) id: number) {
-    Logger.log(id);
-    await this.prisma.employee.delete({
-      where: {
-        employee_id: Number(id),
-      },
+      });
+      //Create or update the necessary rooms
+      const array: EmployeeEntityNoPass[] = [];
+      for (const iterator of employee) {
+        const updatePass = iterator.password === '*******';
+        const { employee_id, password, ...rest } = iterator;
+        array.push(
+          await this.prisma.employee.upsert({
+            create: iterator,
+            update: { password: updatePass ? undefined : password, ...rest },
+            where: {
+              username: iterator.username,
+            },
+          }),
+        );
+      }
+      return await this.prisma.employee.findMany({
+        where: {
+          username: {
+            in: employee.map((emp) => emp.username),
+          },
+        },
+      });
     });
   }
 

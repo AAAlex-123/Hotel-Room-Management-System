@@ -11,15 +11,16 @@ datasource db {
 }
 
 model Room {
-  room_id        String  @id
-  occupied       Boolean @default(false)
-  cleaning_state Status  @default(CLEAN)
-  service        Boolean @default(false)
-  out_of_order   Boolean @default(false)
-  clean_type     Type    @default(DAILY)
-  roomType       String  @default("")
-  roomClass      String  @default("")
-  floor          Int     @default(0)
+  room_id            String  @id
+  occupied           Boolean @default(false)
+  cleaning_state     Status  @default(CLEAN)
+  service            Boolean @default(false)
+  out_of_order       Boolean @default(false)
+  available Boolean @default(true)
+  clean_type         Type    @default(DAILY)
+  roomType           String  @default("")
+  roomClass          String  @default("")
+  floor              Int     @default(0)
 
   Reservation      Reservation[]
   groupRoom        GroopRooms?
@@ -145,16 +146,6 @@ enum Status {
   INSPECTED
 }
 
-enum EventType {
-  CLEAN
-  DEEP_CLEAN
-  INSPECT
-  UPLOAD
-  CANCELLED
-  BLOCKED
-  REINSTITUTED
-}
-
 enum Type {
   DAILY
   DEEP
@@ -165,9 +156,4 @@ enum EmployeeType {
   CHAMBERMAID
   KITCHEN
   RECEPTION
-}
-
-enum OrderType {
-  PROVISION
-  MENU
 }

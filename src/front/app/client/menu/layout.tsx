@@ -16,7 +16,7 @@ export default function Main(props: any) {
     <>
       <Head>
         <title> Main Menu </title>
-        <link href='https://fonts.googleapis.com/css?family=Aleo' rel='stylesheet' />
+        {/* <link href='https://fonts.googleapis.com/css?family=Aleo' rel='stylesheet' /> */}
         <style>{`
         * {
             font-family: 'Aleo';font-size: 1rem;

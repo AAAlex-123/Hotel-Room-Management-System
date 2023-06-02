@@ -25,20 +25,16 @@ export default async function LogicClient({
     e.preventDefault()
     navigate.replace(`/client/menu?client_id=${1}&username=${"mitsos"}&room_id=${"001"}`)
   };
-  //   try {
-  //     const response = await fetch(`http://host.docker.internal:8081/api/auth`, {
-  //       cache:"no-cache",
-  //       method:"POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify({  }),
-  //     })
+    try {
+      const response = await fetch(`http://host.docker.internal:8081/api/hello`, {
+        cache:"no-cache",
+        method:"GET",
+      })
+      console.log(await response.text());
 
-  //     navigate.push("/main");
-  //   } catch (err: any) {
-  //     navigate.push("/main");
-  //   }
+      navigate.push("/main");
+    } catch (err: any) {
+    }
 
   // }
 

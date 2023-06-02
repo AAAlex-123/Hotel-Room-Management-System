@@ -42,9 +42,7 @@ export class ReservationController {
   }
 
   @Get(':id')
-  async getById(
-    @Param('id', ParseIntPipe) id: number,
-  ): Promise<ReservationClientEntity> {
+  async getById(@Param('id', ParseIntPipe) id: number) {
     const results = await this.prisma.reservation.findFirst({
       where: { reservation_id: id },
     });

@@ -1,11 +1,12 @@
 "use client"
-import { redirect } from "next/navigation";
-import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { FormEvent, useState } from "react";
 import "./page.module.css";
 import "./Login.css";
 import Head from "next/head";
 import { Button, Form } from "react-bootstrap";
 export default async function Login() {
+  const navigate = useRouter()
   const imageStyle = {
     textAlign: "center" as const,
     // marginBottom: '20px',
@@ -16,23 +17,24 @@ export default async function Login() {
   const [login, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e:FormEvent) => {
+    e.preventDefault()
     try {
-      const response = await fetch(
-        `http://host.docker.internal:8081/api/auth`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ login, password }),
-        }
-      );
+      // const response = await fetch(
+      //   `http://host.docker.internal:8081/api/auth`,
+      //   {
+      //     method: "POST",
+      //     headers: {
+      //       "Content-Type": "application/json",
+      //     },
+      //     body: JSON.stringify({ login, password }),
+      //   }
+      // );
 
-      redirect("/main");
+      navigate.push("/main");
     } catch (err: any) {
       console.log(err);
-      redirect("/");
+      navigate.push("/");
     }
   };
 

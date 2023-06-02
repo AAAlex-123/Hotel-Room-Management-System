@@ -1,4 +1,4 @@
-import { Controller, Post } from '@nestjs/common';
+import { Body, Controller, Post } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { PrismaService } from 'src/prisma/prisma.service';
 
@@ -7,8 +7,27 @@ import { PrismaService } from 'src/prisma/prisma.service';
 export class ClientController {
   constructor(private prisma: PrismaService) {}
 
+  @Post('absence')
+  async absence(
+    @Body()
+    { reservation_id, state }: { reservation_id: number; state: boolean },
+  ) {
+    return await this.prisma.room.updateMany({
+      data: {
+        available_to_clean: state,
+      },
+      where: {
+        Reservation: {
+          some: {
+            reservation_id,
+          },
+        },
+      },
+    });
+  }
+
   @Post('checkout')
-  async checkout({ reservation_id }: { reservation_id: number }) {
+  async checkout(@Body() { reservation_id }: { reservation_id: number }) {
     await this.prisma.room.updateMany({
       data: {
         clean_type: 'DEEP',
