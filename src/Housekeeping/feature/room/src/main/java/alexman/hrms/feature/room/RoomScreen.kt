@@ -39,7 +39,6 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 private fun RoomScreenContentPreview() {
     HrmsTheme {
         RoomScreenContent(
-            staff = RoomStaffUiState(1, CleaningStaffType.CLEANING_LADY),
             rooms = listOf(
                 Room("101", CleanState.DIRTY, CleanType.NORMAL, Occupied.VACANT),
                 Room("102", CleanState.PENDING, CleanType.NORMAL, Occupied.OCCUPIED),
@@ -47,7 +46,7 @@ private fun RoomScreenContentPreview() {
                 Room("104", CleanState.PENDING, CleanType.DEEP, Occupied.OCCUPIED),
                 Room("105", CleanState.CLEAN, CleanType.DEEP, Occupied.VACANT),
             ),
-            onNavigateToHome = { },
+            onNavigateBack = { },
             onNavigateToSingleRoom = { },
             scaffoldNavigation = ScaffoldNavigation(),
         )
@@ -57,7 +56,7 @@ private fun RoomScreenContentPreview() {
 @Composable
 internal fun RoomScreen(
     roomViewModel: RoomViewModel,
-    onNavigateToHome: (Int) -> Unit,
+    onNavigateBack: () -> Unit,
     onNavigateToSingleRoom: (String, Int) -> Unit,
     onNavigateToCleaningLadies: (Int) -> Unit,
     onNavigateToOrders: (Int) -> Unit,
@@ -68,9 +67,8 @@ internal fun RoomScreen(
     val (id, type) = staffUiState
 
     RoomScreenContent(
-        staff = staffUiState,
         rooms = rooms,
-        onNavigateToHome = onNavigateToHome,
+        onNavigateBack = onNavigateBack,
         onNavigateToSingleRoom = { roomId: String ->
             onNavigateToSingleRoom(roomId, id)
         },
@@ -88,15 +86,14 @@ internal fun RoomScreen(
 
 @Composable
 private fun RoomScreenContent(
-    staff: RoomStaffUiState,
     rooms: List<Room>,
-    onNavigateToHome: (Int) -> Unit,
+    onNavigateBack: () -> Unit,
     onNavigateToSingleRoom: (String) -> Unit,
     scaffoldNavigation: ScaffoldNavigation,
 ) {
     HrmsScaffold(
         topBarText = "Rooms",
-        onNavigationIconClick = { onNavigateToHome(staff.staffId) },
+        onNavigationIconClick = { onNavigateBack() },
         scaffoldNavigation = scaffoldNavigation,
         selectedBottomBarItem = BottomBarItem.ROOMS,
     ) {

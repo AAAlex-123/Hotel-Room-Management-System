@@ -17,6 +17,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
+import androidx.navigation.NavOptions
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 
@@ -43,6 +44,63 @@ private fun HrmsNav(
     navController: NavHostController = rememberNavController(),
     startDestination: String = Destination.Login.route,
 ) {
+
+    val back: () -> Unit = { navController.popBackStack() }
+
+    val toLogin = {
+        navController.navigate(
+            route = Destination.Login.route,
+            navOptions = NavOptions.Builder()
+                .setPopUpTo(route = Destination.Home.route, inclusive = true)
+                .build(),
+        )
+    }
+
+    val toHome = { cleaningStaffId: Int ->
+        navController.navigate(
+            route = Destination.Home.format(cleaningStaffId = cleaningStaffId),
+            navOptions = NavOptions.Builder()
+                .setPopUpTo(route = Destination.Login.route, inclusive = true)
+                .build()
+        )
+    }
+
+    val toRooms = { cleaningStaffId: Int ->
+        navController.navigate(
+            route = Destination.Room.format(cleaningStaffId = cleaningStaffId),
+            navOptions = NavOptions.Builder()
+                .setPopUpTo(route = Destination.Home.route, inclusive = false)
+                .build(),
+        )
+    }
+
+    val toCleaningLadies = { cleaningStaffId: Int ->
+        navController.navigate(
+            route = Destination.Maid.format(housekeeperId = cleaningStaffId),
+            navOptions = NavOptions.Builder()
+                .setPopUpTo(route = Destination.Home.route, inclusive = false)
+                .build(),
+        )
+    }
+
+    val toOrders = { cleaningStaffId: Int ->
+        navController.navigate(
+            route = Destination.Order.format(cleaningStaffId = cleaningStaffId),
+            navOptions = NavOptions.Builder()
+                .setPopUpTo(route = Destination.Home.route, inclusive = false)
+                .build(),
+        )
+    }
+
+    val toSingleRoom = { roomId: String, cleaningStaffId: Int ->
+        navController.navigate(
+            route = Destination.SingleRoom.format(
+                roomId = roomId,
+                cleaningStaffId = cleaningStaffId,
+            ),
+        )
+    }
+
     NavHost(
         modifier = modifier,
         navController = navController,
@@ -50,105 +108,42 @@ private fun HrmsNav(
     ) {
         loginScreen(
             route = Destination.Login.route,
-            onNavigateToHome = { cleaningStaffId: Int ->
-                navController.navigate(
-                    Destination.Home.format(cleaningStaffId = cleaningStaffId)
-                )
-            }
+            onNavigateToHome = toHome,
         )
 
         homeScreen(
             route = Destination.Home.route,
-            onNavigateToLogin = { navController.navigate(Destination.Login.route) },
-            onNavigateToRooms = { cleaningStaffId: Int ->
-                navController.navigate(
-                    Destination.Room.format(cleaningStaffId = cleaningStaffId)
-                )
-            },
-            onNavigateToCleaningLadies = { cleaningStaffId: Int ->
-                navController.navigate(
-                    Destination.Maid.format(housekeeperId = cleaningStaffId)
-                )
-            },
-            onNavigateToOrders = { cleaningStaffId: Int ->
-                navController.navigate(
-                    Destination.Order.format(cleaningStaffId = cleaningStaffId)
-                )
-            },
+            onNavigateToLogin = toLogin,
+            onNavigateToRooms = toRooms,
+            onNavigateToCleaningLadies = toCleaningLadies,
+            onNavigateToOrders = toOrders,
         )
 
         roomScreen(
             route = Destination.Room.route,
-            onNavigateToHome = { cleaningStaffId: Int ->
-                navController.navigate(
-                    Destination.Home.format(cleaningStaffId = cleaningStaffId)
-                )
-            },
-            onNavigateToCleaningLadies = { cleaningStaffId: Int ->
-                navController.navigate(
-                    Destination.Maid.format(housekeeperId = cleaningStaffId)
-                )
-            },
-            onNavigateToOrders = { cleaningStaffId: Int ->
-                navController.navigate(
-                    Destination.Order.format(cleaningStaffId = cleaningStaffId)
-                )
-            },
-            onNavigateToSingleRoom = { roomId: String, cleaningStaffId: Int ->
-                navController.navigate(
-                    Destination.SingleRoom.format(
-                        roomId = roomId,
-                        cleaningStaffId = cleaningStaffId,
-                    )
-                )
-            },
+            onNavigateBack = back,
+            onNavigateToCleaningLadies = toCleaningLadies,
+            onNavigateToOrders = toOrders,
+            onNavigateToSingleRoom = toSingleRoom,
         )
 
         singleRoomScreen(
             route = Destination.SingleRoom.route,
-            onNavigateToRooms = { cleaningStaffId: Int ->
-                navController.navigate(
-                    Destination.Room.format(cleaningStaffId = cleaningStaffId)
-                )
-            },
+            onNavigateBack = back,
         )
 
         orderScreen(
             route = Destination.Order.route,
-            onNavigateToHome = { cleaningStaffId: Int ->
-                navController.navigate(
-                    Destination.Home.format(cleaningStaffId = cleaningStaffId)
-                )
-            },
-            onNavigateToCleaningLadies = { cleaningStaffId: Int ->
-                navController.navigate(
-                    Destination.Maid.format(housekeeperId = cleaningStaffId)
-                )
-            },
-            onNavigateToRooms = { cleaningStaffId: Int ->
-                navController.navigate(
-                    Destination.Room.format(cleaningStaffId = cleaningStaffId)
-                )
-            },
+            onNavigateBack = back,
+            onNavigateToCleaningLadies = toCleaningLadies,
+            onNavigateToRooms = toRooms,
         )
 
         maidScreen(
             route = Destination.Maid.route,
-            onNavigateToHome = { cleaningStaffId: Int ->
-                navController.navigate(
-                    Destination.Home.format(cleaningStaffId = cleaningStaffId)
-                )
-            },
-            onNavigateToRooms = { cleaningStaffId: Int ->
-                navController.navigate(
-                    Destination.Room.format(cleaningStaffId = cleaningStaffId)
-                )
-            },
-            onNavigateToOrders = { cleaningStaffId: Int ->
-                navController.navigate(
-                    Destination.Order.format(cleaningStaffId = cleaningStaffId)
-                )
-            },
+            onNavigateBack = back,
+            onNavigateToRooms = toRooms,
+            onNavigateToOrders = toOrders,
         )
     }
 }

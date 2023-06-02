@@ -12,7 +12,7 @@ import androidx.navigation.navArgument
 
 fun NavGraphBuilder.roomScreen(
     route: String,
-    onNavigateToHome: (Int) -> Unit,
+    onNavigateBack: () -> Unit,
     onNavigateToCleaningLadies: (Int) -> Unit,
     onNavigateToOrders: (Int) -> Unit,
     onNavigateToSingleRoom: (String, Int) -> Unit,
@@ -29,7 +29,7 @@ fun NavGraphBuilder.roomScreen(
                 cleaningStaffRepository = Repository.cleaningStaff,
                 roomRepository = Repository.room,
             ),
-            onNavigateToHome = onNavigateToHome,
+            onNavigateBack = onNavigateBack,
             onNavigateToCleaningLadies = onNavigateToCleaningLadies,
             onNavigateToOrders = onNavigateToOrders,
             onNavigateToSingleRoom = onNavigateToSingleRoom,
@@ -39,7 +39,7 @@ fun NavGraphBuilder.roomScreen(
 
 fun NavGraphBuilder.singleRoomScreen(
     route: String,
-    onNavigateToRooms: (Int) -> Unit,
+    onNavigateBack: () -> Unit,
 ) {
     composable(
         route = route,
@@ -55,7 +55,7 @@ fun NavGraphBuilder.singleRoomScreen(
                 roomRepository = Repository.room,
                 cleaningStaffRepository = Repository.cleaningStaff,
             ),
-            onNavigateToRooms = onNavigateToRooms,
+            onNavigateBack = onNavigateBack,
         )
     }
 }

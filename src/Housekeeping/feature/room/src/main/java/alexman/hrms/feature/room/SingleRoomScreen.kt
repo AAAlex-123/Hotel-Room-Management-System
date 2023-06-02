@@ -53,7 +53,7 @@ private fun SingleRoomScreenContentPreview() {
             onUpdateRoomState = { },
             onAddNote = { },
             onDeleteNote = { },
-            onNavigateToRooms = { },
+            onNavigateBack = { },
         )
     }
 }
@@ -61,7 +61,7 @@ private fun SingleRoomScreenContentPreview() {
 @Composable
 internal fun SingleRoomScreen(
     singleRoomViewModel: SingleRoomViewModel,
-    onNavigateToRooms: (Int) -> Unit,
+    onNavigateBack: () -> Unit,
 ) {
     val staffUiState by singleRoomViewModel.staffUiState.collectAsStateWithLifecycle()
     val room by singleRoomViewModel.room.collectAsStateWithLifecycle()
@@ -76,7 +76,7 @@ internal fun SingleRoomScreen(
         onUpdateRoomState = { singleRoomViewModel.updateRoomState(roomId, it) },
         onAddNote = { singleRoomViewModel.addNote(it) },
         onDeleteNote = { singleRoomViewModel.deleteNote(it) },
-        onNavigateToRooms = onNavigateToRooms,
+        onNavigateBack = onNavigateBack,
     )
 }
 
@@ -96,7 +96,7 @@ private fun SingleRoomScreenContent(
     onUpdateRoomState: (CleanState) -> Unit,
     onAddNote: (String) -> Unit,
     onDeleteNote: (Int) -> Unit,
-    onNavigateToRooms: (Int) -> Unit,
+    onNavigateBack: () -> Unit,
 ) {
     val (noteData, setNoteData) = remember { mutableStateOf("") }
 
@@ -107,7 +107,7 @@ private fun SingleRoomScreenContent(
                 CleanType.DEEP -> "*"
             }
         }",
-        onNavigationIconClick = { onNavigateToRooms(staff.staffId) },
+        onNavigationIconClick = { onNavigateBack() },
         topBarBackgroundColor = room.color(),
     ) {
         Column(

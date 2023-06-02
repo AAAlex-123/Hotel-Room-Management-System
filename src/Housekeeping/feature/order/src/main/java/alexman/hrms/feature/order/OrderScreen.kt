@@ -50,7 +50,7 @@ private fun OrderScreenContentPreview() {
             onDelete = { },
             onMarkOrderCompleted = { _: Int, _: Boolean -> },
             onSubmitNewOrder = { },
-            onNavigateToHome = { },
+            onNavigateBack = { },
             scaffoldNavigation = ScaffoldNavigation(),
         )
     }
@@ -69,7 +69,7 @@ private fun NewOrderPopupContentPreview() {
 @Composable
 internal fun OrderScreen(
     orderViewModel: OrderViewModel,
-    onNavigateToHome: (Int) -> Unit,
+    onNavigateBack: () -> Unit,
     onNavigateToCleaningLadies: (Int) -> Unit,
     onNavigateToRooms: (Int) -> Unit,
 ) {
@@ -86,7 +86,7 @@ internal fun OrderScreen(
             orderViewModel.markOrderCompleted(orderId, completed)
         },
         onSubmitNewOrder = { orderViewModel.placeOrder(it) },
-        onNavigateToHome = onNavigateToHome,
+        onNavigateBack = onNavigateBack,
         scaffoldNavigation = ScaffoldNavigation(
             toRooms = { onNavigateToRooms(id) },
             toCleaningLadies = if (type == CleaningStaffType.HOUSEKEEPER) {
@@ -106,12 +106,12 @@ private fun OrderScreenContent(
     onDelete: (Int) -> Unit,
     onMarkOrderCompleted: (Int, Boolean) -> Unit,
     onSubmitNewOrder: (String) -> Unit,
-    onNavigateToHome: (Int) -> Unit,
+    onNavigateBack: () -> Unit,
     scaffoldNavigation: ScaffoldNavigation,
 ) {
     HrmsScaffold(
         topBarText = "Orders",
-        onNavigationIconClick = { onNavigateToHome(staff.staffId) },
+        onNavigationIconClick = { onNavigateBack() },
         actions = {
             if (staff.staffType == CleaningStaffType.CLEANING_LADY) {
                 NewOrderButton(onSubmitNewOrder)

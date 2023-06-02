@@ -10,7 +10,7 @@ import androidx.navigation.navArgument
 
 fun NavGraphBuilder.maidScreen(
     route: String,
-    onNavigateToHome: (Int) -> Unit,
+    onNavigateBack: () -> Unit,
     onNavigateToRooms: (Int) -> Unit,
     onNavigateToOrders: (Int) -> Unit,
 ) {
@@ -25,7 +25,7 @@ fun NavGraphBuilder.maidScreen(
                 housekeeperId = navBackStackEntry.arguments?.getInt("housekeeperId")!!,
                 cleaningStaffRepository = Repository.cleaningStaff,
             ),
-            onNavigateToHome = onNavigateToHome,
+            onNavigateBack = onNavigateBack,
             onNavigateToRooms = onNavigateToRooms,
             onNavigateToOrders = onNavigateToOrders,
         )

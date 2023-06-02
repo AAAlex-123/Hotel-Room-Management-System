@@ -25,7 +25,6 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 private fun MaidScreenContentPreview() {
     HrmsTheme {
         MaidScreenContent(
-            staff = MaidStaffUiState(1),
             cleaningLadies = listOf(
                 CleaningStaff(1, "Alice", CleaningStaffType.CLEANING_LADY),
                 CleaningStaff(2, "Bob", CleaningStaffType.CLEANING_LADY),
@@ -33,7 +32,7 @@ private fun MaidScreenContentPreview() {
                 CleaningStaff(4, "David", CleaningStaffType.CLEANING_LADY),
                 CleaningStaff(5, "Erin", CleaningStaffType.CLEANING_LADY),
             ),
-            onNavigateToHome = { },
+            onNavigateBack = { },
             scaffoldNavigation = ScaffoldNavigation(),
         )
     }
@@ -42,7 +41,7 @@ private fun MaidScreenContentPreview() {
 @Composable
 internal fun MaidScreen(
     maidViewModel: MaidViewModel,
-    onNavigateToHome: (Int) -> Unit,
+    onNavigateBack: () -> Unit,
     onNavigateToRooms: (Int) -> Unit,
     onNavigateToOrders: (Int) -> Unit,
 ) {
@@ -52,9 +51,8 @@ internal fun MaidScreen(
     val (id) = staffUiState
 
     MaidScreenContent(
-        staff = staffUiState,
         cleaningLadies = cleaningLadies,
-        onNavigateToHome = onNavigateToHome,
+        onNavigateBack = onNavigateBack,
         scaffoldNavigation = ScaffoldNavigation(
             toRooms = { onNavigateToRooms(id) },
             toCleaningLadies = { },
@@ -65,14 +63,13 @@ internal fun MaidScreen(
 
 @Composable
 private fun MaidScreenContent(
-    staff: MaidStaffUiState,
     cleaningLadies: List<CleaningStaff>,
-    onNavigateToHome: (Int) -> Unit,
+    onNavigateBack: () -> Unit,
     scaffoldNavigation: ScaffoldNavigation,
 ) {
     HrmsScaffold(
         topBarText = "Cleaning Ladies",
-        onNavigationIconClick = { onNavigateToHome(staff.staffId) },
+        onNavigationIconClick = { onNavigateBack() },
         scaffoldNavigation = scaffoldNavigation,
         selectedBottomBarItem = BottomBarItem.CLEANING_LADIES,
     ) {

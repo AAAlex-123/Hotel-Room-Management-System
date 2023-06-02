@@ -10,7 +10,7 @@ import androidx.navigation.navArgument
 
 fun NavGraphBuilder.orderScreen(
     route: String,
-    onNavigateToHome: (Int) -> Unit,
+    onNavigateBack: () -> Unit,
     onNavigateToCleaningLadies: (Int) -> Unit,
     onNavigateToRooms: (Int) -> Unit,
 ) {
@@ -26,7 +26,7 @@ fun NavGraphBuilder.orderScreen(
                 orderRepository = Repository.order,
                 cleaningStaffRepository = Repository.cleaningStaff
             ),
-            onNavigateToHome = onNavigateToHome,
+            onNavigateBack = onNavigateBack,
             onNavigateToCleaningLadies = onNavigateToCleaningLadies,
             onNavigateToRooms = onNavigateToRooms,
         )
