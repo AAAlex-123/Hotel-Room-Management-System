@@ -64,10 +64,10 @@ private fun getEmployees(
         if (it.isSuccessful) {
             val body = JSONArray(it.body?.string())
             if (!body.isEmpty) {
-                val floorMap = mutableListOf<Employee>()
+                val employeeList = mutableListOf<Employee>()
                 repeat(body.length()) { index ->
                     val jsonObject = body.getJSONObject(index)
-                    floorMap.add(
+                    employeeList.add(
                         Employee(
                             name = jsonObject.getString("name"),
                             useranme = jsonObject.getString("username"),
@@ -78,7 +78,7 @@ private fun getEmployees(
                         )
                     )
                 }
-                floorMap.forEach { key ->
+                employeeList.forEach { key ->
                     employee.add(key)
                 }
             }

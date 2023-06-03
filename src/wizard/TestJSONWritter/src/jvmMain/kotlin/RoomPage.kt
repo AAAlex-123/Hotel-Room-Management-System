@@ -35,7 +35,7 @@ fun App(stage: MutableState<Page>, floors: SnapshotStateList<Floor>) {
                     }
                 }
                 if (show) {
-                    fieldGenerate(floorName = getNextAvailable(floors), hide = setShow, addText = floors)
+                    fieldGenerate(floorName = getNextAvailable(floors), hide = setShow, floors = floors)
                 }
                 Button(onClick = {
                     stage.value = Page.EMPLOYEE
@@ -49,6 +49,7 @@ fun App(stage: MutableState<Page>, floors: SnapshotStateList<Floor>) {
                         items(mainFloor.value!!.rooms) {
                             roomView(it)
                         }
+
                     }
                 }
             }
@@ -126,7 +127,7 @@ private fun roomView(it: Room) {
 }
 
 @Composable
-private fun fieldGenerate(hide: (Boolean) -> Unit, addText: SnapshotStateList<Floor>, floorName: Int) {
+private fun fieldGenerate(hide: (Boolean) -> Unit, floors: SnapshotStateList<Floor>, floorName: Int) {
     val numOfRooms = remember { mutableStateOf("0") }
     var isRoomsNotNumber by remember { mutableStateOf(true) }
     val statsFrom = remember { mutableStateOf("1") }
@@ -177,7 +178,7 @@ private fun fieldGenerate(hide: (Boolean) -> Unit, addText: SnapshotStateList<Fl
         repeat(rNum) {
             rooms.add(Room("${start + it}", roomType.value, roomClass.value))
         }
-        addText.add(Floor(floorName, rooms))
+        floors.add(Floor(floorName, rooms))
         hide(false)
     }) {
         Text(text = "OK")

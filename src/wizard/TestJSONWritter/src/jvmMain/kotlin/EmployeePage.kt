@@ -1,5 +1,7 @@
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.snapshots.SnapshotStateList
@@ -11,7 +13,7 @@ fun EmployeePage(stage: MutableState<Page>, employee: SnapshotStateList<Employee
         Column {
 
             Button(onClick = {
-                employee.add(Employee(useranme = "", name =  "", login = "", type =  EmployeeType.CHAMBERMAID))
+                employee.add(Employee(useranme = "", name = "", login = "", type = EmployeeType.CHAMBERMAID))
             }) {
                 Text("Add employee")
             }
@@ -27,8 +29,11 @@ fun EmployeePage(stage: MutableState<Page>, employee: SnapshotStateList<Employee
                     Text("Back")
                 }
             }
-            repeat(employee.size) {
-                employeeView(employee, it)
+
+            LazyColumn {
+                items(employee.size){
+                    employeeView(employee, it)
+                }
             }
         }
 
@@ -76,14 +81,14 @@ fun employeeView(employees: SnapshotStateList<Employee>, index: Int) {
             TextButton(onClick = { show = false }) {
                 Text("Done")
             }
-            TextButton(onClick = { 
+            TextButton(onClick = {
                 employees.removeAt(index)
-                if (index>=employees.size)return@TextButton
-                username= employees[index].useranme
+                if (index >= employees.size) return@TextButton
+                username = employees[index].useranme
                 name = employees[index].name
                 login = employees[index].login
                 type = employees[index].type.name
-                
+
             }) {
                 Text("X")
             }

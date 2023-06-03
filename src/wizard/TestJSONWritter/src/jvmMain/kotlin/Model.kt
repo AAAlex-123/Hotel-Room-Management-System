@@ -19,8 +19,7 @@ class Floor(var floor: Number, val rooms: MutableList<Room>){
 class Room(var roomId: String, var roomType: String, var roomClass: String)
 
 
-class RoomDTO
 enum class Page { ROOM, EMPLOYEE, SEND }
 enum class EmployeeType {
-    HOUSEKEEPER, CHAMBERMAID, RECEPTION, KITCHEN
+    HOUSEKEEPER, CHAMBERMAID, RECEPTION
 }
