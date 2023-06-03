@@ -70,6 +70,10 @@ private fun HomeScreenContent(
         actions = { LogoutButton(onClick = onNavigateToLogin) },
         scaffoldNavigation = scaffoldNavigation,
     ) {
+        // don't show anything while loading
+        if (staff.staffId == -1 && staff.staffName == "") {
+            return@HrmsScaffold
+        }
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically),
