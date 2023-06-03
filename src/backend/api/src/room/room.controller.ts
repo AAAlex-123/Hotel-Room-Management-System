@@ -12,10 +12,11 @@ import {
 import { EmployeeType, Room } from '@prisma/client';
 import { PrismaService } from 'src/prisma/prisma.service';
 import RoomEntity, { RoomUpdateEntity } from './room.entity/room.entity';
-import { ApiParam, ApiQuery, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiParam, ApiQuery, ApiTags } from '@nestjs/swagger';
 
 @Controller('api/room')
 @ApiTags('room')
+@ApiBearerAuth('JWT-auth')
 export class RoomController {
   constructor(private prisma: PrismaService) {}
 

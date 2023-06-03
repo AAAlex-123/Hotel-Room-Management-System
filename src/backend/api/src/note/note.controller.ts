@@ -10,12 +10,13 @@ import {
   Put,
   Query,
 } from '@nestjs/common';
-import { ApiQuery, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { NoteEntity } from './note.entity/note.entity';
 
 @Controller('api/note')
 @ApiTags('note')
+@ApiBearerAuth('JWT-auth')
 export class NoteController {
   constructor(private prisma: PrismaService) {}
   @Get()

@@ -14,11 +14,12 @@ import {
   ProvisionEntity,
   ProvisionUpdateEntity,
 } from './provision.entity/provision.entity';
-import { ApiQuery, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { EmployeeType } from '@prisma/client';
 
 @Controller('api/provision')
 @ApiTags('provision')
+@ApiBearerAuth('JWT-auth')
 export class ProvisionController {
   constructor(private prisma: PrismaService) {}
   @Get()

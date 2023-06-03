@@ -11,10 +11,11 @@ import {
 } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { ReservationClientEntity } from './reservation.client.entity/reservation.client.entity';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
 @Controller('api/reservation')
 @ApiTags('reservation')
+@ApiBearerAuth('JWT-auth')
 export class ReservationController {
   constructor(private prisma: PrismaService) {}
 

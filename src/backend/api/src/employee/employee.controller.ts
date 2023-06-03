@@ -15,10 +15,11 @@ import {
 } from './employee.entity/employee.entity';
 import { hash } from 'bcrypt';
 import { ConfigService } from '@nestjs/config';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
 @Controller('api/employee')
 @ApiTags('employee')
+@ApiBearerAuth('JWT-auth')
 export class EmployeeController {
   constructor(private prisma: PrismaService, private config: ConfigService) {}
   @Get()
@@ -33,7 +34,7 @@ export class EmployeeController {
       },
     });
   }
-
+  @ApiBearerAuth('JWT-auth')
   @Get(':id')
   async getById(@Param('id', ParseIntPipe) id: number) {
     return await this.prisma.employee.findFirst({

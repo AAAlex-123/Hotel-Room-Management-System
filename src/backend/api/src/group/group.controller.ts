@@ -6,6 +6,7 @@ import { GroupEntity } from 'src/group/group.entity/group.entity';
 import { PrismaService } from 'src/prisma/prisma.service';
 
 @Controller('api/group')
+@ApiBearerAuth('JWT-auth')
 @ApiTags('group')
 export class GroupController {
   constructor(private prisma: PrismaService) {}

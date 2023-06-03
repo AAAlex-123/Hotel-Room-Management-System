@@ -3,6 +3,7 @@ import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { PrismaService } from 'src/prisma/prisma.service';
 
 @Controller('api/client')
+@ApiBearerAuth('JWT-auth')
 @ApiTags('client')
 export class ClientController {
   constructor(private prisma: PrismaService) {}

@@ -18,6 +18,7 @@ type ByType = {
   };
 };
 @Controller('api/charge')
+@ApiBearerAuth('JWT-auth')
 @ApiTags('charge')
 export class ChargeController {
   constructor(private prisma: PrismaService) {}
