@@ -1,9 +1,9 @@
+import androidx.compose.foundation.layout.Column
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
+import androidx.compose.material.TextField
 import androidx.compose.material.lightColors
-import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.*
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
@@ -31,11 +31,12 @@ fun main() = application {
     val stage = remember { mutableStateOf(Page.ROOM) }
     val floors = remember { mutableStateListOf<Floor>() }
     val employee = remember { mutableStateListOf<Employee>() }
+    val url = remember { mutableStateOf("localhost:8081") }
     val scope = rememberCoroutineScope()
     scope.launch {
         val client = OkHttpClient()
-        getRooms(client, floors)
-        getEmployees(client, employee)
+        getRooms(client, floors, url)
+        getEmployees(client, employee, url)
     }
     Window(
         onCloseRequest = ::exitApplication, title = "Hestia Wizard", state = state, icon = painterResource(
@@ -46,10 +47,21 @@ fun main() = application {
             colors = DarkColors
 
         ) {
-            when (stage.value) {
-                Page.ROOM -> App(stage, floors)
-                Page.EMPLOYEE -> EmployeePage(stage, employee)
-                Page.SEND -> Send(stage, floors, employee)
+            Column {
+                Text("Server url")
+                TextField(value = url.value, onValueChange = {
+                    url.value = it
+                    scope.launch {
+                        val client = OkHttpClient()
+                        getRooms(client, floors, url)
+                        getEmployees(client, employee, url)
+                    }
+                })
+                when (stage.value) {
+                    Page.ROOM -> App(stage, floors)
+                    Page.EMPLOYEE -> EmployeePage(stage, employee)
+                    Page.SEND -> Send(stage, floors, employee, url)
+                }
             }
         }
     }
@@ -57,9 +69,9 @@ fun main() = application {
 }
 
 private fun getEmployees(
-    client: OkHttpClient, employee: SnapshotStateList<Employee>
+    client: OkHttpClient, employee: SnapshotStateList<Employee>, url: MutableState<String>
 ) {
-    val request = Request.Builder().url("http://localhost:8081/api/employee").get().build()
+    val request = Request.Builder().url("http://${url.value}/api/employee").get().build()
     client.newCall(request).execute().use {
         if (it.isSuccessful) {
             val body = JSONArray(it.body?.string())
@@ -87,9 +99,9 @@ private fun getEmployees(
 }
 
 private fun getRooms(
-    client: OkHttpClient, floors: SnapshotStateList<Floor>
+    client: OkHttpClient, floors: SnapshotStateList<Floor>, url: MutableState<String>
 ) {
-    val request = Request.Builder().url("http://localhost:8081/api/room").get().build()
+    val request = Request.Builder().url("http://${url.value}/api/room").get().build()
     client.newCall(request).execute().use {
         if (it.isSuccessful) {
             val result = it.body?.string() ?: "[]"

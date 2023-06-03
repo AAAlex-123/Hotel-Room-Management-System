@@ -8,3 +8,5 @@ A
 gradlew.bat,2\a\2a45a911a8f1836b0b6c5b758962572012d8f8c3
 @
 build.gradle.kts,d\b\dbcff70658daf80b53ce624f6adcaa529df5ed8d
+d
+4.idea/artifacts/TestJSONWritter_jvm_1_0_SNAPSHOT.xml,3\4\34a51f4285c09cdf6678d70df62fef41f602935a

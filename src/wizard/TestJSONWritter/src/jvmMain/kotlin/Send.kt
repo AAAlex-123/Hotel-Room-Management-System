@@ -17,10 +17,14 @@ import org.json.JSONArray
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun Send(stage: MutableState<Page>, floors: SnapshotStateList<Floor>, employees: SnapshotStateList<Employee>) {
+fun Send(
+    stage: MutableState<Page>,
+    floors: SnapshotStateList<Floor>,
+    employees: SnapshotStateList<Employee>,
+    url: MutableState<String>
+) {
     val client = remember { OkHttpClient() }
-    // FIXME: ADD DYNAMIC URL
-    val url = "http://localhost:8081/api"
+    val urlBasis = "http://${url.value}/api"
     val showError = remember { mutableStateOf(-1) }
     val errorType = remember { mutableStateOf("Room") }
     val coroutineScope = rememberCoroutineScope()
@@ -28,8 +32,8 @@ fun Send(stage: MutableState<Page>, floors: SnapshotStateList<Floor>, employees:
     Column(horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
         Button(onClick = {
             coroutineScope.launch {
-                sendRoom(floors, url, mediaType, client, showError, errorType)
-                sendEmployees(employees, url, mediaType, client, showError, errorType)
+                sendRoom(floors, urlBasis, mediaType, client, showError, errorType)
+                sendEmployees(employees, urlBasis, mediaType, client, showError, errorType)
             }
         }) {
             Text("Complete")
