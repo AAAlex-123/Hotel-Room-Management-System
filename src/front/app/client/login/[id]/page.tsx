@@ -4,7 +4,9 @@ import Head from "next/head";
 import { Button, Form } from "react-bootstrap";
 import "./Login.css";
 import { FormEvent, useState } from "react";
-
+import { signIn } from "next-auth/react";
+// const url ="http://host.docker.internal:8081/api"
+const url = "http://localhost:8081/api"
 export default async function LogicClient({
   params,
 }: {
@@ -18,25 +20,15 @@ export default async function LogicClient({
     width: "100%",
     height: "auto",
   };
-
   const [phone, setPhone] = useState<string>("");
 
-  const handleSubmit = (e:FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    navigate.replace(`/client/menu?client_id=${1}&username=${"mitsos"}&room_id=${"001"}`)
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    signIn("client", {
+      phone,
+      redirect: false,
+      callbackUrl: `/client/menu?room_id=${params.id}`
+    })
   };
-    try {
-      const response = await fetch(`http://host.docker.internal:8081/api/hello`, {
-        cache:"no-cache",
-        method:"GET",
-      })
-      console.log(await response.text());
-
-      navigate.push("/main");
-    } catch (err: any) {
-    }
-
-  // }
 
   return (
     <>

@@ -74,7 +74,7 @@ export class ProvisionController {
 
   @Delete(':id')
   async delete(@Param('id', ParseIntPipe) id: number) {
-    return await this.prisma.provisionOrder.delete({
+    return await this.prisma.provisionOrder.deleteMany({
       where: { provision_id: id },
     });
   }

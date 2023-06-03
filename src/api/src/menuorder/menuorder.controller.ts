@@ -50,7 +50,7 @@ export class MenuorderController {
 
   @Delete(':order_id')
   async delete(@Param('order_id', ParseIntPipe) order_id: number) {
-    await this.prisma.menuOrder.delete({
+    await this.prisma.menuOrder.deleteMany({
       where: {
         order_id,
       },

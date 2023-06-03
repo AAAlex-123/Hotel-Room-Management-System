@@ -3,6 +3,7 @@ import {
   Controller,
   Delete,
   Get,
+  Logger,
   Param,
   Post,
   Put,
@@ -10,7 +11,7 @@ import {
 } from '@nestjs/common';
 import { EmployeeType, Room } from '@prisma/client';
 import { PrismaService } from 'src/prisma/prisma.service';
-import RoomEntity from './room.entity/room.entity';
+import RoomEntity, { RoomUpdateEntity } from './room.entity/room.entity';
 import { ApiParam, ApiQuery, ApiTags } from '@nestjs/swagger';
 
 @Controller('api/room')
@@ -106,12 +107,15 @@ export class RoomController {
   }
 
   @Put(':room_id')
-  async update_room(@Param('room_id') id: string, @Body() room: RoomEntity) {
+  async update_room(
+    @Param('room_id') id: string,
+    @Body() room: RoomUpdateEntity,
+  ) {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { room_id, ...rest } = room;
-    await this.prisma.room.upsert({
-      create: { room_id: id, ...rest },
-      update: { ...rest },
+    Logger.debug(rest);
+    return await this.prisma.room.update({
+      data: { ...rest },
       where: {
         room_id: id,
       },
@@ -121,7 +125,7 @@ export class RoomController {
   @Delete(':number')
   @ApiParam({ name: 'number', type: String })
   async delete_room(@Param('number') id: string) {
-    await this.prisma.room.delete({
+    return await this.prisma.room.deleteMany({
       where: {
         room_id: id,
       },

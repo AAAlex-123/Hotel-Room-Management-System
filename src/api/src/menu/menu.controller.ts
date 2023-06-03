@@ -55,7 +55,7 @@ export class MenuController {
   }
   @Delete(':id')
   async delete(@Param('id', ParseIntPipe) id: number) {
-    await this.prisma.menuItem.delete({
+    await this.prisma.menuItem.deleteMany({
       where: {
         menu_id: id,
       },

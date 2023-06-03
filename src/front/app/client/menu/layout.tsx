@@ -1,4 +1,6 @@
-import React from 'react'
+"use client"
+import React, { ReactNode } from 'react'
+import { SessionProvider } from 'next-auth/react'
 import Head from 'next/head';
 import { Inter } from 'next/font/google';
 import TitleBar from './TitleBar';
@@ -11,7 +13,7 @@ const inter = Inter({ subsets: ['latin'] })
 export const metadata = {
   title: "Main Menu",
 }
-export default function Main(props: any) {
+export default function Main(props: { children: ReactNode, session: any }) {
   return (
     <>
       <Head>
@@ -25,8 +27,10 @@ export default function Main(props: any) {
       </Head>
       <html lang="en">
         <body className={inter.className}>
-          <TitleBar client_id={temp.client_id} room_id={temp.room_id} />
-          <main>{props.children}</main>
+          <SessionProvider session={props.session}>
+            <TitleBar room_id={temp.room_id} />
+            <main>{props.children}</main>
+          </SessionProvider>
         </body>
       </html>
     </>

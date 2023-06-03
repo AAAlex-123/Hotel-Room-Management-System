@@ -56,7 +56,7 @@ export class ReservationController {
 
   @Delete(':id')
   async deletes(@Param('id', ParseIntPipe) id: number) {
-    return await this.prisma.reservation.delete({
+    return await this.prisma.reservation.deleteMany({
       where: { reservation_id: id },
     });
   }
