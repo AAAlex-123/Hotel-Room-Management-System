@@ -10,7 +10,10 @@ import {
   Query,
 } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { ProvisionEntity } from './provision.entity/provision.entity';
+import {
+  ProvisionEntity,
+  ProvisionUpdateEntity,
+} from './provision.entity/provision.entity';
 import { ApiQuery, ApiTags } from '@nestjs/swagger';
 import { EmployeeType } from '@prisma/client';
 
@@ -79,13 +82,11 @@ export class ProvisionController {
   @Put(':id')
   async update(
     @Param('id', ParseIntPipe) id: number,
-    @Body() provision: ProvisionEntity,
+    @Body() provision: ProvisionUpdateEntity,
   ) {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { provision_id, ...rest } = provision;
-    return await this.prisma.provisionOrder.upsert({
-      create: { ...rest },
-      update: { provision_id: id, ...rest },
+    return await this.prisma.provisionOrder.update({
+      data: { ...rest },
       where: { provision_id: id },
     });
   }

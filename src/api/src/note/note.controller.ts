@@ -17,7 +17,7 @@ import { NoteEntity } from './note.entity/note.entity';
 @Controller('api/note')
 @ApiTags('note')
 export class NoteController {
-  constructor(private prisma: PrismaService, private logger: ConsoleLogger) {}
+  constructor(private prisma: PrismaService) {}
   @Get()
   @ApiQuery({ name: 'room_id', required: false, type: String })
   @ApiQuery({ name: 'cleaning_staff_id', required: false, type: Number })
@@ -32,7 +32,13 @@ export class NoteController {
     },
   ) {
     return await this.prisma.note.findMany({
-      where: { room_id, cleaning_staff_id: Number(cleaning_staff_id) },
+      where: {
+        room_id,
+        cleaning_staff_id:
+          cleaning_staff_id !== undefined
+            ? Number(cleaning_staff_id)
+            : undefined,
+      },
     });
   }
   @Get(':id')
@@ -53,7 +59,7 @@ export class NoteController {
 
   @Delete(':id')
   async deleteAll(@Param('id', ParseIntPipe) id: number) {
-    return await this.prisma.note.delete({
+    return await this.prisma.note.deleteMany({
       where: {
         note_id: id,
       },
@@ -66,7 +72,7 @@ export class NoteController {
     const { note_id, ...rest } = dto;
     await this.prisma.note.upsert({
       create: { ...rest },
-      update: { note_id: id, ...rest },
+      update: { ...rest },
       where: {
         note_id: id,
       },

@@ -3,13 +3,12 @@ import {
   Controller,
   Delete,
   Get,
-  Logger,
   Param,
   Post,
   Put,
   Query,
 } from '@nestjs/common';
-import { Room } from '@prisma/client';
+import { EmployeeType, Room } from '@prisma/client';
 import { PrismaService } from 'src/prisma/prisma.service';
 import RoomEntity from './room.entity/room.entity';
 import { ApiParam, ApiQuery, ApiTags } from '@nestjs/swagger';
@@ -27,21 +26,31 @@ export class RoomController {
     required: false,
   })
   async rooms(@Query() { chambermaid_id }: { chambermaid_id?: number }) {
-    return await this.prisma.room.findMany({
-      where: {
-        groupRoom: {
-          group: {
-            GroupChamber: {
-              some: {
-                chambermaid_id: chambermaid_id
-                  ? Number(chambermaid_id)
-                  : undefined,
-              },
-            },
+    if (chambermaid_id !== undefined) {
+      const emp = await this.prisma.employee.findUnique({
+        where: {
+          employee_id: Number(chambermaid_id),
+        },
+      });
+      const chambermaid = emp.type === EmployeeType.CHAMBERMAID;
+      return await this.prisma.room.findMany({
+        where: {
+          groupRoom: {
+            group: chambermaid
+              ? {
+                  GroupChamber: {
+                    some: {
+                      chambermaid_id: Number(chambermaid_id),
+                    },
+                  },
+                }
+              : { housekeeper_id: Number(chambermaid_id) },
           },
         },
-      },
-    });
+      });
+    } else {
+      return await this.prisma.room.findMany();
+    }
   }
 
   @Get(':number')
@@ -60,14 +69,22 @@ export class RoomController {
   }
   @Post('many')
   async create_rooms(@Body() room: RoomEntity[]) {
-    Logger.debug(room);
     return await this.prisma.$transaction(async (ctx) => {
       //Delete all rooms that are not in the final array
       ctx.room.deleteMany({
         where: {
-          room_id: {
-            notIn: room.map((value) => value.room_id),
-          },
+          AND: [
+            {
+              room_id: {
+                notIn: room.map((value) => value.room_id),
+              },
+            },
+            {
+              floor: {
+                notIn: room.map((value) => value.floor),
+              },
+            },
+          ],
         },
       });
       //Create or update the necessary rooms

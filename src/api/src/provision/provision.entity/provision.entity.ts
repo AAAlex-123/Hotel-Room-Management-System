@@ -6,7 +6,19 @@ export class ProvisionEntity {
   @ApiProperty()
   employee_id: number;
   @ApiProperty()
-  complete: boolean;
+  complete?: boolean;
   @ApiProperty()
-  creation: Date;
+  creation?: Date;
+}
+
+export class ProvisionUpdateEntity {
+  provision_id?: number;
+  @ApiProperty()
+  description?: string;
+  @ApiProperty()
+  employee_i?: number;
+  @ApiProperty()
+  complete?: boolean;
+  @ApiProperty()
+  creation?: Date;
 }

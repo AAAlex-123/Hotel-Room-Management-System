@@ -1,5 +1,5 @@
 import { Body, Controller, Post } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { PrismaService } from 'src/prisma/prisma.service';
 
 @Controller('api/client')
@@ -14,7 +14,7 @@ export class ClientController {
   ) {
     return await this.prisma.room.updateMany({
       data: {
-        available_to_clean: state,
+        available: state,
       },
       where: {
         Reservation: {

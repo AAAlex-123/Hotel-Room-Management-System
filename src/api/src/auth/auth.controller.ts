@@ -18,7 +18,7 @@ export class AuthController {
   async signIn(@Body() login: Login) {
     return await this.authService.signIn(login.login, login.password);
   }
-  // @Public()
+  @Public()
   @Post('client')
   async signInPrestige(@Body() { login }: { login: string }) {
     return await this.authService.signInClient(login);

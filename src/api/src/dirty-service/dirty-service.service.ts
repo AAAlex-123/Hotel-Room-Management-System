@@ -10,7 +10,7 @@ export class DirtyServiceService {
   async makeDirty() {
     await this.prisma.room.updateMany({
       data: {
-        cleaning_state: 'DIRTY',
+        clean_state: 'DIRTY',
       },
     });
   }

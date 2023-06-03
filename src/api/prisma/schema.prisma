@@ -11,16 +11,17 @@ datasource db {
 }
 
 model Room {
-  room_id            String  @id
-  occupied           Boolean @default(false)
-  cleaning_state     Status  @default(CLEAN)
-  service            Boolean @default(false)
-  out_of_order       Boolean @default(false)
-  available Boolean @default(true)
-  clean_type         Type    @default(DAILY)
-  roomType           String  @default("")
-  roomClass          String  @default("")
-  floor              Int     @default(0)
+  room_id        String  @id
+  occupied       Boolean @default(false)
+  clean_state    Status  @default(CLEAN)
+  service        Boolean @default(false)
+  out_of_order   Boolean @default(false)
+  cleanable      Boolean @default(true)
+  reservation_id Int     @default(-1)
+  clean_type     Type    @default(DAILY)
+  roomType       String  @default("")
+  roomClass      String  @default("")
+  floor          Int     @default(0)
 
   Reservation      Reservation[]
   groupRoom        GroopRooms?
@@ -60,7 +61,6 @@ model Note {
   note_id           Int      @id @default(autoincrement())
   room_id           String
   cleaning_staff_id Int
-  completed         Boolean
   note_data         String
   created           DateTime @default(now())
   chambermaid       Employee @relation(fields: [cleaning_staff_id], references: [employee_id], onDelete: Cascade)
@@ -101,8 +101,8 @@ model GroupChamber {
 model GroopRooms {
   group_id Int
   room_id  String @unique
-  group    Group  @relation(fields: [group_id], references: [group_id])
-  room     Room   @relation(fields: [room_id], references: [room_id])
+  group    Group  @relation(fields: [group_id], references: [group_id], onDelete: Cascade)
+  room     Room   @relation(fields: [room_id], references: [room_id], onDelete: Cascade)
 
   @@id([group_id, room_id])
 }
@@ -111,7 +111,7 @@ model ProvisionOrder {
   provision_id Int      @id @default(autoincrement())
   description  String
   employee_id  Int
-  complete     Boolean
+  complete     Boolean  @default(false)
   creation     DateTime @default(now())
   employee     Employee @relation(fields: [employee_id], references: [employee_id], onDelete: Cascade)
 }

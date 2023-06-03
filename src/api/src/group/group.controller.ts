@@ -1,6 +1,6 @@
 import { Controller, Get, Param, ParseIntPipe } from '@nestjs/common';
 import { Body, Delete, Post } from '@nestjs/common/decorators';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { GroopRooms, GroupChamber } from '@prisma/client';
 import { GroupEntity } from 'src/group/group.entity/group.entity';
 import { PrismaService } from 'src/prisma/prisma.service';
@@ -30,25 +30,27 @@ export class GroupController {
   }
   @Post()
   async createGroup(@Body() group: GroupEntity) {
-    const result = await this.prisma.group.create({
-      data: {
-        housekeeper_id: group.housekeeper_id,
-      },
-    });
-    await this.prisma.groopRooms.createMany({
-      data: group.room_numbers.map(
-        (value) =>
-          ({ group_id: result.group_id, room_id: value } as GroopRooms),
-      ),
-    });
-    await this.prisma.groupChamber.createMany({
-      data: group.chambermaid.map(
-        (value) =>
-          ({
-            group_id: result.group_id,
-            chambermaid_id: value,
-          } as GroupChamber),
-      ),
+    return await this.prisma.$transaction(async (ctx) => {
+      const result = await this.prisma.group.create({
+        data: {
+          housekeeper_id: group.housekeeper_id,
+        },
+      });
+      await this.prisma.groopRooms.createMany({
+        data: group.room_numbers.map(
+          (value) =>
+            ({ group_id: result.group_id, room_id: value } as GroopRooms),
+        ),
+      });
+      await this.prisma.groupChamber.createMany({
+        data: group.chambermaid.map(
+          (value) =>
+            ({
+              group_id: result.group_id,
+              chambermaid_id: value,
+            } as GroupChamber),
+        ),
+      });
     });
   }
 
