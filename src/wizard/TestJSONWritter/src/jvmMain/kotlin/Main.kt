@@ -12,9 +12,13 @@ import androidx.compose.ui.window.WindowPlacement
 import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
 import kotlinx.coroutines.launch
+import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.Request
+import okhttp3.RequestBody.Companion.toRequestBody
 import org.json.JSONArray
+import org.json.JSONObject
 
 
 private val Blue = Color(200, 210, 236)
@@ -32,11 +36,15 @@ fun main() = application {
     val floors = remember { mutableStateListOf<Floor>() }
     val employee = remember { mutableStateListOf<Employee>() }
     val url = remember { mutableStateOf("localhost:8081") }
+    val authToken = remember { mutableStateOf("") }
+    val mediaType = "application/json; charset=utf-8".toMediaType()
     val scope = rememberCoroutineScope()
     scope.launch {
         val client = OkHttpClient()
-        getRooms(client, floors, url)
-        getEmployees(client, employee, url)
+        authenticate(url.value, mediaType, client, authToken)
+
+        getRooms(client, floors, url, authToken)
+        getEmployees(client, employee, url, authToken)
     }
     Window(
         onCloseRequest = ::exitApplication, title = "Hestia Wizard", state = state, icon = painterResource(
@@ -53,14 +61,15 @@ fun main() = application {
                     url.value = it
                     scope.launch {
                         val client = OkHttpClient()
-                        getRooms(client, floors, url)
-                        getEmployees(client, employee, url)
+                        authenticate(url.value, mediaType, client, authToken)
+                        getRooms(client, floors, url, authToken)
+                        getEmployees(client, employee, url, authToken)
                     }
                 })
                 when (stage.value) {
                     Page.ROOM -> App(stage, floors)
                     Page.EMPLOYEE -> EmployeePage(stage, employee)
-                    Page.SEND -> Send(stage, floors, employee, url)
+                    Page.SEND -> Send(stage, floors, employee, url, authToken)
                 }
             }
         }
@@ -68,10 +77,35 @@ fun main() = application {
 
 }
 
-private fun getEmployees(
-    client: OkHttpClient, employee: SnapshotStateList<Employee>, url: MutableState<String>
+fun authenticate(
+    url: String,
+    mediaType: MediaType,
+    client: OkHttpClient,
+    authToken: MutableState<String>
 ) {
-    val request = Request.Builder().url("http://${url.value}/api/employee").get().build()
+    val login = JSONObject(mapOf("login" to "wizard", "password" to "wizard_random"))
+    val request = Request.Builder().url("http://$url/api/auth").post(
+        login.toString().toRequestBody(mediaType)
+    ).build()
+    client.newCall(request).execute().use {
+        if (it.isSuccessful) {
+            val body = JSONObject(it.body?.string())
+            if (!body.isEmpty) {
+                authToken.value = body.getString("access_token")
+            }
+
+        }
+    }
+}
+
+private fun getEmployees(
+    client: OkHttpClient,
+    employee: SnapshotStateList<Employee>,
+    url: MutableState<String>,
+    authToken: MutableState<String>
+) {
+    val request = Request.Builder().url("http://${url.value}/api/employee").get()
+        .addHeader("Authorization", "Bearer ${authToken.value}").build()
     client.newCall(request).execute().use {
         if (it.isSuccessful) {
             val body = JSONArray(it.body?.string())
@@ -99,9 +133,10 @@ private fun getEmployees(
 }
 
 private fun getRooms(
-    client: OkHttpClient, floors: SnapshotStateList<Floor>, url: MutableState<String>
+    client: OkHttpClient, floors: SnapshotStateList<Floor>, url: MutableState<String>, authToken: MutableState<String>
 ) {
-    val request = Request.Builder().url("http://${url.value}/api/room").get().build()
+    val request = Request.Builder().url("http://${url.value}/api/room").get()
+        .addHeader("Authorization", "Bearer ${authToken.value}").build()
     client.newCall(request).execute().use {
         if (it.isSuccessful) {
             val result = it.body?.string() ?: "[]"

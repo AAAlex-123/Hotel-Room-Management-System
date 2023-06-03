@@ -21,7 +21,8 @@ fun Send(
     stage: MutableState<Page>,
     floors: SnapshotStateList<Floor>,
     employees: SnapshotStateList<Employee>,
-    url: MutableState<String>
+    url: MutableState<String>,
+    authToken: MutableState<String>
 ) {
     val client = remember { OkHttpClient() }
     val urlBasis = "http://${url.value}/api"
@@ -32,8 +33,8 @@ fun Send(
     Column(horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
         Button(onClick = {
             coroutineScope.launch {
-                sendRoom(floors, urlBasis, mediaType, client, showError, errorType)
-                sendEmployees(employees, urlBasis, mediaType, client, showError, errorType)
+                sendRoom(floors, urlBasis, mediaType, client, showError, errorType, authToken)
+                sendEmployees(employees, urlBasis, mediaType, client, showError, errorType, authToken)
             }
         }) {
             Text("Complete")
@@ -59,20 +60,22 @@ fun Send(
     }
 }
 
+
 private fun sendRoom(
     floors: SnapshotStateList<Floor>,
     url: String,
     mediaType: MediaType,
     client: OkHttpClient,
     showError: MutableState<Int>,
-    errorType: MutableState<String>
+    errorType: MutableState<String>,
+    authToken: MutableState<String>
 ) {
     if (floors.isNotEmpty()) {
-        val request = Request.Builder().url("$url/room/many").post(
-            floors.toJsonString().toString().toRequestBody(mediaType)
-        ).build()
+        val request =
+            Request.Builder().url("$url/room/many").addHeader("Authorization", "Bearer ${authToken.value}").post(
+                floors.toJsonString().toString().toRequestBody(mediaType)
+            ).build()
         client.newCall(request).execute().use {
-            it.code
             if (!it.isSuccessful) {
                 showError.value = it.code
                 errorType.value = "room"
@@ -88,12 +91,14 @@ private fun sendEmployees(
     mediaType: MediaType,
     client: OkHttpClient,
     showError: MutableState<Int>,
-    errorType: MutableState<String>
+    errorType: MutableState<String>,
+    authToken: MutableState<String>
 ) {
     if (employees.isNotEmpty()) {
-        val request = Request.Builder().url("$url/employee/many").post(
-            employees.toJsonString().toRequestBody(mediaType)
-        ).build()
+        val request =
+            Request.Builder().url("$url/employee/many").addHeader("Authorization", "Bearer ${authToken.value}").post(
+                employees.toJsonString().toRequestBody(mediaType)
+            ).build()
         client.newCall(request).execute().use {
             if (!it.isSuccessful) {
                 showError.value = it.code
