@@ -8,8 +8,8 @@ enum class CleanType {
     NORMAL, DEEP
 }
 
-enum class Occupied {
-    OCCUPIED, VACANT,
+enum class Cleanable {
+    COME_CLEAN, DO_NOT_COME_CLEAN,
 }
 
 data class UpstreamRoomUpdateDetails(
@@ -21,5 +21,5 @@ data class Room(
     val id: String,
     val cleanState: CleanState,
     val cleanType: CleanType,
-    val occupied: Occupied,
+    val cleanable: Cleanable,
 )

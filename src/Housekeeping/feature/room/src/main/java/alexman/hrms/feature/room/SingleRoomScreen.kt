@@ -13,7 +13,7 @@ import alexman.hrms.core.model.data.CleanState
 import alexman.hrms.core.model.data.CleanType
 import alexman.hrms.core.model.data.CleaningStaffType
 import alexman.hrms.core.model.data.Note
-import alexman.hrms.core.model.data.Occupied
+import alexman.hrms.core.model.data.Cleanable
 import alexman.hrms.core.model.data.Room
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -42,7 +42,7 @@ private fun SingleRoomScreenContentPreview() {
     HrmsTheme {
         SingleRoomScreenContent(
             staff = SingleRoomStaffUiState(1, CleaningStaffType.CLEANING_LADY),
-            room = Room("101", CleanState.DIRTY, CleanType.NORMAL, Occupied.OCCUPIED),
+            room = Room("101", CleanState.DIRTY, CleanType.NORMAL, Cleanable.COME_CLEAN),
             notes = listOf(
                 Note(1, "101", 1, "NOTE 1"),
                 Note(2, "101", 1, "NOTE 2"),
@@ -150,7 +150,10 @@ private fun SingleRoomScreenContent(
                             .padding(8.dp),
                     ) {
                         LargeBodyText(
-                            text = "Occupied: ${room.occupied.toSentenceCase()}"
+                            text = "Cleanable: ${when (room.cleanable) {
+                                Cleanable.COME_CLEAN -> "Yes"
+                                Cleanable.DO_NOT_COME_CLEAN -> "NO"
+                            }}"
                         )
                         LargeBodyText(
                             text = "Clean Type: ${room.cleanType.toSentenceCase()}"

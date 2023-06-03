@@ -3,14 +3,14 @@ package alexman.hrms.feature.room
 import alexman.hrms.core.designsystem.PreviewLight
 import alexman.hrms.core.designsystem.component.BottomBarItem
 import alexman.hrms.core.designsystem.component.HrmsScaffold
+import alexman.hrms.core.designsystem.component.Icon
 import alexman.hrms.core.designsystem.component.MediumDisplayText
 import alexman.hrms.core.designsystem.component.ScaffoldNavigation
-import alexman.hrms.core.designsystem.component.SmallDisplayText
 import alexman.hrms.core.designsystem.theme.HrmsTheme
 import alexman.hrms.core.model.data.CleanState
 import alexman.hrms.core.model.data.CleanType
 import alexman.hrms.core.model.data.CleaningStaffType
-import alexman.hrms.core.model.data.Occupied
+import alexman.hrms.core.model.data.Cleanable
 import alexman.hrms.core.model.data.Room
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -21,6 +21,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
@@ -40,11 +41,11 @@ private fun RoomScreenContentPreview() {
     HrmsTheme {
         RoomScreenContent(
             rooms = listOf(
-                Room("101", CleanState.DIRTY, CleanType.NORMAL, Occupied.VACANT),
-                Room("102", CleanState.PENDING, CleanType.NORMAL, Occupied.OCCUPIED),
-                Room("103", CleanState.CLEAN, CleanType.NORMAL, Occupied.VACANT),
-                Room("104", CleanState.PENDING, CleanType.DEEP, Occupied.OCCUPIED),
-                Room("105", CleanState.CLEAN, CleanType.DEEP, Occupied.VACANT),
+                Room("101", CleanState.DIRTY, CleanType.NORMAL, Cleanable.DO_NOT_COME_CLEAN),
+                Room("102", CleanState.PENDING, CleanType.NORMAL, Cleanable.DO_NOT_COME_CLEAN),
+                Room("103", CleanState.CLEAN, CleanType.NORMAL, Cleanable.COME_CLEAN),
+                Room("104", CleanState.PENDING, CleanType.DEEP, Cleanable.COME_CLEAN),
+                Room("105", CleanState.CLEAN, CleanType.DEEP, Cleanable.DO_NOT_COME_CLEAN),
             ),
             onNavigateBack = { },
             onNavigateToSingleRoom = { },
@@ -140,34 +141,40 @@ private fun RoomComposable(
     room: Room?,
     onNavigateToSingleRoom: (String) -> Unit,
 ) {
-    Box(
+    room?.let {
+        Box(
         modifier = Modifier
             .height(100.dp)
             .width(100.dp)
             .clip(MaterialTheme.shapes.medium)
             .clickable {
-                room?.let {
-                    onNavigateToSingleRoom(it.id)
-                }
+                onNavigateToSingleRoom(it.id)
             }
             .background(room.color())
-    ) {
-        room?.let {
+        ) {
             MediumDisplayText(
-                text = "${it.id}${
-                    when (it.cleanType) {
-                        CleanType.NORMAL -> ""
-                        CleanType.DEEP -> "*"
-                    }
-                }",
+                text = it.id,
                 modifier = Modifier
                     .align(Alignment.Center)
             )
-            SmallDisplayText(
-                text = it.occupied.name,
-                modifier = Modifier
-                    .align(Alignment.BottomCenter)
-            )
+            if (it.cleanable == Cleanable.DO_NOT_COME_CLEAN) {
+                Icon(
+                    id = R.drawable.ic_do_not_disturb,
+                    alt = "do not disturb",
+                    modifier = Modifier
+                        .padding(4.dp)
+                        .align(Alignment.TopEnd),
+                )
+            }
+            if (it.cleanType == CleanType.DEEP) {
+                Icon(
+                    id = R.drawable.ic_deep_clean,
+                    alt = "deep clean",
+                    modifier = Modifier
+                        .padding(4.dp)
+                        .align(Alignment.TopStart),
+                )
+            }
         }
     }
 }

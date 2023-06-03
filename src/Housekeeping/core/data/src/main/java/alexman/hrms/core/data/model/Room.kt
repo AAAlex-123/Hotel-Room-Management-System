@@ -2,7 +2,7 @@ package alexman.hrms.core.data.model
 
 import alexman.hrms.core.model.data.CleanState
 import alexman.hrms.core.model.data.CleanType
-import alexman.hrms.core.model.data.Occupied
+import alexman.hrms.core.model.data.Cleanable
 import alexman.hrms.core.model.data.Room
 import alexman.hrms.core.model.data.UpstreamRoomUpdateDetails
 import alexman.hrms.core.network.model.NetworkRoom
@@ -16,7 +16,7 @@ fun NetworkRoom.asExternalModel() = Room(
         "CLEAN" -> CleanState.CLEAN
         else -> error("Invalid clean state $cleanState")
     },
-    occupied = if (occupied) Occupied.OCCUPIED else Occupied.VACANT,
+    cleanable = if (cleanable) Cleanable.COME_CLEAN else Cleanable.DO_NOT_COME_CLEAN,
     cleanType = when (cleanType) {
         "DAILY" -> CleanType.NORMAL
         "DEEP" -> CleanType.DEEP

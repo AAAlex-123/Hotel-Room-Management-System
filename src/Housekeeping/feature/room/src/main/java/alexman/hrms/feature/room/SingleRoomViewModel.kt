@@ -9,7 +9,7 @@ import alexman.hrms.core.model.data.CleanState
 import alexman.hrms.core.model.data.CleanType
 import alexman.hrms.core.model.data.CleaningStaffType
 import alexman.hrms.core.model.data.Note
-import alexman.hrms.core.model.data.Occupied
+import alexman.hrms.core.model.data.Cleanable
 import alexman.hrms.core.model.data.Room
 import alexman.hrms.core.model.data.UpstreamNoteDetails
 import alexman.hrms.core.model.data.UpstreamRoomUpdateDetails
@@ -67,7 +67,7 @@ internal class SingleRoomViewModel(
             ).stateIn(
                 viewModelScope,
                 SharingStarted.WhileSubscribed(5000L),
-                Room("-1", CleanState.DIRTY, CleanType.NORMAL, Occupied.OCCUPIED)
+                Room("-1", CleanState.DIRTY, CleanType.NORMAL, Cleanable.COME_CLEAN)
             )
 
             // TODO("figure out how to handle failure")

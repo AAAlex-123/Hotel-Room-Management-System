@@ -8,6 +8,6 @@ data class UpstreamNetworkRoomUpdateDetails(
 data class NetworkRoom(
     val id: String,
     val cleanState: String,
-    val occupied: Boolean,
+    val cleanable: Boolean,
     val cleanType: String,
 )

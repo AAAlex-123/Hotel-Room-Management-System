@@ -7,13 +7,13 @@ import com.squareup.moshi.Json
 data class RetrofitRoom(
     @Json(name = "room_id") val id: String,
     @Json(name = "clean_state") val cleanState: String,
-    @Json(name = "occupied") val occupied: Boolean,
+    @Json(name = "cleanable") val cleanable: Boolean,
     @Json(name = "clean_type") val cleanType: String,
 ) {
     internal fun asNetworkRoom() = NetworkRoom(
         id = id,
         cleanState = cleanState,
-        occupied = occupied,
+        cleanable = cleanable,
         cleanType = cleanType,
     )
 }
