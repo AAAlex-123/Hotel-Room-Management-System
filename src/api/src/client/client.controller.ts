@@ -14,7 +14,7 @@ export class ClientController {
   ) {
     return await this.prisma.room.updateMany({
       data: {
-        available: state,
+        cleanable: state,
       },
       where: {
         Reservation: {
