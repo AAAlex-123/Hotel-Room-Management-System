@@ -42,7 +42,7 @@ const CheckOut: React.FC = () => {
       <div> <SmallScreen label={label}/>
       <div className="res-container">
       <div className="whiteBox">
-      <Search onSearch={handleSearch} label="Name/Cellphone: "/>
+      <Search onSearch={handleSearch} />
         
        
     

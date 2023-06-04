@@ -2,32 +2,110 @@
 import Layout from '../Components/Layout'
 import Details from '../Components/Details';
 import SmallScreen from '../Components/SmallScreen'
-import Search from '../Components/Search';
-import React, { useState} from 'react';
+import React, { useState, useEffect} from 'react';
+import { ReservationClientEntity } from '../Components/ReservationTypes';
 import { Link } from 'react-router-dom';
 import Button from "react-bootstrap/Button";
 
 const FindReservation: React.FC = () => {
-    const titles = ['Room Number', 'Arrival', 'Departure', 'Name', "Cellphone",  'Visitors','E-mail', 'Bill' ];
-    const content = [ 'O63,064', '29/05/2023',  '31/05/2023', 'Minako Arisato', "+81 32 8049 3201", '4', "17705", 'minakoaris@gmail.com', '450.30$'];
-    const elem = 8;
+    const titles = ['Room Number', 'Arrival', 'Departure', 'Name', "Cellphone", 'City', 'Country', 'Address', 'Postcode', 'Visitors','E-mail' ];
+    const titles2= ['Room Number', 'Name', 'Cellphone', ]
+    const elem = 11;
     const text= "Close";
     const label= 'Find Reservation';
 
+    const [reservations, setReservations] = useState<ReservationClientEntity[]>([
+      {
+        room_id: ['O63', '064'],
+        arrival: new Date('2023-05-29'),
+        departure: new Date('2023-05-31'),
+        name: 'Minako Arisato',
+        cellphone: '+81 32 8049 3201',
+        visitor: 4,
+        email: 'minakoaris@gmail.com',
+      },
+
+      {
+        room_id: ['O65'],
+        arrival: new Date('2023-05-29'),
+        departure: new Date('2023-05-31'),
+        name: 'Electra Papadopoulou',
+        cellphone: '+30 2109644638',
+        visitor: 1,
+        city: 'Athens',
+        country: 'Greece',
+        address: 'Iasonidou',
+        postcode: '16777',
+        email: 'electra@gmail.com'
+      },
+
+
+    ]);
+
+
     const [showDetails, setShowDetails] = useState(false);
-
-  const handleSearch = (searchQuery: string) => {
-           // TO-DO: You see the titles/content stuff? Ok cool when the search happens just add the details of the Reservation in them instead of this 
-    //temporary content. The search bar works based on...Reservation ID or what? You decide idk.
+    const [searchText, setSearchText] = useState('');
+    const [searchResult, setSearchResult] = useState<(ReservationClientEntity | null)[]>([]);
+    const [selectedReservation, setSelectedReservation] = useState<ReservationClientEntity | null>(null);
+    const [originalReservations, setOriginalReservations] = useState<ReservationClientEntity[]>([]);
+    const handleSearch = () => {
+      const filteredResults = reservations.filter(
+        (reservation) =>
+          reservation.name.toLowerCase().includes(searchText.toLowerCase()) ||
+          reservation.cellphone.includes(searchText)
+      );
+    
+      setSearchResult(filteredResults.length > 0 ? filteredResults : [null]);
+      setShowDetails(false);
+     
+    };
+    
  
-    setShowDetails(true);
+
+    const openDetails = (reservation: ReservationClientEntity) => {
+      setSelectedReservation(reservation);
+      setShowDetails(true);
+      setSearchResult([]);
+    };
+    
+    const closeDetails = () => {
+      setShowDetails(false);
+      setSearchResult(originalReservations);
+    };
+    
+    // Update originalReservations when reservations change
+    useEffect(() => {
+      setOriginalReservations(reservations);
+    }, [reservations]);
+
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Enter') {
+      handleSearch();
+    }
   };
 
-  const closeDetails = () => {
-    setShowDetails(false);
+  const getContentFromSearchResult = (reservation: ReservationClientEntity | null): string[] => {
+    const content: string[] = [];
+
+    if (reservation) {
+      content.push(reservation.room_id.join(','));
+      content.push(reservation.arrival.toDateString());
+      content.push(reservation.departure.toDateString());
+      content.push(reservation.name);
+      content.push(reservation.cellphone);
+      content.push(reservation.city || '');
+      content.push(reservation.country || '');
+      content.push(reservation.address || '');
+      content.push(reservation.postcode || '');
+      content.push(reservation.visitor?.toString() || '');
+      content.push(reservation.email || '');
+    }
+
+    return content;
   };
 
-
+  const content = getContentFromSearchResult(selectedReservation);
+  
 
     return (
       <>
@@ -40,28 +118,61 @@ const FindReservation: React.FC = () => {
       <div> <SmallScreen label={label}/>
       <div className="res-container">
       <div className="whiteBox">
-      <Search onSearch={handleSearch} label="Arrival ID: "/>
+      <div className="bar-container">
+      <div className="search-container">
+        <label>Name/Cellphone: </label>
+        <input
+          type="text"
+          value={searchText}
+          onChange={(e) => setSearchText(e.target.value)}
+          onKeyDown={handleKeyDown}
+        />  
+      </div>
+      </div>
         
        
     
-       {showDetails && (
-        <Details
-          titles={titles}
-          content={content}
-          elem={elem}
-          text={text}
-          text2={null}
-          onClose={closeDetails}
-        />
-      )}
-             
-            <Link to='/main'>
-            <Button className="blueButton" type="submit">
-    
-              Close
-    
-            </Button>
-          </Link>
+      {showDetails && selectedReservation ? (
+              <Details
+                titles={titles}
+                content={content}
+                elem={elem}
+                text={text}
+                text2={null}
+                onClose={closeDetails}
+              />
+            ) : null}
+
+            {searchResult && searchResult.length > 0 ? (
+              <div className='det-table'>
+              <table >
+                <thead>
+                  <tr>
+                    {titles2.map((title, index) => (
+                      <th key={index}>{title}</th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                {searchResult.map((reservation, index) => (reservation && (
+                        <tr key={index} onClick={() => openDetails(reservation)}>
+                          <td>{reservation.room_id.join(',')}</td>
+                          <td>{reservation.name}</td>
+                          <td>{reservation.cellphone}</td>
+                        </tr>
+                      )
+                    ))}
+                </tbody>
+                </table>
+                </div>
+            ) : null}
+
+
+            <Link to="/main">
+              <Button className="blueButton" type="submit">
+                Close
+              </Button>
+            </Link>
 
 
         </div>

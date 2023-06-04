@@ -42,7 +42,7 @@ const DeleteReservation: React.FC = () => {
       <div> <SmallScreen label={label}/>
       <div className="res-container">
       <div className="whiteBox">
-      <Search onSearch={handleSearch} label="Reservation ID: "/>
+      <Search onSearch={handleSearch} />
         
        
     
