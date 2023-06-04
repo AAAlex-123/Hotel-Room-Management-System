@@ -73,7 +73,7 @@ const FindReservation: React.FC = () => {
       setSearchResult(originalReservations);
     };
     
-    // Update originalReservations when reservations change
+
     useEffect(() => {
       setOriginalReservations(reservations);
     }, [reservations]);
@@ -168,7 +168,7 @@ const FindReservation: React.FC = () => {
             ) : null}
 
 
-            <Link to="/main">
+            <Link to="/reservations">
               <Button className="blueButton" type="submit">
                 Close
               </Button>
