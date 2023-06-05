@@ -11,7 +11,8 @@ import {
 } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { ReservationClientEntity } from './reservation.client.entity/reservation.client.entity';
-import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiQuery, ApiTags } from '@nestjs/swagger';
+import { Reservation } from '@prisma/client';
 
 @Controller('api/reservation')
 @ApiTags('reservation')
@@ -43,11 +44,18 @@ export class ReservationController {
   }
 
   @Get(':id')
-  async getById(@Param('id', ParseIntPipe) id: number) {
-    const results = await this.prisma.reservation.findFirst({
+  @ApiQuery({ name: 'room', type: Boolean, required: false })
+  async getById(
+    @Param('id', ParseIntPipe) id: number,
+    @Query() { room }: { room?: boolean },
+  ) {
+    const r = room ? Boolean(room) : false;
+    return await this.prisma.reservation.findUnique({
       where: { reservation_id: id },
+      include: {
+        room: r,
+      },
     });
-    return results;
   }
 
   @Post()

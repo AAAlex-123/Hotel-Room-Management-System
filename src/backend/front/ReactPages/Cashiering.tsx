@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import Layout from '../Components/Layout'
 import Grid from '../Components/Grid'
 import SmallScreen from '../Components/SmallScreen'
-import {useRouter} from 'next/navigation'
+import { useRouter } from 'next/router'
 
 const Cashiering: React.FC = () => {
   const labels = ['Billing', 'Check Out', 'Fast Charge', 'Statistics'];

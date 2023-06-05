@@ -2,9 +2,8 @@
 import React, { useState } from 'react'
 import Layout from '../Components/Layout'
 import SmallScreen from '../Components/SmallScreen'
-import Link  from 'next/link';
-import Button from "react-bootstrap/Button";
 import MessageList, {MessageData} from '../Components/MessageList';
+import Link from 'next/link';
 
 const StaffMessages: React.FC = () => {
     const label= 'Staff Messages';
@@ -38,11 +37,11 @@ const StaffMessages: React.FC = () => {
         <MessageList messages={messages} onDeleteMessage={handleDeleteMessage}/>
 
       <Link href='/misc'>
-            <Button className="blueButton" type="submit">
+            <button className="bluebutton" type="submit">
     
               Close
     
-            </Button>
+            </button>
           </Link>
 
           </div>

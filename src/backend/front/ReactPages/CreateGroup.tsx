@@ -1,13 +1,74 @@
 "use client"
-import Layout from '../Components/Layout'
-import SmallScreen from '../Components/SmallScreen'
-import React from 'react';
-import Link  from 'next/link';
-import Button from "react-bootstrap/Button";
+import Layout from '../Components/Layout';
+import SmallScreen from '../Components/SmallScreen';
+import React, { useState } from 'react';
+import SelectionList, { ListData } from '../Components/SelectionList';
+import Link from 'next/link';
+
+export interface GroupData {
+  id: string;
+  name: string;
+  members: ListData[];
+}
 
 const CreateGroup: React.FC = () => {
-  const label= 'Create Group';
+  const label = 'Create Group';
+  const [listelem, setElem] = useState<ListData[]>([
+    { num: '139303', name: 'Electra' },
+    { num: '140303', name: 'Anastasis' },
+    { num: '141303', name: 'Alex' },
+    { num: '142303', name: 'Giannis' },
+    { num: '143303', name: 'Panos' },
+    { num: '144303', name: 'Gkionis' },
+    { num: '145303', name: 'Dimitris' },
+  ]);
 
+  const [selectedElements, setSelectedElements] = useState<ListData[]>([]);
+  const [groupName, setGroupName] = useState('');
+  const [showInput, setShowInput] = useState(false);
+  const [showWarning, setShowWarning] = useState(false);
+
+  const handleSelectionChange = (selectedElems: ListData[]) => {
+    setSelectedElements(selectedElems);
+    
+  };
+
+  const createGroup = () => {
+    
+    if (selectedElements.length === 0) {
+      setShowWarning(true);
+      
+      setTimeout(() => {
+        setShowWarning(false);
+      }, 1000);
+      return;
+    }
+    setShowWarning(false);
+    const group: GroupData = {
+      id: 'groupId', 
+      name: groupName,
+      members: selectedElements,
+    };
+
+    
+    const updatedList = listelem.filter((elem) => !selectedElements.includes(elem));
+    setElem(updatedList);
+
+  };
+
+  const handleCreateGroupClick = () => {
+    setShowInput(true);
+  };
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    createGroup();
+    setShowInput(false);
+  };
+
+  const handleGroupNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setGroupName(e.target.value);
+  };
     return (
       <>
               {/* <Head>
@@ -19,17 +80,37 @@ const CreateGroup: React.FC = () => {
       <div> <SmallScreen label={label}/>
       <div className="res-container">
       <div className="whiteBox">
-                To be added...
+          <SelectionList listelem={listelem} onSelection={handleSelectionChange}/>
              
             <Link href='/maid-management'>
-            <Button className="blueButton" type="submit">
+            <button className="bluebutton" type="submit">
     
               Close
     
-            </Button>
+            </button>
+            
           </Link>
-
-
+          
+            {showInput ? (
+              <form onSubmit={handleSubmit}>
+                <input
+                  type="text"
+                  value={groupName}
+                  onChange={handleGroupNameChange}
+                  placeholder="Enter Group Name"
+                />
+                <button className="bluebutton" type="submit">
+                  Create Group
+                </button>
+              </form>
+            ) : (
+              <div>
+                <button className="bluebutton" type="submit" onClick={handleCreateGroupClick}>
+                  Create Group
+                </button>
+              </div>
+            )}
+            {showWarning && <div className="warning">Please select at least one member for the group.</div>}
         </div>
         </div>
         </div>

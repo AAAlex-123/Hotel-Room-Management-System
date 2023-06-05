@@ -1,13 +1,11 @@
 "use client"
-import Layout from '../../main/page'
-import Details from '../../../Components/Details';
-import SmallScreen from '../../../Components/SmallScreen'
-import Search from '../../../Components/Search';
+import Layout from '../Components/Layout'
+import Details from '../Components/Details';
+import SmallScreen from '../Components/SmallScreen'
+import Search from '../Components/Search';
 import React, { useState } from 'react';
-import Button from "react-bootstrap/Button";
-import ResForm, { UserData } from '../../../Components/ResForm';
+import ResForm, { UserData } from '../Components/ResForm';
 import Link from 'next/link';
-import Head from 'next/head';
 
 const UpdateReservation: React.FC = () => {
   const titles = ['Room Number', 'Arrival', 'Departure', 'Name', "Cellphone", 'Visitors', 'E-mail', 'Bill'];
@@ -20,8 +18,7 @@ const UpdateReservation: React.FC = () => {
   const [showDetails, setShowDetails] = useState(false);
   const [showForm, setShowForm] = useState(false);
 
-  const handleSearch = async (searchQuery: string) => {
-    const result = await fetch(`http://host.docker.internal:8081/api/reservations?search=${searchQuery}`)
+  const handleSearch = (searchQuery: string) => {
     setShowDetails(true);
   };
 
@@ -30,11 +27,11 @@ const UpdateReservation: React.FC = () => {
   };
 
   const handleSubmit = (userData: UserData) => {
-    // Handle the form submission here
+    // Handle the form submission here please I'm tired of copy-pasting the same form you get the idea
 
   };
 
-  const handleButtonClick = () => {
+  const handlebuttonClick = () => {
     setShowForm(true);
     setShowDetails(false);
   };
@@ -44,14 +41,16 @@ const UpdateReservation: React.FC = () => {
 
   return (
     <>
-      <Head>
-        <title>Update Reservation</title>
-      </Head>
-      <div><Layout /> </div>
+      {/* <Head>
+          <title>Update Reservation</title>
+      </Head> */}
+      <div><Layout
+      // title={'Update Reservation'}
+      /> </div>
       <div> <SmallScreen label={label} />
         <div className="res-container">
           <div className="whiteBox">
-            <Search onSearch={handleSearch} label="Reservation ID: " />
+            <Search onSearch={handleSearch} />
 
 
 
@@ -63,7 +62,7 @@ const UpdateReservation: React.FC = () => {
                 text={text}
                 text2={text2}
                 onClose={closeDetails}
-                onButtonClick={handleButtonClick}
+                onbuttonClick={handlebuttonClick}
               />
             )}
 
@@ -72,11 +71,11 @@ const UpdateReservation: React.FC = () => {
             )}
 
             <Link href='/reservations'>
-              <Button className="blueButton" type="submit">
+              <button className="bluebutton" type="submit">
 
                 Close
 
-              </Button>
+              </button>
             </Link>
 
 

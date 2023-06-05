@@ -25,10 +25,10 @@ fun App(stage: MutableState<Page>, floors: SnapshotStateList<Floor>) {
         Row {
             Column {
                 repeat(floors.size) {
-                    floorButton(mainFloor = mainFloor, index = it, floors = floors)
+                    floorbutton(mainFloor = mainFloor, index = it, floors = floors)
                 }
                 Row {
-                    Button(onClick = {
+                    button(onClick = {
                         setShow(true)
                     }) {
                         Text("Add floor")
@@ -37,7 +37,7 @@ fun App(stage: MutableState<Page>, floors: SnapshotStateList<Floor>) {
                 if (show) {
                     fieldGenerate(floorName = getNextAvailable(floors), hide = setShow, floors = floors)
                 }
-                Button(onClick = {
+                button(onClick = {
                     stage.value = Page.EMPLOYEE
                 }) {
                     Text("Continue")
@@ -58,23 +58,23 @@ fun App(stage: MutableState<Page>, floors: SnapshotStateList<Floor>) {
 }
 
 @Composable
-private fun floorButton(mainFloor: MutableState<Floor?>, index: Int, floors: SnapshotStateList<Floor>) {
+private fun floorbutton(mainFloor: MutableState<Floor?>, index: Int, floors: SnapshotStateList<Floor>) {
     var show by remember { mutableStateOf(true) }
     var floor by remember { mutableStateOf(floors[index].floor.toString()) }
     Row {
         if (show) {
-            Button(onClick = {
+            button(onClick = {
                 mainFloor.value = floors[index]
             }) {
                 Text(text = "Floor $floor")
             }
 
-            TextButton(onClick = {
+            Textbutton(onClick = {
                 show = false
             }) {
                 Text("...")
             }
-            TextButton(onClick = {
+            Textbutton(onClick = {
                 floors.removeAt(index)
                 if (index < floors.size) floor = floors[index].floor.toString()
             }) {
@@ -92,7 +92,7 @@ private fun floorButton(mainFloor: MutableState<Floor?>, index: Int, floors: Sna
                 floors[index].floor = temp
                 floor = it
             })
-            Button(onClick = {
+            button(onClick = {
                 show = true
             }) {
                 Text("Done")
@@ -170,9 +170,9 @@ private fun fieldGenerate(hide: (Boolean) -> Unit, floors: SnapshotStateList<Flo
             roomClass.value = it
         })
     }
-    Button(onClick = {
+    button(onClick = {
         val rooms = mutableListOf<Room>()
-        if (isRoomsNotNumber || isStartNotNumber) return@Button
+        if (isRoomsNotNumber || isStartNotNumber) return@button
         val rNum = numOfRooms.value.toInt()
         val start = statsFrom.value.toInt()
         repeat(rNum) {

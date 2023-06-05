@@ -2,6 +2,7 @@ import React from 'react'
 import SideBar from '../../Components/SideBar';
 import '../../Components/Component.css';
 import Head from 'next/head';
+import Image from 'next/image';
 
 
 export default function Main() {
@@ -31,16 +32,17 @@ export default function Main() {
       <Head>
         <title> Main Menu</title>
         <link rel="icon" href="../../public/favicon.ico" />
-        <link href='https://fonts.googleapis.com/css?family=Aleo' rel='stylesheet' />
+        {/* <link href='https://fonts.googleapis.com/css?family=Aleo' rel='stylesheet' />
         <style>{`
         * {
             font-family: 'Aleo';font-size: 1rem;
         }
-      `}</style>
+      `}</style> */}
       </Head>
       <div className='main'>
-        <img src="./Assets/logo.png" alt="Logo" style={imageStyle}></img>
-        <div className='bigBlock'><img className='userIcon' src="./Assets/Logo.png" alt="Kontonussy" style={imageStyle2}></img>
+        <Image src="./Assets/logo.png" alt="Logo" style={imageStyle}></Image>
+        <div className='bigBlock'>
+          <Image className='userIcon' src="./Assets/Logo.png" alt="Kontonussy" style={imageStyle2}></Image>
           <div className='textBlock'>
             <div className='userText' style={{ fontSize: '1.5rem' }}>User</div>
             <div className='userText'>{reservation_id} </div>

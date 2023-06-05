@@ -4,10 +4,17 @@ import { ApiProperty } from '@nestjs/swagger';
 import { Public } from './decorator';
 
 class Login {
-  @ApiProperty()
+  @ApiProperty({ default: 'username' })
   login: string;
-  @ApiProperty({})
+  @ApiProperty({ default: 'login' })
   password: string;
+}
+
+class Client {
+  @ApiProperty({ default: '999999' })
+  login: string;
+  @ApiProperty({ default: '1' })
+  room_id: string;
 }
 
 @Controller('api/auth')
@@ -20,7 +27,7 @@ export class AuthController {
   }
   @Public()
   @Post('client')
-  async signInPrestige(@Body() { login }: { login: string }) {
-    return await this.authService.signInClient(login);
+  async signInPrestige(@Body() { login, room_id }: Client) {
+    return await this.authService.signInClient(login, room_id);
   }
 }

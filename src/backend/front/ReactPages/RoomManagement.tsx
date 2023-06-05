@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import Layout from '../Components/Layout'
 import Grid from '../Components/Grid'
 import SmallScreen from '../Components/SmallScreen'
-import {useRouter} from 'next/navigation'
+import { useRouter } from 'next/navigation'
 
 const RoomManagement: React.FC = () => {
   const labels = ['Housekeeping', 'Maid Management', 'Room History', 'Out of Order/Service'];

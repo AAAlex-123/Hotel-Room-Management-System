@@ -1,52 +1,51 @@
 "use client"
-import React ,{ useState }  from 'react'
+import React, { useState } from 'react'
 import './Component.css';
 import Message from './Message';
-import Button from "react-bootstrap/Button";
 
 export interface MessageData {
-    num: string;
-    text: string;
-    name: string;
-  }
-  
-  interface MessageListProps {
-    messages: MessageData[];
-    onDeleteMessage: (message: MessageData) => void;
-  }
-  
-  const MessageList: React.FC<MessageListProps> = ({ messages, onDeleteMessage }) => {
-    const [selectedMessage, setSelectedMessage] = useState<MessageData | null>(null);
+  num: string;
+  text: string;
+  name: string;
+}
 
-    const handleCloseMessage = () => {
-        setSelectedMessage(null);
-      };
+interface MessageListProps {
+  messages: MessageData[];
+  onDeleteMessage: (message: MessageData) => void;
+}
 
-    const handleMessageClick = (message: MessageData) => {
-        setSelectedMessage(message);
-      };
+const MessageList: React.FC<MessageListProps> = ({ messages, onDeleteMessage }) => {
+  const [selectedMessage, setSelectedMessage] = useState<MessageData | null>(null);
 
-      const handleDeleteMessage = () => {
-        if (selectedMessage) {
-          onDeleteMessage(selectedMessage);
-          setSelectedMessage(null);
-        }
-      };
+  const handleCloseMessage = () => {
+    setSelectedMessage(null);
+  };
 
-    const [searchQuery, setSearchQuery] = useState('');
-    const filteredMessages = messages.filter(
+  const handleMessageClick = (message: MessageData) => {
+    setSelectedMessage(message);
+  };
+
+  const handleDeleteMessage = () => {
+    if (selectedMessage) {
+      onDeleteMessage(selectedMessage);
+      setSelectedMessage(null);
+    }
+  };
+
+  const [searchQuery, setSearchQuery] = useState('');
+  const filteredMessages = messages.filter(
     (message) => message.num.includes(searchQuery)
-    );
-    return (
-        <>
-        <input className="roomSearch"
-            type="text"
-            placeholder="Search by room number"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-/>
+  );
+  return (
+    <>
+      <input className="roomSearch"
+        type="text"
+        placeholder="Search by room number"
+        value={searchQuery}
+        onChange={(e) => setSearchQuery(e.target.value)}
+      />
       <div className="msg-list">
-      {filteredMessages.map((message, index) => (
+        {filteredMessages.map((message, index) => (
           <Message
             key={index}
             num={message.num}
@@ -59,22 +58,22 @@ export interface MessageData {
       </div>
       {selectedMessage && (
         <div className="selected-message">
-            <Message num={selectedMessage.num} text={selectedMessage.text} name={selectedMessage.name} onClick={() => handleMessageClick(selectedMessage)} selected={true}/>
-            <div className='button-container'>
-        <Button className="blueButton" type="submit" onClick={handleCloseMessage} >
+          <Message num={selectedMessage.num} text={selectedMessage.text} name={selectedMessage.name} onClick={() => handleMessageClick(selectedMessage)} selected={true} />
+          <div className='button-container'>
+            <button className="bluebutton" type="submit" onClick={handleCloseMessage} >
 
-          Close
+              Close
 
-        </Button>
-        <Button className="blueButton" onClick={handleDeleteMessage}>
+            </button>
+            <button className="bluebutton" onClick={handleDeleteMessage}>
               Delete
-            </Button>
+            </button>
+          </div>
         </div>
-        </div> 
-        )}
-      </>
-    );
-  };
-  
-  export default MessageList;
+      )}
+    </>
+  );
+};
+
+export default MessageList;
 

@@ -1,9 +1,8 @@
 "use client"
+import Link from 'next/link';
 import Layout from '../Components/Layout'
 import SmallScreen from '../Components/SmallScreen'
 import React from 'react';
-import Link  from 'next/link';
-import Button from "react-bootstrap/Button";
 
 const OutOfOS: React.FC = () => {
   const label= 'Out Of O/S';
@@ -22,11 +21,11 @@ const OutOfOS: React.FC = () => {
                 To be added...
              
             <Link href='/room-management'>
-            <Button className="blueButton" type="submit">
+            <button className="bluebutton" type="submit">
     
               Close
     
-            </Button>
+            </button>
           </Link>
 
 

@@ -1,6 +1,6 @@
 "use client"
 import React, { useState } from 'react';
-import Button from "react-bootstrap/Button";
+import button from "react-bootstrap/button";
 import Form from "react-bootstrap/Form";
 
 
@@ -203,9 +203,9 @@ interface UserFormProps {
       </Form.Group>
       </div>
         <div className='button-container'>
-        <Button className="blueButton" type="submit">
+        <button className="bluebutton" type="submit">
           Submit
-        </Button>
+        </button>
         </div>
       </Form>
     );

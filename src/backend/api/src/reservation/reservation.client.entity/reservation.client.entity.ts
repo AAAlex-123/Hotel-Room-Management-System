@@ -4,13 +4,13 @@ export class ReservationClientEntity {
   reservation_id?: number;
   @ApiProperty({ default: '001' })
   room_id: string;
-  @ApiProperty({ default: Date.now() })
+  @ApiProperty({ type: Date, default: new Date() })
   arrival: Date;
-  @ApiProperty({ default: Date.now() })
+  @ApiProperty({ type: Date, default: new Date() })
   departure: Date;
   @ApiProperty({ default: 'user' })
   name: string;
-  @ApiProperty({ default: '6923531223' })
+  @ApiProperty({ default: '699999999' })
   cellphone: string;
   @ApiProperty({ required: false, default: 'London' })
   city?: string;

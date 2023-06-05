@@ -1,4 +1,4 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { Injectable, Logger, UnauthorizedException } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { compare } from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
@@ -7,22 +7,36 @@ import { JwtService } from '@nestjs/jwt';
 export class AuthService {
   constructor(private prisma: PrismaService, private jwtService: JwtService) {}
 
-  async signInClient(login: string) {
-    const client = await this.prisma.reservation.findFirst({
+  async signInClient(login: string, room: string) {
+    if (login.length < 6) throw new UnauthorizedException();
+    const client = await this.prisma.room.findFirst({
       where: {
-        cellphone: {
-          endsWith: login,
+        room_id: room,
+        Reservation: {
+          some: {
+            departure: {
+              gte: new Date(),
+            },
+            arrival: {
+              lte: new Date(),
+            },
+            cellphone: {
+              endsWith: login,
+            },
+          },
         },
       },
+      include: {
+        Reservation: true,
+      },
     });
-    if (client === undefined) throw new UnauthorizedException();
-
+    if (client === null) throw new UnauthorizedException();
     const payload = {
-      username: client.name,
-      sub: client.cellphone,
+      username: client.Reservation[0].reservation_id,
+      sub: client.Reservation[0].name,
     };
     return {
-      reservation_id: client.reservation_id,
+      employee_id: client.Reservation[0].reservation_id,
       access_token: await this.jwtService.signAsync(payload),
     };
   }

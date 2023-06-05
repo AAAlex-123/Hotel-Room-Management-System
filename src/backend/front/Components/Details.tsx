@@ -1,6 +1,6 @@
 "use client"
 import './Component.css';
-import Button from "react-bootstrap/Button";
+import button from "react-bootstrap/button";
 
 
 interface DetElem {
@@ -10,10 +10,10 @@ interface DetElem {
     text: string;
     text2?: string | null;
     onClose: () => void;
-    onButtonClick?: () => void;
+    onbuttonClick?: () => void;
   }
   
-  const Details: React.FC<DetElem> = ({ titles, content, elem, text, text2='', onClose , onButtonClick}) =>  {
+  const Details: React.FC<DetElem> = ({ titles, content, elem, text, text2='', onClose , onbuttonClick}) =>  {
 
 
   
@@ -38,18 +38,18 @@ interface DetElem {
       <div className="det-button-container">
         {renderGridItems()} 
       <div className='button-container'>
-        <Button className="blueButton" type="submit" onClick={onClose} >
+        <button className="bluebutton" type="submit" onClick={onClose} >
 
           {text}
 
-        </Button>
+        </button>
         {text2 !== null && ( 
 
-          <Button className="blueButton" type="submit" onClick={onButtonClick}>
+          <button className="bluebutton" type="submit" onClick={onbuttonClick}>
 
             {text2}
             
-          </Button>
+          </button>
         )}
 
         </div>  

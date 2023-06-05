@@ -5,14 +5,14 @@ import React, { useState } from 'react';
 
 interface SearchProps {
     onSearch: (searchText: string) => void;
-    label: string;
+
   }
   
-  const Search: React.FC<SearchProps> = ({ onSearch, label }) => {
+  const Search: React.FC<SearchProps> = ({ onSearch }) => {
     const [searchText, setSearchText] = useState('');
     
-  
-    const handleSearch = () => {
+  const handleSearch = () => {
+    
      //how to fetch shit idk...
       onSearch(searchText);
    
@@ -29,7 +29,7 @@ interface SearchProps {
     return (
     <div className="bar-container">
       <div className="search-container">
-        <label>{label}</label>
+        <label>Name/Cellphone: </label>
         <input
           type="text"
           value={searchText}
