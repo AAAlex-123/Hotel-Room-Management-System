@@ -4,14 +4,19 @@
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background-color: #424771;
+
 }
 
 
 .Box {
     background-color: white;
-    width: max-content;
+    width: 100%;
+    max-width: 600px;
     border-radius: 10px;
+    min-width: 20rem;
+    max-width: 20rem;
+    padding: 20px;
+
 }
 
 .form-field {
@@ -20,6 +25,9 @@
     margin-bottom: 10px;
     border-radius: 5px;
     text-align: center;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
 
 }
 
@@ -27,12 +35,13 @@
     margin-bottom: 3rem;
     height: 2rem;
     width: auto;
+    color: #000;
     background-color: #EEEEEE;
     border-color: #C5C5C5;
     border-radius: 10px;
 }
 
-.bluebutton {
+.blueButton {
     background-color: #66BBF9;
     color: rgb(16, 16, 17);
     padding: 10px 20px;

@@ -10,7 +10,7 @@ services:
                 '--collation-server=utf8mb4_unicode_ci'
             ]
         ports:
-            - "8083:3306"
+            - "8084:3306"
         networks:
             - main
         environment:
@@ -34,7 +34,7 @@ services:
             - main
         depends_on:
             - mysql_image
-        mem_reservation: "350M"
+        mem_reservation: "300M"
 
     front:
         build: ./front/
@@ -48,7 +48,20 @@ services:
             - api
         volumes:
             - frontModules:/app/node_modules
-        mem_reservation: "300M"
+        mem_reservation: "250M"
+    client:
+        build: ./front/
+        expose:
+            - 8083
+        profiles:
+            - second_batch
+        networks:
+            - main
+        depends_on:
+            - api
+        volumes:
+            - clientModules:/app/node_modules
+        mem_reservation: "200M"
 
     nginx:
         image: nginx:latest
@@ -64,6 +77,7 @@ services:
             - main
         depends_on:
             - front
+            - client
         mem_reservation: "30M"
 volumes:
     mysql_vol:

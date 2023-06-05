@@ -25,9 +25,7 @@ const RoomNotes: React.FC = () => {
       {/* <Head>
           <title>Room Notes</title>
       </Head> */}
-      <div><Layout
-      // title={'Room Notes'}
-      /> </div>
+      <div><Layout/> </div>
       <div> <SmallScreen label={label} />
         <div className="res-container">
           <div className="whiteBox">

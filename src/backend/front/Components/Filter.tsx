@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { Room, Status } from './Room';
-import button from 'react-bootstrap/button';
 
 interface FilterProps {
   onFilter: (filter: Partial<Room>) => void;

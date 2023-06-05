@@ -3,7 +3,6 @@ import {
   Controller,
   Delete,
   Get,
-  Logger,
   Param,
   Post,
   Put,
@@ -114,7 +113,6 @@ export class RoomController {
   ) {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { room_id, ...rest } = room;
-    Logger.debug(rest);
     return await this.prisma.room.update({
       data: { ...rest },
       where: {

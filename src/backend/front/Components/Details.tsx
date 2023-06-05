@@ -1,6 +1,5 @@
 "use client"
 import './Component.css';
-import button from "react-bootstrap/button";
 
 
 interface DetElem {

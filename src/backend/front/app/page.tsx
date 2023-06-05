@@ -1,57 +1,48 @@
 "use client"
-import { useRouter } from "next/navigation";
-import "./page.module.css";
 import "./Login.css";
-import { FormEvent, useState } from "react";
-import Image from "next/image";
 import Head from "next/head";
+import Image from "next/image";
 import { signIn } from "next-auth/react";
 export default async function Login() {
-  const imageStyle = {
-    textAlign: "center" as const,
-    // marginBottom: '20px',
-    width: "100%",
-    // height: 'auto',
-  };
-
-  const [login, setUsername] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
-
-
-  const handleSubmit = async (e: FormEvent) => {
+  const handleSubmit = async (e: any) => {
+    e.preventDefault()
     signIn("employee", {
-      username: login,
-      password,
+      username: e.target.login.value,
+      password: e.target.password.value,
       redirect: false,
       callbackUrl: "/main"
     })
   }
 
-  return (
-    <main>
-      <Head>
-        <title> Login | User </title>
-        <link rel="icon" href="../../public/favicon.ico" />
-        <style>{`
+
+
+  return (<>
+    <Head>
+      <title> Login | User </title>
+      <link rel="icon" href="../../public/favicon.ico" />
+      <style>{`
                * {
                    font-family: 'Aleo';font-size: 1rem;
                }
              `}
-        </style>
-      </Head>
-
-      <div className="Login">
-        <div className="Box">
-          <Image src="./Assets/logo.png" alt="Logo" style={imageStyle} />
-          <form className="form-field" onSubmit={handleSubmit} action="#">
-            <input type="text" autoFocus placeholder="Username" onChange={(e) => setUsername(e.target.value)} value={login} />
-            <input type="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)} value={password} />
-            <button className="bluebutton" type="submit">
-              Login
-            </button>
-          </form>
-        </div>
+      </style>
+    </Head>
+    <div className="Login">
+      <div className="Box">
+        <Image src="/Assets/logo.png" alt="Logo" width={350} height={350}></Image>
+        <form className="form-field" onSubmit={handleSubmit} action="#">
+          <div className="form-group">
+            <input className="form-field-wrapper" type="text" id="login" autoFocus placeholder="Username" />
+          </div>
+          <div className="form-group">
+            <input className="form-field-wrapper" type="password" id="password" placeholder="Password" />
+          </div>
+          <button className="bluebutton" type="submit">
+            Login
+          </button>
+        </form>
       </div>
-    </main >
+    </div>
+  </>
   );
 }

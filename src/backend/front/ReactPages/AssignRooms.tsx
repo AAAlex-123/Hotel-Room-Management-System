@@ -3,7 +3,7 @@ import Layout from '../Components/Layout';
 import SmallScreen from '../Components/SmallScreen';
 import React, { useState } from 'react';
 import SelectionList, { ListData } from '../Components/SelectionList';
-import {GroupData} from './CreateGroup';
+import { GroupData } from './CreateGroup';
 import GroupList from '../Components/GroupList';
 import Link from 'next/link';
 
@@ -19,13 +19,13 @@ const AssignRooms: React.FC = () => {
   const label = 'Assign Rooms';
   const [groupName, setGroupName] = useState('');
   const [roomElem, setElem] = useState<ListData[]>([
-    { num: '101'},
+    { num: '101' },
     { num: '102' },
     { num: '103' },
-    { num: '104'},
-    { num: '105'},
+    { num: '104' },
+    { num: '105' },
     { num: '106' },
-    { num: '107'},
+    { num: '107' },
   ]);
 
   const [maidElem, setElem2] = useState<GroupData[]>([
@@ -56,7 +56,7 @@ const AssignRooms: React.FC = () => {
 
 
   const [selectedElements, setSelectedElements] = useState<ListData[]>([]);
-  const [selectedGroup, setSelectedGroup] = useState<GroupData[]> ([]);
+  const [selectedGroup, setSelectedGroup] = useState<GroupData[]>([]);
   const [selectedHsk, setSelectedHsk] = useState<ListData[]>([]);
   const [showInput, setShowInput] = useState(false);
   const [showWarning, setShowWarning] = useState(false);
@@ -65,7 +65,7 @@ const AssignRooms: React.FC = () => {
     setSelectedElements(selectedElems);
   };
 
-  const handleGroupChange= (selectedGroup: GroupData[]) => {
+  const handleGroupChange = (selectedGroup: GroupData[]) => {
     setSelectedGroup(selectedGroup);
   }
 
@@ -75,7 +75,7 @@ const AssignRooms: React.FC = () => {
 
   const createGroup = () => {
 
-    if (selectedElements.length === 0 || selectedGroup.length!==1 || selectedHsk.length!==1 ) {
+    if (selectedElements.length === 0 || selectedGroup.length !== 1 || selectedHsk.length !== 1) {
       setShowWarning(true);
       setTimeout(() => {
         setShowWarning(false);
@@ -84,7 +84,7 @@ const AssignRooms: React.FC = () => {
     }
     setShowWarning(false);
     const group: CleanData = {
-      id: 'groupId', 
+      id: 'groupId',
       name: groupName,
       maids: selectedGroup,
       housekeeper: selectedHsk,
@@ -93,7 +93,7 @@ const AssignRooms: React.FC = () => {
 
     };
 
-    
+
     const updatedList1 = roomElem.filter((elem) => !selectedElements.includes(elem));
     setElem(updatedList1);
 
@@ -118,65 +118,65 @@ const AssignRooms: React.FC = () => {
   const handleGroupNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setGroupName(e.target.value);
   };
-    return (
-      <>
-              {/* <Head>
+  return (
+    <>
+      {/* <Head>
           <title>Create Group</title>
       </Head> */}
-      <div><Layout 
+      <div><Layout
       // title={'Create Group'}
       /> </div>
-      <div> <SmallScreen label={label}/>
-      <div className="res-container">
-      <div className="whiteBox">
-      <div className="manyLists">
-      <div className="listColumn">
-        <SelectionList listelem={roomElem} onSelection={handleSelectionChange} />
-      </div>
-      <div className="listColumn">
-        <GroupList listelem={maidElem} onSelection={handleGroupChange} />
-      </div>
-      <div className="listColumn">
-        <SelectionList listelem={hskElem} onSelection={handleHskChange} />
-      </div>
-
-
-            <Link href='/maid-management'>
-            <button className="bluebutton" type="submit">
-    
-              Close
-    
-            </button>
-            
-          </Link>
-          
-            {showInput ? (
-              <form onSubmit={handleSubmit}>
-                <input
-                  type="text"
-                  value={groupName}
-                  onChange={handleGroupNameChange}
-                  placeholder="Enter Group Name"
-                />
-                <button className="bluebutton" type="submit">
-                  Create Group
-                </button>
-              </form>
-            ) : (
-              <div>
-                <button className="bluebutton" type="submit" onClick={handleCreateGroupClick}>
-                  Create Group
-                </button>
+      <div> <SmallScreen label={label} />
+        <div className="res-container">
+          <div className="whiteBox">
+            <div className="manyLists">
+              <div className="listColumn">
+                <SelectionList listelem={roomElem} onSelection={handleSelectionChange} />
               </div>
-            )}
-            {showWarning && <div className="warning">Please select at least one member for the group.</div>}
+              <div className="listColumn">
+                <GroupList listelem={maidElem} onSelection={handleGroupChange} />
+              </div>
+              <div className="listColumn">
+                <SelectionList listelem={hskElem} onSelection={handleHskChange} />
+              </div>
+
+
+              <Link href='/maid-management'>
+                <button className="bluebutton" type="submit">
+
+                  Close
+
+                </button>
+
+              </Link>
+
+              {showInput ? (
+                <form onSubmit={handleSubmit}>
+                  <input
+                    type="text"
+                    value={groupName}
+                    onChange={handleGroupNameChange}
+                    placeholder="Enter Group Name"
+                  />
+                  <button className="bluebutton" type="submit">
+                    Create Group
+                  </button>
+                </form>
+              ) : (
+                <div>
+                  <button className="bluebutton" type="submit" onClick={handleCreateGroupClick}>
+                    Create Group
+                  </button>
+                </div>
+              )}
+              {showWarning && <div className="warning">Please select at least one member for the group.</div>}
+            </div>
+          </div>
         </div>
-        </div>
-        </div>
-        </div>
+      </div>
     </>
-      
-    )
-  
-    }
+
+  )
+
+}
 export default AssignRooms;
