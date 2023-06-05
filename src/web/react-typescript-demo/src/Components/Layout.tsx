@@ -51,7 +51,7 @@ export default function Main(
         <div className='textBlock'>
         <div className='userText' style={{fontSize: '1.5rem'}}>User</div> 
         <div className='userText'>Id: Get Id pls </div> 
-      {/* this is where we'll put username so anastasi help */} 
+
           </div>
         </div>
       </div>

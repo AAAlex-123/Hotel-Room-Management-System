@@ -5,7 +5,6 @@ import SmallScreen from '../Components/SmallScreen'
 import Search from '../Components/Search';
 import React, { useState} from 'react';
 import { Link } from 'react-router-dom';
-import Button from "react-bootstrap/Button";
 import ResForm, {UserData} from '../Components/ResForm';
 
 const UpdateReservation: React.FC = () => {
@@ -28,7 +27,7 @@ const UpdateReservation: React.FC = () => {
   };
   
   const handleSubmit = (userData: UserData) => {
-    // Handle the form submission here please I'm tired of copy-pasting the same form you get the idea
+    
 
   };
 
@@ -72,11 +71,11 @@ const UpdateReservation: React.FC = () => {
             )}
              
             <Link to='/reservations'>
-            <Button className="blueButton" type="submit">
+            <button className="blueButton" type="submit">
     
               Close
     
-            </Button>
+            </button>
           </Link>
 
 

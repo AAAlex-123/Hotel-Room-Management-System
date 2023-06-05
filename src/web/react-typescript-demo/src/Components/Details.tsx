@@ -1,7 +1,5 @@
 "use client"
 import './Component.css';
-import Button from "react-bootstrap/Button";
-
 
 interface DetElem {
     titles: string[];
@@ -38,18 +36,18 @@ interface DetElem {
       <div className="det-button-container">
         {renderGridItems()} 
       <div className='button-container'>
-        <Button className="blueButton" type="submit" onClick={onClose} >
+        <button className="blueButton" type="submit" onClick={onClose} >
 
           {text}
 
-        </Button>
+        </button>
         {text2 !== null && ( 
 
-          <Button className="blueButton" type="submit" onClick={onButtonClick}>
+          <button className="blueButton" type="submit" onClick={onButtonClick}>
 
             {text2}
             
-          </Button>
+          </button>
         )}
 
         </div>  

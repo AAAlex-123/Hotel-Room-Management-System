@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { Room, Status } from './Room';
-import Button from 'react-bootstrap/Button';
 
 interface FilterProps {
   onFilter: (filter: Partial<Room>) => void;
@@ -193,9 +192,9 @@ const Filter: React.FC<FilterProps> = ({ onFilter }) => {
         />
       </label>
         <div>
-          <Button className="blueButton" onClick={handleFilterReset}>
+          <button className="blueButton" onClick={handleFilterReset}>
             Reset
-          </Button>
+          </button>
         </div>
       </form>
     </div>

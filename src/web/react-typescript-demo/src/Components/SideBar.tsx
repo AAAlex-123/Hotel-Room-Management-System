@@ -4,7 +4,7 @@ import './Component.css';
 import { NavigateFunction } from 'react-router-dom';
 import { useNavigate } from "react-router-dom";
 import { Link } from 'react-router-dom';
-import Button from "react-bootstrap/Button";
+
 
 export default function SideBar() {
 
@@ -21,11 +21,11 @@ export default function SideBar() {
         <div onClick={() => changePage('/misc', navigate)}>Miscellaneous</div>
 
       <Link to='/'>
-        <Button className="blueButton" type="submit">
+        <button className="blueButton" type="submit">
 
           Exit
 
-        </Button>
+        </button>
       </Link>
       </div>
 

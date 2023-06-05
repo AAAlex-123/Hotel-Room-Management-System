@@ -3,7 +3,6 @@ import React, { useState } from 'react'
 import Layout from '../Components/Layout'
 import SmallScreen from '../Components/SmallScreen'
 import { Link } from 'react-router-dom';
-import Button from "react-bootstrap/Button";
 import MessageList, {MessageData} from '../Components/MessageList';
 
 const Orders: React.FC = () => {
@@ -19,7 +18,7 @@ const Orders: React.FC = () => {
         { num: '129', text: 'Hello, world.' , name: "Who"},
   
       ]); 
-      //Sex with Dottore 
+
 
       const handleDeleteMessage = (message: MessageData) => {
         setMessages((prevMessages) => prevMessages.filter((m) => m !== message));
@@ -38,11 +37,11 @@ const Orders: React.FC = () => {
         <MessageList messages={messages} onDeleteMessage={handleDeleteMessage}/>
 
       <Link to='/maid-management'>
-            <Button className="blueButton" type="submit">
+            <button className="blueButton" type="submit">
     
               Close
     
-            </Button>
+            </button>
           </Link>
 
           </div>

@@ -3,7 +3,6 @@ import Layout from '../Components/Layout'
 import SmallScreen from '../Components/SmallScreen'
 import React from 'react';
 import { Link } from 'react-router-dom';
-import Button from "react-bootstrap/Button";
 
 const RoomHistory: React.FC = () => {
   const label= 'Room History';
@@ -22,11 +21,11 @@ const RoomHistory: React.FC = () => {
                 To be added...
              
             <Link to='/room-management'>
-            <Button className="blueButton" type="submit">
+            <button className="blueButton" type="submit">
     
               Close
     
-            </Button>
+            </button>
           </Link>
 
 

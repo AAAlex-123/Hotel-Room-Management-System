@@ -2,7 +2,7 @@
 import React from 'react'
 import './Component.css';
 import { Link } from 'react-router-dom';
-import Button from "react-bootstrap/Button";
+
 
 interface GridElem {
     labels: string[];
@@ -26,11 +26,11 @@ interface GridElem {
       <div className="grid-button-container">
         <div className="grid-container">{renderGridItems()} </div>
         <Link to={link}>
-        <Button className="blueButton" type="submit" >
+        <button className="blueButton" type="submit" >
 
           Close
 
-        </Button>
+        </button>
       </Link> 
     
 

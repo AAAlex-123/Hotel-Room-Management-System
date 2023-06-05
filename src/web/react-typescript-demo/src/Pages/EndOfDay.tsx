@@ -3,7 +3,6 @@ import React, { Component } from 'react'
 import Layout from '../Components/Layout'
 import SmallScreen from '../Components/SmallScreen'
 import { Link } from 'react-router-dom';
-import Button from "react-bootstrap/Button";
 import StatBox from '../Components/StatBox';
 import MoreStats from '../Components/MoreStats';
 
@@ -41,11 +40,11 @@ const EndOfDay: React.FC = () => {
                 money= '392,994' />
 
       <Link to='/misc'>
-            <Button className="blueButton" type="submit">
+            <button className="blueButton" type="submit">
     
               Close
     
-            </Button>
+            </button>
           </Link>
 
           </div>

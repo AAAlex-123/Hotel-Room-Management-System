@@ -4,7 +4,6 @@ import ResForm, {UserData} from '../Components/ResForm';
 import SmallScreen from '../Components/SmallScreen';
 import React from 'react';
 import { Link } from 'react-router-dom';
-import Button from "react-bootstrap/Button";
 
 const AddReservation: React.FC = () => {
   const text= "Close";
@@ -35,11 +34,11 @@ const AddReservation: React.FC = () => {
    
              
             <Link to='/reservations'>
-            <Button className="blueButton" type="submit">
+            <button className="blueButton" type="submit">
     
               {text}
     
-            </Button>
+            </button>
           </Link>
 
 

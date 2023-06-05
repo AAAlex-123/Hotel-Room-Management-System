@@ -3,7 +3,6 @@ import Layout from '../Components/Layout';
 import SmallScreen from '../Components/SmallScreen';
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import Button from 'react-bootstrap/Button';
 import SelectionList, { ListData } from '../Components/SelectionList';
 import {GroupData} from './CreateGroup';
 import GroupList from '../Components/GroupList';
@@ -143,11 +142,11 @@ const AssignRooms: React.FC = () => {
 
 
             <Link to='/maid-management'>
-            <Button className="blueButton" type="submit">
+            <button className="blueButton" type="submit">
     
               Close
     
-            </Button>
+            </button>
             
           </Link>
           
@@ -159,15 +158,15 @@ const AssignRooms: React.FC = () => {
                   onChange={handleGroupNameChange}
                   placeholder="Enter Group Name"
                 />
-                <Button className="blueButton" type="submit">
+                <button className="blueButton" type="submit">
                   Create Group
-                </Button>
+                </button>
               </form>
             ) : (
               <div>
-                <Button className="blueButton" type="submit" onClick={handleCreateGroupClick}>
+                <button className="blueButton" type="submit" onClick={handleCreateGroupClick}>
                   Create Group
-                </Button>
+                </button>
               </div>
             )}
             {showWarning && <div className="warning">Please select at least one member for the group.</div>}

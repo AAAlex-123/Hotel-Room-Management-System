@@ -2,7 +2,6 @@
 import React ,{ useState }  from 'react'
 import './Component.css';
 import Message from './Message';
-import Button from "react-bootstrap/Button";
 
 export interface MessageData {
     num: string;
@@ -61,14 +60,14 @@ export interface MessageData {
         <div className="selected-message">
             <Message num={selectedMessage.num} text={selectedMessage.text} name={selectedMessage.name} onClick={() => handleMessageClick(selectedMessage)} selected={true}/>
             <div className='button-container'>
-        <Button className="blueButton" type="submit" onClick={handleCloseMessage} >
+        <button className="blueButton" type="submit" onClick={handleCloseMessage} >
 
           Close
 
-        </Button>
-        <Button className="blueButton" onClick={handleDeleteMessage}>
+        </button>
+        <button className="blueButton" onClick={handleDeleteMessage}>
               Delete
-            </Button>
+            </button>
         </div>
         </div> 
         )}

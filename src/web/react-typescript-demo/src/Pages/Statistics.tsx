@@ -3,7 +3,6 @@ import Layout from '../Components/Layout'
 import SmallScreen from '../Components/SmallScreen'
 import React from 'react';
 import { Link } from 'react-router-dom';
-import Button from "react-bootstrap/Button";
 
 const Statistics: React.FC = () => {
   const label= 'Statistics';
@@ -22,11 +21,11 @@ const Statistics: React.FC = () => {
             This is not part of the system for now but an additional feature to be explored in the future...
              
             <Link to='/cashiering'>
-            <Button className="blueButton" type="submit">
+            <button className="blueButton" type="submit">
     
               Close
     
-            </Button>
+            </button>
           </Link>
 
 

@@ -5,7 +5,6 @@ import SmallScreen from '../Components/SmallScreen'
 import Search from '../Components/Search';
 import React, { useState} from 'react';
 import { Link } from 'react-router-dom';
-import Button from "react-bootstrap/Button";
 
 const Billing: React.FC = () => {
   const titles = ['28/04/2023 Room Charge', '28/04/2023 Food', '29/04/2023 Pool Usage'];
@@ -55,11 +54,11 @@ const Billing: React.FC = () => {
       )}
              
             <Link to='/cashiering'>
-            <Button className="blueButton" type="submit">
+            <button className="blueButton" type="submit">
     
               Close
     
-            </Button>
+            </button>
           </Link>
 
 

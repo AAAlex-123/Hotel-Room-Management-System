@@ -3,7 +3,6 @@ import Layout from '../Components/Layout'
 import SmallScreen from '../Components/SmallScreen'
 import React, {useState} from 'react';
 import { Link } from 'react-router-dom';
-import Button from "react-bootstrap/Button";
 import Filter from '../Components/Filter';
 import {Room, Status} from '../Components/Room';
 import RoomList from '../Components/RoomList';
@@ -92,11 +91,11 @@ const Housekeeping: React.FC = () => {
       <Filter onFilter={handleFilter} />
           <RoomList rooms={rooms} filters={filterOptions} onStatusChange={handleStatusChange}/>
             <Link to='/room-management'>
-            <Button className="blueButton" type="submit">
+            <button className="blueButton" type="submit">
     
               Close
     
-            </Button>
+            </button>
           </Link>
 
 

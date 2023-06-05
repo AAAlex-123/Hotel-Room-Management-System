@@ -3,7 +3,6 @@ import Layout from '../Components/Layout';
 import SmallScreen from '../Components/SmallScreen';
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import Button from 'react-bootstrap/Button';
 import SelectionList, { ListData } from '../Components/SelectionList';
 
 export interface GroupData {
@@ -84,11 +83,11 @@ const CreateGroup: React.FC = () => {
           <SelectionList listelem={listelem} onSelection={handleSelectionChange}/>
              
             <Link to='/maid-management'>
-            <Button className="blueButton" type="submit">
+            <button className="blueButton" type="submit">
     
               Close
     
-            </Button>
+            </button>
             
           </Link>
           
@@ -100,15 +99,15 @@ const CreateGroup: React.FC = () => {
                   onChange={handleGroupNameChange}
                   placeholder="Enter Group Name"
                 />
-                <Button className="blueButton" type="submit">
+                <button className="blueButton" type="submit">
                   Create Group
-                </Button>
+                </button>
               </form>
             ) : (
               <div>
-                <Button className="blueButton" type="submit" onClick={handleCreateGroupClick}>
+                <button className="blueButton" type="submit" onClick={handleCreateGroupClick}>
                   Create Group
-                </Button>
+                </button>
               </div>
             )}
             {showWarning && <div className="warning">Please select at least one member for the group.</div>}

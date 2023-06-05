@@ -1,7 +1,5 @@
 "use client"
 import React, { useState } from "react";
-import Form from "react-bootstrap/Form";
-import Button from "react-bootstrap/Button";
 import {Helmet} from "react-helmet";
 import { useNavigate } from "react-router-dom";
 import './Login.css';
@@ -65,24 +63,35 @@ export const Login =() =>{
         <div className= "Box">
     <img src="./Assets/logo.png" alt="Logo" style={imageStyle}></img>
 
-    <Form className="form-field" onSubmit={handleSubmit} action="#">
+    <form className="form-field" onSubmit={handleSubmit} action="#">
+  <div className="form-group">
+    <input
+      className="form-field-wrapper"
+      autoFocus
+      type="string"
+      value={login}
+      placeholder="Username"
+      onChange={(e) => setUsername(e.target.value)}
+    />
+  </div>
 
-    <Form.Group controlId="username" >
-      <Form.Control className="form-field-wrapper" autoFocus type="string" value={login}  placeholder="Username" onChange={(e) => setUsername(e.target.value)}/>
-    </Form.Group>
-  
-    
-    <Form.Group controlId="password" >
-      <Form.Control className="form-field-wrapper" type="password" value={password} placeholder="Password" onChange={(e) => setPassword(e.target.value)}/>
-    </Form.Group>
+  <div className="form-group">
+    <input
+      className="form-field-wrapper"
+      type="password"
+      value={password}
+      placeholder="Password"
+      onChange={(e) => setPassword(e.target.value)}
+    />
+  </div>
 
-    <Button className="blueButton" type="submit"  >
+    <button className="blueButton" type="submit"  >
 
     Login
 
-  </Button>
+  </button>
 
-</Form>
+</form>
   </div>
 </div>
     

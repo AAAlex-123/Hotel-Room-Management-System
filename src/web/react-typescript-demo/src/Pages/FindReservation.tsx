@@ -5,7 +5,6 @@ import SmallScreen from '../Components/SmallScreen'
 import React, { useState, useEffect} from 'react';
 import { ReservationClientEntity } from '../Components/ReservationTypes';
 import { Link } from 'react-router-dom';
-import Button from "react-bootstrap/Button";
 
 const FindReservation: React.FC = () => {
     const titles = ['Room Number', 'Arrival', 'Departure', 'Name', "Cellphone", 'City', 'Country', 'Address', 'Postcode', 'Visitors','E-mail' ];
@@ -169,9 +168,9 @@ const FindReservation: React.FC = () => {
 
 
             <Link to="/reservations">
-              <Button className="blueButton" type="submit">
+              <button className="blueButton" type="submit">
                 Close
-              </Button>
+              </button>
             </Link>
 
 
