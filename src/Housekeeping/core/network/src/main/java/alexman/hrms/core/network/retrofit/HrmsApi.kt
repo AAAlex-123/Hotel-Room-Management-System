@@ -38,7 +38,7 @@ internal interface HrmsApi {
 
     @GET("provision")
     suspend fun getOrders(
-        @Query("employee_id") cleaningStaffId: Int,
+        @Query("employee_id") cleaningLadyId: Int,
     ): Response<List<RetrofitOrder>>
 
     @POST("provision")

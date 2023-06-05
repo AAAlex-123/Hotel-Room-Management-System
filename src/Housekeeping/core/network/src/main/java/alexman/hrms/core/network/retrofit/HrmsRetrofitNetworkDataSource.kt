@@ -53,7 +53,7 @@ class HrmsRetrofitNetworkDataSource : HrmsNetworkDataSource {
     override suspend fun getCleaningStaff(cleaningStaffId: Int):
             HrmsNetworkResponse<NetworkCleaningStaff> =
         HrmsRetrofitInstance.api.getCleaningStaff(
-            cleaningStaffId
+            cleaningStaffId = cleaningStaffId,
         ).asHrmsNetworkResponse {
             it?.asNetworkCleaningStaff()
         }
@@ -61,7 +61,7 @@ class HrmsRetrofitNetworkDataSource : HrmsNetworkDataSource {
     override suspend fun getCleaningLadies(housekeeperId: Int):
             HrmsNetworkResponse<List<NetworkCleaningStaff>> =
         HrmsRetrofitInstance.api.getCleaningLadies(
-            housekeeperId
+            housekeeperId = housekeeperId,
         ).asHrmsNetworkResponse { cleaningLadyList ->
             cleaningLadyList?.map {
                 it.asNetworkCleaningStaff()
@@ -71,7 +71,7 @@ class HrmsRetrofitNetworkDataSource : HrmsNetworkDataSource {
     override suspend fun getOrders(cleaningLadyId: Int):
             HrmsNetworkResponse<List<NetworkOrder>> =
         HrmsRetrofitInstance.api.getOrders(
-            cleaningLadyId
+            cleaningLadyId = cleaningLadyId,
         ).asHrmsNetworkResponse { retrofitOrderList ->
             retrofitOrderList?.map {
                 it.asNetworkOrder()
@@ -81,7 +81,7 @@ class HrmsRetrofitNetworkDataSource : HrmsNetworkDataSource {
     override suspend fun placeOrder(upstreamNetworkOrderDetails: UpstreamNetworkOrderDetails):
             HrmsNetworkResponse<NetworkOrder> =
         HrmsRetrofitInstance.api.postOrder(
-            upstreamNetworkOrderDetails.asRetrofitOrderBody()
+            order = upstreamNetworkOrderDetails.asRetrofitOrderBody(),
         ).asHrmsNetworkResponse {
             it?.asNetworkOrder()
         }
@@ -89,8 +89,8 @@ class HrmsRetrofitNetworkDataSource : HrmsNetworkDataSource {
     override suspend fun updateOrderState(upstreamNetworkOrderUpdateDetails: UpstreamNetworkOrderUpdateDetails):
             HrmsNetworkResponse<NetworkOrder> =
         HrmsRetrofitInstance.api.updateOrder(
-            upstreamNetworkOrderUpdateDetails.id,
-            upstreamNetworkOrderUpdateDetails.asRetrofitOrderUpdateBody(),
+            orderId = upstreamNetworkOrderUpdateDetails.id,
+            order = upstreamNetworkOrderUpdateDetails.asRetrofitOrderUpdateBody(),
         ).asHrmsNetworkResponse {
             it?.asNetworkOrder()
         }
@@ -98,13 +98,13 @@ class HrmsRetrofitNetworkDataSource : HrmsNetworkDataSource {
     override suspend fun deleteOrder(orderId: Int):
             HrmsNetworkResponse<Any> =
         HrmsRetrofitInstance.api.deleteOrder(
-            orderId
+            orderId = orderId,
         ).asHrmsNetworkResponse()
 
     override suspend fun getRooms(cleaningStaffId: Int):
             HrmsNetworkResponse<List<NetworkRoom>> =
         HrmsRetrofitInstance.api.getRooms(
-            cleaningStaffId
+            cleaningStaffId = cleaningStaffId,
         ).asHrmsNetworkResponse { retrofitRoomList ->
             retrofitRoomList?.map {
                 it.asNetworkRoom()
@@ -114,7 +114,7 @@ class HrmsRetrofitNetworkDataSource : HrmsNetworkDataSource {
     override suspend fun getSingleRoom(roomId: String):
             HrmsNetworkResponse<NetworkRoom> =
         HrmsRetrofitInstance.api.getSingleRoom(
-            roomId
+            roomId = roomId,
         ).asHrmsNetworkResponse {
             it?.asNetworkRoom()
         }
@@ -122,8 +122,8 @@ class HrmsRetrofitNetworkDataSource : HrmsNetworkDataSource {
     override suspend fun updateRoomState(upstreamNetworkRoomUpdateDetails: UpstreamNetworkRoomUpdateDetails):
             HrmsNetworkResponse<NetworkRoom> =
         HrmsRetrofitInstance.api.updateRoom(
-            upstreamNetworkRoomUpdateDetails.id,
-            upstreamNetworkRoomUpdateDetails.asRetrofitRoomBody(),
+            roomId = upstreamNetworkRoomUpdateDetails.id,
+            room = upstreamNetworkRoomUpdateDetails.asRetrofitRoomBody(),
         ).asHrmsNetworkResponse {
             it?.asNetworkRoom()
         }
@@ -131,7 +131,7 @@ class HrmsRetrofitNetworkDataSource : HrmsNetworkDataSource {
     override suspend fun getNotes(roomId: String):
             HrmsNetworkResponse<List<NetworkNote>> =
         HrmsRetrofitInstance.api.getNotes(
-            roomId
+            roomId = roomId,
         ).asHrmsNetworkResponse { retrofitNoteList ->
             retrofitNoteList?.map {
                 it.asNetworkNote()
@@ -141,7 +141,7 @@ class HrmsRetrofitNetworkDataSource : HrmsNetworkDataSource {
     override suspend fun addNote(upstreamNetworkNoteDetails: UpstreamNetworkNoteDetails):
             HrmsNetworkResponse<NetworkNote> =
         HrmsRetrofitInstance.api.postNote(
-            upstreamNetworkNoteDetails.asRetrofitNoteBody()
+            note = upstreamNetworkNoteDetails.asRetrofitNoteBody(),
         ).asHrmsNetworkResponse {
             it?.asNetworkNote()
         }
@@ -149,6 +149,6 @@ class HrmsRetrofitNetworkDataSource : HrmsNetworkDataSource {
     override suspend fun deleteNote(noteId: Int):
             HrmsNetworkResponse<Any> =
         HrmsRetrofitInstance.api.deleteNote(
-            noteId
+            noteId = noteId,
         ).asHrmsNetworkResponse()
 }
