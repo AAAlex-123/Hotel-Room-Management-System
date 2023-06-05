@@ -22,14 +22,12 @@ private fun <T> Response<T>.asHrmsNetworkResponse() =
     HrmsNetworkResponse(
         code = this.code(),
         body = this.body(),
-        errorBody = this.errorBody()?.string()
     )
 
 private fun <T, U> Response<T>.asHrmsNetworkResponse(mapFunction: (T?) -> U?) =
     HrmsNetworkResponse(
         code = this.code(),
         body = mapFunction(this.body()),
-        errorBody = this.errorBody()?.string()
     )
 
 class HrmsRetrofitNetworkDataSource : HrmsNetworkDataSource {

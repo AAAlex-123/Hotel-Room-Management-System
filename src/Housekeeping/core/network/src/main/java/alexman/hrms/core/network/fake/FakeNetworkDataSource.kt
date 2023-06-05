@@ -89,7 +89,6 @@ class FakeNetworkDataSource : HrmsNetworkDataSource {
                     }
                 else
                     null,
-                errorBody = null,
             )
         }
     }
@@ -101,7 +100,6 @@ class FakeNetworkDataSource : HrmsNetworkDataSource {
         return HrmsNetworkResponse(
             200,
             cleaningStaff,
-            null,
         )
     }
 
@@ -112,7 +110,6 @@ class FakeNetworkDataSource : HrmsNetworkDataSource {
         return HrmsNetworkResponse(
             200,
             cleaningLadies,
-            null,
         )
     }
 
@@ -137,7 +134,6 @@ class FakeNetworkDataSource : HrmsNetworkDataSource {
         return HrmsNetworkResponse(
             200,
             orders,
-            null,
         )
     }
 
@@ -157,7 +153,6 @@ class FakeNetworkDataSource : HrmsNetworkDataSource {
             return HrmsNetworkResponse(
                 200,
                 newOrder,
-                null,
             )
         }
     }
@@ -170,7 +165,6 @@ class FakeNetworkDataSource : HrmsNetworkDataSource {
             HrmsNetworkResponse(
                 200,
                 orderMap[it.id],
-                null,
             )
         }
     }
@@ -181,7 +175,6 @@ class FakeNetworkDataSource : HrmsNetworkDataSource {
 
         return HrmsNetworkResponse(
             200,
-            null,
             null,
         )
     }
@@ -206,7 +199,6 @@ class FakeNetworkDataSource : HrmsNetworkDataSource {
         return HrmsNetworkResponse(
             200,
             rooms,
-            null,
         )
     }
 
@@ -215,7 +207,6 @@ class FakeNetworkDataSource : HrmsNetworkDataSource {
         return HrmsNetworkResponse(
             200,
             roomMap[roomId]!!,
-            null,
         )
     }
 
@@ -227,7 +218,6 @@ class FakeNetworkDataSource : HrmsNetworkDataSource {
             HrmsNetworkResponse(
                 200,
                 roomMap[it.id],
-                null,
             )
         }
     }
@@ -240,7 +230,6 @@ class FakeNetworkDataSource : HrmsNetworkDataSource {
         return HrmsNetworkResponse(
             200,
             notes,
-            null,
         )
     }
 
@@ -261,7 +250,6 @@ class FakeNetworkDataSource : HrmsNetworkDataSource {
         return HrmsNetworkResponse(
             200,
             newNote,
-            null,
         )
     }
 
@@ -271,7 +259,6 @@ class FakeNetworkDataSource : HrmsNetworkDataSource {
 
         return HrmsNetworkResponse(
             200,
-            null,
             null,
         )
     }

@@ -13,7 +13,6 @@ import alexman.hrms.core.network.model.UpstreamNetworkRoomUpdateDetails
 data class HrmsNetworkResponse<T>(
     val code: Int,
     val body: T?,
-    val errorBody: String? // TODO("figure out if this is needed")
 ) {
     val ok: Boolean = (200 <= code) && (code < 300)
 }

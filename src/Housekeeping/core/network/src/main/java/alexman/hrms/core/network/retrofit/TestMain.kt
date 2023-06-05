@@ -73,6 +73,6 @@ private fun <T> req(http: String, request: suspend () -> HrmsNetworkResponse<T>)
     return runBlocking {
         request()
     }.also {
-        print("\n\n---\nHTTP ${http}\nCode: ${it.code} (OK: ${it.ok})\nBody: ${it.body}\nErrorBody: ${it.errorBody}")
+        print("\n\n---\nHTTP ${http}\nCode: ${it.code} (OK: ${it.ok})\nBody: ${it.body}")
     }
 }
