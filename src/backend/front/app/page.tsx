@@ -6,12 +6,15 @@ import { signIn } from "next-auth/react";
 export default async function Login() {
   const handleSubmit = async (e: any) => {
     e.preventDefault()
-    signIn("employee", {
-      username: e.target.login.value,
-      password: e.target.password.value,
-      redirect: false,
-      callbackUrl: "/main"
-    })
+    console.log(process.env.URL);
+    
+    // const res=fetch(process.env.URL)
+    // signIn("employee", {
+    //   username: e.target.login.value,
+    //   password: e.target.password.value,
+    //   redirect: false,
+    //   callbackUrl: "/main"
+    // })
   }
 
 
