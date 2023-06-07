@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Logger, Post } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { PrismaService } from 'src/prisma/prisma.service';
 
@@ -13,6 +13,7 @@ export class ClientController {
     @Body()
     { reservation_id, state }: { reservation_id: number; state: boolean },
   ) {
+    Logger.debug(state);
     return await this.prisma.room.updateMany({
       data: {
         cleanable: state,
@@ -20,7 +21,7 @@ export class ClientController {
       where: {
         Reservation: {
           some: {
-            reservation_id,
+            reservation_id: Number(reservation_id),
           },
         },
       },

@@ -48,7 +48,7 @@ model Reservation {
 
 model Charge {
   reservation_id Int
-  timestamp      DateTime
+  timestamp      DateTime @default(now())
   description    String
   amount         Float
   type           ChargeType

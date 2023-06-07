@@ -8,8 +8,36 @@ import {
   Query,
 } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { Charge, ChargeType } from '@prisma/client';
-import { ApiBearerAuth, ApiQuery, ApiTags } from '@nestjs/swagger';
+import { ChargeType } from '@prisma/client';
+import { ApiBearerAuth, ApiProperty, ApiQuery, ApiTags } from '@nestjs/swagger';
+
+class ChargeEntity {
+  @ApiProperty({
+    type: Number,
+    description: 'The id of the reservation',
+    default: 1,
+  })
+  reservation_id: number;
+  timestamp?: Date;
+  @ApiProperty({
+    type: Number,
+    description: 'The description of the reservation',
+    default: 'charge',
+  })
+  description: string;
+  @ApiProperty({
+    type: Number,
+    description: 'The price of the reservation',
+    default: 50,
+  })
+  amount: number;
+  @ApiProperty({
+    type: Number,
+    description: 'The type of the reservation',
+    default: ChargeType.CHARGE,
+  })
+  type: ChargeType;
+}
 
 type ByType = {
   where: {
@@ -32,7 +60,7 @@ export class ChargeController {
     });
   }
   @Post()
-  async create(@Body() charge: Charge) {
+  async create(@Body() charge: ChargeEntity) {
     return await this.prisma.charge.create({
       data: charge,
     });

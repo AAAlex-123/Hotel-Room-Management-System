@@ -12,7 +12,6 @@ import {
 import { PrismaService } from 'src/prisma/prisma.service';
 import { ReservationClientEntity } from './reservation.client.entity/reservation.client.entity';
 import { ApiBearerAuth, ApiQuery, ApiTags } from '@nestjs/swagger';
-import { Reservation } from '@prisma/client';
 
 @Controller('api/reservation')
 @ApiTags('reservation')
@@ -54,6 +53,7 @@ export class ReservationController {
       where: { reservation_id: id },
       include: {
         room: r,
+        charge: true,
       },
     });
   }
