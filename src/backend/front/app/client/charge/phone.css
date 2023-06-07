@@ -1,0 +1,232 @@
+/* @media only screen and (max-width: 600px) { */
+
+    header {
+        background-color: #C8D2EC; 
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        padding-left: 0.5rem;
+      }
+      *{
+        font-family: 'Aleo-Regular', sans-serif;
+      }
+      
+      
+    footer {
+        background-color: #C8D2EC; 
+        height: 1rem;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+      }
+
+      .whiteBox {
+        background-color: #fff;
+        min-width: 90%;
+        height: 30vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: fixed;
+        top: 5%;
+        border-radius: 5px;
+        margin-right: 0.5rem;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+       
+      }
+
+      .form {
+        margin-top: 10%;
+        margin-left: 3%;
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        grid-template-rows: repeat(5, 1fr);
+        grid-gap: 0.2rem;
+        font-size: 0.5rem;
+        
+
+      }
+      
+      .form input{
+        border-color:#C8D2EC; 
+        border-radius: 5px;
+        text-align: center;
+        font-size: 0.5rem;
+        min-height: 20%;
+
+      }
+      
+
+
+      .form label{
+        padding-top: 0.5rem
+      }
+
+      .l1 { 
+        grid-area: 1 / 1 / 2 / 6;
+        display: flex;
+        align-items: center;
+        padding-right: 1rem;
+      }
+
+      .l1 input {
+        width: 80%;
+        height: 1rem;
+
+      }
+      .l2 { 
+        grid-area: 2 / 1 / 3 / 4; 
+        display: flex;
+        align-items: center;
+
+      }
+      
+      .l2 input {
+        width: 20%;
+        height: 1rem;
+        
+      }
+    
+
+      .l3 { 
+        grid-area: 2 / 2 / 3 / 6; 
+        display: flex;
+        align-items: center;
+        padding-left: 4rem;
+
+      }
+
+
+      .l3 input {
+        width: 40%;
+        height: 1rem;
+        
+      }
+
+      .l4 { 
+        grid-area: 3 / 1 / 4 / 6; 
+        display: flex;
+        align-items: center;
+      }
+
+
+
+      .l4 input {
+        width: 60%;
+        height: 1rem;
+        
+
+      }
+
+      .l4 label{
+        padding-right: 0.9rem;
+        text-align: center;
+      }
+
+      .l5 { 
+        grid-area: 4 / 1 / 5 / 6; 
+        display: flex;
+        align-items: center;
+      }
+
+      .l5 input {
+        width: 60%;
+        height: 1rem;
+
+      }
+      
+      .l5 label{
+        padding-right: 2.2rem;
+      }
+
+    
+      
+    .chargeList {
+      background-color: #fff;
+      min-width: 90%;
+      height: 40vh;
+      display: flex;
+      position: fixed;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      top: 40%;
+      margin-left: 0.5rem;
+      border-radius: 5px;
+      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+      overflow-y: auto;
+
+    }
+    
+    .chargeInfo {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      grid-template-rows: repeat(3, 1fr);
+      background-color: white;
+      padding: 0.2rem;
+      min-width: 90%;
+      margin: 0.2rem;
+      border-radius: 5px;
+      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+      font-size: 0.5rem;
+    }
+
+    .c1{
+      grid-area: 1 / 1 / 2 / 6;
+    }
+
+    .c2 {
+      grid-area: 2 / 1 / 3 / 6;
+    }
+
+    .c3{
+      grid-area: 3 / 1 / 4 / 4;
+    }
+
+    .c4{
+      grid-area: 3 / 4 / 4 / 6;
+    }
+    
+    .charge{
+
+      background-color: #fff;
+      min-width: 90%;
+      height: 10vh;
+      display: flex;
+      position: fixed;
+      flex-direction: column;
+      justify-content: center;
+      align-items: left;
+      top: 85%;
+      margin-left: 0.5rem;
+      border-radius: 5px;
+      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .charge div{
+      padding-left: 1rem;
+      font-weight: bold;
+    }
+      
+    .charge button{
+      position: absolute;
+      top: 50%;
+      right: 0.2rem; 
+      background-color: #C8D2EC;
+      color: rgb(16, 16, 17);
+      border-radius: 5px;
+      text-align: center;
+      font-weight: bold;
+      border-color: #C5C5C5;
+      transform: translate(-50%, -50%);
+    }
+/* } */
+
+
+@font-face {
+    font-family: 'Aleo-Regular';
+    src: url('./fonts/Aleo-Regular.ttf') format('truetype');
+  }
+
