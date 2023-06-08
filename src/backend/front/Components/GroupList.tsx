@@ -2,7 +2,7 @@
 import React ,{ useState }  from 'react'
 import './Component.css';
 import Message from './Message';
-import {GroupData}from '../ReactPages/CreateGroup';
+import {GroupData}from '../Pages/CreateGroup';
 
   
   interface GroupProps {

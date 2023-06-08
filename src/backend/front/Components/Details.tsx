@@ -1,7 +1,6 @@
 "use client"
 import './Component.css';
 
-
 interface DetElem {
     titles: string[];
     content: string[];
@@ -9,10 +8,10 @@ interface DetElem {
     text: string;
     text2?: string | null;
     onClose: () => void;
-    onbuttonClick?: () => void;
+    onButtonClick?: () => void;
   }
   
-  const Details: React.FC<DetElem> = ({ titles, content, elem, text, text2='', onClose , onbuttonClick}) =>  {
+  const Details: React.FC<DetElem> = ({ titles, content, elem, text, text2='', onClose , onButtonClick}) =>  {
 
 
   
@@ -37,14 +36,14 @@ interface DetElem {
       <div className="det-button-container">
         {renderGridItems()} 
       <div className='button-container'>
-        <button className="bluebutton" type="submit" onClick={onClose} >
+        <button className="blueButton" type="submit" onClick={onClose} >
 
           {text}
 
         </button>
         {text2 !== null && ( 
 
-          <button className="bluebutton" type="submit" onClick={onbuttonClick}>
+          <button className="blueButton" type="submit" onClick={onButtonClick}>
 
             {text2}
             

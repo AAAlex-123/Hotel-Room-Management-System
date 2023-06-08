@@ -2,8 +2,8 @@
 import Layout from '../Components/Layout';
 import SmallScreen from '../Components/SmallScreen';
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import SelectionList, { ListData } from '../Components/SelectionList';
-import Link from 'next/link';
 
 export interface GroupData {
   id: string;
@@ -82,8 +82,8 @@ const CreateGroup: React.FC = () => {
       <div className="whiteBox">
           <SelectionList listelem={listelem} onSelection={handleSelectionChange}/>
              
-            <Link href='/maid-management'>
-            <button className="bluebutton" type="submit">
+            <Link to='/maid-management'>
+            <button className="blueButton" type="submit">
     
               Close
     
@@ -99,13 +99,13 @@ const CreateGroup: React.FC = () => {
                   onChange={handleGroupNameChange}
                   placeholder="Enter Group Name"
                 />
-                <button className="bluebutton" type="submit">
+                <button className="blueButton" type="submit">
                   Create Group
                 </button>
               </form>
             ) : (
               <div>
-                <button className="bluebutton" type="submit" onClick={handleCreateGroupClick}>
+                <button className="blueButton" type="submit" onClick={handleCreateGroupClick}>
                   Create Group
                 </button>
               </div>

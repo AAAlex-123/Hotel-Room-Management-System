@@ -2,19 +2,22 @@
 import "./Login.css";
 import Head from "next/head";
 import Image from "next/image";
-import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
 export default async function Login() {
-  const handleSubmit = async (e: any) => {
+  const { push, refresh } = useRouter()
+  async function handleSubmit(e: any) {
     e.preventDefault()
-    console.log(process.env.URL);
-    
-    // const res=fetch(process.env.URL)
-    // signIn("employee", {
-    //   username: e.target.login.value,
-    //   password: e.target.password.value,
-    //   redirect: false,
-    //   callbackUrl: "/main"
-    // })
+    const res = await fetch("http://localhost:8081/api/auth", {
+      cache: "no-cache", method: "POST", headers: { "Content-type": "application/json" }, body: JSON.stringify({
+        login: e.target.login.value,
+        password: e.target.password.value
+      })
+    })
+    if (!res.ok) refresh()
+    const { employee_id, access_token } = await res.json()
+    localStorage.setItem("employee_id", employee_id)
+    localStorage.setItem("token", access_token)
+    push("/main")
   }
 
 

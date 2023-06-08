@@ -24,4 +24,5 @@ export class ReservationClientEntity {
   visitor?: number;
   @ApiProperty({ required: false, default: 'temp@mail.com' })
   email?: string;
+  bill?: number;
 }

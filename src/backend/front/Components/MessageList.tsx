@@ -1,51 +1,51 @@
 "use client"
-import React, { useState } from 'react'
+import React ,{ useState }  from 'react'
 import './Component.css';
 import Message from './Message';
 
 export interface MessageData {
-  num: string;
-  text: string;
-  name: string;
-}
+    num: string;
+    text: string;
+    name: string;
+  }
+  
+  interface MessageListProps {
+    messages: MessageData[];
+    onDeleteMessage: (message: MessageData) => void;
+  }
+  
+  const MessageList: React.FC<MessageListProps> = ({ messages, onDeleteMessage }) => {
+    const [selectedMessage, setSelectedMessage] = useState<MessageData | null>(null);
 
-interface MessageListProps {
-  messages: MessageData[];
-  onDeleteMessage: (message: MessageData) => void;
-}
+    const handleCloseMessage = () => {
+        setSelectedMessage(null);
+      };
 
-const MessageList: React.FC<MessageListProps> = ({ messages, onDeleteMessage }) => {
-  const [selectedMessage, setSelectedMessage] = useState<MessageData | null>(null);
+    const handleMessageClick = (message: MessageData) => {
+        setSelectedMessage(message);
+      };
 
-  const handleCloseMessage = () => {
-    setSelectedMessage(null);
-  };
+      const handleDeleteMessage = () => {
+        if (selectedMessage) {
+          onDeleteMessage(selectedMessage);
+          setSelectedMessage(null);
+        }
+      };
 
-  const handleMessageClick = (message: MessageData) => {
-    setSelectedMessage(message);
-  };
-
-  const handleDeleteMessage = () => {
-    if (selectedMessage) {
-      onDeleteMessage(selectedMessage);
-      setSelectedMessage(null);
-    }
-  };
-
-  const [searchQuery, setSearchQuery] = useState('');
-  const filteredMessages = messages.filter(
+    const [searchQuery, setSearchQuery] = useState('');
+    const filteredMessages = messages.filter(
     (message) => message.num.includes(searchQuery)
-  );
-  return (
-    <>
-      <input className="roomSearch"
-        type="text"
-        placeholder="Search by room number"
-        value={searchQuery}
-        onChange={(e) => setSearchQuery(e.target.value)}
-      />
+    );
+    return (
+        <>
+        <input className="roomSearch"
+            type="text"
+            placeholder="Search by room number"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+/>
       <div className="msg-list">
-        {filteredMessages.map((message, index) => (
+      {filteredMessages.map((message, index) => (
           <Message
             key={index}
             num={message.num}
@@ -58,22 +58,22 @@ const MessageList: React.FC<MessageListProps> = ({ messages, onDeleteMessage }) 
       </div>
       {selectedMessage && (
         <div className="selected-message">
-          <Message num={selectedMessage.num} text={selectedMessage.text} name={selectedMessage.name} onClick={() => handleMessageClick(selectedMessage)} selected={true} />
-          <div className='button-container'>
-            <button className="bluebutton" type="submit" onClick={handleCloseMessage} >
+            <Message num={selectedMessage.num} text={selectedMessage.text} name={selectedMessage.name} onClick={() => handleMessageClick(selectedMessage)} selected={true}/>
+            <div className='button-container'>
+        <button className="blueButton" type="submit" onClick={handleCloseMessage} >
 
-              Close
+          Close
 
-            </button>
-            <button className="bluebutton" onClick={handleDeleteMessage}>
+        </button>
+        <button className="blueButton" onClick={handleDeleteMessage}>
               Delete
             </button>
-          </div>
         </div>
-      )}
-    </>
-  );
-};
-
-export default MessageList;
+        </div> 
+        )}
+      </>
+    );
+  };
+  
+  export default MessageList;
 

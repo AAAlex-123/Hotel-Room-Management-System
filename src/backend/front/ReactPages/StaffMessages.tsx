@@ -2,8 +2,8 @@
 import React, { useState } from 'react'
 import Layout from '../Components/Layout'
 import SmallScreen from '../Components/SmallScreen'
+import { Link } from 'react-router-dom';
 import MessageList, {MessageData} from '../Components/MessageList';
-import Link from 'next/link';
 
 const StaffMessages: React.FC = () => {
     const label= 'Staff Messages';
@@ -36,8 +36,8 @@ const StaffMessages: React.FC = () => {
       <div className="whiteBox">
         <MessageList messages={messages} onDeleteMessage={handleDeleteMessage}/>
 
-      <Link href='/misc'>
-            <button className="bluebutton" type="submit">
+      <Link to='/misc'>
+            <button className="blueButton" type="submit">
     
               Close
     

@@ -1,22 +1,22 @@
 "use client"
-import React from 'react'
+import React, { Component } from 'react'
 import Layout from '../Components/Layout'
 import Grid from '../Components/Grid'
 import SmallScreen from '../Components/SmallScreen'
-import { useRouter } from 'next/navigation'
+import { useNavigate } from 'react-router-dom';
 
 const Misc: React.FC = () => {
   const labels = ['End Of Day', 'Guest Messages', 'Staff Messages'];
   const elem = 3;
   const label= 'Miscellaneous';
-  const navigate = useRouter();
+  const navigate = useNavigate();
   const handleLabelClick = (label: string) => {
      if (label === 'End Of Day') {
-      navigate.push('/end-of-day');
+      navigate('/end-of-day');
     } else if (label === 'Guest Messages') {
-      navigate.push('/guest-messages');
+      navigate('/guest-messages');
     } else if (label === 'Staff Messages') {
-      navigate.push('/staff-messages');
+      navigate('/staff-messages');
     } 
   };
     return (

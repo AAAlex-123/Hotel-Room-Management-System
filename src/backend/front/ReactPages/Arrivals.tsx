@@ -4,7 +4,7 @@ import Details from '../Components/Details';
 import SmallScreen from '../Components/SmallScreen'
 import Search from '../Components/Search';
 import React, { useState} from 'react';
-import Link from 'next/link';
+import { Link } from 'react-router-dom';
 
 const Arrivals: React.FC = () => {
   const titles = ['Name', 'Room Number', 'Arrival Time', 'Visitors', 'Departure', 'E-mail', 'Bill'];
@@ -16,10 +16,7 @@ const Arrivals: React.FC = () => {
   const [showDetails, setShowDetails] = useState(false);
 
   const handleSearch = (searchQuery: string) => {
-    
-    // TO-DO: You see the titles/content stuff? Ok cool when the search happens just add the details of the Arrival in them instead of this 
-    //temporary content. The search bar works based on...Arrival ID or what? You decide idk. 
- 
+  
     setShowDetails(true);
   };
 
@@ -55,11 +52,9 @@ const Arrivals: React.FC = () => {
         />
       )}
              
-            <Link href='/main'>
-            <button className="bluebutton" type="submit">
-    
+            <Link to='/main'>
+            <button className="blueButton" type="submit">
               Close
-    
             </button>
           </Link>
 

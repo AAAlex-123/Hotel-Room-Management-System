@@ -2,10 +2,10 @@
 import Layout from '../Components/Layout'
 import SmallScreen from '../Components/SmallScreen'
 import React, {useState} from 'react';
+import { Link } from 'react-router-dom';
 import Filter from '../Components/Filter';
 import {Room, Status} from '../Components/Room';
 import RoomList from '../Components/RoomList';
-import Link from 'next/link';
 
 const Housekeeping: React.FC = () => {
   const label= 'Housekeeping';
@@ -90,8 +90,8 @@ const Housekeeping: React.FC = () => {
       <div className="whiteBox">
       <Filter onFilter={handleFilter} />
           <RoomList rooms={rooms} filters={filterOptions} onStatusChange={handleStatusChange}/>
-            <Link href='/room-management'>
-            <button className="bluebutton" type="submit">
+            <Link to='/room-management'>
+            <button className="blueButton" type="submit">
     
               Close
     

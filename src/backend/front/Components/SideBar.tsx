@@ -1,43 +1,44 @@
 "use client"
 import React from 'react'
 import './Component.css';
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context';
+import { NavigateFunction } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
+import { Link } from 'react-router-dom';
+
 
 export default function SideBar() {
 
-  const navigate = useRouter()
+    const navigate= useNavigate()
   return (
     <>
-      <nav>
-        <div className="nav-list">
-          <div onClick={() => changePage('/reservations', navigate)}>Reservartions</div>
-          <div onClick={() => changePage('/front desk', navigate)}>Front Desk</div>
-          <div onClick={() => changePage('/arrivals', navigate)}>Arrivals</div>
-          <div onClick={() => changePage('/room-management', navigate)}>Room Management</div>
-          <div onClick={() => changePage('/cashiering', navigate)}>Cashiering</div>
-          <div onClick={() => changePage('/misc', navigate)}>Miscellaneous</div>
+    <nav>
+    <div className="nav-list">
+        <div onClick={() => changePage('/reservations', navigate)}>Reservartions</div>
+        <div onClick={() => changePage('/front desk', navigate)}>Front Desk</div>
+        <div onClick={() => changePage('/arrivals', navigate)}>Arrivals</div>
+        <div onClick={() => changePage('/room-management', navigate)}>Room Management</div>
+        <div onClick={() => changePage('/cashiering', navigate)}>Cashiering</div>
+        <div onClick={() => changePage('/misc', navigate)}>Miscellaneous</div>
 
-          <Link href='/'>
-            <button className="bluebutton" type="submit">
+      <Link to='/'>
+        <button className="blueButton" type="submit">
 
-              Exit
+          Exit
 
-            </button>
-          </Link>
-        </div>
+        </button>
+      </Link>
+      </div>
 
-      </nav>
+    </nav>
 
     </>
-
+    
   )
 }
 
-function changePage(path: string, navigate: AppRouterInstance) {
-  navigate.push(path)
-
-}
+function changePage(path: string, navigate: NavigateFunction){
+    navigate(path, {replace: true})
+  
+  }
 
 

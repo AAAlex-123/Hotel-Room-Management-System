@@ -3,6 +3,7 @@ import React from 'react'
 import './Component.css';
 import Link from 'next/link';
 
+
 interface GridElem {
   labels: string[];
   elem: number;
@@ -25,7 +26,7 @@ const Grid: React.FC<GridElem> = ({ labels, elem, clicked, link }) => {
     <div className="grid-button-container">
       <div className="grid-container">{renderGridItems()} </div>
       <Link href={link}>
-        <button className="bluebutton" type="submit" >
+        <button className="blueButton" type="submit" >
 
           Close
 

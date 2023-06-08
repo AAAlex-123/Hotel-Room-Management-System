@@ -3,22 +3,22 @@ import React, { Component } from 'react'
 import Layout from '../Components/Layout'
 import Grid from '../Components/Grid'
 import SmallScreen from '../Components/SmallScreen'
-import { useRouter } from 'next/navigation'
+import { useNavigate } from 'react-router-dom';
 
 const Reservations: React.FC = () => {
   const labels = ['Create Group', 'Assign Rooms', 'Room Notes', 'Orders'];
   const elem = 4;
   const label= 'Maid Management';
-  const navigate = useRouter();
+  const navigate = useNavigate();
   const handleLabelClick = (label: string) => {
      if (label === 'Create Group') {
-      navigate.push('/create-group');
+      navigate('/create-group');
     } else if (label === 'Assign Rooms') {
-      navigate.push('/assign-rooms');
+      navigate('/assign-rooms');
     } else if (label === 'Room Notes') {
-      navigate.push('/room-notes');
+      navigate('/room-notes');
     } else if (label === 'Orders') {
-      navigate.push('/orders');
+      navigate('/orders');
     }
   };
     return (

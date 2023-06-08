@@ -1,8 +1,8 @@
 "use client"
-import Link from 'next/link';
 import Layout from '../Components/Layout'
 import SmallScreen from '../Components/SmallScreen'
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const OutOfOS: React.FC = () => {
   const label= 'Out Of O/S';
@@ -20,8 +20,8 @@ const OutOfOS: React.FC = () => {
       <div className="whiteBox">
                 To be added...
              
-            <Link href='/room-management'>
-            <button className="bluebutton" type="submit">
+            <Link to='/room-management'>
+            <button className="blueButton" type="submit">
     
               Close
     

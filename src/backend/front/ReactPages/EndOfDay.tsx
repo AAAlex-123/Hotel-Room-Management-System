@@ -2,9 +2,9 @@
 import React, { Component } from 'react'
 import Layout from '../Components/Layout'
 import SmallScreen from '../Components/SmallScreen'
+import { Link } from 'react-router-dom';
 import StatBox from '../Components/StatBox';
 import MoreStats from '../Components/MoreStats';
-import Link from 'next/link';
 
 const EndOfDay: React.FC = () => {
     const label= 'End Of Day Statistics';
@@ -39,8 +39,8 @@ const EndOfDay: React.FC = () => {
                 num3={25}
                 money= '392,994' />
 
-      <Link href='/misc'>
-            <button className="bluebutton" type="submit">
+      <Link to='/misc'>
+            <button className="blueButton" type="submit">
     
               Close
     

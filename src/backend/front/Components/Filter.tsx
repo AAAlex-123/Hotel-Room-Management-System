@@ -192,7 +192,7 @@ const Filter: React.FC<FilterProps> = ({ onFilter }) => {
         />
       </label>
         <div>
-          <button className="bluebutton" onClick={handleFilterReset}>
+          <button className="blueButton" onClick={handleFilterReset}>
             Reset
           </button>
         </div>

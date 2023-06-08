@@ -1,8 +1,8 @@
 "use client"
-import Link from 'next/link';
 import Layout from '../Components/Layout'
 import SmallScreen from '../Components/SmallScreen'
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const FastCharge: React.FC = () => {
   const label= 'Fast Charge';
@@ -20,8 +20,8 @@ const FastCharge: React.FC = () => {
       <div className="whiteBox">
                 This is not part of the system for now but an additional feature to be explored in the future...
              
-            <Link href='/cashiering'>
-            <button className="bluebutton" type="submit">
+            <Link to='/cashiering'>
+            <button className="blueButton" type="submit">
     
               Close
     

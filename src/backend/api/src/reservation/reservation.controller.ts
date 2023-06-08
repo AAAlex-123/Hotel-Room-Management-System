@@ -12,6 +12,7 @@ import {
 import { PrismaService } from 'src/prisma/prisma.service';
 import { ReservationClientEntity } from './reservation.client.entity/reservation.client.entity';
 import { ApiBearerAuth, ApiQuery, ApiTags } from '@nestjs/swagger';
+import { ChargeType } from '@prisma/client';
 
 @Controller('api/reservation')
 @ApiTags('reservation')
@@ -60,7 +61,19 @@ export class ReservationController {
 
   @Post()
   async create(@Body() reservation: ReservationClientEntity) {
-    return await this.prisma.reservation.create({ data: reservation });
+    const { bill, ...rest } = reservation;
+    return await this.prisma.reservation.create({
+      data: {
+        ...rest,
+        charge: {
+          create: {
+            amount: bill,
+            description: 'Initial Charge',
+            type: ChargeType.CHARGE,
+          },
+        },
+      },
+    });
   }
 
   @Delete(':id')
