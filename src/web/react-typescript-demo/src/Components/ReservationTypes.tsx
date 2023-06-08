@@ -30,7 +30,7 @@ export interface ReservationReturn  {
   };
 
 export interface ReservationClientEntity  {
-    room_id: string[];
+    room_id: string;
     arrival: Date;
     departure: Date;
     name: string;

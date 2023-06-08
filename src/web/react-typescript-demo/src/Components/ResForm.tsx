@@ -8,7 +8,7 @@ interface UserFormProps {
   
  export interface UserData {
     reservation_id: number;
-    room_id: string[];
+    room_id: string;
     arrival: Date;
     departure: Date;
     name: string;
@@ -19,13 +19,13 @@ interface UserFormProps {
     postcode: string;
     visitor: number;
     email?: string | null;
-    bill: string;
+    bill: number;
   }
   
   const ResForm: React.FC<UserFormProps> = ({ onSubmit }) => {
     const [userData, setUserData] = useState<UserData>({
       reservation_id: 0,
-      room_id: [],
+      room_id: '',
       arrival: new Date(),
       departure: new Date(),
       name: '',
@@ -36,7 +36,7 @@ interface UserFormProps {
       postcode: '',
       visitor: 0,
       email: null,
-      bill: '',
+      bill: 0,
 
     });
   
@@ -45,6 +45,17 @@ interface UserFormProps {
       setUserData((prevUserData) => ({
         ...prevUserData,
         [name]: value,
+      }));
+    };
+
+    const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      const { name, value } = e.target;
+    
+      const parsedValue = name === 'arrival' || name === 'departure' ? new Date(value) : value;
+    
+      setUserData((prevUserData) => ({
+        ...prevUserData,
+        [name]: parsedValue,
       }));
     };
   
@@ -73,8 +84,8 @@ interface UserFormProps {
         className="form-field-wrapper"
         type="date"
         name="arrival"
-        value={userData.arrival.toISOString().split('T')[0]}
-        onChange={handleInputChange}
+        value={userData.arrival instanceof Date ? userData.arrival.toISOString().split('T')[0] : ''}
+        onChange={handleDateChange}
         placeholder="Arrival Date"
       />
     </div>
@@ -85,8 +96,8 @@ interface UserFormProps {
         className="form-field-wrapper"
         type="date"
         name="departure"
-        value={userData.departure.toISOString().split('T')[0]}
-        onChange={handleInputChange}
+        value={userData.departure instanceof Date ? userData.departure.toISOString().split('T')[0] : ''}
+        onChange={handleDateChange}
         placeholder="Departure Date"
       />
     </div>

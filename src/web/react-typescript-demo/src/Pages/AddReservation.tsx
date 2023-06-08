@@ -3,17 +3,37 @@ import Layout from '../Components/Layout';
 import ResForm, {UserData} from '../Components/ResForm';
 import SmallScreen from '../Components/SmallScreen';
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+
+
 
 const AddReservation: React.FC = () => {
   const text= "Close";
   const label= 'Add Reservation';
+  const navigate= useNavigate();
+  const employee_id= localStorage.getItem('employee_id');
+  const token= localStorage.getItem('token');
 
-  const handleSubmit = (userData: UserData) => {
-    // Handle the form submission here
-    //TO-DO: Take the user data and create a new reservation
+  const handleSubmit = async(userData: UserData) => {
+    try{const response=await fetch(`http://host.docker.internal:8081/api/reservation`,{
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(userData),
+})
+    if(!response.ok){
+      navigate('reservations')
+    }
 
-  };
+    console.log("Not able to forward the data.");
+  } catch (err:any) {
+    console.log(err)
+   
+  }
+
+  }
 
 
 

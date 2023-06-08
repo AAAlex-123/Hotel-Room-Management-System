@@ -15,7 +15,7 @@ const FindReservation: React.FC = () => {
 
     const [reservations, setReservations] = useState<ReservationClientEntity[]>([
       {
-        room_id: ['O63', '064'],
+        room_id: 'O63',
         arrival: new Date('2023-05-29'),
         departure: new Date('2023-05-31'),
         name: 'Minako Arisato',
@@ -25,7 +25,7 @@ const FindReservation: React.FC = () => {
       },
 
       {
-        room_id: ['O65'],
+        room_id: 'O65',
         arrival: new Date('2023-05-29'),
         departure: new Date('2023-05-31'),
         name: 'Electra Papadopoulou',
@@ -87,7 +87,7 @@ const FindReservation: React.FC = () => {
     const content: string[] = [];
 
     if (reservation) {
-      content.push(reservation.room_id.join(','));
+      content.push(reservation.room_id);
       content.push(reservation.arrival.toDateString());
       content.push(reservation.departure.toDateString());
       content.push(reservation.name);
@@ -155,7 +155,7 @@ const FindReservation: React.FC = () => {
                 <tbody>
                 {searchResult.map((reservation, index) => (reservation && (
                         <tr key={index} onClick={() => openDetails(reservation)}>
-                          <td>{reservation.room_id.join(',')}</td>
+                          <td>{reservation.room_id}</td>
                           <td>{reservation.name}</td>
                           <td>{reservation.cellphone}</td>
                         </tr>
