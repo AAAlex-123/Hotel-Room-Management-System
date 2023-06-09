@@ -4,13 +4,13 @@ import SmallScreen from '../Components/SmallScreen';
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import SelectionList, { ListData } from '../Components/SelectionList';
-import {GroupData} from './CreateGroup';
-import GroupList from '../Components/GroupList';
+// import {GroupData} from './CreateGroup';
+// import GroupList from '../Components/GroupList';
 
 export interface CleanData {
   id: string;
   name: string;
-  maids: GroupData[];
+  maids: ListData[];
   housekeeper: ListData[];
   rooms: ListData[];
 }
@@ -28,24 +28,34 @@ const AssignRooms: React.FC = () => {
     { num: '107'},
   ]);
 
-  const [maidElem, setElem2] = useState<GroupData[]>([
-    {
-      id: '1',
-      name: 'Group 1',
-      members: [
-        { num: '139303', name: 'Electra' },
-        { num: '140303', name: 'Anastasis' },
-      ],
-    },
-    {
-      id: '2',
-      name: 'Group 2',
-      members: [
-        { num: '141303', name: 'Alex' },
-        { num: '142303', name: 'Giannis' },
-      ],
-    },
+  const [maidElem, setElem2] = useState<ListData[]>([
+    { num: '139303', name: 'Electra' },
+    { num: '140303', name: 'Anastasis' },
+    { num: '141303', name: 'Alex' },
+    { num: '142303', name: 'Giannis' },
+    { num: '143303', name: 'Panos' },
+    { num: '144303', name: 'Gkionis' },
+    { num: '145303', name: 'Dimitris' },
   ]);
+
+  // const [maidElem, setElem2] = useState<GroupData[]>([
+  //   {
+  //     id: '1',
+  //     name: 'Group 1',
+  //     members: [
+  //       { num: '139303', name: 'Electra' },
+  //       { num: '140303', name: 'Anastasis' },
+  //     ],
+  //   },
+  //   {
+  //     id: '2',
+  //     name: 'Group 2',
+  //     members: [
+  //       { num: '141303', name: 'Alex' },
+  //       { num: '142303', name: 'Giannis' },
+  //     ],
+  //   },
+  // ]);
 
   const [hskElem, setElem3] = useState<ListData[]>([
     { num: '143303', name: 'Panos' },
@@ -56,7 +66,7 @@ const AssignRooms: React.FC = () => {
 
 
   const [selectedElements, setSelectedElements] = useState<ListData[]>([]);
-  const [selectedGroup, setSelectedGroup] = useState<GroupData[]> ([]);
+  const [selectedGroup, setSelectedGroup] = useState<ListData[]> ([]);
   const [selectedHsk, setSelectedHsk] = useState<ListData[]>([]);
   const [showInput, setShowInput] = useState(false);
   const [showWarning, setShowWarning] = useState(false);
@@ -65,7 +75,7 @@ const AssignRooms: React.FC = () => {
     setSelectedElements(selectedElems);
   };
 
-  const handleGroupChange= (selectedGroup: GroupData[]) => {
+  const handleGroupChange= (selectedGroup: ListData[]) => {
     setSelectedGroup(selectedGroup);
   }
 
@@ -131,13 +141,13 @@ const AssignRooms: React.FC = () => {
       <div className="whiteBox">
       <div className="manyLists">
       <div className="listColumn">
-        <SelectionList listelem={roomElem} onSelection={handleSelectionChange} />
+        <SelectionList listelem={roomElem} onSelection={handleSelectionChange} grid={false}/>
       </div>
       <div className="listColumn">
-        <GroupList listelem={maidElem} onSelection={handleGroupChange} />
+        <SelectionList listelem={maidElem} onSelection={handleGroupChange} grid={false}/>
       </div>
       <div className="listColumn">
-        <SelectionList listelem={hskElem} onSelection={handleHskChange} />
+        <SelectionList listelem={hskElem} onSelection={handleHskChange} grid={false}/>
       </div>
 
 

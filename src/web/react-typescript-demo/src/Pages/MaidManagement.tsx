@@ -5,14 +5,14 @@ import Grid from '../Components/Grid'
 import SmallScreen from '../Components/SmallScreen'
 import { useNavigate } from 'react-router-dom';
 
-const Reservations: React.FC = () => {
-  const labels = ['Create Group', 'Assign Rooms', 'Room Notes', 'Orders'];
+const MaidManagement: React.FC = () => {
+  const labels = ['Delete Group', 'Assign Rooms', 'Room Notes', 'Orders'];
   const elem = 4;
   const label= 'Maid Management';
   const navigate = useNavigate();
   const handleLabelClick = (label: string) => {
-     if (label === 'Create Group') {
-      navigate('/create-group');
+     if (label === 'Delete Group') {
+      navigate('/delete-group');
     } else if (label === 'Assign Rooms') {
       navigate('/assign-rooms');
     } else if (label === 'Room Notes') {
@@ -38,4 +38,4 @@ const Reservations: React.FC = () => {
     )
   }
 
-export default Reservations;
+export default MaidManagement;

@@ -16,7 +16,7 @@ import Housekeeping from './Pages/Housekeeping';
 import RoomHistory from './Pages/RoomHistory';
 import OutOfOS from './Pages/OutOfOS';
 import MaidManagement from './Pages/MaidManagement';
-import CreateGroup from './Pages/CreateGroup';
+import DeleteGroup from './Pages/DeleteGroup';
 import AssignRooms from './Pages/AssignRooms';
 import RoomNotes from './Pages/RoomNotes';
 import Orders from './Pages/Orders';
@@ -49,7 +49,7 @@ function App() {
           <Route path="/room-history" element={<RoomHistory/>}/>
           <Route path="/out-of-O/S" element={<OutOfOS/>}/>
           <Route path="/maid-management" element={<MaidManagement/>} /> 
-          <Route path="/create-group" element={<CreateGroup/>} /> 
+          <Route path="/delete-group" element={<DeleteGroup/>} /> 
           <Route path="/assign-rooms" element={<AssignRooms/>} /> 
           <Route path="/room-notes" element={<RoomNotes/>} /> 
           <Route path="/cashiering" element={<Cashiering/>}/> 

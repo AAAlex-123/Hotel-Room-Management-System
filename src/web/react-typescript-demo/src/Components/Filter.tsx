@@ -53,8 +53,6 @@ const Filter: React.FC<FilterProps> = ({ onFilter }) => {
   
     const handleFilterChange = (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
       const { name, value, type } = event.target;
-    
-      // Handle input changes
       if (type === 'text') {
         setFilterOptions((prevFilterOptions) => ({
           ...prevFilterOptions,
@@ -62,15 +60,13 @@ const Filter: React.FC<FilterProps> = ({ onFilter }) => {
         }));
       }
     
-      // Handle select changes
       if (type === 'select-one') {
         setFilterOptions((prevFilterOptions) => ({
           ...prevFilterOptions,
           [name]: value !== '' ? value : undefined,
         }));
       }
-    
-      // Handle checkbox changes
+
       if (type === 'checkbox') {
         const checked = (event.target as HTMLInputElement).checked;
         setFilterOptions((prevFilterOptions) => ({
@@ -81,7 +77,6 @@ const Filter: React.FC<FilterProps> = ({ onFilter }) => {
     };
     
 
-  
   const handleStatusChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedStatus = event.target.value as Status | '';
 

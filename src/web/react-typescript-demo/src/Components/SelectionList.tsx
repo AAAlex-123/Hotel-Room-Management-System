@@ -12,10 +12,11 @@ export interface ListData {
   interface ListProps {
     listelem: ListData[] 
     onSelection: (selectedElements: ListData[]) => void;
+    grid: boolean;
 
   }
   
-const SelectionList: React.FC<ListProps> = ({ listelem, onSelection }) => {
+const SelectionList: React.FC<ListProps> = ({ listelem, onSelection, grid}) => {
     const [selectedElems, setSelectedElems] = useState<ListData[]>([]);
 
     const handleElemClick = (listelem: ListData) => {
@@ -62,7 +63,7 @@ const SelectionList: React.FC<ListProps> = ({ listelem, onSelection }) => {
       value={searchQuery}
       onChange={(e) => setSearchQuery(e.target.value)}
     />
-    <div className="msg-list">
+    <div className={grid?"msg-grid":"msg-list"} >
       {filteredElems.map((listelem, index) => (
         <div key={index} className="message" onClick={() => handleElemClick(listelem)}>
           <Message
