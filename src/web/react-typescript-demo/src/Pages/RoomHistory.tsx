@@ -18,8 +18,6 @@ const RoomHistory: React.FC = () => {
       <div> <SmallScreen label={label}/>
       <div className="res-container">
       <div className="whiteBox">
-                To be added...
-             
             <Link to='/room-management'>
             <button className="blueButton" type="submit">
     

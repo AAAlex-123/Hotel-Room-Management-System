@@ -5,8 +5,6 @@ import SmallScreen from '../Components/SmallScreen';
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
-
-
 const AddReservation: React.FC = () => {
   const text= "Close";
   const label= 'Add Reservation';
@@ -30,12 +28,8 @@ const AddReservation: React.FC = () => {
     console.log("Not able to forward the data.");
   } catch (err:any) {
     console.log(err)
-   
   }
-
   }
-
-
 
     return (
       <>
@@ -48,25 +42,16 @@ const AddReservation: React.FC = () => {
       <div> <SmallScreen label={label}/>
       <div className="res-container">
       <div className="whiteBox">
-        
       <ResForm onSubmit={handleSubmit} />
-    
-   
-             
             <Link to='/reservations'>
             <button className="blueButton" type="submit">
-    
               {text}
-    
             </button>
           </Link>
-
-
         </div>
         </div>
         </div>
     </>
-      
     )
   
     }
