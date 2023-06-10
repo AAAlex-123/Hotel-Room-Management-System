@@ -13,7 +13,6 @@ import { ChargeController } from './charge/charge.controller';
 import { NoteController } from './note/note.controller';
 import { GroupController } from './group/group.controller';
 import { ChambermaidController } from './chambermaid/chambermaid.controller';
-import { HousekeeperController } from './housekeeper/housekeeper.controller';
 import { ClientController } from './client/client.controller';
 import { DirtyServiceService } from './dirty-service/dirty-service.service';
 import { APP_GUARD } from '@nestjs/core';
@@ -33,7 +32,6 @@ import { AuthGuard } from './auth/auth.guard/auth.guard';
     NoteController,
     GroupController,
     ChambermaidController,
-    HousekeeperController,
     ClientController,
   ],
   providers: [

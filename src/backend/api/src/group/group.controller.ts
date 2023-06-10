@@ -27,6 +27,10 @@ export class GroupController {
       where: {
         housekeeper_id: id,
       },
+      include: {
+        groupRooms: true,
+        GroupChamber: true,
+      },
     });
   }
   @Post()

@@ -13,5 +13,6 @@ export class DirtyServiceService {
         clean_state: 'DIRTY',
       },
     });
+    await this.prisma.group.deleteMany({});
   }
 }
