@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 
 const Cashiering: React.FC = () => {
   const labels = ['Billing', 'Check Out', 'Fast Charge', 'Statistics'];
-  const elem = 4;
+  const elem = 2;
   const label= 'Cashiering';
   const navigate = useNavigate();
   const handleLabelClick = (label: string) => {

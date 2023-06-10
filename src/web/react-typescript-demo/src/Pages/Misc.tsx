@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 
 const Misc: React.FC = () => {
   const labels = ['End Of Day', 'Guest Messages', 'Staff Messages'];
-  const elem = 3;
+  const elem = 1;
   const label= 'Miscellaneous';
   const navigate = useNavigate();
   const handleLabelClick = (label: string) => {
@@ -17,7 +17,7 @@ const Misc: React.FC = () => {
       navigate('/guest-messages');
     } else if (label === 'Staff Messages') {
       navigate('/staff-messages');
-    } 
+     } 
   };
     return (
       <>
