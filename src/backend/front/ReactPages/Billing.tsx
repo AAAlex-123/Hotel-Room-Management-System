@@ -1,8 +1,8 @@
 "use client"
-import Layout from '../Components/Layout'
-import Details from '../Components/Details';
-import SmallScreen from '../Components/SmallScreen'
-import Search from '../Components/Search';
+import Layout from '../app/components/Layout'
+import Details from '../app/components/Details';
+import SmallScreen from '../app/components/SmallScreen'
+import Search from '../app/components/Search';
 import React, { useState} from 'react';
 import { Link } from 'react-router-dom';
 

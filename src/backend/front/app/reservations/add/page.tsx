@@ -1,8 +1,8 @@
 "use client"
 import Link from 'next/link';
-import Layout from '../../../Components/Layout';
-import ResForm, { UserData } from '../../../Components/ResForm';
-import SmallScreen from '../../../Components/SmallScreen';
+import Layout from '../../components/Layout';
+import ResForm, { UserData } from '../../components/ResForm';
+import SmallScreen from '../../components/SmallScreen';
 import React from 'react';
 import Head from 'next/head';
 import { useRouter } from 'next/navigation';

@@ -65,10 +65,10 @@ export default async function Phone() {
       </div>
       <div className='charge'>
         <div>Total: {totalCharge}$
-          <button onClick={handleChargeButton} disabled={!cardInfoCompleted}>
-            Charge
-          </button >
         </div>
+        <button onClick={handleChargeButton} disabled={!cardInfoCompleted}>
+          Charge
+        </button >
       </div>
       <footer>
       </footer>

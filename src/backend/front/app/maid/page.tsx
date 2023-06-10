@@ -1,14 +1,17 @@
 "use client"
-import React, { Component } from 'react'
+import React from 'react'
 import Layout from '../components/Layout'
 import Grid from '../components/Grid'
 import SmallScreen from '../components/SmallScreen'
 import { useRouter } from 'next/navigation'
-import Head from 'next/head'
 import { EmployeeEntityNoPass } from '../Employee'
+import Head from 'next/head'
 
 async function Reservations() {
-  const { push, refresh } = useRouter()
+  const labels = ['Create Group', 'Assign Rooms', 'Room Notes', 'Orders'];
+  const elem = 4;
+  const label = 'Maid Management';
+  const { push } = useRouter()
   const employee_id = localStorage.getItem("employee_id")
   const token = localStorage.getItem("token")
   const get_res = await fetch(`http://localhost:8081/api/employee/${employee_id}`, { cache: "no-cache", headers: { authrization: `Bearer ${token}` } })
@@ -16,32 +19,28 @@ async function Reservations() {
     push("/")
   }
   const employee: EmployeeEntityNoPass = await get_res.json()
-  const labels = ['Add Reservation', 'Delete Reservation', 'Update Reservation', 'Find Reservation'];
-  const elem = 4;
-  const label = 'Reservations';
+
   const handleLabelClick = (label: string) => {
-    if (label === 'Add Reservation') {
-      push('/reservation/add');
-    } else if (label === 'Delete Reservation') {
-      push('/reservation/delete');
-    } else if (label === 'Update Reservation') {
-      push('/reservation/update');
-    } else if (label === 'Find Reservation') {
-      push('/reservation/find');
+    if (label === 'Create Group') {
+      push('/maid/group');
+    } else if (label === 'Assign Rooms') {
+      push('/maid/assign');
+    } else if (label === 'Room Notes') {
+      push('/room/notes');
+    } else if (label === 'Orders') {
+      push('/maid/orders');
     }
   };
   return (
     <>
       <Head>
-        <title>Reservations</title>
+        <title>Maid Management</title>
       </Head>
       <div><Layout /> </div>
       <div> <SmallScreen label={label} />
-        <Grid labels={labels} elem={elem} clicked={handleLabelClick} link='/main' />
-
+        <Grid labels={labels} elem={elem} clicked={handleLabelClick} link='/room-management' />
       </div>
     </>
-
   )
 }
 

@@ -1,9 +1,9 @@
 "use client"
-import Layout from '../../../Components/Layout'
-import Details from '../../../Components/Details';
-import SmallScreen from '../../../Components/SmallScreen'
+import Layout from '../../components/Layout'
+import Details from '../../components/Details';
+import SmallScreen from '../../components/SmallScreen'
 import React, { useState, useEffect } from 'react';
-import { ReservationClientEntity } from '../../../Components/ReservationTypes';
+import { ReservationClientEntity } from '../../components/ReservationTypes';
 import Link from 'next/link';
 import Head from 'next/head';
 import { useRouter } from 'next/navigation';

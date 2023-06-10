@@ -1,9 +1,9 @@
 "use client"
 import React, { useState } from 'react'
-import Layout from '../Components/Layout'
-import SmallScreen from '../Components/SmallScreen'
+import Layout from '../app/components/Layout'
+import SmallScreen from '../app/components/SmallScreen'
 import { Link } from 'react-router-dom';
-import MessageList, {MessageData} from '../Components/MessageList';
+import MessageList, {MessageData} from '../app/components/MessageList';
 
 const StaffMessages: React.FC = () => {
     const label= 'Staff Messages';

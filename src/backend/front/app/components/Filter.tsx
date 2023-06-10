@@ -22,12 +22,15 @@ const Filter: React.FC<FilterProps> = ({ onFilter }) => {
   );
 
   const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, checked } = event.target;
+    const { name } = event.target;
+    const checked = event.target.checked;
+  
     setFilterOptions((prevFilterOptions) => ({
       ...prevFilterOptions,
-      [name]: checked,
+      [name]: checked ? true : undefined,
     }));
   };
+  
 
   const handleOccChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const { name, value } = event.target;
@@ -47,20 +50,36 @@ const Filter: React.FC<FilterProps> = ({ onFilter }) => {
     }));
   };
 
-  const handleFilterChange = (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    const { name, value, type } = event.target;
   
-
-    const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-      const { name } = event.target;
-      const checked = (event.target as HTMLInputElement).checked;
+    const handleFilterChange = (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+      const { name, value, type } = event.target;
     
-      setFilterOptions((prevFilterOptions) => ({
-        ...prevFilterOptions,
-        [name]: checked ? true : undefined,
-      }));
+      // Handle input changes
+      if (type === 'text') {
+        setFilterOptions((prevFilterOptions) => ({
+          ...prevFilterOptions,
+          [name]: value,
+        }));
+      }
+    
+      // Handle select changes
+      if (type === 'select-one') {
+        setFilterOptions((prevFilterOptions) => ({
+          ...prevFilterOptions,
+          [name]: value !== '' ? value : undefined,
+        }));
+      }
+    
+      // Handle checkbox changes
+      if (type === 'checkbox') {
+        const checked = (event.target as HTMLInputElement).checked;
+        setFilterOptions((prevFilterOptions) => ({
+          ...prevFilterOptions,
+          [name]: checked ? true : undefined,
+        }));
+      }
     };
-  }
+    
 
   
   const handleStatusChange = (event: React.ChangeEvent<HTMLSelectElement>) => {

@@ -7,14 +7,17 @@ export default async function Login() {
   const { push, refresh } = useRouter()
   async function handleSubmit(e: any) {
     e.preventDefault()
+    console.log(e.target.login.value);
+    console.log(e.target.password.value);
+    
     const res = await fetch("http://localhost:8081/api/auth", {
-      cache: "no-cache", method: "POST", headers: { "Content-type": "application/json" }, body: JSON.stringify({
+      cache: "no-cache", method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({
         login: e.target.login.value,
         password: e.target.password.value
       })
     })
-    if (!res.ok) refresh()
-    const { employee_id, access_token } = await res.json()
+    if (!res.ok) refresh()    
+    const { employee_id, access_token } = await res.json();
     localStorage.setItem("employee_id", employee_id)
     localStorage.setItem("token", access_token)
     push("/main")

@@ -1,6 +1,6 @@
 "use client"
 import React, { Component } from 'react'
-import Layout from '../Components/Layout'
+import Layout from '../app/components/Layout'
 
 export default function MainScreen () {
     return (

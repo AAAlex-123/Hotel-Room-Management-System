@@ -1,8 +1,8 @@
 "use client"
-import Layout from '../../Components/Layout'
-import Details from '../../Components/Details';
-import SmallScreen from '../../Components/SmallScreen'
-import Search from '../../Components/Search';
+import Layout from '../components/Layout'
+import Details from '../components/Details';
+import SmallScreen from '../components/SmallScreen'
+import Search from '../components/Search';
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';

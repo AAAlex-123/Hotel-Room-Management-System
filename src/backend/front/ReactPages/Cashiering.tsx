@@ -1,8 +1,8 @@
 "use client"
 import React, { Component } from 'react'
-import Layout from '../Components/Layout'
-import Grid from '../Components/Grid'
-import SmallScreen from '../Components/SmallScreen'
+import Layout from '../app/components/Layout'
+import Grid from '../app/components/Grid'
+import SmallScreen from '../app/components/SmallScreen'
 import { useNavigate } from 'react-router-dom';
 
 const Cashiering: React.FC = () => {

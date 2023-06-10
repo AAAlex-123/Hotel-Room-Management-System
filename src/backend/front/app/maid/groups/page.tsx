@@ -1,9 +1,12 @@
 "use client"
-import Layout from '../Components/Layout';
-import SmallScreen from '../Components/SmallScreen';
+import Layout from '../../components/Layout';
+import SmallScreen from '../../components/SmallScreen';
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import SelectionList, { ListData } from '../Components/SelectionList';
+import SelectionList, { ListData } from '../../components/SelectionList';
+import Link from 'next/link';
+import Head from 'next/head';
+import { useRouter } from 'next/navigation';
+import { EmployeeEntityNoPass } from '@/app/Employee';
 
 export interface GroupData {
   id: string;
@@ -11,8 +14,16 @@ export interface GroupData {
   members: ListData[];
 }
 
-const CreateGroup: React.FC = () => {
+const CreateGroup: React.FC = async () => {
   const label = 'Create Group';
+  const { push, refresh } = useRouter()
+  const employee_id = localStorage.getItem("employee_id")
+  const token = localStorage.getItem("token")
+  const get_res = await fetch(`http://localhost:8081/api/employee/${employee_id}`, { cache: "no-cache", headers: { authrization: `Bearer ${token}` } })
+  if (!get_res.ok) {
+    push("/")
+  }
+  const employee: EmployeeEntityNoPass = await get_res.json()
   const [listelem, setElem] = useState<ListData[]>([
     { num: '139303', name: 'Electra' },
     { num: '140303', name: 'Anastasis' },
@@ -30,14 +41,14 @@ const CreateGroup: React.FC = () => {
 
   const handleSelectionChange = (selectedElems: ListData[]) => {
     setSelectedElements(selectedElems);
-    
+
   };
 
   const createGroup = () => {
-    
+
     if (selectedElements.length === 0) {
       setShowWarning(true);
-      
+
       setTimeout(() => {
         setShowWarning(false);
       }, 1000);
@@ -45,12 +56,12 @@ const CreateGroup: React.FC = () => {
     }
     setShowWarning(false);
     const group: GroupData = {
-      id: 'groupId', 
+      id: 'groupId',
       name: groupName,
       members: selectedElements,
     };
 
-    
+
     const updatedList = listelem.filter((elem) => !selectedElements.includes(elem));
     setElem(updatedList);
 
@@ -69,28 +80,26 @@ const CreateGroup: React.FC = () => {
   const handleGroupNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setGroupName(e.target.value);
   };
-    return (
-      <>
-              {/* <Head>
-          <title>Create Group</title>
-      </Head> */}
-      <div><Layout 
-      // title={'Create Group'}
-      /> </div>
-      <div> <SmallScreen label={label}/>
-      <div className="res-container">
-      <div className="whiteBox">
-          <SelectionList listelem={listelem} onSelection={handleSelectionChange}/>
-             
-            <Link to='/maid-management'>
-            <button className="blueButton" type="submit">
-    
-              Close
-    
-            </button>
-            
-          </Link>
-          
+  return (
+    <>
+      <Head>
+        <title>Create Group</title>
+      </Head>
+      <div><Layout /> </div>
+      <div> <SmallScreen label={label} />
+        <div className="res-container">
+          <div className="whiteBox">
+            <SelectionList listelem={listelem} onSelection={handleSelectionChange} />
+
+            <Link href='/maid-management'>
+              <button className="blueButton" type="submit">
+
+                Close
+
+              </button>
+
+            </Link>
+
             {showInput ? (
               <form onSubmit={handleSubmit}>
                 <input
@@ -111,12 +120,12 @@ const CreateGroup: React.FC = () => {
               </div>
             )}
             {showWarning && <div className="warning">Please select at least one member for the group.</div>}
+          </div>
         </div>
-        </div>
-        </div>
+      </div>
     </>
-      
-    )
-  
-    }
+
+  )
+
+}
 export default CreateGroup;

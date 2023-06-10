@@ -1,6 +1,6 @@
 "use client"
-import Layout from '../Components/Layout'
-import SmallScreen from '../Components/SmallScreen'
+import Layout from '../app/components/Layout'
+import SmallScreen from '../app/components/SmallScreen'
 import React from 'react';
 import { Link } from 'react-router-dom';
 
