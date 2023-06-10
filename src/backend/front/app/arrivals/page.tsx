@@ -42,7 +42,7 @@ async function Arrivals() {
       <Head>
         <title>Arrivals </title>
       </Head>
-      <div><Layout/> </div>
+      <div><Layout id={Number(employee_id ?? "-1")} username={employee.name ?? ""} /> </div>
       <div> <SmallScreen label={label} />
         <div className="res-container">
           <div className="whiteBox">

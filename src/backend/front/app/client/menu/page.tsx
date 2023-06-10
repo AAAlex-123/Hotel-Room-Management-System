@@ -35,14 +35,15 @@ export default async function LogicClient() {
   const room_id = searchParams.get("room_id") ?? "001"
   const reservation_id = localStorage.getItem("reservation_id")
   const token = localStorage.getItem("token")
+  const url = process.env.NEXT_PUBLIC_URL;
 
-  const reservations_body = await fetch(`http://localhost:8081/api/reservation/${reservation_id}?room=true`, { cache: "no-cache", method: "GET", headers: { authorization: `Bearer ${token}` } })
+  const reservations_body = await fetch(`${url}/reservation/${reservation_id}?room=true`, { cache: "no-cache", method: "GET", headers: { authorization: `Bearer ${token}` } })
   if (!reservations_body.ok) {
     push("/client?room_id=" + room_id)
   }
   const { room, charge, ...reservation } = (await reservations_body.json()) as ReservationEntity
   console.log(charge);
-  
+
 
   async function handleCheckout() {
     if (charge === undefined) {
@@ -52,7 +53,7 @@ export default async function LogicClient() {
     if (charge.length !== 0 && charge.map(value => (value.type === "CHARGE" ? 1 : -1) * value.amount).reduce((prev, cur) => prev + cur) !== 0) {
       push(`/client/charge?room_id=${room_id}`)
     } else {
-      const res = await fetch("http://localhost:8081/api/client/checkout/", { cache: "no-cache", headers: { authorization: `Bearer ${token}`, "Content-type": "application/json" }, method: "POST", body: JSON.stringify({ reservation_id }) })
+      const res = await fetch(`${url}/client/checkout/`, { cache: "no-cache", headers: { authorization: `Bearer ${token}`, "Content-type": "application/json" }, method: "POST", body: JSON.stringify({ reservation_id }) })
       if (!res.ok) {
         refresh()
       } else {
@@ -64,7 +65,7 @@ export default async function LogicClient() {
   }
 
   async function handleAbsence() {
-    await fetch("http://localhost:8081/api/client/absence/", { cache: "no-cache", headers: { authorization: `Bearer ${token}`, "Content-type": "application/json" }, method: "POST", body: JSON.stringify({ reservation_id, state: !room.cleanable }) })
+    await fetch(`${url}/client/absence/`, { cache: "no-cache", headers: { authorization: `Bearer ${token}`, "Content-type": "application/json" }, method: "POST", body: JSON.stringify({ reservation_id, state: !room.cleanable }) })
     refresh()
   }
 

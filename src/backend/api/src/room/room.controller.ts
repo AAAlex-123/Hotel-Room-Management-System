@@ -30,7 +30,7 @@ export class RoomController {
     if (chambermaid_id !== undefined) {
       const emp = await this.prisma.employee.findUnique({
         where: {
-          employee_id: Number(chambermaid_id),
+          employee_id: chambermaid_id,
         },
       });
       const chambermaid = emp.type === EmployeeType.CHAMBERMAID;
@@ -41,11 +41,11 @@ export class RoomController {
               ? {
                   GroupChamber: {
                     some: {
-                      chambermaid_id: Number(chambermaid_id),
+                      chambermaid_id: chambermaid_id,
                     },
                   },
                 }
-              : { housekeeper_id: Number(chambermaid_id) },
+              : { housekeeper_id: chambermaid_id },
           },
         },
       });

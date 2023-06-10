@@ -3,7 +3,6 @@ import {
   Controller,
   Get,
   Param,
-  ParseIntPipe,
   Post,
   Query,
 } from '@nestjs/common';
@@ -55,7 +54,7 @@ export class ChargeController {
   async getAll(@Query() { reservation_id }: { reservation_id?: number }) {
     return await this.prisma.charge.findMany({
       where: {
-        reservation_id: Number(reservation_id),
+        reservation_id,
       },
     });
   }
@@ -67,10 +66,7 @@ export class ChargeController {
   }
 
   @Get(':id')
-  async getById(
-    @Param('id', ParseIntPipe) id: number,
-    @Query('type') type?: ChargeType,
-  ) {
+  async getById(@Param('id') id: number, @Query('type') type?: ChargeType) {
     const way: ByType = { where: { reservation_id: id } };
     if (type === undefined) way.where.chargeType = type;
     return await this.prisma.charge.findMany(way);
@@ -78,7 +74,7 @@ export class ChargeController {
 
   //TODO-[16/05/2023]: It's a feature
   // @Delete(':id')
-  // async delete(@Param('id', ParseIntPipe) id: number) {
+  // async delete(@Param('id') id: number) {
   //   await this.prisma.charge.deleteMany({
   //     where: {
   //       reservation_id: id,

@@ -12,11 +12,12 @@ export default async function Main() {
   const { push, refresh } = useRouter()
   const employee_id = localStorage.getItem("employee_id")
   const token = localStorage.getItem("token")
-  const get_res = await fetch(`http://localhost:8081/api/employee/${employee_id}`, { cache: "no-cache", headers: { authorization: `Bearer ${token}` } })
+  const url=process.env.NEXT_PUBLIC_URL;
+  const get_res = await fetch(`${url}/employee/${employee_id}`, { cache: "no-cache", headers: { authorization: `Bearer ${token}` } })
   if (!get_res.ok) {
     push("/")
   }
-  const employee:EmployeeEntityNoPass = await get_res.json()
+  const employee: EmployeeEntityNoPass = await get_res.json()
   const imageStyle = {
     textAlign: 'center' as const,
     marginBottom: '1rem',
@@ -45,8 +46,8 @@ export default async function Main() {
         <div className='bigBlock'>
           <img className='userIcon' src="/Assets/Logo.png" alt="Logo" style={imageStyle2}></img>
           <div className='textBlock'>
-            <div className='userText' style={{ fontSize: '1.5rem' }}>User</div>
-            <div className='userText'>{employee.name} </div>
+            <div className='userText' style={{ fontSize: '1.5rem' }}>{employee.name}</div>
+            <div className='userText'>{employee.employee_id} </div>
           </div>
         </div>
       </div>

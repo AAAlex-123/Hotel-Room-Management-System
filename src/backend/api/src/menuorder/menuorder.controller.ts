@@ -4,7 +4,6 @@ import {
   Delete,
   Get,
   Param,
-  ParseIntPipe,
   Post,
   Put,
   Query,
@@ -33,7 +32,7 @@ export class MenuorderController {
   }
 
   @Get(':order_id')
-  async getId(@Param('order_id', ParseIntPipe) id: number) {
+  async getId(@Param('order_id') id: number) {
     return await this.prisma.menuOrder.findUnique({
       where: {
         order_id: id,
@@ -49,7 +48,7 @@ export class MenuorderController {
   }
 
   @Delete(':order_id')
-  async delete(@Param('order_id', ParseIntPipe) order_id: number) {
+  async delete(@Param('order_id') order_id: number) {
     await this.prisma.menuOrder.deleteMany({
       where: {
         order_id,
@@ -58,10 +57,7 @@ export class MenuorderController {
   }
 
   @Put(':order_id')
-  async update(
-    @Param('order_id', ParseIntPipe) id: number,
-    @Body() order: MenuOrderEntity,
-  ) {
+  async update(@Param('order_id') id: number, @Body() order: MenuOrderEntity) {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { order_id, ...rest } = order;
     await this.prisma.menuOrder.upsert({

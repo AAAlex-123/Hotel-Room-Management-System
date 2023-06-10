@@ -11,10 +11,11 @@ import { EmployeeEntityNoPass } from '@/app/Employee';
 async function AddReservation() {
   const text = "Close";
   const label = 'Add Reservation';
-  const { push} = useRouter()
+  const { push, refresh } = useRouter()
   const employee_id = localStorage.getItem("employee_id")
   const token = localStorage.getItem("token")
-  const get_res = await fetch(`http://localhost:8081/api/employee/${employee_id}`, { cache: "no-cache", headers: { authorization: `Bearer ${token}` } })
+  const url = process.env.NEXT_PUBLIC_URL;
+  const get_res = await fetch(`${url}/employee/${employee_id}`, { cache: "no-cache", headers: { authorization: `Bearer ${token}` } })
   if (!get_res.ok) {
     push("/")
   }
@@ -22,7 +23,8 @@ async function AddReservation() {
 
   const handleSubmit = async (userData: UserData) => {
     try {
-      const response = await fetch(`http://localhost:8081/api/reservation`, {
+      const res=await fetch(`${url}/reservation`, {
+        cache:"no-cache",
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -31,19 +33,16 @@ async function AddReservation() {
         body: JSON.stringify(userData),
       })
       push('/reservations')
-    } catch (err: any) {
-      console.log(err)
+    } catch (error) {
+      alert("Error with creating this entity" + error)
     }
   };
-
-
-
   return (
     <>
       <Head>
         <title>Add Reservation/</title>
       </Head>
-      <div><Layout /> </div>
+      <div><Layout id={Number(employee_id ?? "-1")} username={employee.name ?? ""} /> </div>
       <div> <SmallScreen label={label} />
         <div className="res-container">
           <div className="whiteBox">
@@ -57,8 +56,6 @@ async function AddReservation() {
         </div>
       </div>
     </>
-
   )
-
 }
 export default AddReservation;

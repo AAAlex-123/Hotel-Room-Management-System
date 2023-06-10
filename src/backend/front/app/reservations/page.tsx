@@ -11,7 +11,8 @@ async function Reservations() {
   const { push, refresh } = useRouter()
   const employee_id = localStorage.getItem("employee_id")
   const token = localStorage.getItem("token")
-  const get_res = await fetch(`http://localhost:8081/api/employee/${employee_id}`, { cache: "no-cache", headers: { authrization: `Bearer ${token}` } })
+  const url=process.env.NEXT_PUBLIC_URL;
+  const get_res = await fetch(`${url}/employee/${employee_id}`, { cache: "no-cache", headers: { authorization: `Bearer ${token}` } })
   if (!get_res.ok) {
     push("/")
   }
@@ -21,13 +22,13 @@ async function Reservations() {
   const label = 'Reservations';
   const handleLabelClick = (label: string) => {
     if (label === 'Add Reservation') {
-      push('/reservation/add');
+      push('/reservations/add');
     } else if (label === 'Delete Reservation') {
-      push('/reservation/delete');
+      push('/reservations/delete');
     } else if (label === 'Update Reservation') {
-      push('/reservation/update');
+      push('/reservations/update');
     } else if (label === 'Find Reservation') {
-      push('/reservation/find');
+      push('/reservations/find');
     }
   };
   return (
@@ -35,7 +36,7 @@ async function Reservations() {
       <Head>
         <title>Reservations</title>
       </Head>
-      <div><Layout /> </div>
+      <div><Layout id={Number(employee_id ?? "-1")} username={employee.name ?? ""} /></div>
       <div> <SmallScreen label={label} />
         <Grid labels={labels} elem={elem} clicked={handleLabelClick} link='/main' />
 

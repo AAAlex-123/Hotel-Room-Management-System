@@ -4,7 +4,6 @@ import {
   Delete,
   Get,
   Param,
-  ParseIntPipe,
   Post,
   Put,
   Query,
@@ -34,15 +33,12 @@ export class NoteController {
     return await this.prisma.note.findMany({
       where: {
         room_id,
-        cleaning_staff_id:
-          cleaning_staff_id !== undefined
-            ? Number(cleaning_staff_id)
-            : undefined,
+        cleaning_staff_id,
       },
     });
   }
   @Get(':id')
-  async getId(@Param(':id', ParseIntPipe) id: number) {
+  async getId(@Param(':id') id: number) {
     return await this.prisma.note.findUnique({
       where: {
         note_id: id,
@@ -58,7 +54,7 @@ export class NoteController {
   }
 
   @Delete(':id')
-  async deleteAll(@Param('id', ParseIntPipe) id: number) {
+  async deleteAll(@Param('id') id: number) {
     return await this.prisma.note.deleteMany({
       where: {
         note_id: id,
@@ -67,7 +63,7 @@ export class NoteController {
   }
 
   @Put(':id')
-  async update(@Param('id', ParseIntPipe) id: number, dto: NoteEntity) {
+  async update(@Param('id') id: number, dto: NoteEntity) {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { note_id, ...rest } = dto;
     await this.prisma.note.upsert({

@@ -4,7 +4,6 @@ import {
   Delete,
   Get,
   Param,
-  ParseIntPipe,
   Post,
   Put,
 } from '@nestjs/common';
@@ -36,7 +35,7 @@ export class EmployeeController {
   }
   @ApiBearerAuth('JWT-auth')
   @Get(':id')
-  async getById(@Param('id', ParseIntPipe) id: number) {
+  async getById(@Param('id') id: number) {
     return await this.prisma.employee.findFirst({
       where: {
         employee_id: id,
@@ -105,7 +104,7 @@ export class EmployeeController {
   }
 
   @Delete(':id')
-  async deletes(@Param('id', ParseIntPipe) id: number) {
+  async deletes(@Param('id') id: number) {
     return await this.prisma.employee.deleteMany({
       where: {
         employee_id: id,
@@ -114,10 +113,7 @@ export class EmployeeController {
   }
 
   @Put(':id')
-  async update(
-    @Param('id', ParseIntPipe) id: number,
-    @Body() employee: EmployeeEntity,
-  ) {
+  async update(@Param('id') id: number, @Body() employee: EmployeeEntity) {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { employee_id, password, ...creation_field } = employee;
     const pepperRounds = this.config.get<string>('sale') || 10;

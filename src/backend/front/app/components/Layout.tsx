@@ -7,6 +7,7 @@ import Head from 'next/head';
 
 
 export default function Main(
+  { username, id }: { username: string; id: number }
 ) {
 
   const imageStyle = {
@@ -32,7 +33,6 @@ export default function Main(
   return (
     <>
       <Head>
-        {/* <title> {title}</title> */}
         <link rel="icon" href="../../public/favicon.ico" />
         <link href='https://fonts.googleapis.com/css?family=Aleo' rel='stylesheet' />
         <style>{`
@@ -43,10 +43,10 @@ export default function Main(
       </Head>
       <div className='main'>
         <img src="/Assets/logo.png" alt="Logo" style={imageStyle}></img>
-        <div className='bigBlock'><img className='userIcon' src="/Assets/profile.png" alt="Profile" style={imageStyle2}></img>
+        <div className='bigBlock'><img className='userIcon' src="/Assets/logo.png" alt="Profile" style={imageStyle2}></img>
           <div className='textBlock'>
-            <div className='userText' style={{ fontSize: '1.5rem' }}>User</div>
-            <div className='userText'>Id: Get Id pls </div>
+            <div className='userText' style={{ fontSize: '1.5rem' }}>{username}</div>
+            <div className='userText'>{id}</div>
           </div>
         </div>
       </div>

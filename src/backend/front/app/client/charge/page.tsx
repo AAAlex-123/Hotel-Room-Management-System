@@ -14,7 +14,8 @@ export default async function Phone() {
   const reservation_id = localStorage.getItem("reservation_id")
   const token = localStorage.getItem("token")
   const [cardInfoCompleted, setCardInfoCompleted] = useState(false);
-  const res = await fetch(`http://localhost:8081/api/reservation/${reservation_id}`, { cache: "no-store", method: "GET", headers: { authorization: `Bearer ${token}` } })
+  const url=process.env.NEXT_PUBLIC_URL;
+  const res = await fetch(`${url}/reservation/${reservation_id}`, { cache: "no-store", method: "GET", headers: { authorization: `Bearer ${token}` } })
   if (!res.ok) {
     localStorage.removeItem("token")
     localStorage.removeItem("reservation_id")
@@ -30,7 +31,7 @@ export default async function Phone() {
   const charges = rest.charge
 
   charges.forEach((element: { timestamp: string; }) => {
-    element.timestamp = new Date(element.timestamp).toISOString().slice(0,10)
+    element.timestamp = new Date(element.timestamp).toISOString().slice(0, 10)
   });
 
   const totalCharge = charges.reduce((total: any, charge: any) => total + (charge.type === "CHARGE" ? charge.amount : -charge.amount), 0);
@@ -42,7 +43,7 @@ export default async function Phone() {
 
   const handleChargeButton = async () => {
     if (cardInfoCompleted) {
-      await fetch("http://localhost:8081/api/client/checkout/", { cache: "no-cache", headers: { authorization: `Bearer ${token}`, "Content-type": "application/json" }, method: "POST", body: JSON.stringify({ reservation_id }) })
+      await fetch(`${url}/client/checkout/`, { cache: "no-cache", headers: { authorization: `Bearer ${token}`, "Content-type": "application/json" }, method: "POST", body: JSON.stringify({ reservation_id }) })
       localStorage.removeItem("token")
       localStorage.removeItem("reservation_id")
       push(`/client?room_id=${room_id}`)

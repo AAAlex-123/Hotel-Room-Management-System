@@ -21,7 +21,7 @@ export class ClientController {
       where: {
         Reservation: {
           some: {
-            reservation_id: Number(reservation_id),
+            reservation_id: reservation_id,
           },
         },
       },

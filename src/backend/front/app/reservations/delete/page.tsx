@@ -16,24 +16,26 @@ async function DeleteReservation() {
   const text = "Close";
   const text2 = 'Delete';
   const label = 'Delete Reservation';
-  const { push } = useRouter()
-  const employee_id = localStorage.getItem("employee_id")
-  const token = localStorage.getItem("token")
-  const get_res = await fetch(`http://localhost:8081/api/employee/${employee_id}`, { cache: "no-cache", headers: { authorization: `Bearer ${token}` } })
-  if (!get_res.ok) {
-    push("/")
-  }
-  const employee: EmployeeEntityNoPass = await get_res.json()
   const [reservations, setReservations] = useState<ReservationClientEntity[]>([]);
-
-
   const [showDetails, setShowDetails] = useState(false);
   const [searchText, setSearchText] = useState('');
   const [searchResult, setSearchResult] = useState<(ReservationClientEntity | null)[]>([]);
   const [selectedReservation, setSelectedReservation] = useState<ReservationClientEntity | null>(null);
   const [originalReservations, setOriginalReservations] = useState<ReservationClientEntity[]>([]);
+  useEffect(() => {
+    setOriginalReservations(reservations);
+  }, [reservations]);
+  const { push } = useRouter()
+  const employee_id = localStorage.getItem("employee_id")
+  const token = localStorage.getItem("token")
+  const url = process.env.NEXT_PUBLIC_URL;
+  const get_res = await fetch(`${url}/employee/${employee_id}`, { cache: "no-cache", headers: { authorization: `Bearer ${token}` } })
+  if (!get_res.ok) {
+    push("/")
+  }
+  const employee: EmployeeEntityNoPass = await get_res.json()
   const handleSearch = async () => {
-    const r_body = await fetch("http://localhost:8081/api/reservation", { cache: "no-cache", headers: { authorize: "Bearer " + token } })
+    const r_body = await fetch(`${url}/reservation`, { cache: "no-cache", headers: { authorize: "Bearer " + token } })
     if (!r_body.ok) {
       push("/reservations")
     }
@@ -59,9 +61,6 @@ async function DeleteReservation() {
     setSearchResult(originalReservations);
   };
 
-  useEffect(() => {
-    setOriginalReservations(reservations);
-  }, [reservations]);
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter') {
@@ -98,29 +97,23 @@ async function DeleteReservation() {
       <Head>
         <title>Delete Reservation</title>
       </Head>
-      <div><Layout
-      // title={'Delete Reservation'}
-      /> </div>
+      <div><Layout id={Number(employee_id ?? "-1")} username={employee.name ?? ""} /></div>
       <div> <SmallScreen label={label} />
         <div className="res-container">
           <div className="whiteBox">
-
-
-
             <div className="bar-container">
               <div className="search-container">
-                <label>Name/Cellphone: </label>
-                <input
-                  type="text"
-                  value={searchText}
-                  onChange={(e) => setSearchText(e.target.value)}
-                  onKeyDown={handleKeyDown}
-                />
+                <form action="#">
+                  <label>Name/Cellphone: </label>
+                  <input
+                    type="text"
+                    defaultValue={searchText}
+                    onChange={(e) => setSearchText(e.target.value)}
+                    onKeyDown={handleKeyDown}
+                  />
+                </form>
               </div>
             </div>
-
-
-
             {showDetails && selectedReservation ? (
               <Details
                 titles={titles}

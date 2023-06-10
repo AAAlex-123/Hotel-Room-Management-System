@@ -19,7 +19,8 @@ const CreateGroup: React.FC = async () => {
   const { push, refresh } = useRouter()
   const employee_id = localStorage.getItem("employee_id")
   const token = localStorage.getItem("token")
-  const get_res = await fetch(`http://localhost:8081/api/employee/${employee_id}`, { cache: "no-cache", headers: { authrization: `Bearer ${token}` } })
+  const url=process.env.NEXT_PUBLIC_URL;
+  const get_res = await fetch(`${url}/employee/${employee_id}`, { cache: "no-cache", headers: { authrization: `Bearer ${token}` } })
   if (!get_res.ok) {
     push("/")
   }
@@ -85,7 +86,7 @@ const CreateGroup: React.FC = async () => {
       <Head>
         <title>Create Group</title>
       </Head>
-      <div><Layout /> </div>
+      <div><Layout id={Number(employee_id ?? "-1")} username={employee.name ?? ""} /> </div>
       <div> <SmallScreen label={label} />
         <div className="res-container">
           <div className="whiteBox">

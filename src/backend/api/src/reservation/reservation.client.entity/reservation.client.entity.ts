@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { IsNumber, IsPositive, isNumber, isPositive } from 'class-validator';
 
 export class ReservationClientEntity {
   reservation_id?: number;

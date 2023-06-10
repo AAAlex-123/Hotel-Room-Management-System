@@ -14,8 +14,10 @@ const RoomManagement: React.FC = async () => {
   const { push, refresh } = useRouter()
   const employee_id = localStorage.getItem("employee_id")
   const token = localStorage.getItem("token")
-
-  const get_res = await fetch(`http://localhost:8081/api/employee/${employee_id}`, { cache: "no-cache", headers: { authorization: `Bearer ${token}` } })
+  const url=process.env.NEXT_PUBLIC_URL??"hey";
+  console.log(url);
+  
+  const get_res = await fetch(`${url}/employee/${employee_id}`, { cache: "no-cache", headers: { authorization: `Bearer ${token}` } })
   if (!get_res.ok) {
     push("/")
   }
@@ -36,7 +38,7 @@ const RoomManagement: React.FC = async () => {
       <Head>
         <title>Room Management</title>
       </Head>
-      <div><Layout /> </div>
+      <div><Layout id={employee_id ? Number(employee_id) : -1} username={employee.name??""} /> </div>
       <div> <SmallScreen label={label} />
         <Grid labels={labels} elem={elem} clicked={handleLabelClick} link='/main' />
       </div>

@@ -4,7 +4,6 @@ import {
   Delete,
   Get,
   Param,
-  ParseIntPipe,
   Post,
   Put,
   Query,
@@ -26,7 +25,6 @@ export class ProvisionController {
   @ApiQuery({ name: 'employee_id', required: false, type: Number })
   async getAll(@Query() { employee_id }: { employee_id?: number }) {
     if (employee_id !== undefined) {
-      employee_id = Number(employee_id);
       const { type } = await this.prisma.employee.findUnique({
         where: {
           employee_id,
@@ -60,7 +58,7 @@ export class ProvisionController {
   }
 
   @Get(':id')
-  async getId(@Param('id', ParseIntPipe) id: number) {
+  async getId(@Param('id') id: number) {
     return await this.prisma.provisionOrder.findUnique({
       where: {
         provision_id: id,
@@ -74,7 +72,7 @@ export class ProvisionController {
   }
 
   @Delete(':id')
-  async delete(@Param('id', ParseIntPipe) id: number) {
+  async delete(@Param('id') id: number) {
     return await this.prisma.provisionOrder.deleteMany({
       where: { provision_id: id },
     });
@@ -82,7 +80,7 @@ export class ProvisionController {
 
   @Put(':id')
   async update(
-    @Param('id', ParseIntPipe) id: number,
+    @Param('id') id: number,
     @Body() provision: ProvisionUpdateEntity,
   ) {
     const { provision_id, ...rest } = provision;

@@ -1,4 +1,4 @@
-import { Controller, Get, Param, ParseIntPipe } from '@nestjs/common';
+import { Controller, Get, Param } from '@nestjs/common';
 import { Body, Delete, Post } from '@nestjs/common/decorators';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { GroopRooms, GroupChamber } from '@prisma/client';
@@ -16,20 +16,28 @@ export class GroupController {
     return await this.prisma.group.findMany({
       include: {
         groupRooms: true,
-        GroupChamber: true,
+        GroupChamber: {
+          include: {
+            chambermaid: true,
+          },
+        },
       },
     });
   }
 
   @Get(':employee_id')
-  async getID(@Param('employee_id', ParseIntPipe) id: number) {
+  async getID(@Param('employee_id') id: number) {
     return await this.prisma.group.findMany({
       where: {
         housekeeper_id: id,
       },
       include: {
         groupRooms: true,
-        GroupChamber: true,
+        GroupChamber: {
+          include: {
+            chambermaid: true,
+          },
+        },
       },
     });
   }
@@ -60,7 +68,7 @@ export class GroupController {
   }
 
   @Delete(':id')
-  async deleteById(@Param('id', ParseIntPipe) id: number) {
+  async deleteById(@Param('id') id: number) {
     await this.prisma.group.delete({
       where: {
         group_id: id,

@@ -4,7 +4,6 @@ import {
   Delete,
   Get,
   Param,
-  ParseIntPipe,
   Post,
   Put,
 } from '@nestjs/common';
@@ -23,7 +22,7 @@ export class MenuController {
   }
 
   @Get(':id')
-  async getItem(@Param('id', ParseIntPipe) id: number) {
+  async getItem(@Param('id') id: number) {
     return await this.prisma.menuItem.findUnique({
       where: {
         menu_id: id,
@@ -40,7 +39,7 @@ export class MenuController {
 
   @Put(':id')
   async update(
-    @Param('id', ParseIntPipe) id: number,
+    @Param('id') id: number,
     @Body() menuItem: MenuEntity,
   ) {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -54,7 +53,7 @@ export class MenuController {
     });
   }
   @Delete(':id')
-  async delete(@Param('id', ParseIntPipe) id: number) {
+  async delete(@Param('id') id: number) {
     await this.prisma.menuItem.deleteMany({
       where: {
         menu_id: id,

@@ -14,7 +14,8 @@ async function Reservations() {
   const { push } = useRouter()
   const employee_id = localStorage.getItem("employee_id")
   const token = localStorage.getItem("token")
-  const get_res = await fetch(`http://localhost:8081/api/employee/${employee_id}`, { cache: "no-cache", headers: { authrization: `Bearer ${token}` } })
+  const url=process.env.NEXT_PUBLIC_URL;
+  const get_res = await fetch(`${url}/employee/${employee_id}`, { cache: "no-cache", headers: { authrization: `Bearer ${token}` } })
   if (!get_res.ok) {
     push("/")
   }
@@ -36,7 +37,7 @@ async function Reservations() {
       <Head>
         <title>Maid Management</title>
       </Head>
-      <div><Layout /> </div>
+      <div><Layout id={Number(employee_id ?? "-1")} username={employee.name ?? ""} /> </div>
       <div> <SmallScreen label={label} />
         <Grid labels={labels} elem={elem} clicked={handleLabelClick} link='/room-management' />
       </div>

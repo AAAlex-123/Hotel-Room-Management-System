@@ -3,8 +3,10 @@ import {
   Controller,
   Delete,
   Get,
+  HttpException,
+  HttpStatus,
+  Logger,
   Param,
-  ParseIntPipe,
   Post,
   Put,
   Query,
@@ -46,7 +48,7 @@ export class ReservationController {
   @Get(':id')
   @ApiQuery({ name: 'room', type: Boolean, required: false })
   async getById(
-    @Param('id', ParseIntPipe) id: number,
+    @Param('id') id: number,
     @Query() { room }: { room?: boolean },
   ) {
     const r = room ? Boolean(room) : false;
@@ -61,6 +63,42 @@ export class ReservationController {
 
   @Post()
   async create(@Body() reservation: ReservationClientEntity) {
+    Logger.debug(reservation);
+    reservation.visitor = reservation.visitor
+      ? Number(reservation.visitor)
+      : undefined;
+    reservation.arrival = new Date(reservation.arrival);
+    reservation.departure = new Date(reservation.departure);
+    reservation.bill = reservation.bill ? Number(reservation.bill) : undefined;
+    if (
+      reservation.arrival < new Date() ||
+      reservation.departure < reservation.arrival
+    ) {
+      throw new HttpException(
+        { status: HttpStatus.NOT_ACCEPTABLE, error: 'invalid duration' },
+        HttpStatus.NOT_ACCEPTABLE,
+      );
+    }
+    const f = await this.prisma.reservation.findMany({
+      where: {
+        room_id: reservation.room_id,
+        arrival: {
+          lte: reservation.departure,
+        },
+        departure: {
+          gte: reservation.arrival,
+        },
+      },
+    });
+    if (f.length !== 0) {
+      throw new HttpException(
+        {
+          status: HttpStatus.NOT_ACCEPTABLE,
+          error: `Reservations don't align`,
+        },
+        HttpStatus.NOT_ACCEPTABLE,
+      );
+    }
     const { bill, ...rest } = reservation;
     return await this.prisma.reservation.create({
       data: {
@@ -77,7 +115,7 @@ export class ReservationController {
   }
 
   @Delete(':id')
-  async deletes(@Param('id', ParseIntPipe) id: number) {
+  async deletes(@Param('id') id: number) {
     return await this.prisma.reservation.deleteMany({
       where: { reservation_id: id },
     });
@@ -85,7 +123,7 @@ export class ReservationController {
 
   @Put(':id')
   async update(
-    @Param('id', ParseIntPipe) id: number,
+    @Param('id') id: number,
     @Body() reservation: ReservationClientEntity,
   ) {
     const { reservation_id, ...rest } = reservation;

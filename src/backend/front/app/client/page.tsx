@@ -10,6 +10,7 @@ const imageStyle = {
 export default async function LogicClient() {
   const searchParams = useSearchParams()
   const router = useRouter()
+  const url=process.env.NEXT_PUBLIC_URL;
   if (!searchParams) notFound()
   const room_id = searchParams.get("room_id") ?? -1
   if (room_id === -1) notFound()
@@ -17,7 +18,7 @@ export default async function LogicClient() {
 
   async function handleSubmit(e: any) {
     e.preventDefault()
-    const res = await fetch("http://localhost:8081/api/auth/client", {
+    const res = await fetch(`${url}/auth/client`, {
       cache: "no-cache",
       headers: { "Content-type": "application/json" },
       method: "POST",

@@ -5,12 +5,11 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 export default async function Login() {
   const { push, refresh } = useRouter()
+  const url=process.env.NEXT_PUBLIC_URL;
+  
   async function handleSubmit(e: any) {
     e.preventDefault()
-    console.log(e.target.login.value);
-    console.log(e.target.password.value);
-    
-    const res = await fetch("http://localhost:8081/api/auth", {
+    const res = await fetch(`${url}/auth`, {
       cache: "no-cache", method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({
         login: e.target.login.value,
         password: e.target.password.value
