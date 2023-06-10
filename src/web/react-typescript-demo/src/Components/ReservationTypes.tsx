@@ -41,4 +41,5 @@ export interface ReservationClientEntity  {
     postcode?: string;
     visitor?: number;
     email?: string;
+    bill?: number;
   };

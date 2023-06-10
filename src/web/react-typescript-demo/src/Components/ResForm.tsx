@@ -1,30 +1,32 @@
 "use client"
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 
 interface UserFormProps {
     onSubmit: (userData: UserData) => void;
+    initialData?: UserData;
   }
   
  export interface UserData {
-    reservation_id: number;
+    reservation_id?: number;
     room_id: string;
     arrival: Date;
     departure: Date;
     name: string;
     cellphone: string;
-    city: string;
-    country: string;
-    address: string;
-    postcode: string;
-    visitor: number;
-    email?: string | null;
-    bill: number;
+    city?: string;
+    country?: string;
+    address?: string;
+    postcode?: string;
+    visitor?: number;
+    email?: string;
+    bill?: number;
   }
   
-  const ResForm: React.FC<UserFormProps> = ({ onSubmit }) => {
-    const [userData, setUserData] = useState<UserData>({
-      reservation_id: 0,
+  const ResForm: React.FC<UserFormProps> = ({ onSubmit, initialData }) => {
+    const [userData, setUserData] = useState<UserData>(
+      initialData || {
+      reservation_id: undefined,
       room_id: '',
       arrival: new Date(),
       departure: new Date(),
@@ -35,11 +37,21 @@ interface UserFormProps {
       address: '',
       postcode: '',
       visitor: 0,
-      email: null,
+      email: '',
       bill: 0,
 
     });
   
+    useEffect(() => {
+      if (initialData) {
+        setUserData((prevUserData) => ({
+          ...prevUserData,
+          reservation_id: initialData.reservation_id, // Set the provided reservation_id
+        }));
+      }
+    }, [initialData]);
+
+
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       const { name, value } = e.target;
       setUserData((prevUserData) => ({
@@ -63,6 +75,10 @@ interface UserFormProps {
       e.preventDefault();
       onSubmit(userData);
     };
+
+
+    
+
   
     return (
 <form className="form-container" onSubmit={handleSubmit} action="#">

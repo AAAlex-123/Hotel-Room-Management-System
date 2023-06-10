@@ -106,6 +106,18 @@ const DeleteReservation: React.FC = () => {
 
   const content = getContentFromSearchResult(selectedReservation);
 
+  const handleDeleteReservation = () => {
+    if (selectedReservation) {
+      const updatedReservations = reservations.filter((reservation) => reservation !== selectedReservation);
+      setReservations(updatedReservations);
+      setSelectedReservation(null);
+      setShowDetails(false);
+    }
+  };
+
+
+
+
 
 
     return (
@@ -144,6 +156,7 @@ const DeleteReservation: React.FC = () => {
                 text={text}
                 text2={text2}
                 onClose={closeDetails}
+                onButtonClick={handleDeleteReservation}
               />
             ) : null}
 
