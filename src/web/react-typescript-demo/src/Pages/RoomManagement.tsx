@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 
 const RoomManagement: React.FC = () => {
   const labels = ['Housekeeping', 'Maid Management', 'Room History', 'Out of Order/Service'];
-  const elem = 4;
+  const elem = 2;
   const label= 'Room Management';
   const navigate = useNavigate();
   const handleLabelClick = (label: string) => {

@@ -188,7 +188,7 @@ const FrontDesk: React.FC = () => {
             ) : null}
 
 
-            <Link to="/reservations">
+            <Link to="/main">
               <button className="blueButton" type="submit">
                 Close
               </button>
