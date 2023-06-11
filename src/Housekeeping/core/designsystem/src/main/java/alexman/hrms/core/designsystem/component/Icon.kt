@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 
 @PreviewLight
@@ -43,7 +44,7 @@ fun DefaultNavigationIcon(
 ) {
     IconClickable(
         id = R.drawable.ic_menu_back,
-        alt = "back",
+        alt = stringResource(R.string.ic_menu_back_alt),
         onClick = onClick,
         sizeVariation = SizeVariation.PRIMARY,
     )

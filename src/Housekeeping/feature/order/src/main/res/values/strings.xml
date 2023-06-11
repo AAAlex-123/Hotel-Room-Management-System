@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="topbar_orders">Orders</string>
+    <string name="ic_menu_filter_alt">Filter Orders</string>
+    <string name="filter_orders_popup_title">Filter Orders</string>
+    <string name="filter_orders_popup_pending">Pending</string>
+    <string name="filter_orders_popup_completed">Completed</string>
+    <string name="ic_menu_add_order_alt">Place Order</string>
+    <string name="new_order_popup_title">New Order</string>
+    <string name="new_order_popup_placeholder">Please type your Order</string>
+    <string name="new_order_popup_submit">Submit</string>
+</resources>

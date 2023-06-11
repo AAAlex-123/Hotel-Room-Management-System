@@ -10,6 +10,7 @@ import androidx.navigation.navArgument
 
 fun NavGraphBuilder.homeScreen(
     route: String,
+    onNavigateToLocalization: () -> Unit,
     onNavigateToLogin: () -> Unit,
     onNavigateToRooms: (Int) -> Unit,
     onNavigateToCleaningLadies: (Int) -> Unit,
@@ -26,6 +27,7 @@ fun NavGraphBuilder.homeScreen(
                 cleaningStaffId = navBackStackEntry.arguments?.getInt("cleaningStaffId")!!,
                 cleaningStaffRepository = Repository.cleaningStaff,
             ),
+            onNavigateToLocalization = onNavigateToLocalization,
             onNavigateToLogin = onNavigateToLogin,
             onNavigateToRooms = onNavigateToRooms,
             onNavigateToCleaningLadies = onNavigateToCleaningLadies,

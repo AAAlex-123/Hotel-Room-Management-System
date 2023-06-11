@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="topbar_login">Login</string>
+    <string name="staffId">Staff ID</string>
+    <string name="staffId_placeholder">Staff ID</string>
+    <string name="password">Password</string>
+    <string name="password_placeholder">Password</string>
+    <string name="login_button">Login</string>
+    <string name="login_error">Invalid Credentials</string>
+</resources>

@@ -32,6 +32,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 
@@ -93,7 +94,7 @@ private fun RoomScreenContent(
     scaffoldNavigation: ScaffoldNavigation,
 ) {
     HrmsScaffold(
-        topBarText = "Rooms",
+        topBarText = stringResource(R.string.topbar_rooms),
         onNavigationIconClick = { onNavigateBack() },
         scaffoldNavigation = scaffoldNavigation,
         selectedBottomBarItem = BottomBarItem.ROOMS,
@@ -160,7 +161,7 @@ private fun RoomComposable(
             if (it.cleanable == Cleanable.DO_NOT_COME_CLEAN) {
                 Icon(
                     id = R.drawable.ic_do_not_disturb,
-                    alt = "do not disturb",
+                    alt = stringResource(R.string.ic_do_not_disturb_alt),
                     modifier = Modifier
                         .padding(4.dp)
                         .align(Alignment.TopEnd),
@@ -169,7 +170,7 @@ private fun RoomComposable(
             if (it.cleanType == CleanType.DEEP) {
                 Icon(
                     id = R.drawable.ic_deep_clean,
-                    alt = "deep clean",
+                    alt = stringResource(R.string.ic_deep_clean_alt),
                     modifier = Modifier
                         .padding(4.dp)
                         .align(Alignment.TopStart),

@@ -20,6 +20,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
 
@@ -61,7 +62,7 @@ private fun LoginScreenContent(
     val coroutineScope = rememberCoroutineScope()
 
     HrmsScaffold(
-        topBarText = "Login",
+        topBarText = stringResource(R.string.topbar_login),
     ) {
         Column(
             modifier = Modifier
@@ -76,11 +77,11 @@ private fun LoginScreenContent(
                 verticalArrangement = Arrangement.spacedBy(8.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
-                MediumDisplayText(text = "Staff ID")
+                MediumDisplayText(text = stringResource(R.string.staffId))
                 TextInputField(
                     value = username,
                     onValueChange = { username = it },
-                    placeholderText = "Staff ID",
+                    placeholderText = stringResource(R.string.staffId_placeholder),
                     isError = !success,
                     modifier = Modifier
                         .wrapContentSize(Alignment.Center),
@@ -90,18 +91,18 @@ private fun LoginScreenContent(
                 verticalArrangement = Arrangement.spacedBy(8.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
-                MediumDisplayText(text = "Password")
+                MediumDisplayText(text = stringResource(R.string.password))
                 TextInputField(
                     value = password,
                     onValueChange = { password = it },
-                    placeholderText = "Password",
+                    placeholderText = stringResource(R.string.password_placeholder),
                     isError = !success,
                     modifier = Modifier
                         .wrapContentSize(Alignment.Center),
                 )
             }
             ButtonWithText(
-                text = "Submit",
+                text = stringResource(R.string.login_button),
                 onClick = {
                     coroutineScope.launch {
                         val cleaningStaffId = onAuthenticate(username, password)
@@ -115,7 +116,7 @@ private fun LoginScreenContent(
             )
             if (!success) {
                 ErrorLabel(
-                    text = "Invalid Credentials",
+                    text = stringResource(R.string.login_error),
                 )
             }
         }

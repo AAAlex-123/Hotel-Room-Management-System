@@ -51,6 +51,7 @@ dependencies {
     implementation project(path: ':core:designsystem')
 
     implementation project(path: ':feature:home')
+    implementation project(path: ':feature:localization')
     implementation project(path: ':feature:login')
     implementation project(path: ':feature:maid')
     implementation project(path: ':feature:order')

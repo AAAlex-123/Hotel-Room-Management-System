@@ -18,10 +18,8 @@ import alexman.hrms.core.model.data.Order
 import alexman.hrms.core.model.data.OrderStatus
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
@@ -39,7 +37,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.modifier.ModifierLocalReadScope
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -136,7 +134,7 @@ private fun OrderScreenContent(
     var showCompleted by rememberSaveable { mutableStateOf(true) }
 
     HrmsScaffold(
-        topBarText = "Orders",
+        topBarText = stringResource(R.string.topbar_orders),
         onNavigationIconClick = { onNavigateBack() },
         actions = {
             FilterOrdersButton(
@@ -191,7 +189,7 @@ private fun FilterOrdersButton(
 
     IconClickable(
         id = R.drawable.ic_menu_filter,
-        alt = "Filter Orders",
+        alt = stringResource(R.string.ic_menu_filter_alt),
         onClick = { expanded = true },
         sizeVariation = SizeVariation.PRIMARY,
         modifier = Modifier
@@ -227,7 +225,7 @@ private fun FilterOrdersPopupContent(
                 .padding(16.dp),
         ) {
             MediumDisplayText(
-                text = "Filter Orders",
+                text = stringResource(R.string.filter_orders_popup_title),
                 modifier = Modifier.align(Alignment.CenterHorizontally),
             )
             Row(
@@ -243,7 +241,7 @@ private fun FilterOrdersPopupContent(
                         onCheckedChange = onShowPendingChanged,
                     )
                 }
-                LargeBodyText(text = "Pending")
+                LargeBodyText(text = stringResource(R.string.filter_orders_popup_pending))
             }
             Row(
                 verticalAlignment = Alignment.CenterVertically,
@@ -258,7 +256,7 @@ private fun FilterOrdersPopupContent(
                         onCheckedChange = onShowCompletedChanged,
                     )
                 }
-                LargeBodyText(text = "Completed")
+                LargeBodyText(text = stringResource(R.string.filter_orders_popup_completed))
             }
         }
     }
@@ -272,7 +270,7 @@ private fun NewOrderButton(
 
     IconClickable(
         id = R.drawable.ic_menu_add_order,
-        alt = "Place Order",
+        alt = stringResource(R.string.ic_menu_add_order_alt),
         onClick = { expanded = true },
         sizeVariation = SizeVariation.PRIMARY,
         modifier = Modifier
@@ -307,18 +305,18 @@ private fun NewOrderPopupContent(
                 .padding(16.dp),
         ) {
             MediumDisplayText(
-                text = "New Order",
+                text = stringResource(R.string.new_order_popup_title),
             )
             TextInputField(
                 value = value,
                 onValueChange = setValue,
-                placeholderText = "Please type your Order",
+                placeholderText = stringResource(R.string.new_order_popup_placeholder),
                 modifier = Modifier
                     .wrapContentSize(Alignment.Center),
                 singleLine = false,
             )
             ButtonWithText(
-                text = "Submit",
+                text = stringResource(R.string.new_order_popup_submit),
                 onClick = { onSubmit(value) },
                 sizeVariation = SizeVariation.SECONDARY,
             )

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="topbar_rooms">Δωμάτια</string>
+    <string name="topbar_room">Δωμάτιο %1$s %2$s</string>
+    <string name="ic_do_not_disturb_alt">μην ενοχλείτε</string>
+    <string name="ic_deep_clean_alt">βαθύς καθαρισμός</string>
+    <string name="do_not_disturb">Μην Ενοχλείτε: %1$s</string>
+    <string name="do_not_disturb_yes">Ναι</string>
+    <string name="do_not_disturb_no">Όχι</string>
+    <string name="clean_type">Είδος: %1$s</string>
+    <string name="clean_type_normal">Κανονικός</string>
+    <string name="clean_type_deep">Βαθύς</string>
+    <string name="add_note_placeholder">Πληκτρολογήστε τη Σημείωσή σας</string>
+    <string name="add_note_submit">Προσθήκη Σημείωσης</string>
+    <string name="notes_heading">Σημειώσεις</string>
+    <string name="mark_dirty">Μάρκαρε\nΒρώμικο</string>
+    <string name="mark_pending">Μάρκαρε\nΕκκρεμές</string>
+    <string name="mark_clean">Μάρκαρε\nΚαθαρό</string>
+    <string name="mark_inspected">Μάρκαρε\nΕπιθεωρημένο</string>
+</resources>

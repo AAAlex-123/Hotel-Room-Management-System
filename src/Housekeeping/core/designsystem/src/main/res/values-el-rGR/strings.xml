@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="tab_rooms_display">Δωμάτια</string>
+    <string name="ic_tab_rooms_alt">Δωμάτια</string>
+    <string name="tab_orders_display">Αποθήκη</string>
+    <string name="ic_tab_orders_alt">Αποθήκη</string>
+    <string name="tab_maids_display">Καθαρίστριες</string>
+    <string name="tab_maids_alt">Καθαρίστριες</string>
+    <string name="listitem_action_delete_alt">Διαγραφή</string>
+    <string name="ic_menu_back_alt">Πίσω</string>
+</resources>

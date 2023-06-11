@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="topbar_rooms">Rooms</string>
+    <string name="topbar_room">Room %1$s %2$s</string>
+    <string name="ic_do_not_disturb_alt">do not disturb</string>
+    <string name="ic_deep_clean_alt">deep clean</string>
+    <string name="do_not_disturb">Do not disturb: %1$s</string>
+    <string name="do_not_disturb_yes">Yes</string>
+    <string name="do_not_disturb_no">No</string>
+    <string name="clean_type">Clean Type: %1$s</string>
+    <string name="clean_type_normal">Normal</string>
+    <string name="clean_type_deep">Deep</string>
+    <string name="add_note_placeholder">Please type your Note</string>
+    <string name="add_note_submit">Add Note</string>
+    <string name="notes_heading">Notes</string>
+    <string name="mark_dirty">Mark\nDirty</string>
+    <string name="mark_pending">Mark\nPending</string>
+    <string name="mark_clean">Mark\nClean</string>
+    <string name="mark_inspected">Mark\nInspected</string>
+</resources>

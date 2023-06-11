@@ -14,6 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 
@@ -23,6 +24,7 @@ private fun HomeScreenContentPreview() {
     HrmsTheme {
         HomeScreenContent(
             staff = HomeStaffUiState(-1, "Jane Doe", CleaningStaffType.CLEANING_LADY),
+            onNavigateToLocalization = { },
             onNavigateToLogin = { },
             scaffoldNavigation = ScaffoldNavigation(),
         )
@@ -32,6 +34,7 @@ private fun HomeScreenContentPreview() {
 @Composable
 internal fun HomeScreen(
     homeViewModel: HomeViewModel,
+    onNavigateToLocalization: () -> Unit,
     onNavigateToLogin: () -> Unit,
     onNavigateToRooms: (Int) -> Unit,
     onNavigateToCleaningLadies: (Int) -> Unit,
@@ -43,6 +46,7 @@ internal fun HomeScreen(
 
     HomeScreenContent(
         staff = staffUiState,
+        onNavigateToLocalization = onNavigateToLocalization,
         onNavigateToLogin = onNavigateToLogin,
         scaffoldNavigation = ScaffoldNavigation(
             toRooms = { onNavigateToRooms(id) },
@@ -59,14 +63,16 @@ internal fun HomeScreen(
 @Composable
 private fun HomeScreenContent(
     staff: HomeStaffUiState,
+    onNavigateToLocalization: () -> Unit,
     onNavigateToLogin: () -> Unit,
     scaffoldNavigation: ScaffoldNavigation,
 ) {
     HrmsScaffold(
         topBarText = when (staff.staffType) {
-            CleaningStaffType.CLEANING_LADY -> "Cleaning Lady"
-            CleaningStaffType.HOUSEKEEPER -> "Housekeeper"
+            CleaningStaffType.CLEANING_LADY -> stringResource(R.string.topbar_cleaning_lady)
+            CleaningStaffType.HOUSEKEEPER -> stringResource(R.string.topbar_housekeeper)
         },
+        customNavigationIcon = { ChangeLanguageButton(onClick = onNavigateToLocalization) },
         actions = { LogoutButton(onClick = onNavigateToLogin) },
         scaffoldNavigation = scaffoldNavigation,
     ) {
@@ -80,8 +86,8 @@ private fun HomeScreenContent(
             modifier = Modifier
                 .fillMaxSize()
         ) {
-            LargeDisplayText("Staff ID: ${staff.staffId}")
-            LargeDisplayText("Name: ${staff.staffName}")
+            LargeDisplayText(stringResource(R.string.main_staffId, staff.staffId))
+            LargeDisplayText(stringResource(R.string.main_staffName, staff.staffName))
         }
     }
 }
@@ -90,7 +96,18 @@ private fun HomeScreenContent(
 private fun LogoutButton(onClick: () -> Unit) {
     IconClickable(
         id = R.drawable.ic_menu_logout,
-        alt = "logout",
+        alt = stringResource(R.string.ic_menu_logout_alt),
+        onClick = onClick,
+    )
+}
+
+@Composable
+private fun ChangeLanguageButton(
+    onClick: () -> Unit,
+) {
+    IconClickable(
+        id = R.drawable.ic_menu_localization,
+        alt = stringResource(R.string.ic_menu_localization_alt),
         onClick = onClick,
     )
 }

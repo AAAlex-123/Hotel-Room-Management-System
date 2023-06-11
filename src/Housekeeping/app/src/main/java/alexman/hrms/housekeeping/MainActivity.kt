@@ -2,6 +2,7 @@ package alexman.hrms.housekeeping
 
 import alexman.hrms.core.designsystem.theme.HrmsTheme
 import alexman.hrms.feature.home.navigation.homeScreen
+import alexman.hrms.feature.localization.navigation.localizationScreen
 import alexman.hrms.feature.login.navigation.loginScreen
 import alexman.hrms.feature.maids.navigation.maidScreen
 import alexman.hrms.feature.order.navigation.orderScreen
@@ -53,6 +54,12 @@ private fun HrmsNav(
             navOptions = NavOptions.Builder()
                 .setPopUpTo(route = Destination.Home.route, inclusive = true)
                 .build(),
+        )
+    }
+
+    val toLocalization = {
+        navController.navigate(
+            route = Destination.Localization.route,
         )
     }
 
@@ -111,8 +118,14 @@ private fun HrmsNav(
             onNavigateToHome = toHome,
         )
 
+        localizationScreen(
+            route = Destination.Localization.route,
+            onNavigateBack = back,
+        )
+
         homeScreen(
             route = Destination.Home.route,
+            onNavigateToLocalization = toLocalization,
             onNavigateToLogin = toLogin,
             onNavigateToRooms = toRooms,
             onNavigateToCleaningLadies = toCleaningLadies,

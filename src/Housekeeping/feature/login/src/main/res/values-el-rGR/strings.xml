@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="topbar_login">Είσοδος</string>
+    <string name="staffId">Αριθμός Προσωπικού</string>
+    <string name="staffId_placeholder">Αριθμός Προσωπικού</string>
+    <string name="password">Κωδικός</string>
+    <string name="password_placeholder">Κωδικός</string>
+    <string name="login_button">Είσοδος</string>
+    <string name="login_error">Λάθος Στοιχεία</string>
+</resources>
