@@ -4,15 +4,17 @@ import Link from "next/link";
 import TitleBar from "../TitleBar";
 import "../Login.css"
 import Head from "next/head";
+import { useEffect, useState } from "react";
+import { type } from "os";
 
-type ChargeType = {
+export type ChargeType = {
   timestamp: Date;
   description: string;
   amount: number;
   type: string; //CHARGE or CREDIT
 };
 
-type ReservationEntity = {
+export type ReservationEntity = {
   reservation_id: number;
   room_id: string;
   name: string;
@@ -28,21 +30,52 @@ type ReservationEntity = {
   room: any;
   charge: ChargeType[]
 }
+export type Status = "DIRTY" | "INSPECTED" | "CLEAN"
+export type Type= "DAILY" | "DEEP"
+export type Room = {
+  room_id: string;
+  occupied: boolean;
+  clean_state: Status;
+  service: boolean;
+  out_of_order: boolean;
+  cleanable: boolean;
+  reservation_id: number;
+  clean_type: Type;
+  roomType: string;
+  roomClass: string;
+  floor: number;
+}
 export default async function LogicClient() {
+
   const searchParams = useSearchParams()
   const { push, refresh } = useRouter()
   if (!searchParams) notFound()
-  const room_id = searchParams.get("room_id") ?? "001"
-  const reservation_id = localStorage.getItem("reservation_id")
-  const token = localStorage.getItem("token")
-  const url = process.env.NEXT_PUBLIC_URL;
+  const [reservation_id, setReservationId] = useState("-1")
+  const [token, setToken] = useState("")
+  const [room, setRoom] = useState<Room>()
+  const [charge, setCharge] = useState<ChargeType[]>([])
+  const [reservation, setReservation] = useState<ReservationEntity>()
 
-  const reservations_body = await fetch(`${url}/reservation/${reservation_id}?room=true`, { cache: "no-cache", method: "GET", headers: { authorization: `Bearer ${token}` } })
-  if (!reservations_body.ok) {
-    push("/client?room_id=" + room_id)
-  }
-  const { room, charge, ...reservation } = (await reservations_body.json()) as ReservationEntity
-  console.log(charge);
+  const room_id = searchParams.get("room_id") ?? "001"
+  const url = process.env.NEXT_PUBLIC_URL;
+  useEffect(() => {
+    async function temp() {
+      const reservation_id = localStorage.getItem("reservation_id")
+      setReservationId(reservation_id ?? "-2")
+      const token = localStorage.getItem("token")
+      setToken(token ?? "")
+      const reservations_body = await fetch(`${url}/reservation/${reservation_id}?room=true`, { cache: "no-cache", method: "GET", headers: { authorization: `Bearer ${token}` } })
+      if (!reservations_body.ok) {
+        push("/client?room_id=" + room_id)
+      }
+      const { room, charge, ...reservation } = (await reservations_body.json()) as ReservationEntity
+      setRoom(room)
+      setCharge([...charge])
+      setReservation(reservation as ReservationEntity)
+    }
+    temp().catch(console.error)
+  })
+
 
 
   async function handleCheckout() {
@@ -65,7 +98,7 @@ export default async function LogicClient() {
   }
 
   async function handleAbsence() {
-    await fetch(`${url}/client/absence/`, { cache: "no-cache", headers: { authorization: `Bearer ${token}`, "Content-type": "application/json" }, method: "POST", body: JSON.stringify({ reservation_id, state: !room.cleanable }) })
+    await fetch(`${url}/client/absence/`, { cache: "no-cache", headers: { authorization: `Bearer ${token}`, "Content-type": "application/json" }, method: "POST", body: JSON.stringify({ reservation_id, state: !room?.cleanable }) })
     refresh()
   }
 
@@ -76,12 +109,12 @@ export default async function LogicClient() {
       </Head>
       <TitleBar room_id={room_id} />
       <div className="mainFrame">
-        <h1>Welcome {reservation.name}!</h1>
+        <h1>Welcome {reservation?.name}!</h1>
         <h2>How may we be of service?</h2>
         <span><button onClick={e => {
           e.preventDefault()
           handleAbsence()
-        }} >{room.cleanable ? "Return Notification" : "Absence Notification"}</button></span>
+        }} >{room?.cleanable ? "Return Notification" : "Absence Notification"}</button></span>
         <Link href="tel:+306900000000">
           <button>Contact Reception</button>
         </Link>

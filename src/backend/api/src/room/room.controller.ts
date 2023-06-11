@@ -3,6 +3,7 @@ import {
   Controller,
   Delete,
   Get,
+  Logger,
   Param,
   Post,
   Put,
@@ -30,7 +31,7 @@ export class RoomController {
     if (chambermaid_id !== undefined) {
       const emp = await this.prisma.employee.findUnique({
         where: {
-          employee_id: chambermaid_id,
+          employee_id: chambermaid_id ? Number(chambermaid_id) : undefined,
         },
       });
       const chambermaid = emp.type === EmployeeType.CHAMBERMAID;
@@ -41,11 +42,11 @@ export class RoomController {
               ? {
                   GroupChamber: {
                     some: {
-                      chambermaid_id: chambermaid_id,
+                      chambermaid_id: Number(chambermaid_id),
                     },
                   },
                 }
-              : { housekeeper_id: chambermaid_id },
+              : { housekeeper_id: Number(chambermaid_id) },
           },
         },
       });
@@ -91,6 +92,7 @@ export class RoomController {
       //Create or update the necessary rooms
       const array: Room[] = [];
       for (const iterator of room) {
+        Logger.debug(iterator);
         const { room_id, ...rest } = iterator;
         array.push(
           await this.prisma.room.upsert({
@@ -111,7 +113,6 @@ export class RoomController {
     @Param('room_id') id: string,
     @Body() room: RoomUpdateEntity,
   ) {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { room_id, ...rest } = room;
     return await this.prisma.room.update({
       data: { ...rest },

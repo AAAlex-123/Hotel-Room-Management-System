@@ -6,5 +6,5 @@ RUN npm install --omit=dev
 
 EXPOSE 8081
 RUN npm run prisma:deploy
-RUN npx prisma generate
+RUN npm run prisma:gen
 CMD ["npm", "start"]

@@ -6,7 +6,7 @@ export class MenuOrderEntity {
   menu_id: number;
   @ApiProperty({
     required: true,
-    default: '001',
+    default: '1',
     description: 'Order Destination Room',
   })
   room_id: string;

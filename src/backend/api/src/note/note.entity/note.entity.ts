@@ -7,6 +7,6 @@ export class NoteEntity {
   @ApiProperty({ default: 'text', description: 'The content of the note' })
   note_data: string;
   created?: Date;
-  @ApiProperty({ default: '001', description: 'The room the note concerns' })
+  @ApiProperty({ default: '1', description: 'The room the note concerns' })
   room_id: string;
 }

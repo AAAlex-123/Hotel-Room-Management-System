@@ -6,7 +6,7 @@ import React, { useState, useEffect } from 'react';
 import { ReservationClientEntity } from '../../components/ReservationTypes';
 import Link from 'next/link';
 import Head from 'next/head';
-import { useRouter } from 'next/navigation';
+import { notFound, useRouter, useSearchParams } from 'next/navigation';
 import { EmployeeEntityNoPass } from '@/app/Employee';
 
 async function DeleteReservation() {
@@ -16,15 +16,13 @@ async function DeleteReservation() {
   const text = "Close";
   const text2 = 'Delete';
   const label = 'Delete Reservation';
+  const x=useSearchParams()
   const [reservations, setReservations] = useState<ReservationClientEntity[]>([]);
   const [showDetails, setShowDetails] = useState(false);
   const [searchText, setSearchText] = useState('');
   const [searchResult, setSearchResult] = useState<(ReservationClientEntity | null)[]>([]);
   const [selectedReservation, setSelectedReservation] = useState<ReservationClientEntity | null>(null);
   const [originalReservations, setOriginalReservations] = useState<ReservationClientEntity[]>([]);
-  useEffect(() => {
-    setOriginalReservations(reservations);
-  }, [reservations]);
   const { push } = useRouter()
   const employee_id = localStorage.getItem("employee_id")
   const token = localStorage.getItem("token")
@@ -34,12 +32,13 @@ async function DeleteReservation() {
     push("/")
   }
   const employee: EmployeeEntityNoPass = await get_res.json()
+  const r_body = await fetch(`${url}/reservation`, { cache: "no-cache", headers: { authorization: "Bearer " + token } })
+  if (!r_body.ok) {
+    push("/reservations")
+  }
+  setOriginalReservations(reservations);
+  setReservations(await r_body.json())
   const handleSearch = async () => {
-    const r_body = await fetch(`${url}/reservation`, { cache: "no-cache", headers: { authorize: "Bearer " + token } })
-    if (!r_body.ok) {
-      push("/reservations")
-    }
-    setReservations(await r_body.json())
     const filteredResults = reservations.filter(
       (reservation) =>
         reservation.name.toLowerCase().includes(searchText.toLowerCase()) ||
@@ -70,7 +69,6 @@ async function DeleteReservation() {
 
   const getContentFromSearchResult = (reservation: ReservationClientEntity | null): string[] => {
     const content: string[] = [];
-
     if (reservation) {
       content.push(reservation.room_id);
       content.push(reservation.arrival.toDateString());
@@ -84,26 +82,22 @@ async function DeleteReservation() {
       content.push(reservation.visitor?.toString() || '');
       content.push(reservation.email || '');
     }
-
     return content;
   };
 
   const content = getContentFromSearchResult(selectedReservation);
-
-
-
   return (
     <>
       <Head>
         <title>Delete Reservation</title>
       </Head>
-      <div><Layout id={Number(employee_id ?? "-1")} username={employee.name ?? ""} /></div>
+      <div><Layout id={Number(employee_id ?? "-1")} username={employee?.name ?? ""} /></div>
       <div> <SmallScreen label={label} />
         <div className="res-container">
           <div className="whiteBox">
             <div className="bar-container">
               <div className="search-container">
-                <form action="#">
+                <form action="#" onSubmit={handleSearch}>
                   <label>Name/Cellphone: </label>
                   <input
                     type="text"
@@ -111,6 +105,7 @@ async function DeleteReservation() {
                     onChange={(e) => setSearchText(e.target.value)}
                     onKeyDown={handleKeyDown}
                   />
+                  <button type="submit">Search</button>
                 </form>
               </div>
             </div>

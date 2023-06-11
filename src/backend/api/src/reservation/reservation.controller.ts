@@ -7,6 +7,7 @@ import {
   HttpStatus,
   Logger,
   Param,
+  ParseIntPipe,
   Post,
   Put,
   Query,
@@ -48,7 +49,7 @@ export class ReservationController {
   @Get(':id')
   @ApiQuery({ name: 'room', type: Boolean, required: false })
   async getById(
-    @Param('id') id: number,
+    @Param('id', ParseIntPipe) id: number,
     @Query() { room }: { room?: boolean },
   ) {
     const r = room ? Boolean(room) : false;
@@ -63,15 +64,18 @@ export class ReservationController {
 
   @Post()
   async create(@Body() reservation: ReservationClientEntity) {
-    Logger.debug(reservation);
     reservation.visitor = reservation.visitor
       ? Number(reservation.visitor)
       : undefined;
     reservation.arrival = new Date(reservation.arrival);
     reservation.departure = new Date(reservation.departure);
     reservation.bill = reservation.bill ? Number(reservation.bill) : undefined;
+    const today = new Date();
+    const yesterday = new Date(today);
+
+    yesterday.setDate(yesterday.getDate() - 1);
     if (
-      reservation.arrival < new Date() ||
+      reservation.arrival <= yesterday ||
       reservation.departure < reservation.arrival
     ) {
       throw new HttpException(
@@ -99,7 +103,8 @@ export class ReservationController {
         HttpStatus.NOT_ACCEPTABLE,
       );
     }
-    const { bill, ...rest } = reservation;
+    const { bill, reservation_id, ...rest } = reservation;
+    Logger.debug(rest);
     return await this.prisma.reservation.create({
       data: {
         ...rest,

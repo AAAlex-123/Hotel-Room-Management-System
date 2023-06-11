@@ -3,7 +3,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.snapshots.SnapshotStateList
@@ -25,10 +25,10 @@ fun App(stage: MutableState<Page>, floors: SnapshotStateList<Floor>) {
         Row {
             Column {
                 repeat(floors.size) {
-                    floorbutton(mainFloor = mainFloor, index = it, floors = floors)
+                    FloorButton(mainFloor = mainFloor, index = it, floors = floors)
                 }
                 Row {
-                    button(onClick = {
+                    Button(onClick = {
                         setShow(true)
                     }) {
                         Text("Add floor")
@@ -37,7 +37,7 @@ fun App(stage: MutableState<Page>, floors: SnapshotStateList<Floor>) {
                 if (show) {
                     fieldGenerate(floorName = getNextAvailable(floors), hide = setShow, floors = floors)
                 }
-                button(onClick = {
+                Button(onClick = {
                     stage.value = Page.EMPLOYEE
                 }) {
                     Text("Continue")
@@ -46,10 +46,9 @@ fun App(stage: MutableState<Page>, floors: SnapshotStateList<Floor>) {
             Column(horizontalAlignment = Alignment.End) {
                 if (mainFloor.value != null) {
                     LazyVerticalGrid(columns = GridCells.Adaptive(minSize = 300.dp)) {
-                        items(mainFloor.value!!.rooms) {
-                            roomView(it)
+                        itemsIndexed(mainFloor.value!!.rooms) { index: Int, _: Room ->
+                            roomView(index = index, rooms = mainFloor.value!!.rooms)
                         }
-
                     }
                 }
             }
@@ -58,23 +57,22 @@ fun App(stage: MutableState<Page>, floors: SnapshotStateList<Floor>) {
 }
 
 @Composable
-private fun floorbutton(mainFloor: MutableState<Floor?>, index: Int, floors: SnapshotStateList<Floor>) {
+private fun FloorButton(mainFloor: MutableState<Floor?>, index: Int, floors: SnapshotStateList<Floor>) {
     var show by remember { mutableStateOf(true) }
     var floor by remember { mutableStateOf(floors[index].floor.toString()) }
     Row {
         if (show) {
-            button(onClick = {
+            Button(onClick = {
                 mainFloor.value = floors[index]
             }) {
                 Text(text = "Floor $floor")
             }
-
-            Textbutton(onClick = {
+            TextButton(onClick = {
                 show = false
             }) {
                 Text("...")
             }
-            Textbutton(onClick = {
+            TextButton(onClick = {
                 floors.removeAt(index)
                 if (index < floors.size) floor = floors[index].floor.toString()
             }) {
@@ -92,7 +90,7 @@ private fun floorbutton(mainFloor: MutableState<Floor?>, index: Int, floors: Sna
                 floors[index].floor = temp
                 floor = it
             })
-            button(onClick = {
+            Button(onClick = {
                 show = true
             }) {
                 Text("Done")
@@ -108,20 +106,32 @@ private fun getNextAvailable(floors: SnapshotStateList<Floor>): Int {
 }
 
 @Composable
-private fun roomView(it: Room) {
+private fun roomView(rooms: MutableList<Room>, index: Int) {
+    var roomId by remember { mutableStateOf(rooms[index].roomId) }
+    var roomType by remember { mutableStateOf(rooms[index].roomType) }
+    var roomClass by remember { mutableStateOf(rooms[index].roomClass) }
     Column(modifier = Modifier.border(2.dp, Color.Black, RectangleShape).padding(5.dp)) {
         Text("Room", modifier = Modifier.height(IntrinsicSize.Min))
-        TextField(value = it.roomId,
+        TextField(value = roomId,
             modifier = Modifier.height(IntrinsicSize.Min),
-            onValueChange = { newValue -> it.roomId = newValue })
+            onValueChange = { newValue ->
+                roomId = newValue
+                rooms[index].roomId = newValue
+            })
         Text("Room Type", modifier = Modifier.height(IntrinsicSize.Min))
-        TextField(value = it.roomType,
+        TextField(value = roomType,
             modifier = Modifier.height(IntrinsicSize.Min),
-            onValueChange = { newValue -> it.roomType = newValue })
+            onValueChange = { newValue ->
+                roomType = newValue
+                rooms[index].roomType = newValue
+            })
         Text("Room Class", modifier = Modifier.height(IntrinsicSize.Min))
-        TextField(value = it.roomClass,
+        TextField(value = roomClass,
             modifier = Modifier.height(IntrinsicSize.Min),
-            onValueChange = { newValue -> it.roomClass = newValue })
+            onValueChange = { newValue ->
+                roomClass = newValue
+                rooms[index].roomClass = newValue
+            })
 
     }
 }
@@ -170,9 +180,9 @@ private fun fieldGenerate(hide: (Boolean) -> Unit, floors: SnapshotStateList<Flo
             roomClass.value = it
         })
     }
-    button(onClick = {
+    Button(onClick = {
         val rooms = mutableListOf<Room>()
-        if (isRoomsNotNumber || isStartNotNumber) return@button
+        if (isRoomsNotNumber || isStartNotNumber) return@Button
         val rNum = numOfRooms.value.toInt()
         val start = statsFrom.value.toInt()
         repeat(rNum) {

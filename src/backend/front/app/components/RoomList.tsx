@@ -14,8 +14,8 @@ interface RoomListProps {
         return (
           (filters.room_id ? room.room_id.includes(filters.room_id) : true) &&
           (filters.occupied !== undefined ? room.occupied === filters.occupied : true) &&
-          (filters.cleaning_state !== undefined
-            ? room.cleaning_state === filters.cleaning_state
+          (filters.clean_state !== undefined
+            ? room.clean_state === filters.clean_state
             : true) &&
             (filters.service !== undefined ? room.service === filters.service : true) &&
             (filters.out_of_order !== undefined
@@ -53,7 +53,7 @@ interface RoomListProps {
               <td>{room.occupied ? 'Yes' : 'No'}</td>
               <td>
                 <select
-                  value={room.cleaning_state}
+                  value={room.clean_state}
                   onChange={(event) => onStatusChange(room, event.target.value as Status)}
                 >
                   <option value={Status.DIRTY}>DIRTY</option>

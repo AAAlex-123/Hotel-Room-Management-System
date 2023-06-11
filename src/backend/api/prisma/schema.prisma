@@ -17,7 +17,6 @@ model Room {
   service        Boolean @default(false)
   out_of_order   Boolean @default(false)
   cleanable      Boolean @default(true)
-  reservation_id Int     @default(-1)
   clean_type     Type    @default(DAILY)
   roomType       String  @default("")
   roomClass      String  @default("")
@@ -143,7 +142,7 @@ enum ChargeType {
 enum Status {
   DIRTY
   CLEAN
-  INSPECTED
+  PENDING
 }
 
 enum Type {

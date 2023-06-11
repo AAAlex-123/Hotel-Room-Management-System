@@ -9,7 +9,7 @@ const Filter: React.FC<FilterProps> = ({ onFilter }) => {
   const initialFilterOptions: Partial<Room> = {
     room_id: '',
     occupied: undefined,
-    cleaning_state: undefined ,
+    clean_state: undefined ,
     service: undefined,
     out_of_order: undefined,
     roomType: '',
@@ -151,7 +151,7 @@ const Filter: React.FC<FilterProps> = ({ onFilter }) => {
             State:
             <select
               name="cleaning_state"
-              value={filterOptions.cleaning_state || ''}
+              value={filterOptions.clean_state || ''}
               onChange={handleStatusChange}
             >
               <option value="">All</option>

@@ -33,7 +33,9 @@ export class NoteController {
     return await this.prisma.note.findMany({
       where: {
         room_id,
-        cleaning_staff_id,
+        cleaning_staff_id: cleaning_staff_id
+          ? Number(cleaning_staff_id)
+          : undefined,
       },
     });
   }

@@ -27,7 +27,7 @@ export class ProvisionController {
     if (employee_id !== undefined) {
       const { type } = await this.prisma.employee.findUnique({
         where: {
-          employee_id,
+          employee_id: employee_id ? Number(employee_id) : undefined,
         },
         select: {
           type: true,
@@ -36,7 +36,7 @@ export class ProvisionController {
       if (type === EmployeeType.CHAMBERMAID) {
         return await this.prisma.provisionOrder.findMany({
           where: {
-            employee_id,
+            employee_id: employee_id ? Number(employee_id) : undefined,
           },
         });
       } else if (type === EmployeeType.HOUSEKEEPER) {
@@ -45,7 +45,7 @@ export class ProvisionController {
             employee: {
               GroupChamber: {
                 group: {
-                  housekeeper_id: employee_id,
+                  housekeeper_id: employee_id ? Number(employee_id) : undefined,
                 },
               },
             },

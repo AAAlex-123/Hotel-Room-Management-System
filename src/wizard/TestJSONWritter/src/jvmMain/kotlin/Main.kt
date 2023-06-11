@@ -1,8 +1,5 @@
 import androidx.compose.foundation.layout.Column
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
-import androidx.compose.material.TextField
-import androidx.compose.material.lightColors
+import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.graphics.Color
@@ -35,16 +32,24 @@ fun main() = application {
     val stage = remember { mutableStateOf(Page.ROOM) }
     val floors = remember { mutableStateListOf<Floor>() }
     val employee = remember { mutableStateListOf<Employee>() }
-    val url = remember { mutableStateOf("localhost:8081") }
+    val url = remember { mutableStateOf("localhost:8000") }
     val authToken = remember { mutableStateOf("") }
     val mediaType = "application/json; charset=utf-8".toMediaType()
+    var doneHttp by remember { mutableStateOf(false) }
     val scope = rememberCoroutineScope()
-    scope.launch {
-        val client = OkHttpClient()
-        authenticate(url.value, mediaType, client, authToken)
-
-        getRooms(client, floors, url, authToken)
-        getEmployees(client, employee, url, authToken)
+    if (!doneHttp) {
+        scope.launch {
+            val client = OkHttpClient()
+            try {
+                println("Heyu")
+                authenticate(url.value, mediaType, client, authToken)
+                getRooms(client, floors, url, authToken)
+                getEmployees(client, employee, url, authToken)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+            doneHttp = true
+        }
     }
     Window(
         onCloseRequest = ::exitApplication, title = "Hestia Wizard", state = state, icon = painterResource(
@@ -53,19 +58,21 @@ fun main() = application {
     ) {
         MaterialTheme(
             colors = DarkColors
-
         ) {
             Column {
                 Text("Server url")
                 TextField(value = url.value, onValueChange = {
                     url.value = it
-                    scope.launch {
-                        val client = OkHttpClient()
-                        authenticate(url.value, mediaType, client, authToken)
-                        getRooms(client, floors, url, authToken)
-                        getEmployees(client, employee, url, authToken)
-                    }
                 })
+                if (stage.value == Page.ROOM) {
+                    Button(onClick = {
+                        doneHttp = false
+                        floors.clear()
+                        employee.clear()
+                    }) {
+                        Text("Search")
+                    }
+                }
                 when (stage.value) {
                     Page.ROOM -> App(stage, floors)
                     Page.EMPLOYEE -> EmployeePage(stage, employee)

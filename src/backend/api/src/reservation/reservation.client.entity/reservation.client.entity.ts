@@ -3,7 +3,7 @@ import { IsNumber, IsPositive, isNumber, isPositive } from 'class-validator';
 
 export class ReservationClientEntity {
   reservation_id?: number;
-  @ApiProperty({ default: '001' })
+  @ApiProperty({ default: '1' })
   room_id: string;
   @ApiProperty({ type: Date, default: new Date() })
   arrival: Date;

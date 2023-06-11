@@ -10,15 +10,15 @@ services:
                 '--collation-server=utf8mb4_unicode_ci'
             ]
         ports:
-            - "8084:3306"
+            - "8083:3306"
         networks:
             - main
         environment:
             MYSQL_DATABASE: hestia
-            MYSQL_ROOT_PASSWORD: manasou
+            MYSQL_ROOT_PASSWORD: hestia
         volumes:
             - mysql_vol:/var/lib/mysql
-        mem_reservation: "700M"
+        mem_limit: "700M"
 
     api:
         build: ./api/
@@ -28,13 +28,13 @@ services:
             - "8081:8081"
         profiles:
             - first_batch
-        volumes:
-            - apiModules:/app/node_modules
+        # volumes:
+        #     - apiModules:/app/node_modules
         networks:
             - main
         depends_on:
             - mysql_image
-        mem_reservation: "300M"
+        mem_limit: "400M"
 
     front:
         build: ./front/
@@ -48,7 +48,7 @@ services:
             - api
         volumes:
             - frontModules:/app/node_modules
-        mem_reservation: "300M"
+        mem_limit: "200M"
 
     nginx:
         image: nginx:latest
@@ -64,10 +64,10 @@ services:
             - main
         depends_on:
             - front
-        mem_reservation: "30M"
+        mem_limit: "30M"
 volumes:
     mysql_vol:
-    apiModules:
+    # apiModules:
     frontModules:
 networks:
     main:

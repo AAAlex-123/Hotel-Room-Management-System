@@ -2,7 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { Status, Type } from '@prisma/client';
 
 export default class RoomEntity {
-  @ApiProperty({ default: '001' })
+  @ApiProperty({ default: '1' })
   room_id: string;
   @ApiProperty({ required: false, default: true })
   occupied?: boolean;
@@ -23,12 +23,12 @@ export default class RoomEntity {
 }
 
 export class RoomUpdateEntity {
-  @ApiProperty({ default: '001' })
+  @ApiProperty({ default: '1' })
   room_id: string;
   @ApiProperty({ required: false, default: true })
   occupied?: boolean;
   @ApiProperty({ required: false, default: Status.DIRTY })
-  cleaning_state?: Status;
+  clean_state?: Status;
   @ApiProperty({ required: false, default: false })
   service?: boolean;
   @ApiProperty({ required: false, default: false })

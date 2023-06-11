@@ -1,11 +1,4 @@
-import {
-  Body,
-  Controller,
-  Get,
-  Param,
-  Post,
-  Query,
-} from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { ChargeType } from '@prisma/client';
 import { ApiBearerAuth, ApiProperty, ApiQuery, ApiTags } from '@nestjs/swagger';
@@ -54,7 +47,7 @@ export class ChargeController {
   async getAll(@Query() { reservation_id }: { reservation_id?: number }) {
     return await this.prisma.charge.findMany({
       where: {
-        reservation_id,
+        reservation_id: reservation_id ? Number(reservation_id) : undefined,
       },
     });
   }

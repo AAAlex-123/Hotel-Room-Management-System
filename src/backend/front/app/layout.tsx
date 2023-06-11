@@ -17,7 +17,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body style={{ margin: "0px" }} className={inter.className}>
-        {children}
+        {/* <Suspense fallback={<h1>Loading...</h1>}> */}
+          {children}
+        {/* </Suspense> */}
       </body>
     </html>
   );

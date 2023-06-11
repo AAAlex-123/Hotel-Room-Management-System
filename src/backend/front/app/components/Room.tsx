@@ -12,7 +12,7 @@ export enum Status {
 export interface Room{
     room_id: string;
     occupied: boolean;
-    cleaning_state: Status;
+    clean_state: Status;
     service: boolean;
     out_of_order: boolean;
     roomType: string;

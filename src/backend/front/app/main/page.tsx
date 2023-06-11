@@ -1,19 +1,18 @@
 "use client"
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import SideBar from '../components/SideBar';
 import '../components/Component.css';
 import Head from 'next/head';
-import Image from 'next/image';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { EmployeeEntityNoPass } from '../Employee';
-
-
+import dynamic from 'next/dynamic';
 export default async function Main() {
   const { push, refresh } = useRouter()
+  const x=useSearchParams()
+  const url = process.env.NEXT_PUBLIC_URL;
   const employee_id = localStorage.getItem("employee_id")
   const token = localStorage.getItem("token")
-  const url=process.env.NEXT_PUBLIC_URL;
-  const get_res = await fetch(`${url}/employee/${employee_id}`, { cache: "no-cache", headers: { authorization: `Bearer ${token}` } })
+  const get_res = await fetch(`${url}/employee/${employee_id}`, { headers: { authorization: `Bearer ${token}` } })
   if (!get_res.ok) {
     push("/")
   }
@@ -34,7 +33,6 @@ export default async function Main() {
     color: 'transparent',
     margin: '0.25rem',
   };
-
   return (
     <>
       <Head>
@@ -44,10 +42,10 @@ export default async function Main() {
       <div className='main'>
         <img src="/Assets/logo.png" alt="Logo" style={imageStyle}></img>
         <div className='bigBlock'>
-          <img className='userIcon' src="/Assets/Logo.png" alt="Logo" style={imageStyle2}></img>
+          <img className='userIcon' src="/Assets/logo.png" alt="Logo" style={imageStyle2}></img>
           <div className='textBlock'>
-            <div className='userText' style={{ fontSize: '1.5rem' }}>{employee.name}</div>
-            <div className='userText'>{employee.employee_id} </div>
+            <div className='userText' style={{ fontSize: '1.5rem' }}>{employee?.name}</div>
+            <div className='userText'>{employee?.employee_id} </div>
           </div>
         </div>
       </div>
@@ -55,6 +53,7 @@ export default async function Main() {
     </>
   )
 }
+
 
 
 

@@ -14,7 +14,9 @@ export class ChambermaidController {
       where: {
         GroupChamber: {
           group: {
-            housekeeper_id: args.cleaning_staff_id,
+            housekeeper_id: args.cleaning_staff_id
+              ? Number(args.cleaning_staff_id)
+              : undefined,
           },
         },
       },

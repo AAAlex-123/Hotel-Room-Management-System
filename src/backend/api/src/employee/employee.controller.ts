@@ -84,7 +84,7 @@ export class EmployeeController {
         const updatePass = iterator.password === '***';
         const { employee_id, password, ...rest } = iterator;
         array.push(
-          await this.prisma.employee.upsert({
+          await ctx.employee.upsert({
             create: iterator,
             update: { password: updatePass ? undefined : password, ...rest },
             where: {
@@ -93,7 +93,7 @@ export class EmployeeController {
           }),
         );
       }
-      return await this.prisma.employee.findMany({
+      return await ctx.employee.findMany({
         where: {
           username: {
             in: employee.map((emp) => emp.username),

@@ -1,7 +1,7 @@
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material.AlertDialog
-import androidx.compose.material.button
+import androidx.compose.material.Button
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
@@ -31,7 +31,7 @@ fun Send(
     val coroutineScope = rememberCoroutineScope()
     val mediaType = "application/json; charset=utf-8".toMediaType()
     Column(horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
-        button(onClick = {
+        Button(onClick = {
             coroutineScope.launch {
                 sendRoom(floors, urlBasis, mediaType, client, showError, errorType, authToken)
                 sendEmployees(employees, urlBasis, mediaType, client, showError, errorType, authToken)
@@ -39,7 +39,7 @@ fun Send(
         }) {
             Text("Complete")
         }
-        button(onClick = {
+        Button(onClick = {
             stage.value = Page.EMPLOYEE
         }) {
             Text("Back")
@@ -48,8 +48,8 @@ fun Send(
             AlertDialog(
                 title = { Text("Network Issue") }, onDismissRequest = { showError.value = -1 },
                 text = { Text("Could not complete insert of ${errorType.value} check the provided url and network options") },
-                confirmbutton = {
-                    button(onClick = {
+                confirmButton = {
+                    Button(onClick = {
                         showError.value = -1
                     }) {
                         Text("OK")

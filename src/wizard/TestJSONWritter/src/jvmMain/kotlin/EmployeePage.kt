@@ -11,18 +11,18 @@ fun EmployeePage(stage: MutableState<Page>, employee: SnapshotStateList<Employee
     Column {
         Column {
 
-            button(onClick = {
+            Button(onClick = {
                 employee.add(Employee(useranme = "", name = "", login = "", type = EmployeeType.CHAMBERMAID))
             }) {
                 Text("Add employee")
             }
             Row {
-                button(onClick = {
+                Button(onClick = {
                     stage.value = Page.SEND
                 }) {
                     Text("Continue")
                 }
-                button(onClick = {
+                Button(onClick = {
                     stage.value = Page.ROOM
                 }) {
                     Text("Back")
@@ -66,7 +66,7 @@ fun employeeView(employees: SnapshotStateList<Employee>, index: Int) {
                 login = it
             })
             Text("Type")
-            Textbutton(onClick = { expanded = true }) {
+            TextButton(onClick = { expanded = true }) {
                 Text(type)
                 DropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
                     EmployeeType.values().map {
@@ -77,12 +77,12 @@ fun employeeView(employees: SnapshotStateList<Employee>, index: Int) {
                     }
                 }
             }
-            Textbutton(onClick = { show = false }) {
+            TextButton(onClick = { show = false }) {
                 Text("Done")
             }
-            Textbutton(onClick = {
+            TextButton(onClick = {
                 employees.removeAt(index)
-                if (index >= employees.size) return@Textbutton
+                if (index >= employees.size) return@TextButton
                 username = employees[index].useranme
                 name = employees[index].name
                 login = employees[index].login
@@ -93,7 +93,7 @@ fun employeeView(employees: SnapshotStateList<Employee>, index: Int) {
             }
         }
     } else {
-        Textbutton(onClick = { show = true }) {
+        TextButton(onClick = { show = true }) {
             Text("FullName: $name")
         }
     }
