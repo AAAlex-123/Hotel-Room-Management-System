@@ -1,0 +1,158 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Room {
+  room_id        String  @id
+  occupied       Boolean @default(false)
+  clean_state    Status  @default(CLEAN)
+  service        Boolean @default(false)
+  out_of_order   Boolean @default(false)
+  cleanable      Boolean @default(true)
+  clean_type     Type    @default(DAILY)
+  roomType       String  @default("")
+  roomClass      String  @default("")
+  floor          Int     @default(0)
+
+  Reservation      Reservation[]
+  groupRoom        GroopRooms?
+  chambermaid_note Note[]
+  MenuOrder        MenuOrder[]
+}
+
+model Reservation {
+  reservation_id Int      @id @default(autoincrement())
+  room_id        String
+  name           String
+  email          String   @default("")
+  cellphone      String   @unique
+  city           String   @default("")
+  country        String   @default("")
+  address        String   @default("")
+  postcode       String   @default("")
+  visitor        Int      @default(1)
+  arrival        DateTime @default(now())
+  departure      DateTime @default(now())
+  room           Room     @relation(fields: [room_id], references: [room_id], onDelete: Cascade)
+  charge         Charge[]
+}
+
+model Charge {
+  reservation_id Int
+  timestamp      DateTime @default(now())
+  description    String
+  amount         Float
+  type           ChargeType
+  reservation    Reservation @relation(fields: [reservation_id], references: [reservation_id], onDelete: Cascade)
+
+  @@id([reservation_id, timestamp])
+}
+
+model Note {
+  note_id           Int      @id @default(autoincrement())
+  room_id           String
+  cleaning_staff_id Int
+  note_data         String
+  created           DateTime @default(now())
+  chambermaid       Employee @relation(fields: [cleaning_staff_id], references: [employee_id], onDelete: Cascade)
+  room              Room     @relation(fields: [room_id], references: [room_id], onDelete: Cascade)
+}
+
+model Employee {
+  employee_id Int          @id @default(autoincrement())
+  type        EmployeeType
+  name        String
+  username    String       @unique
+  password    String
+
+  notes          Note[]
+  Group          Group[]
+  GroupChamber   GroupChamber?
+  ProvisionOrder ProvisionOrder[]
+}
+
+model Group {
+  group_id       Int @id @default(autoincrement())
+  housekeeper_id Int
+
+  groupRooms   GroopRooms[]
+  GroupChamber GroupChamber[]
+  HouseKeepers Employee       @relation(fields: [housekeeper_id], references: [employee_id], onDelete: Cascade)
+}
+
+model GroupChamber {
+  group_id       Int
+  chambermaid_id Int      @unique
+  group          Group    @relation(fields: [group_id], references: [group_id], onDelete: Cascade)
+  chambermaid    Employee @relation(fields: [chambermaid_id], references: [employee_id], onDelete: Cascade)
+
+  @@id([group_id, chambermaid_id])
+}
+
+model GroopRooms {
+  group_id Int
+  room_id  String @unique
+  group    Group  @relation(fields: [group_id], references: [group_id], onDelete: Cascade)
+  room     Room   @relation(fields: [room_id], references: [room_id], onDelete: Cascade)
+
+  @@id([group_id, room_id])
+}
+
+model ProvisionOrder {
+  provision_id Int      @id @default(autoincrement())
+  description  String
+  employee_id  Int
+  complete     Boolean  @default(false)
+  creation     DateTime @default(now())
+  employee     Employee @relation(fields: [employee_id], references: [employee_id], onDelete: Cascade)
+}
+
+model MenuOrder {
+  order_id Int      @id @default(autoincrement())
+  menu_id  Int
+  room_id  String
+  amount   Int
+  complete Boolean
+  creation DateTime @default(now())
+  room     Room     @relation(fields: [room_id], references: [room_id], onDelete: Cascade)
+  menu     MenuItem @relation(fields: [menu_id], references: [menu_id], onDelete: Cascade)
+}
+
+model MenuItem {
+  menu_id      Int         @id @default(autoincrement())
+  name         String
+  price        Float
+  availability Boolean
+  MenuOrder    MenuOrder[]
+}
+
+enum ChargeType {
+  CHARGE
+  CREDIT
+}
+
+enum Status {
+  DIRTY
+  CLEAN
+  PENDING
+}
+
+enum Type {
+  DAILY
+  DEEP
+}
+
+enum EmployeeType {
+  HOUSEKEEPER
+  CHAMBERMAID
+  KITCHEN
+  RECEPTION
+}

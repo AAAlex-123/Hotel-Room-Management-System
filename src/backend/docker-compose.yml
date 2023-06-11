@@ -1,0 +1,73 @@
+version: '3.8'
+services:
+    mysql_image:
+        image: mysql:latest
+        command:
+            [
+                'mysqld',
+                '--default-authentication-plugin=mysql_native_password',
+                '--character-set-server=utf8mb4',
+                '--collation-server=utf8mb4_unicode_ci'
+            ]
+        ports:
+            - "8083:3306"
+        networks:
+            - main
+        environment:
+            MYSQL_DATABASE: hestia
+            MYSQL_ROOT_PASSWORD: hestia
+        volumes:
+            - mysql_vol:/var/lib/mysql
+        mem_limit: "700M"
+
+    api:
+        build: ./api/
+        env_file:
+            - ./api/.env.sample
+        ports:
+            - "8081:8081"
+        profiles:
+            - first_batch
+        # volumes:
+        #     - apiModules:/app/node_modules
+        networks:
+            - main
+        depends_on:
+            - mysql_image
+        mem_limit: "400M"
+
+    front:
+        build: ./front/
+        expose:
+            - 8082
+        profiles:
+            - second_batch
+        networks:
+            - main
+        depends_on:
+            - api
+        volumes:
+            - frontModules:/app/node_modules
+        mem_limit: "200M"
+
+    nginx:
+        image: nginx:latest
+        volumes:
+            - type: bind
+              source: ./nginx.conf
+              target: /etc/nginx/nginx.conf
+        ports:
+            - "8000:80"
+        profiles:
+            - second_batch
+        networks:
+            - main
+        depends_on:
+            - front
+        mem_limit: "30M"
+volumes:
+    mysql_vol:
+    # apiModules:
+    frontModules:
+networks:
+    main:
