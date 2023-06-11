@@ -21,7 +21,6 @@
     
 }
 
-
 .userIcon {
     padding: 0.5rem;
     margin: 1rem;
@@ -49,8 +48,9 @@
     position: absolute;
     flex-direction: column;
     text-align: center;
+    height: 100%;
     /* For smaller laptop screen min-height: 80vh; */
-    min-height: 87vh;
+    /* min-height: 87vh; */
     justify-content: flex-start;
     
 }
@@ -62,9 +62,16 @@
     border-radius: 10px;
     padding: 1.25rem;
     flex: 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 
     
 }
+
+.nav-list > div:hover {
+  background-color: #E0E0E0;
+
+}
+
 
 
 .grid-container{
@@ -82,8 +89,15 @@
     font-size: 2.8rem;
     border-radius: 10px;
     border-style: hidden;
+    transition: background-color 0.3s ease;
     
   }
+
+  .grid-container > button:hover {
+    background-color: #a1acc7;
+  }
+
+
 
 .grid-button-container{
     background-color: #C8D2EC;
@@ -130,7 +144,7 @@
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
-    padding-top: 3rem;
+    padding-top: 2rem;
 
 }
 
@@ -205,7 +219,7 @@
     background-color: #fff;
     min-width: 100%;
     /*For smaller screens height: 90vh; */
-    height: 77vh;
+    /* For bigger screens height: 77vh; */
     
    
   }
@@ -488,6 +502,10 @@ table {
   
   tbody tr:nth-child(even) {
     background-color: #f9f9f9;
+  }
+
+  tbody tr:hover {
+    background-color: #e6f7ff;
   }
 
 .det-table{

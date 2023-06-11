@@ -5,7 +5,7 @@ import SmallScreen from '../Components/SmallScreen'
 import React, { useState, useEffect} from 'react';
 import { ReservationClientEntity, ReservationReturn, ChargeType } from '../Components/ReservationTypes';
 import { Link } from 'react-router-dom';
-import ResForm, {UserData} from '../Components/ResForm';
+import ResForm from '../Components/ResForm';
 
 const UpdateReservation: React.FC = () => {
     const titles = ['Room Number', 'Arrival', 'Departure', 'Name', "Cellphone", 'City', 'Country', 'Address', 'Postcode', 'Visitors','E-mail', 'Bill' ];
