@@ -14,6 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 
@@ -64,8 +65,8 @@ private fun HomeScreenContent(
 ) {
     HrmsScaffold(
         topBarText = when (staff.staffType) {
-            CleaningStaffType.CLEANING_LADY -> "Cleaning Lady"
-            CleaningStaffType.HOUSEKEEPER -> "Housekeeper"
+            CleaningStaffType.CLEANING_LADY -> stringResource(R.string.topbar_cleaning_lady)
+            CleaningStaffType.HOUSEKEEPER -> stringResource(R.string.topbar_housekeeper)
         },
         actions = { LogoutButton(onClick = onNavigateToLogin) },
         scaffoldNavigation = scaffoldNavigation,
@@ -80,8 +81,8 @@ private fun HomeScreenContent(
             modifier = Modifier
                 .fillMaxSize()
         ) {
-            LargeDisplayText("Staff ID: ${staff.staffId}")
-            LargeDisplayText("Name: ${staff.staffName}")
+            LargeDisplayText(stringResource(R.string.main_staffId, staff.staffId))
+            LargeDisplayText(stringResource(R.string.main_staffName, staff.staffName))
         }
     }
 }
@@ -90,7 +91,7 @@ private fun HomeScreenContent(
 private fun LogoutButton(onClick: () -> Unit) {
     IconClickable(
         id = R.drawable.ic_menu_logout,
-        alt = "logout",
+        alt = stringResource(R.string.ic_menu_logout_alt),
         onClick = onClick,
     )
 }

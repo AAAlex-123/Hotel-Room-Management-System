@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="tab_rooms_display">Rooms</string>
+    <string name="ic_tab_rooms_alt">rooms</string>
+    <string name="tab_orders_display">Orders</string>
+    <string name="ic_tab_orders_alt">orders</string>
+    <string name="tab_maids_display">Maids</string>
+    <string name="tab_maids_alt">cleaning ladies</string>
+    <string name="listitem_action_delete_alt">delete</string>
+    <string name="ic_menu_back_alt">back</string>
+</resources>

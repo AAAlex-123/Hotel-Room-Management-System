@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="topbar_orders">Παραγγελίες</string>
+    <string name="ic_menu_filter_alt">Φίλτραρε Παραγγελίες</string>
+    <string name="filter_orders_popup_title">Φίλτραρε Παραγγελίες</string>
+    <string name="filter_orders_popup_pending">Εκκρεμείς</string>
+    <string name="filter_orders_popup_completed">Ολοκληρωμένες</string>
+    <string name="ic_menu_add_order_alt">Νέα Παραγγελία</string>
+    <string name="new_order_popup_title">Νέα Παραγγελία</string>
+    <string name="new_order_popup_placeholder">Πληκτρολογήστε την Παραγγελία σας</string>
+    <string name="new_order_popup_submit">Υποβολή</string>
+</resources>

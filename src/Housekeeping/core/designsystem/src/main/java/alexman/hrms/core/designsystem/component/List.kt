@@ -22,6 +22,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 
 @PreviewLight
@@ -132,7 +133,7 @@ fun ListItem(
             if (deletable) {
                 IconClickable(
                     id = R.drawable.ic_trashcan,
-                    alt = "delete",
+                    alt = stringResource(R.string.listitem_action_delete_alt),
                     onClick = { onDelete(id) },
                     sizeVariation = sizeVariation,
                 )

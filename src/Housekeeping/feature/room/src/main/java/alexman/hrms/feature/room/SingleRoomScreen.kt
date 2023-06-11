@@ -33,6 +33,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 
@@ -101,12 +102,10 @@ private fun SingleRoomScreenContent(
     val (noteData, setNoteData) = remember { mutableStateOf("") }
 
     HrmsScaffold(
-        topBarText = "Room ${room.id}${
-            when (room.cleanType) {
-                CleanType.NORMAL -> ""
-                CleanType.DEEP -> "*"
-            }
-        }",
+        topBarText = stringResource(R.string.topbar_room, room.id, when (room.cleanType) {
+            CleanType.NORMAL -> ""
+            CleanType.DEEP -> "*"
+        }),
         onNavigationIconClick = { onNavigateBack() },
         topBarBackgroundColor = room.color(),
     ) {
@@ -150,13 +149,16 @@ private fun SingleRoomScreenContent(
                             .padding(8.dp),
                     ) {
                         LargeBodyText(
-                            text = "Cleanable: ${when (room.cleanable) {
-                                Cleanable.COME_CLEAN -> "Yes"
-                                Cleanable.DO_NOT_COME_CLEAN -> "NO"
-                            }}"
+                            text = stringResource(R.string.do_not_disturb, when (room.cleanable) {
+                                    Cleanable.COME_CLEAN -> stringResource(R.string.do_not_disturb_no)
+                                    Cleanable.DO_NOT_COME_CLEAN -> stringResource(R.string.do_not_disturb_yes)
+                            })
                         )
                         LargeBodyText(
-                            text = "Clean Type: ${room.cleanType.toSentenceCase()}"
+                            text = stringResource(R.string.clean_type, when (room.cleanType) {
+                                CleanType.NORMAL -> stringResource(R.string.clean_type_normal)
+                                CleanType.DEEP -> stringResource(R.string.clean_type_deep)
+                            })
                         )
                     }
                 }
@@ -165,8 +167,8 @@ private fun SingleRoomScreenContent(
                 if (room.cleanState != CleanState.CLEAN) {
                     ButtonWithText(
                         text = when (room.cleanState) {
-                            CleanState.DIRTY -> "Mark\nPending"
-                            CleanState.PENDING -> "Mark\nDirty"
+                            CleanState.DIRTY -> stringResource(R.string.mark_pending)
+                            CleanState.PENDING -> stringResource(R.string.mark_dirty)
                             else -> error("CleanState was ${room.cleanState} in ButtonWithText1#text")
                         },
                         onClick = {
@@ -182,14 +184,16 @@ private fun SingleRoomScreenContent(
                 // show pending <-> clean button only for housekeepers
                 // but don't show button when dirty
                 if (staff.staffType == CleaningStaffType.HOUSEKEEPER
-                    && room.cleanState != CleanState.DIRTY) {
+                    && room.cleanState != CleanState.DIRTY
+                ) {
                     ButtonWithText(
                         text = when (room.cleanState) {
                             CleanState.PENDING -> when (room.cleanType) {
-                                CleanType.NORMAL -> "Mark\nClean"
-                                CleanType.DEEP -> "Mark\nInspected"
+                                CleanType.NORMAL -> stringResource(R.string.mark_clean)
+                                CleanType.DEEP -> stringResource(R.string.mark_inspected)
                             }
-                            CleanState.CLEAN -> "Mark\nPending"
+
+                            CleanState.CLEAN -> stringResource(R.string.mark_pending)
                             else -> error("CleanState was ${room.cleanState} in ButtonWithText2#text")
                         },
                         onClick = {
@@ -204,7 +208,7 @@ private fun SingleRoomScreenContent(
                 }
             }
             MyDivider()
-            SmallDisplayText(text = "Notes")
+            SmallDisplayText(text = stringResource(R.string.notes_heading))
             LazyColumn(
                 contentPadding = PaddingValues(8.dp),
                 verticalArrangement = Arrangement.spacedBy(8.dp),
@@ -228,13 +232,13 @@ private fun SingleRoomScreenContent(
             TextInputField(
                 value = noteData,
                 onValueChange = setNoteData,
-                placeholderText = "Please type your Note",
+                placeholderText = stringResource(R.string.add_note_placeholder),
                 modifier = Modifier
                     .fillMaxWidth(),
                 singleLine = false,
             )
             ButtonWithText(
-                text = "Add Note",
+                text = stringResource(R.string.add_note_submit),
                 onClick = { onAddNote(noteData) },
                 sizeVariation = SizeVariation.SECONDARY,
             )

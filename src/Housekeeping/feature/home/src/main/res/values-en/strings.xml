@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="topbar_cleaning_lady">Cleaning Lady</string>
+    <string name="topbar_housekeeper">Housekeeper</string>
+    <string name="main_staffId">Staff ID: %1$d</string>
+    <string name="main_staffName">Name: %1$s</string>
+    <string name="ic_menu_logout_alt">logout</string>
+    <string name="ic_menu_localization_alt">change language</string>
+</resources>

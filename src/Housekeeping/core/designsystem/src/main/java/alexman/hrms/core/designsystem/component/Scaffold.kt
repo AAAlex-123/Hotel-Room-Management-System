@@ -27,6 +27,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 
 enum class BottomBarItem {
@@ -165,9 +166,9 @@ private fun RowScope.RoomsBottomBarItem(
     selected: Boolean,
 ) {
     BottomBarItem(
-        label = "Rooms",
+        label = stringResource(R.string.tab_rooms_display),
         id = R.drawable.ic_tab_rooms,
-        alt = "rooms",
+        alt = stringResource(R.string.ic_tab_rooms_alt),
         onClick = onClick,
         selected = selected,
     )
@@ -179,9 +180,9 @@ private fun RowScope.OrdersBottomBarItem(
     selected: Boolean,
 ) {
     BottomBarItem(
-        label = "Orders",
+        label = stringResource(R.string.tab_orders_display),
         id = R.drawable.ic_tab_orders,
-        alt = "orders",
+        alt = stringResource(R.string.ic_tab_orders_alt),
         onClick = onClick,
         selected = selected,
     )
@@ -193,9 +194,9 @@ private fun RowScope.CleaningLadiesBottomBarItem(
     selected: Boolean,
 ) {
     BottomBarItem(
-        label = "Maids",
+        label = stringResource(R.string.tab_maids_display),
         id = R.drawable.ic_tab_maids,
-        alt = "cleaning ladies",
+        alt = stringResource(R.string.tab_maids_alt),
         onClick = onClick,
         selected = selected,
     )
