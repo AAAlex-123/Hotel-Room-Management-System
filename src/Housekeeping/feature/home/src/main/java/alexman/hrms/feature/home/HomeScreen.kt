@@ -24,6 +24,7 @@ private fun HomeScreenContentPreview() {
     HrmsTheme {
         HomeScreenContent(
             staff = HomeStaffUiState(-1, "Jane Doe", CleaningStaffType.CLEANING_LADY),
+            onNavigateToLocalization = { },
             onNavigateToLogin = { },
             scaffoldNavigation = ScaffoldNavigation(),
         )
@@ -33,6 +34,7 @@ private fun HomeScreenContentPreview() {
 @Composable
 internal fun HomeScreen(
     homeViewModel: HomeViewModel,
+    onNavigateToLocalization: () -> Unit,
     onNavigateToLogin: () -> Unit,
     onNavigateToRooms: (Int) -> Unit,
     onNavigateToCleaningLadies: (Int) -> Unit,
@@ -44,6 +46,7 @@ internal fun HomeScreen(
 
     HomeScreenContent(
         staff = staffUiState,
+        onNavigateToLocalization = onNavigateToLocalization,
         onNavigateToLogin = onNavigateToLogin,
         scaffoldNavigation = ScaffoldNavigation(
             toRooms = { onNavigateToRooms(id) },
@@ -60,6 +63,7 @@ internal fun HomeScreen(
 @Composable
 private fun HomeScreenContent(
     staff: HomeStaffUiState,
+    onNavigateToLocalization: () -> Unit,
     onNavigateToLogin: () -> Unit,
     scaffoldNavigation: ScaffoldNavigation,
 ) {
@@ -68,6 +72,7 @@ private fun HomeScreenContent(
             CleaningStaffType.CLEANING_LADY -> stringResource(R.string.topbar_cleaning_lady)
             CleaningStaffType.HOUSEKEEPER -> stringResource(R.string.topbar_housekeeper)
         },
+        customNavigationIcon = { ChangeLanguageButton(onClick = onNavigateToLocalization) },
         actions = { LogoutButton(onClick = onNavigateToLogin) },
         scaffoldNavigation = scaffoldNavigation,
     ) {
@@ -92,6 +97,17 @@ private fun LogoutButton(onClick: () -> Unit) {
     IconClickable(
         id = R.drawable.ic_menu_logout,
         alt = stringResource(R.string.ic_menu_logout_alt),
+        onClick = onClick,
+    )
+}
+
+@Composable
+private fun ChangeLanguageButton(
+    onClick: () -> Unit,
+) {
+    IconClickable(
+        id = R.drawable.ic_menu_localization,
+        alt = stringResource(R.string.ic_menu_localization_alt),
         onClick = onClick,
     )
 }

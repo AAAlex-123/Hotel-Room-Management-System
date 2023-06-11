@@ -45,6 +45,7 @@ fun HrmsScaffold(
     topBarText: String,
     topBarBackgroundColor: Color = MaterialTheme.colorScheme.primary,
     onNavigationIconClick: (() -> Unit)? = null,
+    customNavigationIcon: @Composable (() -> Unit)? = null,
     actions: @Composable (RowScope.() -> Unit) = {},
     scaffoldNavigation: ScaffoldNavigation? = null,
     selectedBottomBarItem: BottomBarItem = BottomBarItem.NONE,
@@ -54,7 +55,7 @@ fun HrmsScaffold(
         topBar = {
             HrmsTopAppBar(
                 text = topBarText,
-                navigationIcon = {
+                navigationIcon = customNavigationIcon ?: {
                     if (onNavigationIconClick != null) {
                         DefaultNavigationIcon(onClick = onNavigationIconClick)
                     }
@@ -133,6 +134,10 @@ private fun HrmsBottomBarPreview() {
     HrmsTheme {
         HrmsBottomBar {
             RoomsBottomBarItem(
+                onClick = { },
+                selected = false,
+            )
+            CleaningLadiesBottomBarItem(
                 onClick = { },
                 selected = true,
             )
