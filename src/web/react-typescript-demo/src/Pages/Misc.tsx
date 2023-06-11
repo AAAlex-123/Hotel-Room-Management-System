@@ -6,6 +6,9 @@ import SmallScreen from '../Components/SmallScreen'
 import { useNavigate } from 'react-router-dom';
 
 const Misc: React.FC = () => {
+  const url=process.env.REACT_APP_URL
+  const employee_id = localStorage.getItem("employee_id")
+  const token = localStorage.getItem("token")
   const labels = ['End Of Day', 'Guest Messages', 'Staff Messages'];
   const elem = 1;
   const label= 'Miscellaneous';

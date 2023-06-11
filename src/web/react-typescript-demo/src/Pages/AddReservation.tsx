@@ -5,6 +5,7 @@ import SmallScreen from '../Components/SmallScreen';
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
+
 const AddReservation: React.FC = () => {
   const url=process.env.REACT_APP_URL;
   const text= "Close";
@@ -13,8 +14,9 @@ const AddReservation: React.FC = () => {
   const employee_id= localStorage.getItem('employee_id');
   const token= localStorage.getItem('token');
 
+
   const handleSubmit = async(userData: UserData) => {
-    try{const response=await fetch(`http://host.docker.internal:8081/api/reservation`,{
+    try{const response=await fetch(`${url}/reservation`,{
       method: "POST",
       headers: {
         "Content-Type": "application/json",

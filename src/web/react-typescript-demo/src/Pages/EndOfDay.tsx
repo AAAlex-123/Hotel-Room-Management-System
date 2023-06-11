@@ -7,6 +7,9 @@ import StatBox from '../Components/StatBox';
 import MoreStats from '../Components/MoreStats';
 
 const EndOfDay: React.FC = () => {
+    const url=process.env.REACT_APP_URL
+    const employee_id = localStorage.getItem("employee_id")
+    const token = localStorage.getItem("token")
     const label= 'End Of Day Statistics';
     
 

@@ -6,6 +6,9 @@ import SmallScreen from '../Components/SmallScreen'
 import { useNavigate } from 'react-router-dom';
 
 const Reservations: React.FC = () => {
+  const url=process.env.REACT_APP_URL
+  const employee_id = localStorage.getItem("employee_id")
+  const token = localStorage.getItem("token")
   const labels = ['Add Reservation', 'Delete Reservation', 'Update Reservation', 'Find Reservation'];
   const elem = 4;
   const label= 'Reservations';

@@ -1,7 +1,8 @@
 "use client"
-import React from 'react'
 import SideBar from './SideBar';
 import {Helmet} from "react-helmet";
+import React, {useState, useEffect} from 'react';
+import { EmployeeEntityNoPass } from '../Components/Employee';
 import './Component.css';
 
 
@@ -12,6 +13,22 @@ import './Component.css';
 export default function Main(
   // { title }: MainProps
   ) {
+
+    const employee_id= localStorage.getItem('employee_id');
+    const token= localStorage.getItem('token');
+    const url=process.env.REACT_APP_URL;
+
+    const [employee, setEmployee] = useState<EmployeeEntityNoPass>()
+
+    useEffect(() => {
+      async function hey() {
+        const response = await fetch('${url}/employee/${employee_id}, { headers: { authorization: Bearer ${token} } }')
+        if (response.ok) {
+          const employee: EmployeeEntityNoPass = await response.json()
+          setEmployee(employee)
+        }
+      }
+    })
 
   const imageStyle = {
     textAlign: 'center' as const,
