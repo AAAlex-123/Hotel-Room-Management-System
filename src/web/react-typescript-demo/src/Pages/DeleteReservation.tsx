@@ -2,78 +2,32 @@
 import Layout from '../Components/Layout'
 import Details from '../Components/Details';
 import SmallScreen from '../Components/SmallScreen'
-import React, { useState, useEffect} from 'react';
+import React, { useState, useEffect,} from 'react';
 import { ReservationReturn, ChargeType }from '../Components/ReservationTypes';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const DeleteReservation: React.FC = () => {
   const url=process.env.REACT_APP_URL
   const employee_id = localStorage.getItem("employee_id")
   const token = localStorage.getItem("token")
+  const navigator= useNavigate();
   const titles = ['Room Number', 'Arrival', 'Departure', 'Name', "Cellphone", 'City', 'Country', 'Address', 'Postcode', 'Visitors','E-mail', 'Bill' ];
   const titles2= ['Room Number', 'Name', 'Cellphone', ]
   const elem = 12;
   const text= "Close";
   const text2= "Delete";
   const label= 'Delete Reservation';
-  const [reservations, setReservations] = useState<ReservationReturn[]>([
-    {
-      reservation_id: 1,
-      room_id: 'O63',
-      arrival: new Date('2023-05-29'),
-      departure: new Date('2023-05-31'),
-      name: 'Minako Arisato',
-      cellphone: '+81 32 8049 3201',
-      city: '',
-      country: '',
-      address: '',
-      postcode: '',
-      visitor: 4,
-      email: 'minakoaris@gmail.com',
-      Charge: [
-        {
-          timestamp: new Date("2023-05-25"),
-          description: "Room Charge",
-          amount: 200,
-          type: ChargeType.CREDIT,
-        },
-        {
-          timestamp: new Date("2023-05-29"),
-          description: 'Credit refund',
-          amount: 50,
-          type: ChargeType.CREDIT,
-        },
-      ],
-    },
-    {
-      reservation_id: 2,
-      room_id: 'O65',
-      arrival: new Date('2023-05-29'),
-      departure: new Date('2023-05-31'),
-      name: 'Electra Papadopoulou',
-      cellphone: '+30 2109644638',
-      city: 'Athens',
-      country: 'Greece',
-      address: 'Iasonidou',
-      postcode: '16777',
-      visitor: 1,
-      email: 'electra@gmail.com',
-      Charge: [
-        {
-          timestamp: new Date("2023-05-23"),
-          description: "Room Charge",
-          amount: 400,
-          type: ChargeType.CREDIT,
-        },
-        {
-          timestamp: new Date("2023-05-29"),
-          description: 'Pool Usage',
-          amount: 15,
-          type: ChargeType.CHARGE,
-        },
-      ],
-    },
-  ]);
+  const [reservations, setReservations] = useState<ReservationReturn[]>([]);
+
+  useEffect(() => {
+    async function hey() {
+      const response = await fetch('${url}/employee/${employee_id}, { headers: { authorization: Bearer ${token} } }')
+      if (response.ok) {
+        const reservations: ReservationReturn[] = await response.json()
+        setReservations(...[reservations])
+      }
+    }
+  })
 
 
     const [showDetails, setShowDetails] = useState(false);
@@ -147,6 +101,7 @@ const DeleteReservation: React.FC = () => {
       setReservations(updatedReservations);
       setSelectedReservation(null);
       setShowDetails(false);
+      navigator('/reservations/delete',{replace:true})
     }
   };
 

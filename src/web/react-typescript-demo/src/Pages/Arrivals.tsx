@@ -14,6 +14,7 @@ const Arrivals: React.FC = () => {
   const elem = 12;
   const text= "Close";
   const label= 'Arrivals';
+  
   const [arrivals, setArrivals] = useState<ReservationReturn[]>([
     {
       reservation_id: 1,
