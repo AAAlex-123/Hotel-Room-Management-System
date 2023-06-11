@@ -4,8 +4,8 @@ import SmallScreen from '../Components/SmallScreen';
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import SelectionList, { ListData } from '../Components/SelectionList';
-// import {GroupData} from './CreateGroup';
-// import GroupList from '../Components/GroupList';
+import { GroupReturn } from '../Components/GroupList';
+
 
 export interface CleanData {
   id: string;
@@ -85,11 +85,11 @@ const AssignRooms: React.FC = () => {
 
   const createGroup = () => {
 
-    if (selectedElements.length === 0 || selectedGroup.length!==1 || selectedHsk.length!==1 ) {
+    if (selectedElements.length === 0 || selectedGroup.length===0 || selectedHsk.length!==1 ) {
       setShowWarning(true);
       setTimeout(() => {
         setShowWarning(false);
-      }, 1000);
+      }, 3000);
       return;
     }
     setShowWarning(false);
@@ -163,7 +163,7 @@ const AssignRooms: React.FC = () => {
             {showInput ? (
               <form onSubmit={handleSubmit}>
                 <input
-                  type="text"
+                  type="number"
                   value={groupName}
                   onChange={handleGroupNameChange}
                   placeholder="Enter Group Name"
@@ -179,7 +179,7 @@ const AssignRooms: React.FC = () => {
                 </button>
               </div>
             )}
-            {showWarning && <div className="warning">Please select at least one member for the group.</div>}
+            {showWarning && <div className="warning">Please select at least one member, only one housekeeper and rooms for the group.</div>}
         </div>
         </div>
         </div>

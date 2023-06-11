@@ -218,7 +218,7 @@
 .whiteBox {
     background-color: #fff;
     min-width: 100%;
-    /*For smaller screens height: 90vh; */
+    height: 90vh; 
     /* For bigger screens height: 77vh; */
     
    
@@ -506,6 +506,7 @@ table {
 
   tbody tr:hover {
     background-color: #e6f7ff;
+    cursor: pointer;
   }
 
 .det-table{
