@@ -6,6 +6,9 @@ import SmallScreen from '../Components/SmallScreen'
 import { useNavigate } from 'react-router-dom';
 
 const MaidManagement: React.FC = () => {
+  const url=process.env.REACT_APP_URL
+  const employee_id = localStorage.getItem("employee_id")
+  const token = localStorage.getItem("token")
   const labels = ['Delete Group', 'Assign Rooms', 'Room Notes', 'Orders'];
   const elem = 4;
   const label= 'Maid Management';

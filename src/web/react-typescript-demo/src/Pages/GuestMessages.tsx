@@ -6,6 +6,9 @@ import { Link } from 'react-router-dom';
 import MessageList, {MessageData} from '../Components/MessageList';
 
 const GuestMessages: React.FC = () => {
+    const url=process.env.REACT_APP_URL
+    const employee_id = localStorage.getItem("employee_id")
+    const token = localStorage.getItem("token")
     const label= 'Guest Messages';
     const [messages, setMessages] = useState<MessageData[]>([
         { num: '166', text: 'I want to put Dottore in a blender' , name:"Electra"},

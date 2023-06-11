@@ -6,6 +6,7 @@ import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 const AddReservation: React.FC = () => {
+  const url=process.env.REACT_APP_URL;
   const text= "Close";
   const label= 'Add Reservation';
   const navigate= useNavigate();

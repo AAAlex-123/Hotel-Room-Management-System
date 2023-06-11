@@ -8,6 +8,7 @@ import MoreStats from '../Components/MoreStats';
 
 const EndOfDay: React.FC = () => {
     const label= 'End Of Day Statistics';
+    
 
     //TO:DO FETCH ALL THESE STATISTICS BABY???
       return (

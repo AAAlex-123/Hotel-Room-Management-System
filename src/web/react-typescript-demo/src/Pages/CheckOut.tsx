@@ -7,6 +7,9 @@ import { ReservationClientEntity } from '../Components/ReservationTypes';
 import { Link } from 'react-router-dom';
 
 const CheckOut: React.FC = () => {
+    const url=process.env.REACT_APP_URL
+    const employee_id = localStorage.getItem("employee_id")
+    const token = localStorage.getItem("token")
     const titles = ['Room Number', 'Arrival', 'Departure', 'Name', "Cellphone", 'City', 'Country', 'Address', 'Postcode', 'Visitors','E-mail', 'Bill' ];
     const titles2= ['Room Number', 'Name', 'Cellphone', ]
     const elem = 12;

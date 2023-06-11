@@ -9,6 +9,9 @@ import GroupList, { GroupReturn } from '../Components/GroupList';
 
 
 const DeleteGroup: React.FC = () => {
+  const url=process.env.REACT_APP_URL
+  const employee_id = localStorage.getItem("employee_id")
+  const token = localStorage.getItem("token")
   const label = 'Delete Group';
   const [listelem, setElem] = useState<GroupReturn[]>([
     {

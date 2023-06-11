@@ -8,6 +8,9 @@ import {Room, Status} from '../Components/Room';
 import RoomList from '../Components/RoomList';
 
 const Housekeeping: React.FC = () => {
+  const url=process.env.REACT_APP_URL
+  const employee_id = localStorage.getItem("employee_id")
+  const token = localStorage.getItem("token")
   const label= 'Housekeeping';
   const [rooms, setRooms] = useState<Room[]>([
     {

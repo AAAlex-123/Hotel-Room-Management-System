@@ -6,6 +6,9 @@ import { Link } from 'react-router-dom';
 import NoteOrderList, {MessageData} from '../Components/NoteOrderList';
 
 const RoomNotes: React.FC = () => {
+  const url=process.env.REACT_APP_URL
+  const employee_id = localStorage.getItem("employee_id")
+  const token = localStorage.getItem("token")
   const label = 'Room Notes';
 
   const [messages, setMessages] = useState<MessageData[]>([

@@ -7,6 +7,9 @@ import { ReservationReturn, ChargeType } from '../Components/ReservationTypes';
 import { Link } from 'react-router-dom';
 
 const Billing: React.FC = () => {
+    const url=process.env.REACT_APP_URL
+    const employee_id = localStorage.getItem("employee_id")
+    const token = localStorage.getItem("token")
     const titles2= ['Room Number', 'Name', 'Cellphone', ]
     const label= 'Billing';
     const [reservations, setReservations] = useState<ReservationReturn[]>([

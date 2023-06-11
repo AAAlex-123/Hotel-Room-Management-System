@@ -6,6 +6,9 @@ import SmallScreen from '../Components/SmallScreen'
 import { useNavigate } from 'react-router-dom';
 
 const Cashiering: React.FC = () => {
+  const url=process.env.REACT_APP_URL
+  const employee_id = localStorage.getItem("employee_id")
+  const token = localStorage.getItem("token")
   const labels = ['Billing', 'Check Out', 'Fast Charge', 'Statistics'];
   const elem = 2;
   const label= 'Cashiering';

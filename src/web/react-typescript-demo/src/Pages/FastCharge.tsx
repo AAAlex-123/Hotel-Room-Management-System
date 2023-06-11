@@ -6,6 +6,9 @@ import { Link } from 'react-router-dom';
 
 const FastCharge: React.FC = () => {
   const label= 'Fast Charge';
+  const url=process.env.REACT_APP_URL
+  const employee_id = localStorage.getItem("employee_id")
+  const token = localStorage.getItem("token")
 
     return (
       <>

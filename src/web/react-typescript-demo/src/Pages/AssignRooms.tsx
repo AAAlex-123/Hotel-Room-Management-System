@@ -16,6 +16,9 @@ export interface CleanData {
 }
 
 const AssignRooms: React.FC = () => {
+  const url=process.env.REACT_APP_URL
+  const employee_id = localStorage.getItem("employee_id")
+  const token = localStorage.getItem("token")
   const label = 'Assign Rooms';
   const [groupName, setGroupName] = useState('');
   const [roomElem, setElem] = useState<ListData[]>([
