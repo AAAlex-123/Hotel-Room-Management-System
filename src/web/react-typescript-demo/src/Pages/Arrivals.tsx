@@ -29,7 +29,7 @@ const Arrivals: React.FC = () => {
       postcode: '',
       visitor: 4,
       email: 'minakoaris@gmail.com',
-      Charge: [
+      charge: [
         {
           timestamp: new Date("2023-05-25"),
           description: "Room Charge",
@@ -51,7 +51,7 @@ const Arrivals: React.FC = () => {
       postcode: '16777',
       visitor: 1,
       email: 'electra@gmail.com',
-      Charge: [
+      charge: [
         {
           timestamp: new Date("2023-05-23"),
           description: "Room Charge",
@@ -119,7 +119,7 @@ const Arrivals: React.FC = () => {
       content.push(arrival.postcode || '');
       content.push(arrival.visitor?.toString() || '');
       content.push(arrival.email || '');
-      const totalAmount = arrival.Charge.reduce((sum, charge) => sum + charge.amount, 0);
+      const totalAmount = arrival.charge.reduce((sum, charge) => sum + charge.amount, 0);
       content.push(totalAmount.toString());
       
     }

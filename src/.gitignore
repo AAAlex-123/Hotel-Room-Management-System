@@ -9,7 +9,9 @@ front/
 
 # testing
 /coverage
-
+wizard/*/.gradle
+wizard/*/.idea
+wizard/*/build
 # production
 /build
 

@@ -26,7 +26,7 @@ const Billing: React.FC = () => {
         postcode: '',
         visitor: 4,
         email: 'minakoaris@gmail.com',
-        Charge: [
+        charge: [
           {
             timestamp: new Date("2023-05-25"),
             description: "Room Charge",
@@ -54,7 +54,7 @@ const Billing: React.FC = () => {
         postcode: '16777',
         visitor: 1,
         email: 'electra@gmail.com',
-        Charge: [
+        charge: [
           {
             timestamp: new Date("2023-05-23"),
             description: "Room Charge",
@@ -128,7 +128,7 @@ const Billing: React.FC = () => {
       content.push(reservation.postcode || '');
       content.push(reservation.visitor?.toString() || '');
       content.push(reservation.email || '');
-      const totalAmount = reservation.Charge.reduce((sum, charge) => sum + charge.amount, 0);
+      const totalAmount = reservation.charge.reduce((sum, charge) => sum + charge.amount, 0);
       content.push(totalAmount.toString());
       
     

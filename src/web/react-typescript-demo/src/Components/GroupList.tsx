@@ -17,6 +17,9 @@ export interface GroupReturn {
   GroupChamber: {
     group_id: number;
     chambermaid_id: number;
+    chambermaid: {
+      name: string;
+    }
   }[];
 }
 

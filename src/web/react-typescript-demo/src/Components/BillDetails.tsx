@@ -7,7 +7,7 @@ interface DetailsProps {
 }
 
 const BillDetails: React.FC<DetailsProps> = ({ reservation, onClose }) => {
-  const charges = reservation.Charge;
+  const charges = reservation.charge;
 
   const renderGridItems = () => {
     return charges.map((charge, index) => {

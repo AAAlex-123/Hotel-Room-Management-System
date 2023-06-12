@@ -21,7 +21,7 @@ export interface ReservationReturn  {
     postcode: string;
     visitor: number;
     email?: string;
-    Charge: {
+    charge: {
       timestamp: Date;
       description: string;
       amount: number;
