@@ -9,7 +9,7 @@ import { PrismaService } from 'src/prisma/prisma.service';
 @ApiBearerAuth('JWT-auth')
 @ApiTags('group')
 export class GroupController {
-  constructor(private prisma: PrismaService) {}
+  constructor(private prisma: PrismaService) { }
 
   @Get()
   async getAll() {
@@ -22,6 +22,28 @@ export class GroupController {
           },
         },
       },
+    });
+  }
+
+  @Get('employee')
+  async getEmployee() {
+    const group_housekeeper = (await this.prisma.group.findMany({
+      select: {
+        housekeeper_id: true,
+      }
+    })).flatMap(value => value.housekeeper_id);
+    const group_chamber = (await this.prisma.groupChamber.findMany({
+      select: {
+        chambermaid_id: true,
+      }
+    })).flatMap(value => value.chambermaid_id)
+    const blacklist = [...group_housekeeper, ...group_chamber]
+    return await this.prisma.employee.findMany({
+      where: {
+        employee_id: {
+          notIn: blacklist
+        }
+      }
     });
   }
 
@@ -58,10 +80,10 @@ export class GroupController {
       await this.prisma.groupChamber.createMany({
         data: group.chambermaid.map(
           (value) =>
-            ({
-              group_id: result.group_id,
-              chambermaid_id: value,
-            } as GroupChamber),
+          ({
+            group_id: result.group_id,
+            chambermaid_id: value,
+          } as GroupChamber),
         ),
       });
     });

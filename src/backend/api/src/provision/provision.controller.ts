@@ -3,7 +3,9 @@ import {
   Controller,
   Delete,
   Get,
+  Logger,
   Param,
+  ParseIntPipe,
   Post,
   Put,
   Query,
@@ -72,9 +74,9 @@ export class ProvisionController {
   }
 
   @Delete(':id')
-  async delete(@Param('id') id: number) {
-    return await this.prisma.provisionOrder.deleteMany({
-      where: { provision_id: id },
+  async delete(@Param('id',ParseIntPipe) id: number) {
+    return await this.prisma.provisionOrder.delete({
+      where: { provision_id: Number(id) },
     });
   }
 

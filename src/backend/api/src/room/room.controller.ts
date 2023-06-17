@@ -3,7 +3,6 @@ import {
   Controller,
   Delete,
   Get,
-  Logger,
   Param,
   Post,
   Put,
@@ -18,7 +17,7 @@ import { ApiBearerAuth, ApiParam, ApiQuery, ApiTags } from '@nestjs/swagger';
 @ApiTags('room')
 @ApiBearerAuth('JWT-auth')
 export class RoomController {
-  constructor(private prisma: PrismaService) {}
+  constructor(private prisma: PrismaService) { }
 
   @Get()
   @ApiQuery({
@@ -40,12 +39,12 @@ export class RoomController {
           groupRoom: {
             group: chambermaid
               ? {
-                  GroupChamber: {
-                    some: {
-                      chambermaid_id: Number(chambermaid_id),
-                    },
+                GroupChamber: {
+                  some: {
+                    chambermaid_id: Number(chambermaid_id),
                   },
-                }
+                },
+              }
               : { housekeeper_id: Number(chambermaid_id) },
           },
         },
@@ -92,7 +91,6 @@ export class RoomController {
       //Create or update the necessary rooms
       const array: Room[] = [];
       for (const iterator of room) {
-        Logger.debug(iterator);
         const { room_id, ...rest } = iterator;
         array.push(
           await this.prisma.room.upsert({

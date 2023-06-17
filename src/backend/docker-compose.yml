@@ -37,7 +37,7 @@ services:
         mem_limit: "400M"
 
     front:
-        build: ./front/
+        build: ./webfront/
         expose:
             - 8082
         profiles:
@@ -46,8 +46,8 @@ services:
             - main
         depends_on:
             - api
-        volumes:
-            - frontModules:/app/node_modules
+        # volumes:
+        #     - frontModules:/app/node_modules
         mem_limit: "200M"
 
     nginx:
@@ -68,6 +68,6 @@ services:
 volumes:
     mysql_vol:
     # apiModules:
-    frontModules:
+    # frontModules:
 networks:
     main:

@@ -1,4 +1,4 @@
-import { ConsoleLogger, Module } from '@nestjs/common';
+import { ConsoleLogger, Module, Scope } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { PrismaService } from './prisma/prisma.service';
 import { RoomController } from './room/room.controller';
@@ -17,6 +17,9 @@ import { ClientController } from './client/client.controller';
 import { DirtyServiceService } from './dirty-service/dirty-service.service';
 import { APP_GUARD } from '@nestjs/core';
 import { AuthGuard } from './auth/auth.guard/auth.guard';
+import { MomentService } from './moment/moment.service';
+import { StatisticsController } from './statistics/statistics.controller';
+import moment from 'moment';
 
 @Module({
   imports: [AuthModule, ConfigModule.forRoot()],
@@ -33,15 +36,18 @@ import { AuthGuard } from './auth/auth.guard/auth.guard';
     GroupController,
     ChambermaidController,
     ClientController,
+    StatisticsController,
   ],
   providers: [
     PrismaService,
     ConsoleLogger,
     DirtyServiceService,
+    MomentService,
     {
       provide: APP_GUARD,
       useClass: AuthGuard,
     },
+    MomentService,
   ],
 })
 export class AppModule {}

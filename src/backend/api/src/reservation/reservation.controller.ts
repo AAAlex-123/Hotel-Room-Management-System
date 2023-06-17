@@ -15,13 +15,14 @@ import {
 import { PrismaService } from 'src/prisma/prisma.service';
 import { ReservationClientEntity } from './reservation.client.entity/reservation.client.entity';
 import { ApiBearerAuth, ApiQuery, ApiTags } from '@nestjs/swagger';
-import { ChargeType } from '@prisma/client';
+import { ChargeType, ReservationStatus } from '@prisma/client';
+import { MomentService } from 'src/moment/moment.service';
 
 @Controller('api/reservation')
 @ApiTags('reservation')
 @ApiBearerAuth('JWT-auth')
 export class ReservationController {
-  constructor(private prisma: PrismaService) {}
+  constructor(private moment: MomentService, private prisma: PrismaService) { }
 
   @Get()
   async allReservation(
@@ -62,6 +63,32 @@ export class ReservationController {
     });
   }
 
+  @Get('arrivals/:date')
+  async getArrivals(@Param("date") date: string) {
+    let d: moment.Moment;
+    if (date === "") {
+      d = this.moment.moment().startOf('day')
+    } else {
+      d = this.moment.moment(date).startOf('day');
+    }
+    const next_day = d.clone().add(1, 'day');
+    Logger.debug(`date=${this.moment.moment(date)}`)
+    Logger.debug(`d=${d}`)
+    Logger.debug(`next_day=${next_day}`)
+    return await this.prisma.reservation.findMany({
+      where: {
+        checked_status: ReservationStatus.FILED,
+        arrival: {
+          gte: d.toDate(),
+          lt: next_day.toDate(),
+        },
+      },
+      include: {
+        charge: true,
+      },
+    });
+  }
+
   @Post()
   async create(@Body() reservation: ReservationClientEntity) {
     reservation.visitor = reservation.visitor
@@ -86,6 +113,9 @@ export class ReservationController {
     const f = await this.prisma.reservation.findMany({
       where: {
         room_id: reservation.room_id,
+        NOT:{
+          checked_status:ReservationStatus.CHECKEDOUT,
+        },
         arrival: {
           lte: reservation.departure,
         },
@@ -131,6 +161,10 @@ export class ReservationController {
     @Param('id') id: number,
     @Body() reservation: ReservationClientEntity,
   ) {
+    reservation.visitor = reservation.visitor
+      ? Number(reservation.visitor)
+      : undefined;
+    reservation.bill = reservation.bill ? Number(reservation.bill) : undefined;
     const { reservation_id, ...rest } = reservation;
     await this.prisma.reservation.upsert({
       create: { ...rest },

@@ -12,6 +12,7 @@
     "prisma:gen": "dotenv -e .env.sample -- prisma generate",
     "prisma:dev:gen": "dotenv -e .env.development -- prisma generate",
     "prisma:dev:migrate": "dotenv -e .env.development -- prisma migrate dev",
+    "prisma:push": "dotenv -e .env.sample -- prisma db push --accept-data-loss",
     "prisma:dev:validate": "dotenv -e .env.development -- prisma validate",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "dotenv -e .env.sample -- nest start",

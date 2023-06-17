@@ -11,16 +11,16 @@ datasource db {
 }
 
 model Room {
-  room_id        String  @id
-  occupied       Boolean @default(false)
-  clean_state    Status  @default(CLEAN)
-  service        Boolean @default(false)
-  out_of_order   Boolean @default(false)
-  cleanable      Boolean @default(true)
-  clean_type     Type    @default(DAILY)
-  roomType       String  @default("")
-  roomClass      String  @default("")
-  floor          Int     @default(0)
+  room_id      String  @id
+  occupied     Boolean @default(false)
+  clean_state  Status  @default(DIRTY)
+  service      Boolean @default(true)
+  out_of_order Boolean @default(false)
+  cleanable    Boolean @default(true)
+  clean_type   Type    @default(DAILY)
+  roomType     String  @default("")
+  roomClass    String  @default("")
+  floor        Int     @default(0)
 
   Reservation      Reservation[]
   groupRoom        GroopRooms?
@@ -32,8 +32,9 @@ model Reservation {
   reservation_id Int      @id @default(autoincrement())
   room_id        String
   name           String
+  checked_status ReservationStatus @default(FILED)
   email          String   @default("")
-  cellphone      String   @unique
+  cellphone      String   
   city           String   @default("")
   country        String   @default("")
   address        String   @default("")
@@ -47,7 +48,7 @@ model Reservation {
 
 model Charge {
   reservation_id Int
-  timestamp      DateTime @default(now())
+  timestamp      DateTime    @default(now())
   description    String
   amount         Float
   type           ChargeType
@@ -155,4 +156,9 @@ enum EmployeeType {
   CHAMBERMAID
   KITCHEN
   RECEPTION
+}
+enum ReservationStatus{
+  FILED
+  CHECKEDIN
+  CHECKEDOUT
 }
