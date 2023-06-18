@@ -19,6 +19,7 @@ import { APP_GUARD } from '@nestjs/core';
 import { AuthGuard } from './auth/auth.guard/auth.guard';
 import { MomentService } from './moment/moment.service';
 import { StatisticsController } from './statistics/statistics.controller';
+import { MomentService } from './moment/moment.service';
 import moment from 'moment';
 
 @Module({

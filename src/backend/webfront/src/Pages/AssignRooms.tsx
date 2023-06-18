@@ -32,7 +32,7 @@ const AssignRooms: React.FC = () => {
     async function hey() {
       const sp = await fetch(`${url}/group`, { headers: { authorization: `Bearer ${token}` } })
       if (sp.ok) {
-        const response = await fetch(`${url}/room`, { headers: { authorization: `Bearer ${token}` } })
+        const response = await fetch(`${url}/group/room`, { headers: { authorization: `Bearer ${token}` } })
         if (response.ok) {
           const r = await fetch(`${url}/group/employee`, { headers: { authorization: `Bearer ${token}` } })
           if (r.ok) {

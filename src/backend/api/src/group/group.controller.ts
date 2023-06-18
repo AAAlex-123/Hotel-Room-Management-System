@@ -25,6 +25,23 @@ export class GroupController {
     });
   }
 
+  @Get('room')
+  async getRooms() {
+    const room_id = await this.prisma.groopRooms.findMany({
+      select: {
+        room_id: true
+      }
+    })
+    const blacklist = room_id.flatMap(value => value.room_id)
+    return await this.prisma.room.findMany({
+      where: {
+        room_id: {
+          notIn: blacklist
+        }
+      }
+    })
+  }
+
   @Get('employee')
   async getEmployee() {
     const group_housekeeper = (await this.prisma.group.findMany({
