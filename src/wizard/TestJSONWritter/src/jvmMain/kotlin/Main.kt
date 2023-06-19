@@ -123,7 +123,7 @@ private fun getEmployees(
                     employeeList.add(
                         Employee(
                             name = jsonObject.getString("name"),
-                            useranme = jsonObject.getString("username"),
+                            username = jsonObject.getString("username"),
                             login = "***",
                             type = EmployeeType.valueOf(
                                 jsonObject.getString("type")

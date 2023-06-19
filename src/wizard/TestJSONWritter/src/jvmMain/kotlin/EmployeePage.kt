@@ -6,19 +6,24 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun EmployeePage(stage: MutableState<Page>, employee: SnapshotStateList<Employee>) {
+    var canContinueToSend by remember { mutableStateOf(true) }
     Column {
         Column {
 
             Button(onClick = {
-                employee.add(Employee(useranme = "", name = "", login = "", type = EmployeeType.CHAMBERMAID))
+                employee.add(Employee(username = "", name = "", login = "", type = EmployeeType.CHAMBERMAID))
             }) {
                 Text("Add employee")
             }
             Row {
                 Button(onClick = {
-                    stage.value = Page.SEND
+                    canContinueToSend = employee.map { it.username }.distinct().size == employee.size
+                    if (canContinueToSend) {
+                        stage.value = Page.SEND
+                    }
                 }) {
                     Text("Continue")
                 }
@@ -27,10 +32,15 @@ fun EmployeePage(stage: MutableState<Page>, employee: SnapshotStateList<Employee
                 }) {
                     Text("Back")
                 }
+                if (!canContinueToSend)
+                    AlertDialog(onDismissRequest = {}, text = { Text("Usernames must be unique") }, confirmButton = {
+                        Button(onClick = {
+                            canContinueToSend = true
+                        }) { Text(text = "OK") }
+                    })
             }
-
             LazyColumn {
-                items(employee.size){
+                items(employee.size) {
                     employeeView(employee, it)
                 }
             }
@@ -44,10 +54,11 @@ fun EmployeePage(stage: MutableState<Page>, employee: SnapshotStateList<Employee
 fun employeeView(employees: SnapshotStateList<Employee>, index: Int) {
     var show by remember { mutableStateOf(false) }
     var expanded by remember { mutableStateOf(false) }
-    var username by remember { mutableStateOf(employees[index].useranme) }
+    var username by remember { mutableStateOf(employees[index].username) }
     var name by remember { mutableStateOf(employees[index].name) }
     var login by remember { mutableStateOf(employees[index].login) }
     var type by remember { mutableStateOf(employees[index].type.name) }
+    var uniqueUsername by remember { mutableStateOf(false) }
     if (show) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             Text("Full Name")
@@ -56,8 +67,9 @@ fun employeeView(employees: SnapshotStateList<Employee>, index: Int) {
                 name = it
             })
             Text("Username")
-            TextField(value = username, onValueChange = {
-                employees[index].useranme = it
+            TextField(value = username, isError = uniqueUsername, onValueChange = {
+                uniqueUsername = employees.map { emp -> emp.username }.contains(it)
+                employees[index].username = it
                 username = it
             })
             Text("Login")
@@ -83,7 +95,7 @@ fun employeeView(employees: SnapshotStateList<Employee>, index: Int) {
             TextButton(onClick = {
                 employees.removeAt(index)
                 if (index >= employees.size) return@TextButton
-                username = employees[index].useranme
+                username = employees[index].username
                 name = employees[index].name
                 login = employees[index].login
                 type = employees[index].type.name

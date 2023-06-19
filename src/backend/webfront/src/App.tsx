@@ -61,7 +61,6 @@ return (
           <Route path="/cashiering/billing" element={<Billing/>}/> 
           <Route path="/cashiering/checkout" element={<CheckOut/>}/> 
           <Route path="/charge" element={<FastCharge/>}/> 
-          <Route path="/statistics" element={<Statistics/>}/> 
           <Route path="/misc" element={<Misc/>}/> 
           <Route path="/misc/end-of-day" element={<EndOfDay/>}/>
           <Route path="/guest-messages" element={<GuestMessages/>}/>  
